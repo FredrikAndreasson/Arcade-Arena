@@ -13,7 +13,7 @@ namespace Arcade_Arena
   
 
         Ball Player;
-        TargetDummy target;
+        TargetDummy target; // Test
         Lava lava;
 
         public Game1()
