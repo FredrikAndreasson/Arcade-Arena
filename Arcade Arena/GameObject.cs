@@ -11,8 +11,8 @@ namespace Arcade_Arena
 {
     class GameObject
     {
-        protected Vector2 position;
-        protected Texture2D texture;
+        public Vector2 position; // ATALAY HAR GJORT DENNA PUBLIC FOR TILLFELET
+        public Texture2D texture; // ATALAY HAR GJORT DENNA PUBLIC FOR TILLFELET
 
         public GameObject(Vector2 position, Texture2D texture)
         {
