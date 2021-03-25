@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1321
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arcade Arena", "Arcade Arena\Arcade Arena.csproj", "{2BFBD8E7-E2E0-4B81-8042-D96BC8BCD643}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2BFBD8E7-E2E0-4B81-8042-D96BC8BCD643}.Debug|x86.ActiveCfg = Debug|x86
+		{2BFBD8E7-E2E0-4B81-8042-D96BC8BCD643}.Debug|x86.Build.0 = Debug|x86
+		{2BFBD8E7-E2E0-4B81-8042-D96BC8BCD643}.Release|x86.ActiveCfg = Release|x86
+		{2BFBD8E7-E2E0-4B81-8042-D96BC8BCD643}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1D735CE5-35DD-4A52-A494-540DEF420D69}
+	EndGlobalSection
+EndGlobal
