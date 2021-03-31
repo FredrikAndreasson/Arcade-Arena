@@ -24,8 +24,8 @@ namespace Arcade_Arena.Classes
         public Wizard(Vector2 position, Texture2D texture, float speed, double direction) : base(position, texture, speed, direction)
         {
             walkingAnimation = new SpriteAnimation(texture, new Vector2(2, 0), new Vector2(7, 0), new Vector2(14, 20), new Vector2(7, 3), 150);
-            teleportInAnimation = new SpriteAnimation(texture, new Vector2(0, 2), new Vector2(4, 2), new Vector2(14, 20), new Vector2(7, 3), 150*3);
-            teleportOutAnimation = new SpriteAnimation(texture, new Vector2(0, 3), new Vector2(3, 3), new Vector2(14, 20), new Vector2(7, 3), 187*3);
+            teleportInAnimation = new SpriteAnimation(texture, new Vector2(0, 2), new Vector2(5, 2), new Vector2(14, 20), new Vector2(7, 3), 150);
+            teleportOutAnimation = new SpriteAnimation(texture, new Vector2(0, 3), new Vector2(5, 3), new Vector2(14, 20), new Vector2(7, 3), 150);
             backwardsAnimation = new SpriteAnimation(texture, new Vector2(0, 1), new Vector2(5, 1), new Vector2(14, 20), new Vector2(7, 3), 150);
 
 
@@ -44,9 +44,9 @@ namespace Arcade_Arena.Classes
 
             if (teleporting)
             {
-                teleportInAnimation.Update(gameTime);
+                teleportOutAnimation.Update(gameTime);
 
-                if (teleportInAnimation.XIndex == 0)
+                if (teleportOutAnimation.XIndex >= 4)
                 {
                     teleporting = false;
                     position = newPosition;
@@ -65,7 +65,7 @@ namespace Arcade_Arena.Classes
             if (teleporting)
             {
                 
-                teleportInAnimation.Draw(spriteBatch, newPosition, 0.0f, Vector2.Zero, 5.0f);
+                teleportOutAnimation.Draw(spriteBatch, newPosition, 0.0f, Vector2.Zero, 5.0f);
             }
             else
             {
@@ -76,7 +76,7 @@ namespace Arcade_Arena.Classes
         private void TeleportAbility()
         {
             teleporting = true;
-            currentAnimation = teleportOutAnimation;
+            currentAnimation = teleportInAnimation;
             teleportOutAnimation.XIndex = 0;
             teleportInAnimation.XIndex = 0;
             newPosition = position + new Vector2(100, 0);
