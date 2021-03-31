@@ -14,6 +14,7 @@ namespace Arcade_Arena
         public static Texture2D ball;
         public static Texture2D targetDummy;
         public static Texture2D lava;
+        public static Texture2D wizardSpriteSheet;
 
         
 
@@ -22,6 +23,7 @@ namespace Arcade_Arena
             ball = Content.Load<Texture2D>("Class\\Ball");
             targetDummy = Content.Load<Texture2D>("TargetDummy");
             lava = Content.Load<Texture2D>("LavaSprite\\Lava");
+            wizardSpriteSheet = Content.Load<Texture2D>("Classes\\WizardSpriteSheet");
 
 
         }
