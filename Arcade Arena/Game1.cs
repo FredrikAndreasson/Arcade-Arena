@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Arcade_Arena.Classes;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -12,7 +13,7 @@ namespace Arcade_Arena
 
   
 
-        Ball Player;
+        Wizard Player;
         TargetDummy target; // Test
         Lava lava;
 
@@ -27,7 +28,7 @@ namespace Arcade_Arena
             graphics.ApplyChanges();
         }
 
-        bool DoesNotCollide(Ball g)
+        bool DoesNotCollide(Wizard g)
         {
             Color[] pixels = new Color[g.texture.Width * g.texture.Height];
             Color[] pixels2 = new Color[g.texture.Width * g.texture.Height];
@@ -47,9 +48,9 @@ namespace Arcade_Arena
             spriteBatch = new SpriteBatch(GraphicsDevice);
             AssetManager.LoadTextures(Content);
 
-            lava = new Lava(GraphicsDevice, 200);
+            lava = new Lava(GraphicsDevice, 400);
 
-            Player = new Ball(new Vector2(Window.ClientBounds.Width/2, Window.ClientBounds.Height/2), AssetManager.ball, 3f, 0.0);
+            Player = new Wizard(new Vector2(Window.ClientBounds.Width/2, Window.ClientBounds.Height/2), AssetManager.wizardSpriteSheet, 3f, 0.0);
             target = new TargetDummy(new Vector2(200, 200), AssetManager.targetDummy);
 
             lava.DrawRenderTarget(spriteBatch);
@@ -71,7 +72,7 @@ namespace Arcade_Arena
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp);
 
             lava.Draw(spriteBatch);
 
