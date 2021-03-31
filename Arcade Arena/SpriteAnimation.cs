@@ -32,10 +32,17 @@ namespace Arcade_Arena
             this.msBetweenFrames = msBetweenFrames;
             xIndex = (int)start.X;
             yIndex = (int)start.Y;
+
+            Loop = 0;
         }
 
         private Rectangle Source => new Rectangle((int)(start.X*frameSize.X + (frameSize.X * (xIndex-(int)start.X))), 
             (int)(start.Y * (frameSize.Y * (yIndex-(int)start.Y+1))), (int)frameSize.X, (int)frameSize.Y);
+
+        public int XIndex { get { return xIndex; } set { xIndex = value; } }
+        public int YIndex { get { return yIndex; } set { yIndex = value; } }
+
+        public int Loop { get; private set; }
 
         public void Update(GameTime gameTime)
         {
@@ -65,11 +72,13 @@ namespace Arcade_Arena
                 {
                     xIndex++;
                 }
+                Loop++;
             }
             else
             {
                 msSinceLastFrame += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             }
+           
         }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 position, float rotation, Vector2 origin, float scale)
