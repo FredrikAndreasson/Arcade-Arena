@@ -10,7 +10,6 @@ namespace Arcade_Arena
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
   
 
         Wizard Player;
@@ -62,9 +61,9 @@ namespace Arcade_Arena
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            MouseManager.Update();
             Player.Update(gameTime);
             lava.Update(gameTime);
-
             base.Update(gameTime);
         }
 

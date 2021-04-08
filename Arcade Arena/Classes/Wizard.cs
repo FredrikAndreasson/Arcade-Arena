@@ -18,6 +18,7 @@ namespace Arcade_Arena.Classes
         SpriteAnimation backwardsAnimation;
 
         private bool teleporting;
+        private double teleportCooldown = 0;
 
         private Vector2 newPosition;
 
@@ -31,15 +32,19 @@ namespace Arcade_Arena.Classes
 
 
             currentAnimation = backwardsAnimation;
+
+            speed = 1;
         }
 
         public override void Update(GameTime gameTime)
         {
             currentAnimation.Update(gameTime);
+            UpdateCooldowns(gameTime);
 
-            if (Keyboard.GetState().IsKeyDown(Keys.E) && !teleporting)
+            if (Keyboard.GetState().IsKeyDown(Keys.E) && !teleporting && teleportCooldown <= 0)
             {
                 TeleportAbility();
+                teleportCooldown = 6;
             }
 
             if (teleporting)
@@ -50,13 +55,20 @@ namespace Arcade_Arena.Classes
                 {
                     teleporting = false;
                     position = newPosition;
+                    middleOfSprite = new Vector2(position.X + 35, position.Y + 60);
+                    aimDirection = UpdateAimDirection();
                 }
             }
             else
             {
                 base.Update(gameTime);
+                middleOfSprite = new Vector2(position.X + 35, position.Y + 60);
             }
+        }
 
+        private void UpdateCooldowns(GameTime gameTime)
+        {
+            teleportCooldown -= gameTime.ElapsedGameTime.TotalSeconds;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -79,7 +91,12 @@ namespace Arcade_Arena.Classes
             currentAnimation = teleportInAnimation;
             teleportOutAnimation.XIndex = 0;
             teleportInAnimation.XIndex = 0;
-            newPosition = position + new Vector2(100, 0);
+
+            Vector2 teleportVelocity;
+            teleportVelocity.Y = (float)(Math.Sin(MathHelper.ToRadians((float)aimDirection)) * speed);
+            teleportVelocity.X = (float)(Math.Cos(MathHelper.ToRadians((float)aimDirection)) * speed);
+
+            newPosition = position + (teleportVelocity * 100);
         }
     }
 }

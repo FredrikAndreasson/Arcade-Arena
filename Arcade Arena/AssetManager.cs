@@ -25,7 +25,6 @@ namespace Arcade_Arena
             lava = Content.Load<Texture2D>("LavaSprite\\Lava");
             wizardSpriteSheet = Content.Load<Texture2D>("Classes\\WizardSpriteSheet");
 
-
         }
     }
 }
