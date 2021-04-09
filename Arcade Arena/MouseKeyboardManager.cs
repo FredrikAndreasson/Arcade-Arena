@@ -9,10 +9,13 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Arcade_Arena
 {
-    public class MouseManager
+    public class MouseKeyboardManager
     {
         static MouseState mouseState = Mouse.GetState();
         static MouseState previousMouseState;
+
+        static KeyboardState keyboardState = Keyboard.GetState();
+        static KeyboardState previousKeyboardState;
 
         public static bool leftClick { get; private set; }
         public static bool leftHold { get; private set; }
@@ -23,7 +26,9 @@ namespace Arcade_Arena
         public static void Update()
         {
             previousMouseState = mouseState;
+            previousKeyboardState = keyboardState;
             mouseState = Mouse.GetState();
+            keyboardState = Keyboard.GetState();
             CheckMouseClicks();
             mousePosition = mouseState.Position.ToVector2();
         }
@@ -33,7 +38,7 @@ namespace Arcade_Arena
             if (mouseState.LeftButton == ButtonState.Pressed)
             {
                 leftHold = true;
-                if (MouseManager.previousMouseState.LeftButton != ButtonState.Pressed)
+                if (MouseKeyboardManager.previousMouseState.LeftButton != ButtonState.Pressed)
                 {
                     leftClick = true;
                 }
@@ -51,7 +56,7 @@ namespace Arcade_Arena
             if (mouseState.RightButton == ButtonState.Pressed)
             {
                 rightHold = true;
-                if (MouseManager.previousMouseState.RightButton != ButtonState.Pressed)
+                if (MouseKeyboardManager.previousMouseState.RightButton != ButtonState.Pressed)
                 {
                     rightClick = true;
                 }
@@ -64,6 +69,18 @@ namespace Arcade_Arena
             {
                 rightClick = false;
                 rightHold = false;
+            }
+        }
+
+        public static bool Clicked(Keys key)
+        {
+            if (keyboardState.IsKeyDown(key) && previousKeyboardState.IsKeyUp(key))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }

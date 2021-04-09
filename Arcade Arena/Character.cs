@@ -98,7 +98,7 @@ namespace Arcade_Arena
         //returnerar aim angle i grader
         protected double UpdateAimDirection()
         {
-            double newDirection = MathHelper.ToDegrees((float)Math.Atan2(MouseManager.mousePosition.Y - middleOfSprite.Y, MouseManager.mousePosition.X - middleOfSprite.X));
+            double newDirection = MathHelper.ToDegrees((float)Math.Atan2(MouseKeyboardManager.mousePosition.Y - middleOfSprite.Y, MouseKeyboardManager.mousePosition.X - middleOfSprite.X));
             return newDirection;
         }
 

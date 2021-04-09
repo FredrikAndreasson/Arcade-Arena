@@ -16,9 +16,14 @@ namespace Arcade_Arena.Classes
         SpriteAnimation teleportInAnimation;
         SpriteAnimation teleportOutAnimation;
         SpriteAnimation backwardsAnimation;
+        SpriteAnimation iceBlockWizardAnimation;
+        SpriteAnimation iceBlockAnimation;
 
         private bool teleporting;
         private double teleportCooldown = 0;
+
+        private bool inIceBlock;
+        private double iceBlockCooldown = 0;
 
         private Vector2 newPosition;
 
@@ -28,8 +33,8 @@ namespace Arcade_Arena.Classes
             teleportInAnimation = new SpriteAnimation(texture, new Vector2(0, 2), new Vector2(5, 2), new Vector2(14, 20), new Vector2(7, 3), 150);
             teleportOutAnimation = new SpriteAnimation(texture, new Vector2(0, 3), new Vector2(5, 3), new Vector2(14, 20), new Vector2(7, 3), 150);
             backwardsAnimation = new SpriteAnimation(texture, new Vector2(0, 1), new Vector2(5, 1), new Vector2(14, 20), new Vector2(7, 3), 150);
-
-
+            iceBlockWizardAnimation = new SpriteAnimation(texture, new Vector2(1, 2), new Vector2(1, 2), new Vector2(14, 20), new Vector2(7, 3), 1000);
+            iceBlockAnimation = new SpriteAnimation(AssetManager.wizardIceBlock, new Vector2(0, 0), new Vector2(4, 0), new Vector2(14, 20), new Vector2(4, 0), 1000);
 
             currentAnimation = backwardsAnimation;
 
@@ -40,11 +45,19 @@ namespace Arcade_Arena.Classes
         {
             currentAnimation.Update(gameTime);
             UpdateCooldowns(gameTime);
-
-            if (Keyboard.GetState().IsKeyDown(Keys.E) && !teleporting && teleportCooldown <= 0)
+            //kanske ändra till "actionable" debuffs sen istället för att kolla om man är i varje ability
+            if (!teleporting && !inIceBlock)
             {
-                TeleportAbility();
-                teleportCooldown = 6;
+                if (Keyboard.GetState().IsKeyDown(Keys.E) && teleportCooldown <= 0)
+                {
+                    TeleportAbility();
+                    teleportCooldown = 6;
+                }
+                else if (Keyboard.GetState().IsKeyDown(Keys.LeftShift) && iceBlockCooldown <= 0)
+                {
+                    IceBlockAbility();
+                    iceBlockCooldown = 10;
+                }
             }
 
             if (teleporting)
@@ -59,6 +72,16 @@ namespace Arcade_Arena.Classes
                     aimDirection = UpdateAimDirection();
                 }
             }
+            else if (inIceBlock)
+            {
+                iceBlockAnimation.Update(gameTime);
+                if ((iceBlockCooldown <= 9.7f && MouseKeyboardManager.Clicked(Keys.LeftShift)) || iceBlockAnimation.XIndex >= 4)
+                {
+                    inIceBlock = false;
+                    middleOfSprite = new Vector2(position.X + 35, position.Y + 60);
+                    aimDirection = UpdateAimDirection();
+                }
+            }
             else
             {
                 base.Update(gameTime);
@@ -69,6 +92,7 @@ namespace Arcade_Arena.Classes
         private void UpdateCooldowns(GameTime gameTime)
         {
             teleportCooldown -= gameTime.ElapsedGameTime.TotalSeconds;
+            iceBlockCooldown -= gameTime.ElapsedGameTime.TotalSeconds;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -76,10 +100,12 @@ namespace Arcade_Arena.Classes
             currentAnimation.Draw(spriteBatch, position, 0.0f, Vector2.Zero, 5.0f);
             if (teleporting)
             {
-                
                 teleportOutAnimation.Draw(spriteBatch, newPosition, 0.0f, Vector2.Zero, 5.0f);
             }
-            else
+            else if (inIceBlock)
+            {
+                iceBlockAnimation.Draw(spriteBatch, position, 0.0f, Vector2.Zero, 5.0f);
+            } else
             {
                 currentAnimation = walkingAnimation;
             }
@@ -97,6 +123,13 @@ namespace Arcade_Arena.Classes
             teleportVelocity.X = (float)(Math.Cos(MathHelper.ToRadians((float)aimDirection)) * speed);
 
             newPosition = position + (teleportVelocity * 100);
+        }
+
+        private void IceBlockAbility()
+        {
+            inIceBlock = true;
+            currentAnimation = iceBlockWizardAnimation;
+            iceBlockAnimation.XIndex = 0;
         }
     }
 }
