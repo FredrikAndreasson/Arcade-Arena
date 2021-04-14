@@ -78,6 +78,11 @@ namespace Arcade_Arena.Managers
 
         public void Update()
         {
+            var outmessage = client.CreateMessage();
+            outmessage.Write((byte)PacketType.Input);
+            outmessage.Write(Username);
+            client.SendMessage(outmessage, NetDeliveryMethod.ReliableOrdered);
+
             NetIncomingMessage inc;
             while ((inc = client.ReadMessage()) != null)
             {

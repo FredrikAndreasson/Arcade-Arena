@@ -21,8 +21,8 @@ namespace Arcade_Arena.Server
                     break;
                 case PacketType.AllPlayers:
                     return new AllPlayersCommand();
-                //case PacketType.Input:
-                //    return new InputCommand();
+                case PacketType.Input:
+                    return new InputCommand();
                 //case PacketType.Kick:
                 //    return new KickPlayerCommand();
             }
