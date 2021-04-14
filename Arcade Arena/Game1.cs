@@ -11,7 +11,7 @@ namespace Arcade_Arena
 {
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
+        public static GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
         //multiplayer
@@ -21,7 +21,7 @@ namespace Arcade_Arena
 
         public Character Player;
         TargetDummy target; // Test
-        Lava lava;
+        public static Lava lava;
 
         public Game1()
         {
@@ -63,10 +63,11 @@ namespace Arcade_Arena
             spriteBatch = new SpriteBatch(GraphicsDevice);
             AssetManager.LoadTextures(Content);
 
-            lava = new Lava(GraphicsDevice, 400);
+            
 
             Player = new Wizard(new Vector2(Window.ClientBounds.Width/2, Window.ClientBounds.Height/2), AssetManager.wizardSpriteSheet, 3f, 0.0);
             target = new TargetDummy(new Vector2(200, 200), AssetManager.targetDummy);
+            lava = new Lava(Game1.graphics.GraphicsDevice, 400);
 
             lava.DrawRenderTarget(spriteBatch);
 
@@ -80,10 +81,9 @@ namespace Arcade_Arena
             networkManager.Active = networkManager.Status == NetConnectionStatus.Connected;
 
             networkManager.Update();
-
+            
             MouseManager.Update();
             Player.Update(gameTime);
-            lava.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -93,12 +93,13 @@ namespace Arcade_Arena
 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp);
 
-            lava.Draw(spriteBatch);
-
             
             if (networkManager.Active)
             {
-                
+               
+                lava.Draw(spriteBatch);
+
+
                 foreach (var player in networkManager.Players)
                 {
 

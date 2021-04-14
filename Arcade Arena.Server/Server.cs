@@ -16,6 +16,9 @@ namespace Arcade_Arena.Server
         private NetPeerConfiguration config;
         public NetServer NetServer { get; private set; }
 
+        public DateTime lavaTimer = DateTime.Now;
+        public int LavaRadius = 400;
+
         public Server(ManagerLogger managerLogger)
         {
             this.managerLogger = managerLogger;
@@ -29,8 +32,11 @@ namespace Arcade_Arena.Server
         {
             NetServer.Start();
             managerLogger.AddLogMessage("Server", "Server Started...");
+            
+            
             while (true)
             {
+         
                 NetIncomingMessage inc;
                 if ((inc = NetServer.ReadMessage()) == null) continue;
                 switch (inc.MessageType)
@@ -41,18 +47,36 @@ namespace Arcade_Arena.Server
                         login.Run(managerLogger, this, inc, null, players);
                         break;
                     case NetIncomingMessageType.Data:
-                        Data(inc);
+                            Data(inc);                       
                         break;
                 }
+
+
             }
         }
 
         private void Data(NetIncomingMessage inc)
         {
-            var packetType = (PacketType)inc.ReadByte();
-            var command = PacketFactory.GetCommand(packetType);
-            command.Run(managerLogger, this, inc, null, players);
+            if (DateTime.Now.Subtract(lavaTimer).Seconds > 3)
+            {
+                lavaTimer = DateTime.Now;
+                NetOutgoingMessage om = NetServer.CreateMessage();
+                LavaRadius -= 5;
+                om.Write((byte)PacketType.ShrinkLava);
+                om.Write(LavaRadius);
+                NetServer.SendToAll(om, NetDeliveryMethod.Unreliable);
+                managerLogger.AddLogMessage("Server", $"LAVA UPDATED {lavaTimer}  {DateTime.Now}");
+            }
+            else
+            {
+                var packetType = (PacketType)inc.ReadByte();
+                var command = PacketFactory.GetCommand(packetType);
+                command.Run(managerLogger, this, inc, null, players);
+            }
+
         }
+
+        
 
         public void SendNewPlayerEvent(string username)
         {

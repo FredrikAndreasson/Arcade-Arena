@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Arcade_Arena.Managers
 {
@@ -13,6 +14,9 @@ namespace Arcade_Arena.Managers
     {
         private NetClient client;
         public List<Player> Players { get; set; }
+
+
+     
 
         public string Username { get; set; }
 
@@ -32,7 +36,7 @@ namespace Arcade_Arena.Managers
             client.Start();
 
             Username = "name_" + random.Next(0, 100);
-
+           
             var outmsg = client.CreateMessage();
             outmsg.Write((byte)PacketType.Login);
             outmsg.Write(Username);
@@ -44,6 +48,7 @@ namespace Arcade_Arena.Managers
         {
             var time = DateTime.Now;
             NetIncomingMessage inc;
+
             while (true)
             {
                 
@@ -78,11 +83,11 @@ namespace Arcade_Arena.Managers
 
         public void Update()
         {
+            
             var outmessage = client.CreateMessage();
             outmessage.Write((byte)PacketType.Input);
             outmessage.Write(Username);
-            client.SendMessage(outmessage, NetDeliveryMethod.ReliableOrdered);
-
+            client.SendMessage(outmessage, NetDeliveryMethod.ReliableOrdered);            
             NetIncomingMessage inc;
             while ((inc = client.ReadMessage()) != null)
             {
@@ -96,7 +101,9 @@ namespace Arcade_Arena.Managers
                         break;
                 }
             }
+            
         }
+
 
         private void StatusChanged(NetIncomingMessage inc)
         {
@@ -123,6 +130,10 @@ namespace Arcade_Arena.Managers
 
                 case PacketType.Kick:
                     ReceiveKick(inc);
+                    break;
+
+                case PacketType.ShrinkLava:
+                    ShrinkLava(inc);
                     break;
 
                 default:
@@ -155,6 +166,11 @@ namespace Arcade_Arena.Managers
             {
                 Players.Add(player);
             }
+        }
+
+        private void ShrinkLava(NetIncomingMessage inc)
+        {
+           Game1.lava.ShrinkPlatform(inc.ReadInt16());
         }
 
         private void ReceiveKick(NetIncomingMessage inc)
