@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Arcade_Arena
 {
-    class DynamicObject : GameObject
+    public class DynamicObject : GameObject
     {
         protected float speed;
         protected double direction;

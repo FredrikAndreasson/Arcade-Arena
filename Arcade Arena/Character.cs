@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Arcade_Arena
 {
-    class Character : DynamicObject
+    public class Character : DynamicObject
     {
         protected int weaponLvl; //pay for lvls or get powerups?
         protected bool walking = false;
@@ -21,6 +21,8 @@ namespace Arcade_Arena
         protected double aimDirection;
 
         protected Vector2 middleOfSprite;
+
+        public string Username { get; set; }
 
         public Character(Vector2 position, Texture2D texture, float speed, double direction) : base(position, texture, speed, direction)
         {

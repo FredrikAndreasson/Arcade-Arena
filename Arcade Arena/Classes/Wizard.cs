@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Arcade_Arena.Classes
 {
-    class Wizard : Character
+    public class Wizard : Character
     {
         SpriteAnimation currentAnimation;
         SpriteAnimation walkingAnimation;

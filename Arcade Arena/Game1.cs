@@ -1,8 +1,11 @@
 ﻿using Arcade_Arena.Classes;
+using Arcade_Arena.Managers;
+using Lidgren.Network;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
 
 namespace Arcade_Arena
 {
@@ -10,9 +13,13 @@ namespace Arcade_Arena
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
+        //multiplayer
+        private NetworkManager networkManager;
+
   
 
-        Wizard Player;
+        public Character Player;
         TargetDummy target; // Test
         Lava lava;
 
@@ -22,12 +29,21 @@ namespace Arcade_Arena
             Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
 
+            networkManager = new NetworkManager();
+
             graphics.PreferredBackBufferHeight = 1080;
             graphics.PreferredBackBufferWidth = 1900;
             graphics.ApplyChanges();
         }
 
-        bool DoesNotCollide(Wizard g)
+        protected override void Initialize()
+        {
+            networkManager.Start();
+
+            base.Initialize();
+        }
+
+        bool DoesNotCollide(Character g)
         {
             Color[] pixels = new Color[g.texture.Width * g.texture.Height];
             Color[] pixels2 = new Color[g.texture.Width * g.texture.Height];
@@ -61,6 +77,10 @@ namespace Arcade_Arena
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            networkManager.Active = networkManager.Status == NetConnectionStatus.Connected;
+
+            networkManager.Update();
+
             MouseManager.Update();
             Player.Update(gameTime);
             lava.Update(gameTime);
@@ -69,15 +89,48 @@ namespace Arcade_Arena
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(networkManager.Active ? Color.Green : Color.Red);
 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp);
 
             lava.Draw(spriteBatch);
 
-            if (DoesNotCollide(Player))
+            
+            if (networkManager.Active)
             {
-                Player.Draw(spriteBatch);
+                
+                foreach (var player in networkManager.Players)
+                {
+
+                    if (player.Username != networkManager.Username)
+                    {
+                        switch (player.Type)
+                        {
+                            case Library.Player.ClassType.Wizard:
+                                spriteBatch.Draw(AssetManager.wizardSpriteSheet, player.Position, player.SourceRectangle, Color.White);
+                                break;
+                            case Library.Player.ClassType.Ogre:
+                                break;
+                            case Library.Player.ClassType.Huntress:
+                                break;
+                            case Library.Player.ClassType.TimeTraveler:
+                                break;
+                            case Library.Player.ClassType.Assassin:
+                                break;
+                            case Library.Player.ClassType.Knight:
+                                break;
+                        }
+                        //spriteBatch.DrawString(font, player.Username, new Vector2(player.XPosition - 10, player.YPosition - 10), Color.Black);
+                    }
+                    else
+                    {
+                        Player.Draw(spriteBatch);
+                        if (DoesNotCollide(Player))
+                        {
+                            
+                        }
+                    }
+                }
             }
             target.Draw(spriteBatch);
 
