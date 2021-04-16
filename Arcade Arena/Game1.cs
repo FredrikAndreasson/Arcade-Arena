@@ -1,4 +1,6 @@
 ﻿using Arcade_Arena.Classes;
+using Arcade_Arena.Managers;
+using Lidgren.Network;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -10,7 +12,12 @@ namespace Arcade_Arena
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-  
+
+        //multiplayer
+        private NetworkManager networkManager;
+        private PlayerManager playerManager;
+
+
 
         Wizard Player;
         TargetDummy target; // Test
@@ -22,8 +29,11 @@ namespace Arcade_Arena
             Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
 
-            graphics.PreferredBackBufferHeight = 1080;
-            graphics.PreferredBackBufferWidth = 1900;
+            networkManager = new NetworkManager();
+            playerManager = new PlayerManager(networkManager);
+
+            graphics.PreferredBackBufferHeight = 720;
+            graphics.PreferredBackBufferWidth = 1080;
             graphics.ApplyChanges();
         }
 
@@ -56,10 +66,24 @@ namespace Arcade_Arena
 
         }
 
+        protected override void Initialize()
+        {
+            networkManager.Start();
+
+            base.Initialize();
+        }
+
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
+
+            networkManager.Active = networkManager.Status == NetConnectionStatus.Connected;
+
+            networkManager.Update();
+            playerManager.UpdatePlayer(Player.position);
+
 
             MouseKeyboardManager.Update();
             Player.Update(gameTime);
@@ -69,15 +93,49 @@ namespace Arcade_Arena
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(networkManager.Active ? Color.Green : Color.Red);
 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp);
 
             lava.Draw(spriteBatch);
 
-            if (DoesNotCollide(Player))
+            if (networkManager.Active)
             {
-                Player.Draw(spriteBatch);
+
+                foreach (var player in networkManager.Players)
+                {
+
+                    if (player.Username != networkManager.Username && player != null)
+                    {
+                        Rectangle source = new Rectangle(player.Animation.XRecPos, player.Animation.YRecPos, player.Animation.Width, player.Animation.Height);
+                        switch (player.Type)
+                        {
+                            case Library.Player.ClassType.Wizard:
+                                spriteBatch.Draw(AssetManager.wizardSpriteSheet, new Vector2(player.XPosition, player.YPosition), source,
+                                    Color.White, 0f, Vector2.Zero, 5.0f, SpriteEffects.None, 1.0f);
+                                break;
+                            case Library.Player.ClassType.Ogre:
+                                break;
+                            case Library.Player.ClassType.Huntress:
+                                break;
+                            case Library.Player.ClassType.TimeTraveler:
+                                break;
+                            case Library.Player.ClassType.Assassin:
+                                break;
+                            case Library.Player.ClassType.Knight:
+                                break;
+                        }
+                        //spriteBatch.DrawString(font, player.Username, new Vector2(player.XPosition - 10, player.YPosition - 10), Color.Black);
+                    }
+                    else
+                    {
+                        Player.Draw(spriteBatch);
+                        if (DoesNotCollide(Player))
+                        {
+
+                        }
+                    }
+                }
             }
             target.Draw(spriteBatch);
 
