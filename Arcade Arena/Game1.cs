@@ -16,6 +16,7 @@ namespace Arcade_Arena
 
         //multiplayer
         private NetworkManager networkManager;
+        private PlayerManager playerManager;
 
   
 
@@ -30,9 +31,10 @@ namespace Arcade_Arena
             this.IsMouseVisible = true;
 
             networkManager = new NetworkManager();
+            playerManager = new PlayerManager(networkManager);
 
-            graphics.PreferredBackBufferHeight = 1080;
-            graphics.PreferredBackBufferWidth = 1900;
+            graphics.PreferredBackBufferHeight = 720;
+            graphics.PreferredBackBufferWidth = 1080;
             graphics.ApplyChanges();
         }
 
@@ -80,6 +82,7 @@ namespace Arcade_Arena
             networkManager.Active = networkManager.Status == NetConnectionStatus.Connected;
 
             networkManager.Update();
+            playerManager.UpdatePlayer(Player.position);
 
             MouseManager.Update();
             Player.Update(gameTime);
@@ -102,12 +105,14 @@ namespace Arcade_Arena
                 foreach (var player in networkManager.Players)
                 {
 
-                    if (player.Username != networkManager.Username)
+                    if (player.Username != networkManager.Username && player != null)
                     {
+                        Rectangle source = new Rectangle(player.Animation.XRecPos, player.Animation.YRecPos, player.Animation.Width, player.Animation.Height);
                         switch (player.Type)
                         {
                             case Library.Player.ClassType.Wizard:
-                                spriteBatch.Draw(AssetManager.wizardSpriteSheet, player.Position, player.SourceRectangle, Color.White);
+                                spriteBatch.Draw(AssetManager.wizardSpriteSheet, new Vector2(player.XPosition, player.YPosition), source,
+                                    Color.White, 0f, Vector2.Zero, 5.0f, SpriteEffects.None, 1.0f);
                                 break;
                             case Library.Player.ClassType.Ogre:
                                 break;

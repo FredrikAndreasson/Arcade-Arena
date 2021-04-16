@@ -49,6 +49,11 @@ namespace Arcade_Arena.Server
 
         private void Data(NetIncomingMessage inc)
         {
+            foreach (var player in players)
+            {
+                managerLogger.AddLogMessage("Server", string.Format("player X position: {0} player Y position: {1}",player.Player.XPosition, player.Player.YPosition));
+            }
+            
             var packetType = (PacketType)inc.ReadByte();
             var command = PacketFactory.GetCommand(packetType);
             command.Run(managerLogger, this, inc, null, players);

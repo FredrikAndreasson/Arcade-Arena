@@ -46,7 +46,8 @@ namespace Arcade_Arena.Server.Commands
             var player = new Player
             {
                 Username = inc.ReadString(),
-                Position = new Vector2(random.Next(0, 750), random.Next(0, 400))
+                XPosition = random.Next(0, 750), 
+                YPosition = random.Next(0, 400)
                 
             };
 

@@ -19,17 +19,26 @@ namespace Arcade_Arena.Library
             Knight
         }
         public ClassType Type;
-        public Rectangle SourceRectangle { get; set; } //By combining the enum ClassType and the Source rectangle we can calculate what frame to draw from the spritesheets
+
         public string Username { get; set; }
-        public Vector2 Position;
+
+        public PlayerAnimation Animation { get; set; }
+        //Vector2 pos
+        public int XPosition { get; set; }
+        public int YPosition { get; set; }
 
         public Player(string username, int xPosition, int yPosition)
         {
             this.Username = username;
-            this.Position.X = xPosition;
-            this.Position.Y = yPosition;
+            this.XPosition = xPosition;
+            this.YPosition = yPosition;
+
+            Animation = new PlayerAnimation();
         }
 
-        public Player() { }
+        public Player() 
+        {
+            Animation = new PlayerAnimation();
+        }
     }
 }

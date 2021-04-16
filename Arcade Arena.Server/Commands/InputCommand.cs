@@ -1,4 +1,5 @@
-﻿using Arcade_Arena.Server.Commands;
+﻿using Arcade_Arena.Library;
+using Arcade_Arena.Server.Commands;
 using Arcade_Arena.Server.Managers;
 using Lidgren.Network;
 using System;
@@ -16,6 +17,9 @@ namespace Arcade_Arena.Server
             managerLogger.AddLogMessage("Server", "Recieved new input");
             var name = inc.ReadString();
             playerAndConnection = players.FirstOrDefault(p => p.Player.Username == name);
+            playerAndConnection.Player.XPosition = inc.ReadInt32();
+            playerAndConnection.Player.YPosition = inc.ReadInt32();
+
             if (playerAndConnection == null)
             {
                 managerLogger.AddLogMessage("Server", string.Format("Didn't find player with name {0}", name));
@@ -23,7 +27,6 @@ namespace Arcade_Arena.Server
             }
 
 
-            var player = playerAndConnection.Player;
 
             var command = new PlayerPositionCommand();
             command.Run(managerLogger, server, inc, playerAndConnection, players);

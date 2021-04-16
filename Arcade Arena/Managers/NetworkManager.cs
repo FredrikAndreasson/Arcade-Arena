@@ -11,6 +11,10 @@ namespace Arcade_Arena.Managers
 {
     class NetworkManager
     {
+        private int timer = 100;
+        private bool isRetrieved = false;
+
+
         private NetClient client;
         public List<Player> Players { get; set; }
 
@@ -29,6 +33,7 @@ namespace Arcade_Arena.Managers
             var random = new Random();
 
             client = new NetClient(new NetPeerConfiguration("networkGame"));
+            client.FlushSendQueue();
             client.Start();
 
             Username = "name_" + random.Next(0, 100);
@@ -57,31 +62,40 @@ namespace Arcade_Arena.Managers
 
                 switch (inc.MessageType)
                 {
-
-                    case NetIncomingMessageType.Data:
-                        var data = inc.ReadByte();
-                        if (data == (byte)PacketType.Login)
+                    case NetIncomingMessageType.StatusChanged:
+                        if (inc.SenderConnection.Status == NetConnectionStatus.Connected)
                         {
-                            Active = inc.ReadBoolean();
-                            if (Active)
-                            {
-                                ReceiveAllPlayers(inc);
-                                return true;
-                            }
-
-                            return false;
+                            Active = true;
+                            return true;
                         }
-                        return false;
+                        break;
                 }
             }
         }
 
         public void Update()
         {
-            var outmessage = client.CreateMessage();
-            outmessage.Write((byte)PacketType.Input);
-            outmessage.Write(Username);
-            client.SendMessage(outmessage, NetDeliveryMethod.ReliableOrdered);
+            if (timer < 0 && !isRetrieved)
+            {
+                isRetrieved = true;
+                var outmessage = client.CreateMessage();
+                outmessage.Write((byte)PacketType.AllPlayers);
+                client.SendMessage(outmessage, NetDeliveryMethod.ReliableOrdered);
+            }else if(!isRetrieved) timer--;
+
+            if (Players.Any(p => p.Username == Username))
+            {
+                var player = Players.FirstOrDefault(p => p.Username == Username);
+
+                var outmessage = client.CreateMessage();
+                outmessage.Write((byte)PacketType.Input);
+                outmessage.Write(player.Username);
+                outmessage.Write(player.XPosition);
+                outmessage.Write(player.YPosition);
+                client.SendMessage(outmessage, NetDeliveryMethod.ReliableOrdered);
+            }
+
+
 
             NetIncomingMessage inc;
             while ((inc = client.ReadMessage()) != null)
@@ -146,9 +160,9 @@ namespace Arcade_Arena.Managers
             if (Players.Any(p => p.Username == player.Username))
             {
                 var oldPlayer = Players.FirstOrDefault(p => p.Username == player.Username);
-                oldPlayer.Position.X = player.Position.X;
-                oldPlayer.Position.Y = player.Position.Y;
-                oldPlayer.SourceRectangle = player.SourceRectangle;
+                oldPlayer.XPosition = player.XPosition;
+                oldPlayer.YPosition = player.YPosition;
+                oldPlayer.Animation = player.Animation;
                 oldPlayer.Type = player.Type;
             }
             else
@@ -163,15 +177,6 @@ namespace Arcade_Arena.Managers
             var player = Players.FirstOrDefault(p => p.Username == username);
             if (player != null)
                 Players.Remove(player);
-        }
-
-        public void SendInput(Keys key)
-        {
-            var outmessage = client.CreateMessage();
-            outmessage.Write((byte)PacketType.Input);
-            outmessage.Write((byte)key);
-            outmessage.Write(Username);
-            client.SendMessage(outmessage, NetDeliveryMethod.ReliableOrdered);
         }
     }
 }
