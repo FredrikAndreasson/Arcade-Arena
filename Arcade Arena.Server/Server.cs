@@ -51,7 +51,7 @@ namespace Arcade_Arena.Server
         {
             foreach (var player in players)
             {
-                managerLogger.AddLogMessage("Server", string.Format("player X position: {0} player Y position: {1}",player.Player.XPosition, player.Player.YPosition));
+                managerLogger.AddLogMessage("Server", string.Format("player X rec: {0} player Y rec: {1}",player.Player.Animation.XRecPos, player.Player.Animation.YRecPos));
             }
             
             var packetType = (PacketType)inc.ReadByte();

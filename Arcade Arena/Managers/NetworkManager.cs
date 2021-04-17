@@ -92,6 +92,10 @@ namespace Arcade_Arena.Managers
                 outmessage.Write(player.Username);
                 outmessage.Write(player.XPosition);
                 outmessage.Write(player.YPosition);
+                outmessage.Write(player.Animation.XRecPos);
+                outmessage.Write(player.Animation.YRecPos);
+                outmessage.Write(player.Animation.Height);
+                outmessage.Write(player.Animation.Width);
                 client.SendMessage(outmessage, NetDeliveryMethod.ReliableOrdered);
             }
 
@@ -155,18 +159,28 @@ namespace Arcade_Arena.Managers
 
         private void ReadPlayer(NetIncomingMessage inc)
         {
-            var player = new Player();
-            inc.ReadAllProperties(player);
-            if (Players.Any(p => p.Username == player.Username))
+            var name = inc.ReadString();
+            if (Players.Any(p => p.Username == name))
             {
-                var oldPlayer = Players.FirstOrDefault(p => p.Username == player.Username);
-                oldPlayer.XPosition = player.XPosition;
-                oldPlayer.YPosition = player.YPosition;
-                oldPlayer.Animation = player.Animation;
-                oldPlayer.Type = player.Type;
+                
+                var oldPlayer = Players.FirstOrDefault(p => p.Username == name);
+                oldPlayer.XPosition = inc.ReadInt32();
+                oldPlayer.YPosition = inc.ReadInt32();
+                oldPlayer.Animation.XRecPos = inc.ReadInt32();
+                oldPlayer.Animation.YRecPos = inc.ReadInt32();
+                oldPlayer.Animation.Height = inc.ReadInt32();
+                oldPlayer.Animation.Width = inc.ReadInt32();
             }
             else
             {
+                var player = new Player();
+                player.Username = name;
+                player.XPosition = inc.ReadInt32();
+                player.YPosition = inc.ReadInt32();
+                player.Animation.XRecPos = inc.ReadInt32();
+                player.Animation.YRecPos = inc.ReadInt32();
+                player.Animation.Height = inc.ReadInt32();
+                player.Animation.Width = inc.ReadInt32();
                 Players.Add(player);
             }
         }

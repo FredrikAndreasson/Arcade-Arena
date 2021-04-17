@@ -11,7 +11,6 @@ namespace Arcade_Arena.Classes
 {
     class Wizard : Character
     {
-        SpriteAnimation currentAnimation;
         SpriteAnimation walkingAnimation;
         SpriteAnimation teleportInAnimation;
         SpriteAnimation teleportOutAnimation;

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Arcade_Arena.Classes;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,23 +11,35 @@ namespace Arcade_Arena.Managers
     class PlayerManager
     {
         private NetworkManager networkManager;
+        private Character clientPlayer;
 
 
-        public PlayerManager(NetworkManager networkManager)
+        public PlayerManager(NetworkManager networkManager, Character Player)
         {
             this.networkManager = networkManager;
+           
+            this.clientPlayer = Player;
         }
 
-        public void UpdatePlayer(Vector2 playerPosition)
+        public void UpdatePlayer()
         {
             if (networkManager.Players.Any(p => p.Username == networkManager.Username))
             {
                 var player = networkManager.Players.FirstOrDefault(p => p.Username == networkManager.Username);
 
-                player.XPosition = (int)playerPosition.X;
-                player.YPosition = (int)playerPosition.Y;
+                //position
+                player.XPosition = (int)clientPlayer.position.X;
+                player.YPosition = (int)clientPlayer.position.Y;
 
-                //add more code that updated player in the future;
+                //source rectangle
+                player.Animation.XRecPos = clientPlayer.CurrentAnimation.Source.X;
+                player.Animation.YRecPos = clientPlayer.CurrentAnimation.Source.Y;
+                player.Animation.Height = clientPlayer.CurrentAnimation.Source.Height;
+                player.Animation.Width = clientPlayer.CurrentAnimation.Source.Width;
+
+                
+
+                //add more code for updating player later...
             }
         }
     }

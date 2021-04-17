@@ -36,7 +36,7 @@ namespace Arcade_Arena
             Loop = 0;
         }
 
-        private Rectangle Source => new Rectangle((int)(start.X*frameSize.X + (frameSize.X * (xIndex-(int)start.X))), 
+        public Rectangle Source => new Rectangle((int)(start.X*frameSize.X + (frameSize.X * (xIndex-(int)start.X))), 
             (int)(start.Y * (frameSize.Y * (yIndex-(int)start.Y+1))), (int)frameSize.X, (int)frameSize.Y);
 
         public int XIndex { get { return xIndex; } set { xIndex = value; } }
@@ -46,7 +46,6 @@ namespace Arcade_Arena
 
         public void Update(GameTime gameTime)
         {
-            System.Diagnostics.Debug.WriteLine("xIndex: " + xIndex + " yIndex: " + yIndex);
             if (msSinceLastFrame >= msBetweenFrames)
             {
                 msSinceLastFrame = 0;

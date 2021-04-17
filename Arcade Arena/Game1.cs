@@ -30,7 +30,6 @@ namespace Arcade_Arena
             this.IsMouseVisible = true;
 
             networkManager = new NetworkManager();
-            playerManager = new PlayerManager(networkManager);
 
             graphics.PreferredBackBufferHeight = 720;
             graphics.PreferredBackBufferWidth = 1080;
@@ -62,6 +61,8 @@ namespace Arcade_Arena
             Player = new Wizard(new Vector2(Window.ClientBounds.Width/2, Window.ClientBounds.Height/2), AssetManager.wizardSpriteSheet, 3f, 0.0);
             target = new TargetDummy(new Vector2(200, 200), AssetManager.targetDummy);
 
+            playerManager = new PlayerManager(networkManager, Player);
+
             lava.DrawRenderTarget(spriteBatch);
 
         }
@@ -82,7 +83,7 @@ namespace Arcade_Arena
             networkManager.Active = networkManager.Status == NetConnectionStatus.Connected;
 
             networkManager.Update();
-            playerManager.UpdatePlayer(Player.position);
+            playerManager.UpdatePlayer();
 
 
             MouseKeyboardManager.Update();
@@ -108,6 +109,7 @@ namespace Arcade_Arena
                     if (player.Username != networkManager.Username && player != null)
                     {
                         Rectangle source = new Rectangle(player.Animation.XRecPos, player.Animation.YRecPos, player.Animation.Width, player.Animation.Height);
+                        System.Diagnostics.Debug.WriteLine(" XrecPos game1: " + player.Animation.XRecPos);
                         switch (player.Type)
                         {
                             case Library.Player.ClassType.Wizard:

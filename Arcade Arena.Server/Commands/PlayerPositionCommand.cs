@@ -15,7 +15,13 @@ namespace Arcade_Arena.Server.Commands
             managerLogger.AddLogMessage("Server", "Sending out new player position and animation");
             var outmessage = server.NetServer.CreateMessage();
             outmessage.Write((byte)PacketType.PlayerPosition);
-            outmessage.WriteAllProperties(playerAndConnection.Player);
+            outmessage.Write(playerAndConnection.Player.Username);
+            outmessage.Write(playerAndConnection.Player.XPosition);
+            outmessage.Write(playerAndConnection.Player.YPosition);
+            outmessage.Write(playerAndConnection.Player.Animation.XRecPos);
+            outmessage.Write(playerAndConnection.Player.Animation.YRecPos);
+            outmessage.Write(playerAndConnection.Player.Animation.Height);
+            outmessage.Write(playerAndConnection.Player.Animation.Width);
             server.NetServer.SendToAll(outmessage, NetDeliveryMethod.ReliableOrdered);
         }
     }

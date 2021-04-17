@@ -18,7 +18,13 @@ namespace Arcade_Arena.Server.Commands
             outmessage.Write(players.Count);
             foreach (var p in players)
             {
-                outmessage.WriteAllProperties(p.Player);
+                outmessage.Write(p.Player.Username);
+                outmessage.Write(p.Player.XPosition);
+                outmessage.Write(p.Player.YPosition);
+                outmessage.Write(p.Player.Animation.XRecPos);
+                outmessage.Write(p.Player.Animation.YRecPos);
+                outmessage.Write(p.Player.Animation.Height);
+                outmessage.Write(p.Player.Animation.Width);
             }
             server.NetServer.SendToAll(outmessage, NetDeliveryMethod.ReliableOrdered);
         }

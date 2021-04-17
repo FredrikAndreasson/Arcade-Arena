@@ -11,6 +11,8 @@ namespace Arcade_Arena
 {
     class Character : DynamicObject
     {
+        protected SpriteAnimation currentAnimation;
+
         protected int weaponLvl; //pay for lvls or get powerups?
         protected bool walking = false;
         protected bool canWalk = true;
@@ -26,6 +28,8 @@ namespace Arcade_Arena
         {
 
         }
+
+        public SpriteAnimation CurrentAnimation => currentAnimation;
 
         public virtual void Update(GameTime gameTime)
         {

@@ -19,6 +19,11 @@ namespace Arcade_Arena.Server
             playerAndConnection = players.FirstOrDefault(p => p.Player.Username == name);
             playerAndConnection.Player.XPosition = inc.ReadInt32();
             playerAndConnection.Player.YPosition = inc.ReadInt32();
+            playerAndConnection.Player.Animation.XRecPos = inc.ReadInt32();
+            playerAndConnection.Player.Animation.YRecPos = inc.ReadInt32();
+            playerAndConnection.Player.Animation.Height = inc.ReadInt32();
+            playerAndConnection.Player.Animation.Width = inc.ReadInt32();
+
 
             if (playerAndConnection == null)
             {
