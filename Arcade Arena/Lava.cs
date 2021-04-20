@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Arcade_Arena
 {
-    class Lava
+    public class Lava
     {
         private const int radiusShrinkRate = 1;
         private const int timerTime = 500;
@@ -20,8 +20,7 @@ namespace Arcade_Arena
         Color[] originalLava;
         int middleWidth;
         int middleHeight;
-        int timer = timerTime;
-
+        bool shrink;
 
         public Lava(GraphicsDevice graphicsDevice, int radius)
         {
@@ -40,20 +39,6 @@ namespace Arcade_Arena
             spriteBatch.Draw(renderTarget, Vector2.Zero, Color.White);
         }
 
-        public void Update(GameTime gameTime)
-        {
-            timer -= (int)gameTime.ElapsedGameTime.Milliseconds;
-            if (timer < 0)
-            {
-                ShrinkPlatform();
-                timer = timerTime;
-            }
-
-      
-
-        }
-
-
         public void DrawRenderTarget(SpriteBatch spriteBatch)
         {
             graphicsDevice.SetRenderTarget(renderTarget);
@@ -65,7 +50,7 @@ namespace Arcade_Arena
             renderTarget.GetData<Color>(originalLava);
         }
 
-        private void ShrinkPlatform()
+        public void ShrinkPlatform(int radius)
         {
             List<Rectangle> testRects = new List<Rectangle>();
             
@@ -105,9 +90,6 @@ namespace Arcade_Arena
             {
                 renderTarget.SetData(0, lavaRects, transparentField, 0, lavaRects.Width * lavaRects.Height);
             }
-
-            radius -= radiusShrinkRate;
-
         }
     }
 }
