@@ -5,5 +5,6 @@
     AllPlayers,
     Input,
     Kick,
-    CharacterSelect
+    CharacterSelect,
+    ShrinkLava
 }

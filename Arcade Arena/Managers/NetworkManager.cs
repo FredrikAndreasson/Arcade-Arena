@@ -143,6 +143,11 @@ namespace Arcade_Arena.Managers
                     ReceiveKick(inc);
                     break;
 
+                case PacketType.ShrinkLava:
+                    UpdateLava(inc);
+                    break;
+                    
+
                 default:
                     break;
             }
@@ -156,6 +161,12 @@ namespace Arcade_Arena.Managers
                 ReadPlayer(inc);
             }
         }
+
+        private void UpdateLava(NetIncomingMessage inc)
+        {
+            Game1.lava.ShrinkPlatform(inc.ReadInt16());
+        }
+        
 
         private void ReadPlayer(NetIncomingMessage inc)
         {
