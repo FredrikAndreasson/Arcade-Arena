@@ -1,10 +1,4 @@
-﻿using Arcade_Arena.Classes;
-using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
 namespace Arcade_Arena.Managers
 {
