@@ -19,7 +19,6 @@ namespace Arcade_Arena
 
 
         private Wizard player;
-        private TargetDummy target; // Test
         public static Lava lava;
 
         public Game1()
@@ -57,11 +56,10 @@ namespace Arcade_Arena
 
             lava = new Lava(GraphicsDevice, 400);
 
-            Player = new Wizard(new Vector2(Window.ClientBounds.Width/2, Window.ClientBounds.Height/2), AssetManager.wizardSpriteSheet, 3f, 0.0);
-            target = new TargetDummy(new Vector2(200, 200), AssetManager.targetDummy);
+            player = new Wizard(new Vector2(Window.ClientBounds.Width/2, Window.ClientBounds.Height/2), AssetManager.wizardSpriteSheet, 3f, 0.0);
             lava = new Lava(Game1.graphics.GraphicsDevice, 400);
 
-            playerManager = new PlayerManager(networkManager, Player);
+            playerManager = new PlayerManager(networkManager, player);
 
             lava.DrawRenderTarget(spriteBatch);
 
@@ -87,7 +85,7 @@ namespace Arcade_Arena
 
 
             MouseKeyboardManager.Update();
-            Player.Update(gameTime);
+            player.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -129,16 +127,14 @@ namespace Arcade_Arena
                     }
                     else
                     {
-                        Player.Draw(spriteBatch);
-                        if (DoesNotCollide(Player))
+                        this.player.Draw(spriteBatch);
+                        if (DoesNotCollide(this.player))
                         {
 
                         }
                     }
                 }
             }
-            target.Draw(spriteBatch);
-
            // spriteBatch.Draw(AssetManager.lava, new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2), null, Color.White, 0.0f, new Vector2(AssetManager.lava.Width / 2, AssetManager.lava.Height / 2), 1.0f, SpriteEffects.None, 1.0f);
             
 
