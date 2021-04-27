@@ -18,8 +18,8 @@ namespace Arcade_Arena
 
 
 
-        Wizard Player;
-        TargetDummy target; // Test
+        private Wizard player;
+        private TargetDummy target; // Test
         public static Lava lava;
 
         public Game1()

@@ -17,7 +17,6 @@ namespace Arcade_Arena.Library
         public string Username { get; set; }
 
         public PlayerAnimation Animation { get; set; }
-        //Vector2 pos
         public int XPosition { get; set; }
         public int YPosition { get; set; }
 
