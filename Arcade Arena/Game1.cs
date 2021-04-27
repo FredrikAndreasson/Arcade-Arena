@@ -56,7 +56,7 @@ namespace Arcade_Arena
 
             lava = new Lava(GraphicsDevice, 400);
 
-            player = new Wizard(new Vector2(Window.ClientBounds.Width/2, Window.ClientBounds.Height/2), AssetManager.wizardSpriteSheet, 3f, 0.0);
+            player = new Wizard(new Vector2(Window.ClientBounds.Width/2, Window.ClientBounds.Height/2), AssetManager.WizardSpriteSheet, 3f, 0.0);
             lava = new Lava(Game1.graphics.GraphicsDevice, 400);
 
             playerManager = new PlayerManager(networkManager, player);
@@ -109,7 +109,7 @@ namespace Arcade_Arena
                         switch (player.Type)
                         {
                             case Library.Player.ClassType.Wizard:
-                                spriteBatch.Draw(AssetManager.wizardSpriteSheet, new Vector2(player.XPosition, player.YPosition), source,
+                                spriteBatch.Draw(AssetManager.WizardSpriteSheet, new Vector2(player.XPosition, player.YPosition), source,
                                     Color.White, 0f, Vector2.Zero, 5.0f, SpriteEffects.None, 1.0f);
                                 break;
                             case Library.Player.ClassType.Ogre:

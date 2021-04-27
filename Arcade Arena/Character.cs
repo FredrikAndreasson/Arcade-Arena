@@ -105,7 +105,7 @@ namespace Arcade_Arena
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, position, Color.White);
-            spriteBatch.Draw(AssetManager.targetDummy, position, Color.White);
+            spriteBatch.Draw(AssetManager.TargetDummy, position, Color.White);
         }
     }
 }
