@@ -20,6 +20,8 @@ namespace Arcade_Arena
 
         protected Vector2 middleOfSprite;
 
+        public List<Effect> EffectList = new List<Effect>();
+
         public Character(Vector2 position, Texture2D texture, float speed, double direction) : base(position, texture, speed, direction)
         {
 
@@ -27,16 +29,43 @@ namespace Arcade_Arena
 
         public SpriteAnimation CurrentAnimation => currentAnimation;
 
-        public virtual void Update(GameTime gameTime)
+        public virtual void Update()
         {
+            UpdateEffects();
             direction = UpdateMovementDirection();
             aimDirection = UpdateAimDirection();
-            if (walking)
+            if (walking && canWalk)
             {
-                velocity.Y = (float)(Math.Sin(MathHelper.ToRadians((float)direction)) * speed);
-                velocity.X = (float)(Math.Cos(MathHelper.ToRadians((float)direction)) * speed);
-                position += velocity;
+                UpdateVelocity(direction, speed);
             }
+        }
+
+        public void UpdateVelocity(double newDirection, float newSpeed)
+        {
+            velocity.Y = (float)(Math.Sin(MathHelper.ToRadians((float)newDirection)) * newSpeed);
+            velocity.X = (float)(Math.Cos(MathHelper.ToRadians((float)newDirection)) * newSpeed);
+            position += velocity;
+        }
+
+        void UpdateEffects()
+        {
+            List<Effect> tempEffectList = new List<Effect>(EffectList);
+            foreach(Effect effect in tempEffectList)
+            {
+                effect.Update(this);
+            }
+        }
+
+        public virtual void StartKnockback() //behöver en egen metod pga sprite sheet
+        {
+            canWalk = false;
+            walking = false;
+        }
+
+        public virtual void EndKnockback()
+        {
+            canWalk = true;
+            walking = true;
         }
 
         //returnerar angle i grader

@@ -46,6 +46,7 @@
     <Compile Include="Character.cs" />
     <Compile Include="Classes\Wizard.cs" />
     <Compile Include="CringeObject.cs" />
+    <Compile Include="Effect.cs" />
     <Compile Include="DynamicObject.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GameObject.cs" />
