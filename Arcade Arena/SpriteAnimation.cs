@@ -44,7 +44,7 @@ namespace Arcade_Arena
 
         public int Loop { get; private set; }
 
-        public void Update(GameTime gameTime)
+        public void Update()
         {
             if (msSinceLastFrame >= msBetweenFrames)
             {
@@ -75,7 +75,7 @@ namespace Arcade_Arena
             }
             else
             {
-                msSinceLastFrame += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                msSinceLastFrame += (float)Game1.elapsedGameTimeMilliseconds;
             }
            
         }
