@@ -15,6 +15,9 @@ namespace Arcade_Arena
         public static Texture2D WizardWand { get; private set; }
         public static Texture2D WizardWandProjectile { get; private set; }
 
+        public static SpriteFont CooldownFont { get; private set; }
+        public static Texture2D WizardAbilityIconSheet { get; private set; }
+
         
 
         public static void LoadTextures(ContentManager Content)
@@ -26,6 +29,9 @@ namespace Arcade_Arena
             WizardIceBlock = Content.Load<Texture2D>("Classes\\IceBlock");
             WizardWand = Content.Load<Texture2D>("Classes\\MageWand");
             WizardWandProjectile = Content.Load<Texture2D>("Classes\\WandProjectile");
+
+            CooldownFont = Content.Load<SpriteFont>("Fonts\\CooldownFont");
+            WizardAbilityIconSheet = Content.Load<Texture2D>("AbilityIcons\\WizardAbilityIconSheet");
         }
     }
 }
