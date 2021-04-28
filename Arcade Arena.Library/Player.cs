@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Arcade_Arena.Library
 {
     public class Player
@@ -22,7 +17,6 @@ namespace Arcade_Arena.Library
         public string Username { get; set; }
 
         public PlayerAnimation Animation { get; set; }
-        //Vector2 pos
         public int XPosition { get; set; }
         public int YPosition { get; set; }
 

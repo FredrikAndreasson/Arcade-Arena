@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -138,7 +134,7 @@ namespace Arcade_Arena
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, position, Color.White);
-            spriteBatch.Draw(AssetManager.targetDummy, position, Color.White);
+            spriteBatch.Draw(AssetManager.TargetDummy, position, Color.White);
         }
     }
 }

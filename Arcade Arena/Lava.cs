@@ -1,11 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Arcade_Arena
 {
@@ -27,8 +23,8 @@ namespace Arcade_Arena
             this.graphicsDevice = graphicsDevice;
             renderTarget = new RenderTarget2D(graphicsDevice, 1920, 1080);
             originalLava = new Color[renderTarget.Width * renderTarget.Height];
-            middleHeight = AssetManager.lava.Height / 2;
-            middleWidth = AssetManager.lava.Width / 2;
+            middleHeight = AssetManager.Lava.Height / 2;
+            middleWidth = AssetManager.Lava.Width / 2;
            
             this.radius = radius;
         }
@@ -44,7 +40,7 @@ namespace Arcade_Arena
             graphicsDevice.SetRenderTarget(renderTarget);
             graphicsDevice.Clear(Color.Transparent);
             spriteBatch.Begin();
-            spriteBatch.Draw(AssetManager.lava, Vector2.Zero, Color.White);
+            spriteBatch.Draw(AssetManager.Lava, Vector2.Zero, Color.White);
             spriteBatch.End();
             graphicsDevice.SetRenderTarget(null);
             renderTarget.GetData<Color>(originalLava);

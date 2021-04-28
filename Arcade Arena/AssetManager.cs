@@ -1,36 +1,31 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Arcade_Arena
 {
     static class AssetManager
     {
 
-        public static Texture2D ball { get; private set; }
-        public static Texture2D targetDummy { get; private set; }
-        public static Texture2D lava { get; private set; }
+        public static Texture2D Ball { get; private set; }
+        public static Texture2D TargetDummy { get; private set; }
+        public static Texture2D Lava { get; private set; }
 
-        public static Texture2D wizardSpriteSheet { get; private set; }
-        public static Texture2D wizardIceBlock { get; private set; }
-        public static Texture2D wizardWand { get; private set; }
-        public static Texture2D wizardWandProjectile { get; private set; }
+        public static Texture2D WizardSpriteSheet { get; private set; }
+        public static Texture2D WizardIceBlock { get; private set; }
+        public static Texture2D WizardWand { get; private set; }
+        public static Texture2D WizardWandProjectile { get; private set; }
 
         
 
         public static void LoadTextures(ContentManager Content)
         {
-            ball = Content.Load<Texture2D>("Class\\Ball");
-            targetDummy = Content.Load<Texture2D>("TargetDummy");
-            lava = Content.Load<Texture2D>("LavaSprite\\Lava");
-            wizardSpriteSheet = Content.Load<Texture2D>("Classes\\WizardSpriteSheet");
-            wizardIceBlock = Content.Load<Texture2D>("Classes\\IceBlock");
-            wizardWand = Content.Load<Texture2D>("Classes\\MageWand");
-            wizardWandProjectile = Content.Load<Texture2D>("Classes\\WandProjectile");
+            Ball = Content.Load<Texture2D>("Class\\Ball");
+            TargetDummy = Content.Load<Texture2D>("TargetDummy");
+            Lava = Content.Load<Texture2D>("LavaSprite\\Lava");
+            WizardSpriteSheet = Content.Load<Texture2D>("Classes\\WizardSpriteSheet");
+            WizardIceBlock = Content.Load<Texture2D>("Classes\\IceBlock");
+            WizardWand = Content.Load<Texture2D>("Classes\\MageWand");
+            WizardWandProjectile = Content.Load<Texture2D>("Classes\\WandProjectile");
         }
     }
 }
