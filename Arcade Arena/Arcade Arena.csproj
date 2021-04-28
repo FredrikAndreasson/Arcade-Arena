@@ -53,6 +53,7 @@
     <Compile Include="Lava.cs" />
     <Compile Include="Managers\NetworkManager.cs" />
     <Compile Include="Managers\PlayerManager.cs" />
+    <Compile Include="Managers\UserInterfaceManager.cs" />
     <Compile Include="MouseKeyboardManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -69,6 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\AbilityIcons\WizardAbilityIconSheet.png" />
     <Content Include="Content\Class\Ball.png" />
     <Content Include="Content\LavaSprite\Lava.png" />
     <Content Include="Content\TargetDummy.png" />
