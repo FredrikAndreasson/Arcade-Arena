@@ -36,11 +36,10 @@ namespace Arcade_Arena.Classes
             speed = 1;
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update()
         {
-            currentAnimation.Update(gameTime);
-            UpdateCooldowns(gameTime);
-            //kanske ändra till "actionable" debuffs sen istället för att kolla om man är i varje ability
+            currentAnimation.Update();
+            UpdateCooldowns();
             if (!teleporting && !inIceBlock)
             {
                 if (Keyboard.GetState().IsKeyDown(Keys.E) && teleportCooldown <= 0)
@@ -57,7 +56,7 @@ namespace Arcade_Arena.Classes
 
             if (teleporting)
             {
-                teleportOutAnimation.Update(gameTime);
+                teleportOutAnimation.Update();
 
                 if (teleportOutAnimation.XIndex >= 4)
                 {
@@ -69,7 +68,7 @@ namespace Arcade_Arena.Classes
             }
             else if (inIceBlock)
             {
-                iceBlockAnimation.Update(gameTime);
+                iceBlockAnimation.Update();
                 if ((iceBlockCooldown <= 9.7f && MouseKeyboardManager.Clicked(Keys.LeftShift)) || iceBlockAnimation.XIndex >= 4)
                 {
                     inIceBlock = false;
@@ -79,15 +78,15 @@ namespace Arcade_Arena.Classes
             }
             else
             {
-                base.Update(gameTime);
+                base.Update();
                 middleOfSprite = new Vector2(position.X + 35, position.Y + 60);
             }
         }
 
-        private void UpdateCooldowns(GameTime gameTime)
+        private void UpdateCooldowns()
         {
-            teleportCooldown -= gameTime.ElapsedGameTime.TotalSeconds;
-            iceBlockCooldown -= gameTime.ElapsedGameTime.TotalSeconds;
+            teleportCooldown -= Game1.elapsedGameTimeSeconds;
+            iceBlockCooldown -= Game1.elapsedGameTimeSeconds;
         }
 
         public override void Draw(SpriteBatch spriteBatch)

@@ -16,7 +16,8 @@ namespace Arcade_Arena
         private NetworkManager networkManager;
         private PlayerManager playerManager;
 
-
+        public static double elapsedGameTimeSeconds { get; private set; }
+        public static double elapsedGameTimeMilliseconds { get; private set; }
 
         private Wizard player;
         public static Lava lava;
@@ -77,6 +78,8 @@ namespace Arcade_Arena
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            elapsedGameTimeSeconds = gameTime.ElapsedGameTime.TotalSeconds;
+            elapsedGameTimeMilliseconds = gameTime.ElapsedGameTime.TotalMilliseconds;
 
             networkManager.Active = networkManager.Status == NetConnectionStatus.Connected;
 
@@ -85,7 +88,9 @@ namespace Arcade_Arena
 
 
             MouseKeyboardManager.Update();
+
             player.Update(gameTime);
+            
             base.Update(gameTime);
         }
 
