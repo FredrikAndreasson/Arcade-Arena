@@ -41,7 +41,7 @@ namespace Arcade_Arena.Managers
             var outmsg = client.CreateMessage();
             outmsg.Write((byte)PacketType.Login);
             outmsg.Write(Username);
-            client.Connect("localhost", 14241, outmsg);
+            client.Connect("85.228.136.154", 14241, outmsg);
             return EstablishInfo();
         }
 

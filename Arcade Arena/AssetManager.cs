@@ -20,7 +20,9 @@ namespace Arcade_Arena
         public static Texture2D wizardWand { get; private set; }
         public static Texture2D wizardWandProjectile { get; private set; }
 
+        public static Texture2D ogreSpriteSheet {get; private set;}
         
+        public static Texture2D groundSmashCrackle { get; private set; }
 
         public static void LoadTextures(ContentManager Content)
         {
@@ -31,6 +33,8 @@ namespace Arcade_Arena
             wizardIceBlock = Content.Load<Texture2D>("Classes\\IceBlock");
             wizardWand = Content.Load<Texture2D>("Classes\\MageWand");
             wizardWandProjectile = Content.Load<Texture2D>("Classes\\WandProjectile");
+            ogreSpriteSheet = Content.Load<Texture2D>("Classes\\OgreSpriteSheet");
+            groundSmashCrackle = Content.Load<Texture2D>("Classes\\groundSmashCrackle");
         }
     }
 }

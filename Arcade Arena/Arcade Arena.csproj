@@ -45,6 +45,7 @@
     <Compile Include="AssetManager.cs" />
     <Compile Include="Ball.cs" />
     <Compile Include="Character.cs" />
+    <Compile Include="Classes\Ogre.cs" />
     <Compile Include="Classes\Wizard.cs" />
     <Compile Include="CringeObject.cs" />
     <Compile Include="DynamicObject.cs" />

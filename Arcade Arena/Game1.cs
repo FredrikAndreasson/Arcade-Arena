@@ -17,9 +17,7 @@ namespace Arcade_Arena
         private NetworkManager networkManager;
         private PlayerManager playerManager;
 
-
-
-        Wizard Player;
+        Ogre Player;
         TargetDummy target; // Test
         public static Lava lava;
 
@@ -36,7 +34,7 @@ namespace Arcade_Arena
             graphics.ApplyChanges();
         }
 
-        bool DoesNotCollide(Wizard g)
+        bool DoesNotCollide(Character g)
         {
             Color[] pixels = new Color[g.texture.Width * g.texture.Height];
             Color[] pixels2 = new Color[g.texture.Width * g.texture.Height];
@@ -58,7 +56,7 @@ namespace Arcade_Arena
 
             lava = new Lava(GraphicsDevice, 400);
 
-            Player = new Wizard(new Vector2(Window.ClientBounds.Width/2, Window.ClientBounds.Height/2), AssetManager.wizardSpriteSheet, 3f, 0.0);
+            Player = new Ogre(new Vector2(Window.ClientBounds.Width/2, Window.ClientBounds.Height/2), AssetManager.ogreSpriteSheet, 3f, 0.0);
             target = new TargetDummy(new Vector2(200, 200), AssetManager.targetDummy);
             lava = new Lava(Game1.graphics.GraphicsDevice, 400);
 
@@ -116,6 +114,8 @@ namespace Arcade_Arena
                                     Color.White, 0f, Vector2.Zero, 5.0f, SpriteEffects.None, 1.0f);
                                 break;
                             case Library.Player.ClassType.Ogre:
+                                spriteBatch.Draw(AssetManager.ogreSpriteSheet, new Vector2(player.XPosition, player.YPosition), source,
+                                    Color.White, 0f, Vector2.Zero, 5.0f, SpriteEffects.None, 1.0f);
                                 break;
                             case Library.Player.ClassType.Huntress:
                                 break;
