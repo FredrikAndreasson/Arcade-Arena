@@ -5,7 +5,7 @@ using System;
 
 namespace Arcade_Arena.Classes
 {
-    class Wizard : Character
+    class Wizard : ProjectileCharacter
     {
         SpriteAnimation walkingAnimation;
         SpriteAnimation teleportInAnimation;
@@ -103,6 +103,7 @@ namespace Arcade_Arena.Classes
             {
                 currentAnimation = walkingAnimation;
             }
+            base.Draw(spriteBatch);
         }
 
         private void TeleportAbility()
