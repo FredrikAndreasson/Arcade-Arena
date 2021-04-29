@@ -21,7 +21,7 @@ namespace Arcade_Arena
         public static double elapsedGameTimeSeconds { get; private set; }
         public static double elapsedGameTimeMilliseconds { get; private set; }
 
-        private Wizard player;
+        private Assassin player;
         public static Lava lava;
 
         public Game1()
@@ -37,7 +37,7 @@ namespace Arcade_Arena
             graphics.ApplyChanges();
         }
 
-        bool DoesNotCollide(Wizard g)
+        bool DoesNotCollide(Character g)
         {
             Color[] pixels = new Color[g.texture.Width * g.texture.Height];
             Color[] pixels2 = new Color[g.texture.Width * g.texture.Height];
@@ -59,7 +59,7 @@ namespace Arcade_Arena
 
             lava = new Lava(GraphicsDevice, 400);
 
-            player = new Wizard(new Vector2(Window.ClientBounds.Width/2, Window.ClientBounds.Height/2), AssetManager.WizardSpriteSheet, 3f, 0.0);
+            player = new Assassin(new Vector2(Window.ClientBounds.Width/2, Window.ClientBounds.Height/2), AssetManager.WizardSpriteSheet, 3f, 0.0);
             lava = new Lava(Game1.graphics.GraphicsDevice, 400);
 
             playerManager = new PlayerManager(networkManager, player);
@@ -93,7 +93,7 @@ namespace Arcade_Arena
 
             MouseKeyboardManager.Update();
 
-            player.Update(gameTime);
+            player.Update();
             
             base.Update(gameTime);
         }
