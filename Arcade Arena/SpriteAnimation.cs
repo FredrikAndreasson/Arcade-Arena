@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,8 @@ namespace Arcade_Arena
         private Vector2 end;        // What index in the spritesheet the current animation ends at
         private Vector2 frameSize;  // How big the frames are in X and Y
         private Vector2 dimensions; // How many rows and columns there are in the sprite sheet
-
+        private SpriteEffects spriteFX;
+        private bool flipHorizontally;
         private float msSinceLastFrame;
         private float msBetweenFrames;
 
@@ -72,18 +74,50 @@ namespace Arcade_Arena
                 {
                     xIndex++;
                 }
-                Loop++;
+                //Loop++;
             }
             else
             {
                 msSinceLastFrame += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             }
-           
+
+            if(ProjectileCharacter.orbiterRotation >= 1.53269 || ProjectileCharacter.orbiterRotation <= -1.547545)
+            {
+               // flipHorizontally = true;
+               // if (flipHorizontally)
+                //{
+                    spriteFX = SpriteEffects.FlipHorizontally;
+               // }
+            }
+            else
+            {
+               // flipHorizontally = false;
+                spriteFX = SpriteEffects.None;
+            }
+            //if (Keyboard.GetState().IsKeyDown(Keys.A))
+            //{
+            //    flipHorizontally = true;
+            //    if (flipHorizontally)
+            //    {
+            //        spriteFX = SpriteEffects.FlipHorizontally;
+            //    }
+            //}
+            //else if (Keyboard.GetState().IsKeyDown(Keys.D))
+            //{
+            //    flipHorizontally = false;
+            //    spriteFX = SpriteEffects.None;
+            //}
+
+            //if (Keyboard.GetState().IsKeyDown(Keys.A) && Keyboard.GetState().IsKeyDown(Keys.D))
+            //{
+
+            //}
+
         }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 position, float rotation, Vector2 origin, float scale)
         {
-            spriteBatch.Draw(texture, position, Source, Color.White, rotation, origin, scale, SpriteEffects.None, 1.0f);
+            spriteBatch.Draw(texture, position, Source, Color.White, rotation, origin, scale, spriteFX, 1.0f);
         }
     }
 }

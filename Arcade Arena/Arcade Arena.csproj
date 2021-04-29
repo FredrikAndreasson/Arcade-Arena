@@ -13,7 +13,7 @@
     <AssemblyName>Arcade Arena</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MonoGamePlatform>Windows</MonoGamePlatform>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -55,6 +55,8 @@
     <Compile Include="Managers\NetworkManager.cs" />
     <Compile Include="Managers\PlayerManager.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Projectile.cs" />
+    <Compile Include="ProjectileCharacter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpriteAnimation.cs" />
     <Compile Include="TargetDummy.cs" />

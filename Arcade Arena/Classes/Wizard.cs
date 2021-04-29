@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Arcade_Arena.Classes
 {
-    public class Wizard : Character
+    public class Wizard : ProjectileCharacter
     {
         SpriteAnimation currentAnimation;
         SpriteAnimation walkingAnimation;
@@ -40,7 +40,8 @@ namespace Arcade_Arena.Classes
         {
             currentAnimation.Update(gameTime);
             UpdateCooldowns(gameTime);
-
+            UpdateWeapon(gameTime);
+            
             if (Keyboard.GetState().IsKeyDown(Keys.E) && !teleporting && teleportCooldown <= 0)
             {
                 TeleportAbility();
@@ -83,6 +84,7 @@ namespace Arcade_Arena.Classes
             {
                 currentAnimation = walkingAnimation;
             }
+            base.Draw(spriteBatch);
         }
 
         private void TeleportAbility()

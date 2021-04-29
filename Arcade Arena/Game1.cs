@@ -20,7 +20,8 @@ namespace Arcade_Arena
 
   
 
-        public Character Player;
+        public ProjectileCharacter Player;
+        public ProjectileCharacter projectileCharacter;
         TargetDummy target; // Test
         Lava lava;
 
@@ -111,8 +112,8 @@ namespace Arcade_Arena
                         switch (player.Type)
                         {
                             case Library.Player.ClassType.Wizard:
-                                spriteBatch.Draw(AssetManager.wizardSpriteSheet, new Vector2(player.XPosition, player.YPosition), source,
-                                    Color.White, 0f, Vector2.Zero, 5.0f, SpriteEffects.None, 1.0f);
+                             //   spriteBatch.Draw(AssetManager.wizardSpriteSheet, new Vector2(player.XPosition, player.YPosition), source,
+                              //      Color.White, 0f, Vector2.Zero, 5.0f, SpriteEffects.None, 1.0f);
                                 break;
                             case Library.Player.ClassType.Ogre:
                                 break;
@@ -130,6 +131,7 @@ namespace Arcade_Arena
                     else
                     {
                         Player.Draw(spriteBatch);
+                       // projectileCharacter.Draw(spriteBatch);
                         if (DoesNotCollide(Player))
                         {
                             

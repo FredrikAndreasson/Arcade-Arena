@@ -21,7 +21,10 @@ namespace Arcade_Arena
         protected double aimDirection;
 
         protected Vector2 middleOfSprite;
-
+        //public float rotation;
+        //public Vector2 weaponPosition;
+        //public Vector2 weaponOrigin;
+        //public float orbiterRotation = 0;
         public string Username { get; set; }
 
         public Character(Vector2 position, Texture2D texture, float speed, double direction) : base(position, texture, speed, direction)
@@ -40,6 +43,7 @@ namespace Arcade_Arena
                 position += velocity;
             }
         }
+
 
         //returnerar angle i grader
         protected double UpdateMovementDirection()
@@ -102,12 +106,6 @@ namespace Arcade_Arena
         {
             double newDirection = MathHelper.ToDegrees((float)Math.Atan2(MouseManager.mousePosition.Y - middleOfSprite.Y, MouseManager.mousePosition.X - middleOfSprite.X));
             return newDirection;
-        }
-
-        public virtual void Draw(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(texture, position, Color.White);
-            spriteBatch.Draw(AssetManager.targetDummy, position, Color.White);
         }
     }
 }
