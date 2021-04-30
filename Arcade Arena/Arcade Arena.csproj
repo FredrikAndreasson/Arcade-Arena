@@ -46,12 +46,16 @@
     <Compile Include="Ability.cs" />
     <Compile Include="AssetManager.cs" />
     <Compile Include="Character.cs" />
+    <Compile Include="Classes\Ogre.cs" />
     <Compile Include="Classes\TimeTraveler.cs" />
     <Compile Include="Classes\Wizard.cs" />
     <Compile Include="CringeObject.cs" />
     <Compile Include="Effect.cs" />
     <Compile Include="DynamicObject.cs" />
     <Compile Include="Game1.cs" />
+	<Compile Include="GameStates\FFAArenaState.cs" />
+	<Compile Include="GameStates\GameState.cs" />
+    <Compile Include="GameStates\MainMenuState.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="Lava.cs" />
     <Compile Include="Managers\AbilityManager.cs" />
