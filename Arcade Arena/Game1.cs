@@ -131,6 +131,8 @@ namespace Arcade_Arena
                                     Color.White, 0f, Vector2.Zero, 5.0f, SpriteEffects.None, 1.0f);
                                 break;
                             case Library.Player.ClassType.Ogre:
+                                spriteBatch.Draw(AssetManager.ogreSpriteSheet, new Vector2(player.XPosition, player.YPosition), source,
+                                    Color.White, 0f, Vector2.Zero, 5.0f, SpriteEffects.None, 1.0f);
                                 break;
                             case Library.Player.ClassType.Huntress:
                                 break;
