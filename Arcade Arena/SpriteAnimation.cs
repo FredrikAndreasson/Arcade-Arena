@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Arcade_Arena
 {
-    class SpriteAnimation
+    public class SpriteAnimation
     {
         private Texture2D texture;
         private Vector2 start;      // What index in the spritesheet the animation will start usually at 0,0 unless the spritesheet contains multiple animations

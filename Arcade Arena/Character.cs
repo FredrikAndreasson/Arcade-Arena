@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Arcade_Arena
 {
-    class Character : DynamicObject
+    public class Character : DynamicObject
     {
         protected SpriteAnimation currentAnimation;
 

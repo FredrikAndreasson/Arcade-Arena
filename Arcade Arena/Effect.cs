@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Arcade_Arena
 {
-    class Effect
+    public class Effect
     {
         public double timer;
 

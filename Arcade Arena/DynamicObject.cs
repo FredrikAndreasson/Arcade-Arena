@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Arcade_Arena
 {
-    class DynamicObject : GameObject
+    public class DynamicObject : GameObject
     {
         protected float speed;
         protected double direction;
