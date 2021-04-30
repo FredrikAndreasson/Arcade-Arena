@@ -48,9 +48,12 @@
     <Compile Include="CringeObject.cs" />
     <Compile Include="Effect.cs" />
     <Compile Include="DynamicObject.cs" />
+    <Compile Include="Game States\FFAArenaState.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GameObject.cs" />
+    <Compile Include="Game States\GameState.cs" />
     <Compile Include="Lava.cs" />
+    <Compile Include="Game States\MainMenu.cs" />
     <Compile Include="Managers\NetworkManager.cs" />
     <Compile Include="Managers\PlayerManager.cs" />
     <Compile Include="Managers\UserInterfaceManager.cs" />
