@@ -38,10 +38,10 @@ namespace Arcade_Arena.Classes
             speed = 1;
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update( )
         {
-            currentAnimation.Update(gameTime);
-            UpdateCooldowns(gameTime);
+            currentAnimation.Update();
+            UpdateCooldowns();
             //kanske ändra till "actionable" debuffs sen istället för att kolla om man är i varje ability
             if (!inGroundSmash && !inBodySlam)
             {
@@ -60,7 +60,7 @@ namespace Arcade_Arena.Classes
             if (inGroundSmash)
             {
 
-                groundSmashAnimation.Update(gameTime);
+                groundSmashAnimation.Update();
 
                 if (groundSmashAnimation.XIndex >= 4)
                 {
@@ -71,7 +71,7 @@ namespace Arcade_Arena.Classes
             }
             else if (inBodySlam)
             {
-                bodySlamAnimation.Update(gameTime);
+                bodySlamAnimation.Update();
                 if ((bodySlamCooldown <= 2f))
                 {
                     inBodySlam = false;
@@ -81,15 +81,15 @@ namespace Arcade_Arena.Classes
             }
             else
             {
-                base.Update(gameTime);
+                base.Update();
                 middleOfSprite = new Vector2(position.X + 35, position.Y + 60);
             }
         }
 
-        private void UpdateCooldowns(GameTime gameTime)
+        private void UpdateCooldowns( )
         {
-            groundSmashCooldown -= gameTime.ElapsedGameTime.TotalSeconds;
-            bodySlamCooldown -= gameTime.ElapsedGameTime.TotalSeconds;
+            groundSmashCooldown -= Game1.elapsedGameTimeSeconds;
+            bodySlamCooldown -= Game1.elapsedGameTimeSeconds;
         }
 
         public override void Draw(SpriteBatch spriteBatch)

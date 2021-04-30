@@ -75,7 +75,7 @@ namespace Arcade_Arena
 
         public virtual void Shoot()
         {
-            Projectile projectile = new Projectile(position, AssetManager.WizardWandProjectile, speed, direction);
+            Projectile projectile = new Projectile(0, 0, position, AssetManager.WizardWandProjectile, speed, direction);
             projectile.velocity = new Vector2((float)Math.Cos(orbiterRotation) * 10f, (float)Math.Sin(orbiterRotation) * 10f);
             projectile.position = (position - (new Vector2(-40,-58))) + projectile.velocity;
             projectile.projectileIsActive = true;
