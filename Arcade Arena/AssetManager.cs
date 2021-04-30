@@ -23,6 +23,11 @@ namespace Arcade_Arena
         public static Texture2D groundSmashCrackle { get; private set; }
 
 
+        public static Texture2D arcadeArenaLogo { get; private set; }
+        public static Texture2D quitButton { get; private set; }
+        public static Texture2D settingsButton { get; private set; }
+        public static Texture2D startButton { get; private set; }
+
 
         public static void LoadTextures(ContentManager Content)
         {
@@ -35,6 +40,10 @@ namespace Arcade_Arena
             WizardWandProjectile = Content.Load<Texture2D>("Classes\\WandProjectile");
             ogreSpriteSheet = Content.Load<Texture2D>("Classes\\OgreSpriteSheet");
             groundSmashCrackle = Content.Load<Texture2D>("Classes\\groundSmashCrackle");
+            arcadeArenaLogo = Content.Load<Texture2D>("MainMenu\\arcadeArenaLogo");
+            quitButton = Content.Load<Texture2D>("MainMenu\\quitButton");
+            settingsButton = Content.Load<Texture2D>("MainMenu\\settingsButton");
+            startButton = Content.Load<Texture2D>("MainMenu\\startButton");
 
             CooldownFont = Content.Load<SpriteFont>("Fonts\\CooldownFont");
             WizardAbilityIconSheet = Content.Load<Texture2D>("AbilityIcons\\WizardAbilityIconSheet");

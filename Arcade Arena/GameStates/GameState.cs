@@ -10,7 +10,12 @@ namespace Arcade_Arena
 {
     abstract class GameState
     {
+        protected GameWindow Window;
 
+        public GameState(GameWindow Window)
+        {
+            this.Window = Window;
+        }
 
 
         public abstract void Draw(SpriteBatch spritebatch);

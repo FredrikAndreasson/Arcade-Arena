@@ -17,16 +17,12 @@ namespace Arcade_Arena
         //multiplayer
         private NetworkManager networkManager;
         private PlayerManager playerManager;
-
         private UserInterfaceManager userInterfaceManager;
-
 
         private Wizard player;
         public static Lava lava;
 
-
-
-        public FFAArenaState(GameWindow Window, SpriteBatch spriteBatch)
+        public FFAArenaState(GameWindow Window, SpriteBatch spriteBatch) : base (Window)
         {
      
 
