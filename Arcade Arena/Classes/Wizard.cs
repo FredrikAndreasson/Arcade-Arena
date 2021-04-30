@@ -40,7 +40,7 @@ namespace Arcade_Arena.Classes
         {
             currentAnimation.Update();
             UpdateCooldowns();
-            UpdateWeapon(gameTime);
+            UpdateWeapon();
             if (!teleporting && !inIceBlock)
             {
                 if (Keyboard.GetState().IsKeyDown(Keys.E) && teleportCooldown <= 0)

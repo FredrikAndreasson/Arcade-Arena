@@ -26,7 +26,7 @@ namespace Arcade_Arena
             projectileList = new List<Projectile>();
         }
 
-        public void UpdateWeapon(GameTime gameTime)
+        public void UpdateWeapon()
         {
             weaponPosition.X = position.X + 50;
             weaponPosition.Y = position.Y + 60;
@@ -46,18 +46,18 @@ namespace Arcade_Arena
             //    orbiterRotation -= 0.1f;
             //}
 
-            cooldownTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            cooldownTimer += (float)Game1.elapsedGameTimeSeconds;
 
             if (cooldownTimer >= 0.1f && Keyboard.GetState().IsKeyDown(Keys.Space))
             {
                 Shoot();
                 cooldownTimer = 0;
             }
-            UpdateProjectile(gameTime);
+            UpdateProjectile();
 
         }
 
-        public void UpdateProjectile(GameTime gameTime)
+        public void UpdateProjectile()
         {
             foreach (Projectile projectile in projectileList)
             {

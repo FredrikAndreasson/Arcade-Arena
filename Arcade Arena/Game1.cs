@@ -93,7 +93,7 @@ namespace Arcade_Arena
 
             MouseKeyboardManager.Update();
 
-            player.Update(gameTime);
+            player.Update();
             
             base.Update(gameTime);
         }
