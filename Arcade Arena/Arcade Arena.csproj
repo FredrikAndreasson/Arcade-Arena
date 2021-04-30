@@ -42,6 +42,8 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Abilites\IceblockAbility.cs" />
+    <Compile Include="Ability.cs" />
     <Compile Include="AssetManager.cs" />
     <Compile Include="Character.cs" />
     <Compile Include="Classes\Wizard.cs" />
@@ -51,6 +53,7 @@
     <Compile Include="Game1.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="Lava.cs" />
+    <Compile Include="Managers\AbilityManager.cs" />
     <Compile Include="Managers\NetworkManager.cs" />
     <Compile Include="Managers\PlayerManager.cs" />
     <Compile Include="Managers\UserInterfaceManager.cs" />

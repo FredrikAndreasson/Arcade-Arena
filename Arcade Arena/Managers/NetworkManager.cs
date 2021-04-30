@@ -40,6 +40,13 @@ namespace Arcade_Arena.Managers
             outmsg.Write(Username);
             client.Connect("localhost", 14241, outmsg);
             return EstablishInfo();
+
+            //var outmsg1 = client.CreateMessage();
+            //outmsg1.Write(PacketType.ability);
+            //outmsg1.Write(hitplayer);
+            //outmsg1.Write(Ability);
+            //outmsg1.Write(ability.UserName);
+
         }
 
         private bool EstablishInfo()
