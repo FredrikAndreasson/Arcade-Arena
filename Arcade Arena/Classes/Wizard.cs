@@ -16,9 +16,11 @@ namespace Arcade_Arena.Classes
 
         private bool teleporting;
         private double teleportCooldown = 0;
+        private double teleportMaxCooldown = 6;
 
         private bool inIceBlock;
         private double iceBlockCooldown = 0;
+        private double iceBlockMaxCooldown = 10;
 
         private Vector2 newPosition;
 
@@ -31,7 +33,7 @@ namespace Arcade_Arena.Classes
             iceBlockWizardAnimation = new SpriteAnimation(texture, new Vector2(1, 2), new Vector2(1, 2), new Vector2(14, 20), new Vector2(7, 3), 1000);
             iceBlockAnimation = new SpriteAnimation(AssetManager.WizardIceBlock, new Vector2(0, 0), new Vector2(4, 0), new Vector2(14, 20), new Vector2(4, 0), 1000);
 
-            currentAnimation = backwardsAnimation;
+            ChangeAnimation(backwardsAnimation);
 
             speed = 1;
         }
@@ -46,12 +48,10 @@ namespace Arcade_Arena.Classes
                 if (Keyboard.GetState().IsKeyDown(Keys.E) && teleportCooldown <= 0)
                 {
                     TeleportAbility();
-                    teleportCooldown = 6;
                 }
                 else if (Keyboard.GetState().IsKeyDown(Keys.LeftShift) && iceBlockCooldown <= 0)
                 {
                     IceBlockAbility();
-                    iceBlockCooldown = 10;
                 }
             }
 
@@ -102,7 +102,7 @@ namespace Arcade_Arena.Classes
                 iceBlockAnimation.Draw(spriteBatch, position, 0.0f, Vector2.Zero, 5.0f);
             } else
             {
-                currentAnimation = walkingAnimation;
+                ChangeAnimation(walkingAnimation);
             }
             base.Draw(spriteBatch);
         }
@@ -110,7 +110,8 @@ namespace Arcade_Arena.Classes
         private void TeleportAbility()
         {
             teleporting = true;
-            currentAnimation = teleportInAnimation;
+            teleportCooldown = teleportMaxCooldown;
+            ChangeAnimation(teleportInAnimation);
             teleportOutAnimation.XIndex = 0;
             teleportInAnimation.XIndex = 0;
 
@@ -124,7 +125,8 @@ namespace Arcade_Arena.Classes
         private void IceBlockAbility()
         {
             inIceBlock = true;
-            currentAnimation = iceBlockWizardAnimation;
+            iceBlockCooldown = iceBlockMaxCooldown;
+            ChangeAnimation(iceBlockWizardAnimation);
             iceBlockAnimation.XIndex = 0;
         }
     }

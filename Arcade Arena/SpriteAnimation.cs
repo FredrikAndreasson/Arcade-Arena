@@ -83,6 +83,14 @@ namespace Arcade_Arena
             }
         }
 
+        public void StartAnimation()
+        {
+            XIndex = (int)start.X;
+            yIndex = (int)start.Y;
+            Loop = 0;
+            msSinceLastFrame = 0;
+        }
+
         public void Draw(SpriteBatch spriteBatch, Vector2 position, float rotation, Vector2 origin, float scale)
         {
             spriteBatch.Draw(texture, position, Source, Color.White, rotation, origin, scale, spriteFX, 1.0f);

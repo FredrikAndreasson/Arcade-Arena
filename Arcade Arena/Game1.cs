@@ -4,6 +4,8 @@ using Lidgren.Network;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Arcade_Arena
 {
@@ -23,6 +25,12 @@ namespace Arcade_Arena
 
         private Wizard player;
         public static Lava lava;
+
+        private List<Character> players = new List<Character>();
+        public ReadOnlyCollection<Character> PlayerList
+        {
+            get { return players.AsReadOnly(); }
+        }
 
         public Game1()
         {

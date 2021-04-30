@@ -57,15 +57,11 @@ namespace Arcade_Arena
 
         }
 
-        public void UpdateProjectile()
+        public virtual void UpdateProjectile()
         {
             foreach (Projectile projectile in projectileList)
             {
-                projectile.position += projectile.velocity;
-                if (Vector2.Distance(projectile.position, position) > 500)
-                {
-                    projectile.projectileIsActive = false;
-                }
+                projectile.Update();
             }
 
             for (int i = 0; i < projectileList.Count; i++)
@@ -77,7 +73,7 @@ namespace Arcade_Arena
             }
         }
 
-        public void Shoot()
+        public virtual void Shoot()
         {
             Projectile projectile = new Projectile(position, AssetManager.WizardWandProjectile, speed, direction);
             projectile.velocity = new Vector2((float)Math.Cos(orbiterRotation) * 10f, (float)Math.Sin(orbiterRotation) * 10f);

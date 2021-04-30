@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="AssetManager.cs" />
     <Compile Include="Character.cs" />
+    <Compile Include="Classes\TimeTraveler.cs" />
     <Compile Include="Classes\Wizard.cs" />
     <Compile Include="CringeObject.cs" />
     <Compile Include="Effect.cs" />

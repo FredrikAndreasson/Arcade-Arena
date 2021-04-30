@@ -11,14 +11,38 @@ namespace Arcade_Arena
 {
     class Projectile : DynamicObject
     {
-       public bool projectileIsActive;
-       public Vector2 velocity;
+        public bool projectileIsActive;
+        public Vector2 velocity;
+        public int damage;
+        double activeTimer;
 
-        public Projectile(Vector2 position, Texture2D texture, float speed, double direction) : base(position, texture, speed, direction)
+        public Projectile(int damage, double timer, Vector2 position, Texture2D texture, float speed, double direction) : base(position, texture, speed, direction)
         {
             projectileIsActive = false;
+            this.damage = damage;
+            activeTimer = timer;
         }
 
+        public void Update()
+        {
+            position += velocity;
+            activeTimer -= Game1.elapsedGameTimeSeconds;
+            if (activeTimer <= 0)
+            {
+                projectileIsActive = false;
+            }
+        }
+
+        public void CheckCollision()
+        {
+            foreach(Character player in Game1.PlayerList)
+            {
+                if (true)//check collision 
+                {
+
+                }
+            }
+        }
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {

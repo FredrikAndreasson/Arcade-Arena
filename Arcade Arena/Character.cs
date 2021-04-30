@@ -132,6 +132,12 @@ namespace Arcade_Arena
             return newDirection;
         }
 
+        protected void ChangeAnimation(SpriteAnimation newAnimation)
+        {
+            currentAnimation = newAnimation;
+            currentAnimation.StartAnimation();
+        }
+
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, position, Color.White);
