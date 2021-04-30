@@ -1,4 +1,6 @@
 ﻿
+using System.Collections.Generic;
+
 namespace Arcade_Arena.Library
 {
     public class Player
@@ -16,9 +18,11 @@ namespace Arcade_Arena.Library
 
         public string Username { get; set; }
 
-        public PlayerAnimation Animation { get; set; }
+        public Animation Animation { get; set; }
         public int XPosition { get; set; }
         public int YPosition { get; set; }
+
+        public List<AbilityOutline> abilities;
 
         public Player(string username, int xPosition, int yPosition)
         {
@@ -26,12 +30,14 @@ namespace Arcade_Arena.Library
             this.XPosition = xPosition;
             this.YPosition = yPosition;
 
-            Animation = new PlayerAnimation();
+            Animation = new Animation();
+            abilities = new List<AbilityOutline>();
         }
 
         public Player() 
         {
-            Animation = new PlayerAnimation();
+            Animation = new Animation();
+            abilities = new List<AbilityOutline>();
         }
     }
 }

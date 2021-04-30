@@ -1,7 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Arcade_Arena.Abilites;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
 
 namespace Arcade_Arena.Classes
 {
@@ -130,6 +132,10 @@ namespace Arcade_Arena.Classes
             ChangeAnimation(iceBlockWizardAnimation);
             iceBlockAnimation.XIndex = 0;
             iceBlockCooldown = 10;
+
+
+            Ability ability = new IceblockAbility(this);
+            abilityBuffer.Add(ability);
         }
     }
 }

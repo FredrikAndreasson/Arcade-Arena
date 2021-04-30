@@ -19,8 +19,10 @@ namespace Arcade_Arena.Server
                     return new AllPlayersCommand();
                 case PacketType.Input:
                     return new InputCommand();
-                //case PacketType.Kick:
-                //    return new KickPlayerCommand();
+                case PacketType.Ability:
+                    return new AbilityCommand();
+                    //case PacketType.Kick:
+                    //    return new KickPlayerCommand();
             }
             throw new ArgumentOutOfRangeException("packetType");
         }

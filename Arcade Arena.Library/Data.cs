@@ -6,5 +6,7 @@
     Input,
     Kick,
     CharacterSelect,
-    ShrinkLava
+    ShrinkLava,
+    Ability,
+    DeleteAbility
 }

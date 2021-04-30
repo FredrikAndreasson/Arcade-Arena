@@ -33,17 +33,6 @@ namespace Arcade_Arena
             }
         }
 
-        public void CheckCollision()
-        {
-            foreach(Character player in Game1.PlayerList)
-            {
-                if (true)//check collision 
-                {
-
-                }
-            }
-        }
-
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, position, null, Color.White, 0, Vector2.Zero, 6, SpriteEffects.None, 1);

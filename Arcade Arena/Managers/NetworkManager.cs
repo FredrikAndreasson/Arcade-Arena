@@ -38,6 +38,7 @@ namespace Arcade_Arena.Managers
             var outmsg = client.CreateMessage();
             outmsg.Write((byte)PacketType.Login);
             outmsg.Write(Username);
+            outmsg.Write((byte)Player.ClassType.Wizard);
             client.Connect("localhost", 14241, outmsg);
             return EstablishInfo();
 
@@ -150,10 +151,70 @@ namespace Arcade_Arena.Managers
                 case PacketType.ShrinkLava:
                     UpdateLava(inc);
                     break;
-                    
+
+                case PacketType.Ability:
+                    RecieveAbility(inc);
+                    break;
+
 
                 default:
                     break;
+            }
+        }
+
+        public void SendAbility(Ability ability, byte ID)
+        {
+            var outmsg = client.CreateMessage();
+            outmsg.Write((byte)PacketType.Ability);
+            outmsg.Write(Username);
+            outmsg.Write(ID);
+            outmsg.Write((byte)(ability.Type));
+            outmsg.Write((int)ability.Position.X);
+            outmsg.Write((int)ability.Position.Y);
+            outmsg.Write(ability.CurrentAnimation.Source.X);
+            outmsg.Write(ability.CurrentAnimation.Source.Y);
+            outmsg.Write(ability.CurrentAnimation.Source.Width);
+            outmsg.Write(ability.CurrentAnimation.Source.Height);
+
+            client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
+        }
+
+        public void RecieveAbility(NetIncomingMessage inc)
+        {
+            var name = inc.ReadString();
+            byte ID = inc.ReadByte();
+            if (Players.Any(p => p.Username == name))
+            {
+                var oldPlayer = Players.FirstOrDefault(p => p.Username == name);
+                if (oldPlayer.abilities.Any(a => a.ID == ID))
+                {
+                    var oldAbility = oldPlayer.abilities.FirstOrDefault(a => a.ID == ID);
+                    oldAbility.UserName = name;
+                    oldAbility.ID = ID;
+                    oldAbility.Type = (AbilityOutline.AbilityType)inc.ReadByte();
+                    oldAbility.XPosition = inc.ReadInt32();
+                    oldAbility.YPosition = inc.ReadInt32();
+                    oldAbility.Animation.XRecPos = inc.ReadInt32();
+                    oldAbility.Animation.YRecPos = inc.ReadInt32();
+                    oldAbility.Animation.Width = inc.ReadInt32();
+                    oldAbility.Animation.Height = inc.ReadInt32();
+                }
+                else
+                {
+                    var newAbility = new AbilityOutline();
+                    newAbility.UserName = name;
+                    newAbility.ID = ID;
+                    newAbility.Type = (AbilityOutline.AbilityType)inc.ReadByte();
+                    newAbility.XPosition = inc.ReadInt32();
+                    newAbility.YPosition = inc.ReadInt32();
+                    newAbility.Animation.XRecPos = inc.ReadInt32();
+                    newAbility.Animation.YRecPos = inc.ReadInt32();
+                    newAbility.Animation.Width = inc.ReadInt32();
+                    newAbility.Animation.Height = inc.ReadInt32();
+
+                    oldPlayer.abilities.Add(newAbility);
+                }
+               
             }
         }
 

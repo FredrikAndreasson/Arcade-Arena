@@ -89,6 +89,8 @@ namespace Arcade_Arena
             yIndex = (int)start.Y;
             Loop = 0;
             msSinceLastFrame = 0;
+
+            //Denna metoden kallas varje frame, vilket i sin tur gör så att man aldrig kommer att kunna gå igenom sin walk animation
         }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 position, float rotation, Vector2 origin, float scale)
