@@ -18,7 +18,7 @@ namespace Arcade_Arena.Server
             playerAndConnection.Player.Animation.YRecPos = inc.ReadInt32();
             playerAndConnection.Player.Animation.Height = inc.ReadInt32();
             playerAndConnection.Player.Animation.Width = inc.ReadInt32();
-
+            playerAndConnection.Player.intersectingLava = inc.ReadBoolean();
 
             if (playerAndConnection == null)
             {

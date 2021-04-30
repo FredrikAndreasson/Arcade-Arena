@@ -23,9 +23,11 @@ namespace Arcade_Arena
 
         public List<Effect> EffectList = new List<Effect>();
 
+        public bool intersectingLava = false;
+
         public Character(Vector2 position, Texture2D texture, float speed, double direction) : base(position, texture, speed, direction)
         {
-
+            
         }
 
         public SpriteAnimation CurrentAnimation => currentAnimation;
@@ -143,5 +145,24 @@ namespace Arcade_Arena
             spriteBatch.Draw(texture, position, Color.White);
             spriteBatch.Draw(AssetManager.TargetDummy, position, Color.White);
         }
+
+        public void CheckLavaCollision(Lava lava)
+        {
+            Color[] pixels = new Color[14 * 20];
+            Color[] pixels2 = new Color[14 * 20];
+            texture.GetData<Color>(pixels2);
+            lava.renderTarget.GetData(0, new Rectangle(new Point((int)position.X, (int)position.Y), new Point(14, 20)), pixels, 0, pixels.Length);
+            for (int i = 0; i < pixels.Length; ++i)
+            {
+                if (pixels[i].A > 0.0f && pixels2[i].A > 0.0f)
+                {
+                    intersectingLava = true;
+                    return;
+                }
+                    
+            }
+            intersectingLava = false;
+        }
+
     }
 }

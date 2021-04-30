@@ -20,6 +20,8 @@ namespace Arcade_Arena.Library
         public int XPosition { get; set; }
         public int YPosition { get; set; }
 
+        public bool intersectingLava { get; set; }
+
         public Player(string username, int xPosition, int yPosition)
         {
             this.Username = username;
