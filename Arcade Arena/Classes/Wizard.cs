@@ -114,6 +114,7 @@ namespace Arcade_Arena.Classes
             ChangeAnimation(teleportInAnimation);
             teleportOutAnimation.XIndex = 0;
             teleportInAnimation.XIndex = 0;
+            teleportCooldown = 6;
 
             Vector2 teleportVelocity;
             teleportVelocity.Y = (float)(Math.Sin(MathHelper.ToRadians((float)aimDirection)) * speed);
@@ -128,6 +129,7 @@ namespace Arcade_Arena.Classes
             iceBlockCooldown = iceBlockMaxCooldown;
             ChangeAnimation(iceBlockWizardAnimation);
             iceBlockAnimation.XIndex = 0;
+            iceBlockCooldown = 10;
         }
     }
 }
