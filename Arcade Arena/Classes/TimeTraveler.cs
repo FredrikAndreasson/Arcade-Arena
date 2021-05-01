@@ -6,16 +6,21 @@ using System;
 
 namespace Arcade_Arena.Classes
 {
-    class TimeTraveler : Character
+    public class TimeTraveler : Character
     {
         SpriteAnimation walkingAnimation;
 
         private double timeZoneCooldown = 0;
         private bool doingTimeZone = false;
+        private double timeZoneMaxCooldown = 10;
 
         private double timeTravelCooldown = 0;
         private bool doingTimeTravel = false;
+        private double timeTravelMaxCooldown = 10;
 
+        private double timeZoneTimer = 10;
+
+        List<TimeZone> timeZones = new List<TimeZone>();
         List<Vector2> previousPositions = new List<Vector2>(); //för time travel
 
         public TimeTraveler(Vector2 position, Texture2D texture, float speed, double direction) : base(position, texture, speed, direction)
@@ -33,6 +38,7 @@ namespace Arcade_Arena.Classes
             {
                 previousPositions.Add(new Vector2(position.X, position.Y));
             }
+            UpdateTimeZones();
             currentAnimation.Update();
             UpdateCooldowns();
             if (!doingTimeTravel && !doingTimeZone)
@@ -71,6 +77,15 @@ namespace Arcade_Arena.Classes
             }
         }
 
+        private void UpdateTimeZones()
+        {
+            List<TimeZone> tempList = new List<TimeZone>(timeZones);
+            foreach (TimeZone timeZone in tempList)
+            {
+                timeZone.Update();
+            }
+        }
+
         private void UpdateCooldowns()
         {
             timeTravelCooldown -= Game1.elapsedGameTimeSeconds;
@@ -79,18 +94,32 @@ namespace Arcade_Arena.Classes
 
         void TimeTravelAbility()
         {
-            timeTravelCooldown = 10;
+            doingTimeTravel = true;
+            timeTravelCooldown = timeTravelMaxCooldown;
         }
 
         void TimeZoneAbility()
         {
-            timeZoneCooldown = 10;
+            doingTimeZone = true;
+            timeZoneCooldown = timeZoneMaxCooldown;
+            TimeZone newTimeZone = new TimeZone(timeZoneTimer, this, position, AssetManager.TimeTravelerTimeZone);
+            timeZones.Add(newTimeZone);
+        }
+
+        public void RemoveTimeZoneFromList(TimeZone timeZone)
+        {
+            timeZones.Remove(timeZone);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             currentAnimation.Draw(spriteBatch, position, 0.0f, Vector2.Zero, 5.0f);
             currentAnimation = walkingAnimation;
+
+            foreach (TimeZone timeZone in timeZones)
+            {
+                timeZone.Draw(spriteBatch);
+            }
         }
     }
 }
