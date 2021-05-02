@@ -32,6 +32,10 @@ namespace Arcade_Arena.Abilites
         public override void Update()
         {
             currentAnimation.Update();
+            if (currentAnimation.Loop > 0)
+            {
+                isDead = true;
+            }
         }
     }
 }

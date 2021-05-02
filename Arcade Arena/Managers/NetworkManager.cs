@@ -156,6 +156,10 @@ namespace Arcade_Arena.Managers
                     RecieveAbility(inc);
                     break;
 
+                case PacketType.DeleteAbility:
+                    ReadAbilityToDelete(inc);
+                    break;
+
 
                 default:
                     break;
@@ -177,6 +181,44 @@ namespace Arcade_Arena.Managers
             outmsg.Write(ability.CurrentAnimation.Source.Height);
 
             client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
+        }
+
+        //Deletes the client ability and then sends a message to the server to also delete that ability
+        public void DeleteLocalAbility(byte ID)
+        {
+            DeleteAbility(ID, Username);
+
+            var outmsg = client.CreateMessage();
+            outmsg.Write((byte)PacketType.DeleteAbility);
+            outmsg.Write(Username);
+            outmsg.Write(ID);
+
+            client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
+        }
+
+
+
+        private void DeleteAbility(byte ID, string username)
+        {
+            var player = Players.FirstOrDefault(p => p.Username == username);
+            if (player != null)
+            {
+                for (int i = 0; i < player.abilities.Count; i++)
+                {
+                    if (player.abilities[i].ID == ID)
+                    {
+                        player.abilities.RemoveAt(i);
+                        i--;
+                    }
+                }
+            }
+        }
+
+        private void ReadAbilityToDelete(NetIncomingMessage inc)
+        {
+            string username = inc.ReadString();
+            byte ID = inc.ReadByte();
+            DeleteAbility(ID, username);
         }
 
         public void RecieveAbility(NetIncomingMessage inc)

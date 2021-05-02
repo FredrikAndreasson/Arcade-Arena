@@ -39,6 +39,8 @@ namespace Arcade_Arena.Managers
                 playerManager.clientPlayer.abilityBuffer.RemoveAt(i);
                 i--;
             }
+
+            AbilityDeletionCheck();
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -60,6 +62,18 @@ namespace Arcade_Arena.Managers
             }
         }
 
+        private void AbilityDeletionCheck()
+        {
+            for (int i = 0; i < abilities.Count; i++)
+            {
+                if (abilities[i].IsDead)
+                {
+                    networkManager.DeleteLocalAbility((byte)i);
+                    abilities.RemoveAt(i);
+                    i--;
+                }
+            }
+        }
         public void CreateAbility(Ability ability)
         {
             ability.Username = networkManager.Username;
