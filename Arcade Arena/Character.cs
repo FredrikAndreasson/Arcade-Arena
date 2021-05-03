@@ -69,6 +69,16 @@ namespace Arcade_Arena
             walking = true;
         }
 
+        public void AddEffect(Effect newEffect)
+        {
+            EffectList.Add(newEffect);
+        }
+
+        public void RemoveEffect(Effect effect)
+        {
+            EffectList.Remove(effect);
+        }
+
         //returnerar angle i grader
         protected double UpdateMovementDirection()
         {

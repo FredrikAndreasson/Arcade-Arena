@@ -169,30 +169,6 @@
 /processorParam:TextureFormat=Color
 /build:Classes/IceBlock.png
 
-#begin Classes/knight/KnightSpriteSheet.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Classes/knight/KnightSpriteSheet.png
-
-#begin Classes/knight/KnightSpriteSheet.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Classes/knight/KnightSpriteSheet.png
-
 #begin Classes/Knight/KnightSpriteSheet.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -204,30 +180,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Classes/Knight/KnightSpriteSheet.png
-
-#begin Classes/knight/Shield.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Classes/knight/Shield.png
-
-#begin Classes/knight/Shield.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Classes/knight/Shield.png
 
 #begin Classes/Knight/Shield.png
 /importer:TextureImporter
@@ -415,6 +367,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:LavaSprite/Lava.png
+
+#begin Obstacles/LargeBox.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Obstacles/LargeBox.png
+
+#begin Obstacles/SmallBox.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Obstacles/SmallBox.png
 
 #begin TargetDummy.png
 /importer:TextureImporter

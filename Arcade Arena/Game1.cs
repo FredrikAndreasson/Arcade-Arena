@@ -4,6 +4,7 @@ using Lidgren.Network;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -13,6 +14,7 @@ namespace Arcade_Arena
     {
         public static GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        static Random random = new Random();
 
         public static double elapsedGameTimeSeconds { get; private set; }
         public static double elapsedGameTimeMilliseconds { get; private set; }
@@ -68,6 +70,11 @@ namespace Arcade_Arena
             base.Update(gameTime);
         }
 
+        public static int GenerateRandomNumber(int min, int max)
+        {
+            return random.Next(min, max);
+        }
+
         protected override void Draw(GameTime gameTime)
         {
 
@@ -75,9 +82,5 @@ namespace Arcade_Arena
 
             base.Draw(gameTime);
         }
-
-       
-
-
     }
 }
