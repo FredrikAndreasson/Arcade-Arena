@@ -301,7 +301,7 @@ namespace Arcade_Arena.Managers
 
         private void UpdateLava(NetIncomingMessage inc)
         {
-            Game1.lava.ShrinkPlatform(inc.ReadInt16());
+            FFAArenaState.lava.ShrinkPlatform(inc.ReadInt16());
         }
         
 

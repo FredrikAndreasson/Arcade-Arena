@@ -3,112 +3,85 @@ using Arcade_Arena.Managers;
 using Lidgren.Network;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Arcade_Arena
 {
-    public class Game1 : Game
+    class FFAArenaState : GameState
     {
-        public static GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-//ability-and-server-sync
 
         //multiplayer
         private NetworkManager networkManager;
         private PlayerManager playerManager;
-        private AbilityManager abilityManager;
-        
+
         private UserInterfaceManager userInterfaceManager;
-//=======
-        static Random random = new Random();
-//main
 
-        public static double elapsedGameTimeSeconds { get; private set; }
-        public static double elapsedGameTimeMilliseconds { get; private set; }
+
+        private Wizard player;
+        public static Lava lava;
 
 
 
-        FFAArenaState gameState;
-        
-        public Game1()
+        public FFAArenaState(GameWindow Window, SpriteBatch spriteBatch)
         {
-            graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
-            this.IsMouseVisible = true;
+     
 
-            graphics.PreferredBackBufferHeight = 720;
-            graphics.PreferredBackBufferWidth = 1080;
-            graphics.ApplyChanges();
-        }
+            networkManager = new NetworkManager();
 
-   
-        protected override void LoadContent()
-        {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-            AssetManager.LoadTextures(Content);
-
-            gameState = new FFAArenaState(Window, spriteBatch);
-
-//ability-and-server-sync
-            player = new Wizard(new Vector2(Window.ClientBounds.Width/2, Window.ClientBounds.Height/2), AssetManager.WizardSpriteSheet, 3f, 0.0);
+            player = new Wizard(new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2), AssetManager.WizardSpriteSheet, 3f, 0.0);
             lava = new Lava(Game1.graphics.GraphicsDevice, 400);
-
             playerManager = new PlayerManager(networkManager, player);
-            abilityManager = new AbilityManager(networkManager, playerManager);
             userInterfaceManager = new UserInterfaceManager(networkManager, Window);
-
             lava.DrawRenderTarget(spriteBatch);
-//=======
-// main
+
+            Intitialize();
 
         }
 
-        protected override void Initialize()
+       
+
+        bool DoesNotCollide(Wizard g)
         {
-
-            
-
-
-            base.Initialize();
+            Color[] pixels = new Color[g.texture.Width * g.texture.Height];
+            Color[] pixels2 = new Color[g.texture.Width * g.texture.Height];
+            g.texture.GetData<Color>(pixels2);
+            lava.renderTarget.GetData(0, new Rectangle(g.position.ToPoint(), new Point(g.texture.Width, g.texture.Height)), pixels, 0, pixels.Length);
+            for (int i = 0; i < pixels.Length; ++i)
+            {
+                if (pixels[i].A > 0.0f && pixels2[i].A > 0.0f)
+                    return false;
+            }
+            return true;
         }
 
-        protected override void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
 
-            elapsedGameTimeSeconds = gameTime.ElapsedGameTime.TotalSeconds;
-            elapsedGameTimeMilliseconds = gameTime.ElapsedGameTime.TotalMilliseconds;
 
-//ability-and-server-sync
             networkManager.Active = networkManager.Status == NetConnectionStatus.Connected;
 
             networkManager.Update();
             playerManager.UpdatePlayer();
-            abilityManager.Update();
             userInterfaceManager.Update(gameTime);
 
-//=======
-// main
             MouseKeyboardManager.Update();
 
-            gameState.Update(gameTime);
-       
-            base.Update(gameTime);
+            player.Update();
         }
 
-        public static int GenerateRandomNumber(int min, int max)
+        private void Intitialize()
         {
-            return random.Next(min, max);
+            networkManager.Start();
         }
 
-        protected override void Draw(GameTime gameTime)
+
+        public override void Draw(SpriteBatch spriteBatch)
         {
-//ability-and-server-sync
-            GraphicsDevice.Clear(networkManager.Active ? Color.Green : Color.Red);
+            Game1.graphics.GraphicsDevice.Clear(networkManager.Active ? Color.Green : Color.Red);
 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp);
 
@@ -116,7 +89,6 @@ namespace Arcade_Arena
             {
                 lava.Draw(spriteBatch);
                 userInterfaceManager.Draw(spriteBatch);
-
 
                 foreach (var player in networkManager.Players)
                 {
@@ -132,6 +104,8 @@ namespace Arcade_Arena
                                     Color.White, 0f, Vector2.Zero, 5.0f, SpriteEffects.None, 1.0f);
                                 break;
                             case Library.Player.ClassType.Ogre:
+                                spriteBatch.Draw(AssetManager.ogreSpriteSheet, new Vector2(player.XPosition, player.YPosition), source,
+                                    Color.White, 0f, Vector2.Zero, 5.0f, SpriteEffects.None, 1.0f);
                                 break;
                             case Library.Player.ClassType.Huntress:
                                 break;
@@ -151,19 +125,15 @@ namespace Arcade_Arena
                         {
 
                         }
-                       
                     }
-                    abilityManager.Draw(spriteBatch);
                 }
             }
-           // spriteBatch.Draw(AssetManager.lava, new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2), null, Color.White, 0.0f, new Vector2(AssetManager.lava.Width / 2, AssetManager.lava.Height / 2), 1.0f, SpriteEffects.None, 1.0f);
-            
-//=======
-//main
+            // spriteBatch.Draw(AssetManager.lava, new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2), null, Color.White, 0.0f, new Vector2(AssetManager.lava.Width / 2, AssetManager.lava.Height / 2), 1.0f, SpriteEffects.None, 1.0f);
 
-            gameState.Draw(spriteBatch);
 
-            base.Draw(gameTime);
+            spriteBatch.End();
+
         }
+
     }
 }
