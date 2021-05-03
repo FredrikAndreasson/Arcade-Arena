@@ -9,28 +9,27 @@ using System.Threading.Tasks;
 
 namespace Arcade_Arena.Server.Commands
 {
-    class AbilityCommand : ICommand
+    class AbilityCreationCommand : ICommand
     {
         public void Run(ManagerLogger managerLogger, Server server, NetIncomingMessage inc, PlayerAndConnection playerAndConnection, List<PlayerAndConnection> players)
         {
-            managerLogger.AddLogMessage("Server", "Received ability");
+            managerLogger.AddLogMessage("Create", "Received ability");
             var name = inc.ReadString();
             playerAndConnection = players.FirstOrDefault(p => p.Player.Username == name);
             if (playerAndConnection == null)
             {
-                managerLogger.AddLogMessage("Server", string.Format("Didn't find player associated with that name: {0}", name));
+                managerLogger.AddLogMessage("Create", string.Format("Didn't find player associated with that name: {0}", name));
                 return;
             }
             Byte ID = inc.ReadByte();
 
             //this ability will be sent out to all the clients 
-            var outAbility = new AbilityOutline();
+            var ability = new AbilityOutline();
 
             //Check if the ability already exists
             var existingAbility = playerAndConnection.Player.abilities.FirstOrDefault(a => a.UserName == name);
-            if ( existingAbility == null || existingAbility.ID != ID) // if it doesnt exist go ahead and create a new one
+            if (existingAbility == null || existingAbility.ID != ID) // if it doesnt exist go ahead and create a new one
             {
-                var ability = new AbilityOutline();
                 ability.UserName = name;
                 ability.ID = ID;
                 ability.Type = (AbilityOutline.AbilityType)inc.ReadByte();
@@ -42,35 +41,25 @@ namespace Arcade_Arena.Server.Commands
                 ability.Animation.Height = inc.ReadInt32();
 
                 playerAndConnection.Player.abilities.Add(ability);
-                outAbility = ability;
-            }
-            else // if it did exist go ahead and update it
-            {
-                existingAbility.Type = (AbilityOutline.AbilityType)inc.ReadByte();
-                existingAbility.XPosition = inc.ReadInt32();
-                existingAbility.YPosition = inc.ReadInt32();
-                existingAbility.Animation.XRecPos = inc.ReadInt32();
-                existingAbility.Animation.YRecPos = inc.ReadInt32();
-                existingAbility.Animation.Width = inc.ReadInt32();
-                existingAbility.Animation.Height = inc.ReadInt32();
-                outAbility = existingAbility;
-            }
 
-
+                managerLogger.AddLogMessage("Create", "Added new ability");
+            }
 
             //Send ability to all the clients...
-            
+
             var outmsg = server.NetServer.CreateMessage();
-            outmsg.Write((byte)PacketType.Ability);
-            outmsg.Write(outAbility.UserName);
-            outmsg.Write(outAbility.ID);
-            outmsg.Write((byte)outAbility.Type);
-            outmsg.Write(outAbility.XPosition);
-            outmsg.Write(outAbility.YPosition);
-            outmsg.Write(outAbility.Animation.XRecPos);
-            outmsg.Write(outAbility.Animation.YRecPos);
-            outmsg.Write(outAbility.Animation.Width);
-            outmsg.Write(outAbility.Animation.Height);
+            outmsg.Write((byte)PacketType.AbilityCreate);
+            outmsg.Write(ability.UserName);
+            outmsg.Write(ability.ID);
+            outmsg.Write((byte)ability.Type);
+            outmsg.Write(ability.XPosition);
+            outmsg.Write(ability.YPosition);
+            outmsg.Write(ability.Animation.XRecPos);
+            outmsg.Write(ability.Animation.YRecPos);
+            outmsg.Write(ability.Animation.Width);
+            outmsg.Write(ability.Animation.Height);
+
+            managerLogger.AddLogMessage("Create", "Sending new ability to clients");
 
             server.NetServer.SendToAll(outmsg, NetDeliveryMethod.ReliableOrdered);
         }

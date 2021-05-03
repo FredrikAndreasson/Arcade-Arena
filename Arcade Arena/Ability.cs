@@ -18,7 +18,7 @@ namespace Arcade_Arena
 
         public Ability()
         {
-            
+            isDead = false;
         }
 
         public string Username { get; set; }

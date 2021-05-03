@@ -4,9 +4,9 @@
     PlayerPosition,
     AllPlayers,
     Input,
-    Kick,
     CharacterSelect,
     ShrinkLava,
-    Ability,
-    DeleteAbility
+    AbilityCreate,
+    AbilityUpdate,
+    AbilityDelete
 }

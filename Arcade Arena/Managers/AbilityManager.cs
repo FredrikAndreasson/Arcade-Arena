@@ -30,7 +30,7 @@ namespace Arcade_Arena.Managers
             foreach (Ability ability in abilities)
             {
                 ability.Update();
-                networkManager.SendAbility(ability, (byte)abilities.Count);
+                networkManager.SendAbilityUpdate(ability, (byte)(abilities.Count-1));
             }
 
             for (int i = 0; i < playerManager.clientPlayer.abilityBuffer.Count; i++)
@@ -64,13 +64,12 @@ namespace Arcade_Arena.Managers
 
         private void AbilityDeletionCheck()
         {
-            for (int i = 0; i < abilities.Count; i++)
+            for (int i = abilities.Count-1; i >= 0; i--)
             {
                 if (abilities[i].IsDead)
                 {
-                    networkManager.DeleteLocalAbility((byte)i);
                     abilities.RemoveAt(i);
-                    i--;
+                    networkManager.DeleteLocalAbility((byte)i);
                 }
             }
         }
@@ -78,7 +77,7 @@ namespace Arcade_Arena.Managers
         {
             ability.Username = networkManager.Username;
             abilities.Add(ability);
-            networkManager.SendAbility(ability, (byte)abilities.Count);
+            networkManager.SendAbility(ability, (byte)(abilities.Count-1));
         }
 
         private void DrawAbility(SpriteBatch spriteBatch, AbilityOutline ability, Player.ClassType playerType)
@@ -90,7 +89,7 @@ namespace Arcade_Arena.Managers
                     if (ability.Type == AbilityOutline.AbilityType.AbilityOne)
                     {
                         spriteBatch.Draw(AssetManager.WizardIceBlock, new Vector2(ability.XPosition, ability.YPosition), source, Color.White, 0.0f,
-                            Vector2.Zero, 3.0f, SpriteEffects.None, 1.0f);
+                            Vector2.Zero, 5.0f, SpriteEffects.None, 1.0f);
                     }
                     else if (ability.Type == AbilityOutline.AbilityType.AbilityTwo)
                     {

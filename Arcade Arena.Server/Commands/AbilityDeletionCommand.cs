@@ -12,6 +12,7 @@ namespace Arcade_Arena.Server.Commands
     {
         public void Run(ManagerLogger managerLogger, Server server, NetIncomingMessage inc, PlayerAndConnection playerAndConnection, List<PlayerAndConnection> players)
         {
+            managerLogger.AddLogMessage("Deletion", "Received ability to delete");
             string username = inc.ReadString();
             byte ID = inc.ReadByte();
 
@@ -25,14 +26,19 @@ namespace Arcade_Arena.Server.Commands
                         player.Player.abilities.RemoveAt(i);
                         i--;
 
+                        managerLogger.AddLogMessage("Deletion", "Sending ability to delete to clients");
                         var outmsg = server.NetServer.CreateMessage();
-                        outmsg.Write((byte)PacketType.DeleteAbility);
+                        outmsg.Write((byte)PacketType.AbilityDelete);
                         outmsg.Write(username);
                         outmsg.Write(ID);
 
                         server.NetServer.SendToAll(outmsg, NetDeliveryMethod.ReliableOrdered);
                     }
                 }
+            }
+            else
+            {
+                managerLogger.AddLogMessage("Deletion", "Did not find a player associated with that ability");
             }
         }
     }
