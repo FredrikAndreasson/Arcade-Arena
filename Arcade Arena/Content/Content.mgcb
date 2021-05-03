@@ -301,6 +301,18 @@
 /processorParam:TextureFormat=Color
 /build:Classes/Wizard/IceBlock.png
 
+#begin Classes/Wizard/MageWand.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Classes/Wizard/MageWand.png
+
 #begin Classes/Wizard/WandProjectile.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -336,18 +348,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Classes/Wizard/WizardSpriteSheet.png
-
-#begin Classes/Wizard/WizardWand.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Classes/Wizard/WizardWand.png
 
 #begin Fonts/CooldownFont.spritefont
 /importer:FontDescriptionImporter

@@ -17,6 +17,7 @@ namespace Arcade_Arena
         //multiplayer
         private NetworkManager networkManager;
         private PlayerManager playerManager;
+        private AbilityManager abilityManager;
 
         private UserInterfaceManager userInterfaceManager;
 
@@ -35,6 +36,8 @@ namespace Arcade_Arena
             player = new Wizard(new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2), AssetManager.WizardSpriteSheet, 3f, 0.0);
             lava = new Lava(Game1.graphics.GraphicsDevice, 400);
             playerManager = new PlayerManager(networkManager, player);
+            abilityManager = new AbilityManager(networkManager, playerManager);
+
             userInterfaceManager = new UserInterfaceManager(networkManager, Window);
             lava.DrawRenderTarget(spriteBatch);
 
@@ -66,6 +69,7 @@ namespace Arcade_Arena
 
             networkManager.Update();
             playerManager.UpdatePlayer();
+            abilityManager.Update();
             userInterfaceManager.Update(gameTime);
 
             MouseKeyboardManager.Update();
@@ -127,6 +131,7 @@ namespace Arcade_Arena
                         }
                     }
                 }
+                abilityManager.Draw(spriteBatch);
             }
             // spriteBatch.Draw(AssetManager.lava, new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2), null, Color.White, 0.0f, new Vector2(AssetManager.lava.Width / 2, AssetManager.lava.Height / 2), 1.0f, SpriteEffects.None, 1.0f);
 
