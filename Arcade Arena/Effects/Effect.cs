@@ -26,12 +26,12 @@ namespace Arcade_Arena
         public virtual void OnGetEffect(Character character, double timer)
         {
             this.timer = timer;
-            character.EffectList.Add(this);
+            character.AddEffect(this);
         }
 
         public virtual void OnLossEffect(Character character)
         {
-            character.EffectList.Remove(this);
+            character.RemoveEffect(this);
         }
     }
 }

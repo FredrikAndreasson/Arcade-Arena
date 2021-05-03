@@ -13,6 +13,9 @@ namespace Arcade_Arena
 
         public static Texture2D HealthBar { get; private set; }
 
+        public static Texture2D SmallBox { get; private set; }
+        public static Texture2D LargeBox { get; private set; }
+
         public static Texture2D WizardSpriteSheet { get; private set; }
         public static Texture2D WizardHandSpriteSheet { get; private set; }
         public static Texture2D WizardIceBlock { get; private set; }
@@ -52,6 +55,9 @@ namespace Arcade_Arena
             TargetDummy = Content.Load<Texture2D>("TargetDummy");
             Lava = Content.Load<Texture2D>("LavaSprite\\Lava");
             HealthBar = Content.Load<Texture2D>("UI\\HealthBar");
+
+            SmallBox = Content.Load<Texture2D>("Obstacles\\SmallBox");
+            LargeBox = Content.Load<Texture2D>("Obstacles\\LargeBox");
 
             WizardSpriteSheet = Content.Load<Texture2D>("Classes\\Wizard\\WizardSpriteSheet");
             WizardIceBlock = Content.Load<Texture2D>("Classes\\Wizard\\IceBlock");
