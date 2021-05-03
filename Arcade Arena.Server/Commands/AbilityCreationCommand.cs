@@ -41,8 +41,6 @@ namespace Arcade_Arena.Server.Commands
                 ability.Animation.Height = inc.ReadInt32();
 
                 playerAndConnection.Player.abilities.Add(ability);
-
-                managerLogger.AddLogMessage("Create", "Added new ability");
             }
 
             //Send ability to all the clients...

@@ -40,6 +40,8 @@ namespace Arcade_Arena.Classes
             speed = 1;
         }
 
+        public bool Teleporting => teleporting;
+
         public override void Update()
         {
             currentAnimation.Update();
@@ -123,6 +125,9 @@ namespace Arcade_Arena.Classes
             teleportVelocity.X = (float)(Math.Cos(MathHelper.ToRadians((float)aimDirection)) * speed);
 
             newPosition = position + (teleportVelocity * 100);
+
+            Ability ability = new TeleportAbility(this, newPosition);
+            abilityBuffer.Add(ability);
         }
 
         private void IceBlockAbility()

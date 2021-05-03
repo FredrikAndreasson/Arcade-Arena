@@ -32,8 +32,6 @@ namespace Arcade_Arena.Server.Commands
                 ability.Animation.YRecPos = inc.ReadInt32();
                 ability.Animation.Width = inc.ReadInt32();
                 ability.Animation.Height = inc.ReadInt32();
-
-                managerLogger.AddLogMessage("Update", "Updated ability");
             }
 
 

@@ -94,7 +94,7 @@ namespace Arcade_Arena.Managers
                     else if (ability.Type == AbilityOutline.AbilityType.AbilityTwo)
                     {
                         spriteBatch.Draw(AssetManager.WizardSpriteSheet, new Vector2(ability.XPosition, ability.YPosition), source, Color.White, 0.0f,
-                            Vector2.Zero, 3.0f, SpriteEffects.None, 1.0f);
+                            Vector2.Zero, 5.0f, SpriteEffects.None, 1.0f);
                     }
                     break;
                 case Player.ClassType.Ogre:
