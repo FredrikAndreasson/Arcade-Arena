@@ -38,6 +38,7 @@ namespace Arcade_Arena.Managers
             var outmsg = client.CreateMessage();
             outmsg.Write((byte)PacketType.Login);
             outmsg.Write(Username);
+            outmsg.Write((byte)Player.ClassType.Wizard);
             client.Connect("localhost", 14241, outmsg);
             return EstablishInfo();
 
@@ -143,19 +144,151 @@ namespace Arcade_Arena.Managers
                     ReceiveAllPlayers(inc);
                     break;
 
-                case PacketType.Kick:
-                    ReceiveKick(inc);
-                    break;
+                //case PacketType.Kick:
+                //    ReceiveKick(inc);
+                //    break;
 
                 case PacketType.ShrinkLava:
                     UpdateLava(inc);
                     break;
-                    
+
+                case PacketType.AbilityCreate:
+                    RecieveAbilityCreate(inc);
+                    break;
+
+                case PacketType.AbilityUpdate:
+                    RecieveAbilityUpdate(inc);
+                    break;
+
+                case PacketType.AbilityDelete:
+                    ReadAbilityToDelete(inc);
+                    break;
+
 
                 default:
                     break;
             }
         }
+
+        public void SendAbility(Ability ability, byte ID)
+        {
+            var outmsg = client.CreateMessage();
+            outmsg.Write((byte)PacketType.AbilityCreate);
+            outmsg.Write(Username);
+            outmsg.Write(ID);
+            outmsg.Write((byte)(ability.Type));
+            outmsg.Write((int)ability.Position.X);
+            outmsg.Write((int)ability.Position.Y);
+            outmsg.Write(ability.CurrentAnimation.Source.X);
+            outmsg.Write(ability.CurrentAnimation.Source.Y);
+            outmsg.Write(ability.CurrentAnimation.Source.Width);
+            outmsg.Write(ability.CurrentAnimation.Source.Height);
+
+            client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
+        }
+        public void SendAbilityUpdate(Ability ability, byte ID)
+        {
+            var outmsg = client.CreateMessage();
+            outmsg.Write((byte)PacketType.AbilityUpdate);
+            outmsg.Write(Username);
+            outmsg.Write(ID);
+            outmsg.Write((int)ability.Position.X);
+            outmsg.Write((int)ability.Position.Y);
+            outmsg.Write(ability.CurrentAnimation.Source.X);
+            outmsg.Write(ability.CurrentAnimation.Source.Y);
+            outmsg.Write(ability.CurrentAnimation.Source.Width);
+            outmsg.Write(ability.CurrentAnimation.Source.Height);
+
+            client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
+        }
+
+        //Deletes the client ability and then sends a message to the server to also delete that ability
+        public void DeleteLocalAbility(byte ID)
+        {
+            DeleteAbility(ID, Username);
+
+            var outmsg = client.CreateMessage();
+            outmsg.Write((byte)PacketType.AbilityDelete);
+            outmsg.Write(Username);
+            outmsg.Write(ID);
+
+            client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
+        }
+
+
+
+        private void DeleteAbility(byte ID, string username)
+        {
+            var player = Players.FirstOrDefault(p => p.Username == username);
+            if (player != null)
+            {
+                for (int i = 0; i < player.abilities.Count; i++)
+                {
+                    if (player.abilities[i].ID == ID)
+                    {
+                        player.abilities.RemoveAt(i);
+                        i--;
+                    }
+                }
+            }
+        }
+
+        private void ReadAbilityToDelete(NetIncomingMessage inc)
+        {
+            string username = inc.ReadString();
+            byte ID = inc.ReadByte();
+            DeleteAbility(ID, username);
+        }
+
+        private void RecieveAbilityCreate(NetIncomingMessage inc)
+        {
+            var name = inc.ReadString();
+            byte ID = inc.ReadByte();
+            if (Players.Any(p => p.Username == name))
+            {
+                var player = Players.FirstOrDefault(p => p.Username == name);
+                if (!player.abilities.Any(a => a.ID == ID))
+                {
+                    var newAbility = new AbilityOutline();
+                    newAbility.UserName = name;
+                    newAbility.ID = ID;
+                    newAbility.Type = (AbilityOutline.AbilityType)inc.ReadByte();
+                    newAbility.XPosition = inc.ReadInt32();
+                    newAbility.YPosition = inc.ReadInt32();
+                    newAbility.Animation.XRecPos = inc.ReadInt32();
+                    newAbility.Animation.YRecPos = inc.ReadInt32();
+                    newAbility.Animation.Width = inc.ReadInt32();
+                    newAbility.Animation.Height = inc.ReadInt32();
+
+                    player.abilities.Add(newAbility);
+                }
+
+            }
+        }
+
+        public void RecieveAbilityUpdate(NetIncomingMessage inc)
+        {
+            var name = inc.ReadString();
+            byte ID = inc.ReadByte();
+            if (Players.Any(p => p.Username == name))
+            {
+                var oldPlayer = Players.FirstOrDefault(p => p.Username == name);
+                if (oldPlayer.abilities.Any(a => a.ID == ID))
+                {
+                    var oldAbility = oldPlayer.abilities.FirstOrDefault(a => a.ID == ID);
+                    oldAbility.UserName = name;
+                    oldAbility.ID = ID;
+                    oldAbility.XPosition = inc.ReadInt32();
+                    oldAbility.YPosition = inc.ReadInt32();
+                    oldAbility.Animation.XRecPos = inc.ReadInt32();
+                    oldAbility.Animation.YRecPos = inc.ReadInt32();
+                    oldAbility.Animation.Width = inc.ReadInt32();
+                    oldAbility.Animation.Height = inc.ReadInt32();
+                }
+            }
+        }
+
+
 
         private void ReceiveAllPlayers(NetIncomingMessage inc)
         {

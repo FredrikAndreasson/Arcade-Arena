@@ -50,6 +50,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\AbilityCreationCommand.cs" />
+    <Compile Include="Commands\AbilityUpdateCommand.cs" />
+    <Compile Include="Commands\AbilityDeletionCommand.cs" />
     <Compile Include="Commands\AllPlayersCommand.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\InputCommand.cs" />

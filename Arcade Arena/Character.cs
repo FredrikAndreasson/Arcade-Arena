@@ -23,9 +23,11 @@ namespace Arcade_Arena
 
         public List<Effect> EffectList = new List<Effect>();
 
+        public List<Ability> abilityBuffer;
+
         public Character(Vector2 position, Texture2D texture, float speed, double direction) : base(position, texture, speed, direction)
         {
-
+            abilityBuffer = new List<Ability>();
         }
 
         public SpriteAnimation CurrentAnimation => currentAnimation;
