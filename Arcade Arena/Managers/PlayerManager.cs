@@ -30,7 +30,8 @@ namespace Arcade_Arena.Managers
                 player.Animation.YRecPos = clientPlayer.CurrentAnimation.Source.Y;
                 player.Animation.Height = clientPlayer.CurrentAnimation.Source.Height;
                 player.Animation.Width = clientPlayer.CurrentAnimation.Source.Width;
-
+                player.intersectingLava = clientPlayer.intersectingLava;
+                //
                 
 
                 //add more code for updating player later...

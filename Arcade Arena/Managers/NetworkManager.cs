@@ -101,6 +101,7 @@ namespace Arcade_Arena.Managers
                 outmessage.Write(player.Animation.YRecPos);
                 outmessage.Write(player.Animation.Height);
                 outmessage.Write(player.Animation.Width);
+                outmessage.Write(player.intersectingLava);
                 client.SendMessage(outmessage, NetDeliveryMethod.ReliableOrdered);
             }
 
@@ -318,6 +319,7 @@ namespace Arcade_Arena.Managers
                 oldPlayer.Animation.YRecPos = inc.ReadInt32();
                 oldPlayer.Animation.Height = inc.ReadInt32();
                 oldPlayer.Animation.Width = inc.ReadInt32();
+                oldPlayer.intersectingLava = inc.ReadBoolean();
             }
             else
             {
@@ -329,6 +331,7 @@ namespace Arcade_Arena.Managers
                 player.Animation.YRecPos = inc.ReadInt32();
                 player.Animation.Height = inc.ReadInt32();
                 player.Animation.Width = inc.ReadInt32();
+                player.intersectingLava = inc.ReadBoolean();
                 Players.Add(player);
             }
         }

@@ -30,8 +30,8 @@ namespace Arcade_Arena
             Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
 
-            graphics.PreferredBackBufferHeight = 720;
-            graphics.PreferredBackBufferWidth = 1080;
+            graphics.PreferredBackBufferHeight = 1080;
+            graphics.PreferredBackBufferWidth = 1920;
             graphics.ApplyChanges();
         }
 
