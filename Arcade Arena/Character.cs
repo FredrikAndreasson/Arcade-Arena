@@ -31,9 +31,12 @@ namespace Arcade_Arena
         public Shadow shadow;
         
 
+        public List<Ability> abilityBuffer;
+
         public Character(Vector2 position, Texture2D texture, float speed, double direction) : base(position, texture, speed, direction)
         {
-            
+            abilityBuffer = new List<Ability>();
+
         }
 
         public SpriteAnimation CurrentAnimation => currentAnimation;
@@ -51,8 +54,8 @@ namespace Arcade_Arena
 
         public void UpdateVelocity(double newDirection, float newSpeed)
         {
-            velocity.Y = (float)(Math.Sin(MathHelper.ToRadians((float)newDirection)) * newSpeed);
-            velocity.X = (float)(Math.Cos(MathHelper.ToRadians((float)newDirection)) * newSpeed);
+            velocity.Y = (float)(Math.Sin(MathHelper.ToRadians((float)newDirection)) * newSpeed * speedAlteration);
+            velocity.X = (float)(Math.Cos(MathHelper.ToRadians((float)newDirection)) * newSpeed * speedAlteration);
             position += velocity;
         }
 
@@ -75,6 +78,16 @@ namespace Arcade_Arena
         {
             canWalk = true;
             walking = true;
+        }
+
+        public void AddEffect(Effect newEffect)
+        {
+            EffectList.Add(newEffect);
+        }
+
+        public void RemoveEffect(Effect effect)
+        {
+            EffectList.Remove(effect);
         }
 
         //returnerar angle i grader

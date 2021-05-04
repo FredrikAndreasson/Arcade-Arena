@@ -1,7 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Arcade_Arena.Abilites;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
 
 namespace Arcade_Arena.Classes
 {
@@ -42,6 +44,8 @@ namespace Arcade_Arena.Classes
 
             speed = 1;
         }
+
+        public bool Teleporting => teleporting;
 
         public override void Update()
         {
@@ -132,6 +136,9 @@ namespace Arcade_Arena.Classes
             teleportVelocity.X = (float)(Math.Cos(MathHelper.ToRadians((float)aimDirection)) * speed);
 
             newPosition = position + (teleportVelocity * 100);
+
+            Ability ability = new TeleportAbility(this, newPosition);
+            abilityBuffer.Add(ability);
         }
 
         private void IceBlockAbility()
@@ -141,6 +148,10 @@ namespace Arcade_Arena.Classes
             ChangeAnimation(iceBlockWizardAnimation);
             iceBlockAnimation.XIndex = 0;
             iceBlockCooldown = 10;
+
+
+            Ability ability = new IceblockAbility(this);
+            abilityBuffer.Add(ability);
         }
     }
 }

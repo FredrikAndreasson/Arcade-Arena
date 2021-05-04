@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Arcade_Arena.Library;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -8,18 +9,27 @@ using System.Threading.Tasks;
 
 namespace Arcade_Arena
 {
-    abstract class Ability
+    public abstract class Ability
     {
-        protected string userName;
+
+        protected bool isDead;
         protected Vector2 position;
         protected SpriteAnimation currentAnimation;
 
-        public Ability(string userName)
+        public Ability()
         {
-            this.userName = userName;
+            isDead = false;
         }
 
-        public string UserName => userName;
+        public string Username { get; set; }
+
+        public AbilityOutline.AbilityType Type { get; set; }
+        public bool IsDead => isDead;
+
+        public Vector2 Position => position;
+
+        public SpriteAnimation CurrentAnimation => currentAnimation;
+
 
         public abstract void Update();
 

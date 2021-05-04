@@ -11,8 +11,9 @@ namespace Arcade_Arena
         private Vector2 frameSize;  // How big the frames are in X and Y
         private Vector2 dimensions; // How many rows and columns there are in the sprite sheet
         private SpriteEffects spriteFX;
-        private float msSinceLastFrame;
+        private float msSinceLastFrame = 0;
         private float msBetweenFrames;
+        public double speedAlteration = 1;
 
         private int xIndex, yIndex;
 
@@ -74,7 +75,7 @@ namespace Arcade_Arena
             }
             else
             {
-                msSinceLastFrame += (float)Game1.elapsedGameTimeMilliseconds;
+                msSinceLastFrame += (float)Game1.elapsedGameTimeMilliseconds * (float)speedAlteration;
             }
            
             if(ProjectileCharacter.orbiterRotation >= 1.53269 || ProjectileCharacter.orbiterRotation <= -1.547545)
@@ -93,6 +94,8 @@ namespace Arcade_Arena
             yIndex = (int)start.Y;
             Loop = 0;
             msSinceLastFrame = 0;
+
+            //Denna metoden kallas varje frame, vilket i sin tur gör så att man aldrig kommer att kunna gå igenom sin walk animation
         }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 position, float rotation, Vector2 origin, float scale)

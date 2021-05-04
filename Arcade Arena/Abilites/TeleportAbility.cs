@@ -10,29 +10,28 @@ using System.Threading.Tasks;
 
 namespace Arcade_Arena.Abilites
 {
-    class IceblockAbility : Ability
+    class TeleportAbility : Ability
     {
         Wizard player;
-        public IceblockAbility(Wizard player)
+        public TeleportAbility(Wizard player, Vector2 position)
         {
             this.player = player;
 
-            Type = AbilityOutline.AbilityType.AbilityOne;
-            currentAnimation = new SpriteAnimation(AssetManager.WizardIceBlock, new Vector2(0, 0), new Vector2(4, 0), 
-                new Vector2(14, 20), new Vector2(4, 0), 1000);
+            Type = AbilityOutline.AbilityType.AbilityTwo;
+            currentAnimation = new SpriteAnimation(AssetManager.WizardSpriteSheet, new Vector2(0, 3), new Vector2(5, 3), new Vector2(14, 20), new Vector2(7, 3), 150);
 
-            this.position = player.position;
+            this.position = position;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            //currentAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, 5.0f);
+            currentAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, 5.0f);
         }
 
         public override void Update()
         {
             currentAnimation.Update();
-            if (currentAnimation.Loop > 0 && currentAnimation.XIndex == 0)
+            if (!player.Teleporting)
             {
                 isDead = true;
             }

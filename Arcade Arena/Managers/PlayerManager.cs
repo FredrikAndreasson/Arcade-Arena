@@ -5,7 +5,7 @@ namespace Arcade_Arena.Managers
     class PlayerManager
     {
         private NetworkManager networkManager;
-        private Character clientPlayer;
+        public Character clientPlayer;
 
 
         public PlayerManager(NetworkManager networkManager, Character Player)

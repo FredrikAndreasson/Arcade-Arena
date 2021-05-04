@@ -12,12 +12,18 @@ namespace Arcade_Arena.Server
             managerLogger.AddLogMessage("Server", "Recieved new input");
             var name = inc.ReadString();
             playerAndConnection = players.FirstOrDefault(p => p.Player.Username == name);
+            if (playerAndConnection == null)
+            {
+                managerLogger.AddLogMessage("Server", string.Format("Didn't find player with name {0}", name));
+                return;
+            }
             playerAndConnection.Player.XPosition = inc.ReadInt32();
             playerAndConnection.Player.YPosition = inc.ReadInt32();
             playerAndConnection.Player.Animation.XRecPos = inc.ReadInt32();
             playerAndConnection.Player.Animation.YRecPos = inc.ReadInt32();
             playerAndConnection.Player.Animation.Height = inc.ReadInt32();
             playerAndConnection.Player.Animation.Width = inc.ReadInt32();
+
             playerAndConnection.Player.intersectingLava = inc.ReadBoolean();
 
             if (playerAndConnection == null)
@@ -25,6 +31,7 @@ namespace Arcade_Arena.Server
                 managerLogger.AddLogMessage("Server", string.Format("Didn't find player with name {0}", name));
                 return;
             }
+
 
 
 
