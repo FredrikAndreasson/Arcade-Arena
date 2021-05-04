@@ -14,6 +14,8 @@ namespace Arcade_Arena.Classes
         SpriteAnimation iceBlockWizardAnimation;
         SpriteAnimation iceBlockAnimation;
 
+
+
         private bool teleporting;
         private double teleportCooldown = 0;
         private double teleportMaxCooldown = 6;
@@ -23,6 +25,7 @@ namespace Arcade_Arena.Classes
         private double iceBlockMaxCooldown = 10;
 
         private Vector2 newPosition;
+        
 
         public Wizard(Vector2 position, Texture2D texture, float speed, double direction) : base(position, texture, speed, direction)
         {
@@ -33,6 +36,8 @@ namespace Arcade_Arena.Classes
             iceBlockWizardAnimation = new SpriteAnimation(texture, new Vector2(1, 2), new Vector2(1, 2), new Vector2(14, 20), new Vector2(7, 3), 1000);
             iceBlockAnimation = new SpriteAnimation(AssetManager.WizardIceBlock, new Vector2(0, 0), new Vector2(4, 0), new Vector2(14, 20), new Vector2(4, 0), 1000);
 
+            shadow = new Shadow(position, AssetManager.WizardShadow, speed, direction);
+
             ChangeAnimation(backwardsAnimation);
 
             speed = 1;
@@ -40,6 +45,7 @@ namespace Arcade_Arena.Classes
 
         public override void Update()
         {
+            
             currentAnimation.Update();
             UpdateCooldowns();
             UpdateWeapon();
@@ -82,6 +88,9 @@ namespace Arcade_Arena.Classes
                 base.Update();
                 middleOfSprite = new Vector2(position.X + 35, position.Y + 60);
             }
+
+            shadow.Update(position);
+
         }
 
         private void UpdateCooldowns()
@@ -92,6 +101,8 @@ namespace Arcade_Arena.Classes
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            shadow.Draw(spriteBatch);
+            spriteBatch.Draw(AssetManager.WizardShadow, new Vector2(position.X+AssetManager.WizardShadow.Width/4, position.Y+85), Color.Red);
             currentAnimation.Draw(spriteBatch, position, 0.0f, Vector2.Zero, 5.0f);
             if (teleporting)
             {

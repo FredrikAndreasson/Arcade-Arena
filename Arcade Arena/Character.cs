@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Arcade_Arena.Classes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -17,13 +18,18 @@ namespace Arcade_Arena
         protected int health;
         protected int mana;
 
+
         protected double aimDirection;
 
         protected Vector2 middleOfSprite;
 
         public List<Effect> EffectList = new List<Effect>();
+        
 
         public bool intersectingLava = false;
+
+        public Shadow shadow;
+        
 
         public Character(Vector2 position, Texture2D texture, float speed, double direction) : base(position, texture, speed, direction)
         {
@@ -148,10 +154,11 @@ namespace Arcade_Arena
 
         public void CheckLavaCollision(Lava lava)
         {
-            Color[] pixels = new Color[14 * 20];
-            Color[] pixels2 = new Color[14 * 20];
-            texture.GetData<Color>(pixels2);
-            lava.renderTarget.GetData(0, new Rectangle(new Point((int)position.X, (int)position.Y), new Point(14, 20)), pixels, 0, pixels.Length);
+            Color[] pixels = new Color[shadow.texture.Width * shadow.texture.Height];
+            Color[] pixels2 = new Color[shadow.texture.Width * shadow.texture.Height];
+            //shadow.texture.GetData<Color>(0, new Rectangle(shadow.position.ToPoint(), new Point(shadow.texture.Width, shadow.texture.Height)), pixels2, 0, pixels2.Length);
+            shadow.texture.GetData<Color>(pixels2);
+            lava.renderTarget.GetData(0, new Rectangle(shadow.position.ToPoint(), new Point(shadow.texture.Width, shadow.texture.Height)), pixels, 0, pixels.Length);
             for (int i = 0; i < pixels.Length; ++i)
             {
                 if (pixels[i].A > 0.0f && pixels2[i].A > 0.0f)
@@ -159,10 +166,9 @@ namespace Arcade_Arena
                     intersectingLava = true;
                     return;
                 }
-                    
+
             }
             intersectingLava = false;
         }
-
     }
 }

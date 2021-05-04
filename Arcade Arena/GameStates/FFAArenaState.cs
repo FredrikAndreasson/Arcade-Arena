@@ -52,6 +52,7 @@ namespace Arcade_Arena
 
             MouseKeyboardManager.Update();
             player.Update();
+
             player.CheckLavaCollision(lava);
         }
 

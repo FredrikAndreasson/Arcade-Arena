@@ -37,6 +37,10 @@ namespace Arcade_Arena
         public int XIndex { get { return xIndex; } set { xIndex = value; } }
         public int YIndex { get { return yIndex; } set { yIndex = value; } }
 
+        public Vector2 FrameSize { get { return frameSize; } set { frameSize = value; } }
+
+        public Texture2D Texture { get { return texture; } set { texture = value; } }
+
         public int Loop { get; private set; }
 
         public void Update()
