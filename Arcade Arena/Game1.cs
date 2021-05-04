@@ -12,7 +12,10 @@ namespace Arcade_Arena
     enum States
     {
         Menu,
-        FFA
+        FFA,
+        Pause,
+        Settings,
+        Quit,
     }
 
 
@@ -28,7 +31,6 @@ namespace Arcade_Arena
 
         FFAArenaState ffaArena;
         MainMenuState mainMenu;
-
 
 
         public Game1()
@@ -75,12 +77,19 @@ namespace Arcade_Arena
 
             switch (state)
             {
-                case (States.Menu):
-                    mainMenu.Update(gameTime);
+                case States.Menu:
+                    mainMenu.Update(gameTime, ref state);
                     break;
-                case (States.FFA):
-                    ffaArena.Update(gameTime);
+                case States.Quit:
+                    Exit();
                     break;
+                case States.FFA:
+                    ffaArena.Update(gameTime, ref state);
+                    break;
+                case States.Pause:
+                    mainMenu.Update(gameTime, ref state);
+                    break;
+
                 default:
                     break;
 
@@ -94,14 +103,19 @@ namespace Arcade_Arena
 
         protected override void Draw(GameTime gameTime)
         {
+            Game1.graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
 
             switch (state)
             {
                 case (States.Menu):
-                    mainMenu.Draw(spriteBatch);
+                    mainMenu.Draw(spriteBatch, state);
                     break;
                 case (States.FFA):
-                    ffaArena.Draw(spriteBatch);
+                    ffaArena.Draw(spriteBatch, state);
+                    break;
+                case States.Pause:
+                    ffaArena.Draw(spriteBatch, state);
+                    mainMenu.Draw(spriteBatch, state);
                     break;
                 default:
                     break;

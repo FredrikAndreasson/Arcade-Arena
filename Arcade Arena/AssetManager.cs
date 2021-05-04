@@ -28,6 +28,8 @@ namespace Arcade_Arena
         public static Texture2D settingsButton { get; private set; }
         public static Texture2D startButton { get; private set; }
 
+        public static Texture2D resumeButton { get; private set; }
+
 
         public static void LoadTextures(ContentManager Content)
         {
@@ -44,6 +46,7 @@ namespace Arcade_Arena
             quitButton = Content.Load<Texture2D>("MainMenu\\quitButton");
             settingsButton = Content.Load<Texture2D>("MainMenu\\settingsButton");
             startButton = Content.Load<Texture2D>("MainMenu\\startButton");
+            resumeButton = Content.Load<Texture2D>("MainMenu\\resumeButton");
 
             CooldownFont = Content.Load<SpriteFont>("Fonts\\CooldownFont");
             WizardAbilityIconSheet = Content.Load<Texture2D>("AbilityIcons\\WizardAbilityIconSheet");

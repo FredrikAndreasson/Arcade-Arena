@@ -14,6 +14,13 @@ namespace Arcade_Arena
         private Vector2 startPos;
         private Vector2 settingsPos;
         private Vector2 quitPos;
+
+        private Rectangle startRect;
+        private Rectangle settingsRect;
+        private Rectangle quitRect;
+    
+
+
         private float scale;
 
         public MainMenuState(GameWindow Window) : base(Window)
@@ -23,21 +30,28 @@ namespace Arcade_Arena
             settingsPos = SetAlignedPos(AssetManager.settingsButton, (int)(Window.ClientBounds.Height * 0.52));
             quitPos = SetAlignedPos(AssetManager.quitButton, (int)(Window.ClientBounds.Height * 0.74));
 
+            startRect = new Rectangle(startPos.ToPoint(), new Point(AssetManager.startButton.Width, AssetManager.startButton.Height));
+            settingsRect = new Rectangle(startPos.ToPoint(), new Point(AssetManager.settingsButton.Width, AssetManager.settingsButton.Height));
+            quitRect = new Rectangle(quitPos.ToPoint(), new Point(AssetManager.quitButton.Width, AssetManager.quitButton.Height));
+
             scale = 1f;
 
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            Game1.graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
-
+        public override void Draw(SpriteBatch spriteBatch, States state)
+        {           
             spriteBatch.Begin();
 
             spriteBatch.Draw(AssetManager.arcadeArenaLogo, logoPos, null, Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
 
-            spriteBatch.Draw(AssetManager.startButton, startPos, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+            if(state != States.Pause)
+                spriteBatch.Draw(AssetManager.startButton, startPos, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+            else
+                spriteBatch.Draw(AssetManager.resumeButton, startPos, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+
             spriteBatch.Draw(AssetManager.settingsButton, settingsPos, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
             spriteBatch.Draw(AssetManager.quitButton, quitPos, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+
 
             spriteBatch.End();
 
@@ -49,9 +63,30 @@ namespace Arcade_Arena
             return vector;
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime, ref States state)
         {
+            if (MouseKeyboardManager.leftClick)
+            {
+            
+                if(startRect.Contains(MouseKeyboardManager.mousePosition.ToPoint()))
+                {
+                        state = States.FFA;
+                }
+                else if (settingsRect.Contains(MouseKeyboardManager.mousePosition.ToPoint()))
+                {
+                    state = States.Settings;
+                }
+                else if (quitRect.Contains(MouseKeyboardManager.mousePosition.ToPoint()))
+                {
+                    if (state == States.Pause)
+                        state = States.Menu;
+                    else
+                        state = States.Quit;
+                    
+                }
 
+            }
+            
         }
 
     }

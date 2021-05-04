@@ -3,6 +3,7 @@ using Arcade_Arena.Managers;
 using Lidgren.Network;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,9 +55,16 @@ namespace Arcade_Arena
             return true;
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime, ref States state)
         {
-
+            if (MouseKeyboardManager.Clicked(Keys.P))
+            {
+                if (state == States.Pause)
+                    state = States.FFA;
+                else
+                    state = States.Pause;
+                
+            }
 
             networkManager.Active = networkManager.Status == NetConnectionStatus.Connected;
 
@@ -75,7 +83,7 @@ namespace Arcade_Arena
         }
 
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch, States state)
         {
             Game1.graphics.GraphicsDevice.Clear(networkManager.Active ? Color.Green : Color.Red);
 
