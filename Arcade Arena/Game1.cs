@@ -10,6 +10,16 @@ using System.Collections.ObjectModel;
 
 namespace Arcade_Arena
 {
+    enum States
+    {
+        Menu,
+        FFA,
+        Pause,
+        Settings,
+        Quit,
+    }
+
+
     public class Game1 : Game
     {
         public static GraphicsDeviceManager graphics;
@@ -20,10 +30,11 @@ namespace Arcade_Arena
         public static double elapsedGameTimeSeconds { get; private set; }
         public static double elapsedGameTimeMilliseconds { get; private set; }
 
+        States state = States.Menu;
 
+        FFAArenaState ffaArena;
+        MainMenuState mainMenu;
 
-        FFAArenaState gameState;
-        
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -41,7 +52,8 @@ namespace Arcade_Arena
             spriteBatch = new SpriteBatch(GraphicsDevice);
             AssetManager.LoadTextures(Content);
 
-            gameState = new FFAArenaState(Window, spriteBatch);
+            ffaArena = new FFAArenaState(Window, spriteBatch);
+            mainMenu = new MainMenuState(Window);
 
         }
 
@@ -62,8 +74,27 @@ namespace Arcade_Arena
             elapsedGameTimeSeconds = gameTime.ElapsedGameTime.TotalSeconds;
             elapsedGameTimeMilliseconds = gameTime.ElapsedGameTime.TotalMilliseconds;
 
-            gameState.Update(gameTime);
-       
+            switch (state)
+            {
+                case States.Menu:
+                    mainMenu.Update(gameTime, ref state);
+                    break;
+                case States.Quit:
+                    Exit();
+                    break;
+                case States.FFA:
+                    ffaArena.Update(gameTime, ref state);
+                    break;
+                case States.Pause:
+                    mainMenu.Update(gameTime, ref state);
+                    break;
+
+                default:
+                    break;
+
+            }
+
+
             base.Update(gameTime);
         }
 
@@ -74,8 +105,24 @@ namespace Arcade_Arena
 
         protected override void Draw(GameTime gameTime)
         {
+            Game1.graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            gameState.Draw(spriteBatch);
+            switch (state)
+            {
+                case (States.Menu):
+                    mainMenu.Draw(spriteBatch, state);
+                    break;
+                case (States.FFA):
+                    ffaArena.Draw(spriteBatch, state);
+                    break;
+                case States.Pause:
+                    ffaArena.Draw(spriteBatch, state);
+                    mainMenu.Draw(spriteBatch, state);
+                    break;
+                default:
+                    break;
+
+            }
 
             base.Draw(gameTime);
         }
