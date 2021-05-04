@@ -46,7 +46,7 @@ namespace Arcade_Arena
 
             cooldownTimer += (float)Game1.elapsedGameTimeSeconds;
 
-            if (cooldownTimer >= 0.1f && Keyboard.GetState().IsKeyDown(Keys.Space))
+            if (cooldownTimer >= 1f && Keyboard.GetState().IsKeyDown(Keys.Space))
             {
                 Shoot();
                 cooldownTimer = 0;
@@ -67,7 +67,6 @@ namespace Arcade_Arena
         {
             spriteBatch.Draw(AssetManager.WizardWand, new Vector2(weaponPosition.X, weaponPosition.Y), null, Color.White, orbiterRotation,
                 weaponOrigin, 6, SpriteEffects.None, 0);
-
         }
     }
 }

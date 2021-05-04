@@ -13,7 +13,7 @@ namespace Arcade_Arena
     {
 
         public Vector2 position;
-
+        public byte ID;
         protected bool isDead;
         protected SpriteAnimation currentAnimation;
 

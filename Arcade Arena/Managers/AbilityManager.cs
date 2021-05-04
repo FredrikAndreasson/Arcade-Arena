@@ -17,6 +17,8 @@ namespace Arcade_Arena.Managers
         //The server will treat any and all projectiles as abilities
         public List<Ability> abilities;
 
+        private byte IDsum;
+
 
         public AbilityManager(NetworkManager networkManager, PlayerManager playerManager)
         {
@@ -31,7 +33,7 @@ namespace Arcade_Arena.Managers
             foreach (Ability ability in abilities)
             {
                 ability.Update();
-                networkManager.SendAbilityUpdate(ability, (byte)(abilities.Count-1));
+                networkManager.SendAbilityUpdate(ability, ability.ID);
             }
 
             for (int i = 0; i < playerManager.clientPlayer.abilityBuffer.Count; i++)
@@ -69,18 +71,28 @@ namespace Arcade_Arena.Managers
             {
                 if (abilities[i].IsDead)
                 {
+                    networkManager.DeleteLocalAbility(abilities[i].ID);
                     abilities.RemoveAt(i);
-                    networkManager.DeleteLocalAbility((byte)i);
+                    
                 }
             }
         }
         public void CreateAbility(Ability ability)
         {
             ability.Username = networkManager.Username;
+            ability.ID = IDGenerator();
             abilities.Add(ability);
-            networkManager.SendAbility(ability, (byte)(abilities.Count-1));
+            networkManager.SendAbility(ability, ability.ID);
         }
 
+
+        public byte IDGenerator()
+        {
+            if (IDsum >= 255)
+            {IDsum = 0;}
+            else { IDsum++; }
+            return IDsum;
+        }
         private void DrawAbility(SpriteBatch spriteBatch, AbilityOutline ability, Player.ClassType playerType)
         {
             Rectangle source = new Rectangle(ability.Animation.XRecPos, ability.Animation.YRecPos, ability.Animation.Width, ability.Animation.Height);

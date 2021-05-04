@@ -16,6 +16,7 @@ namespace Arcade_Arena.Server.Commands
             string username = inc.ReadString();
             byte ID = inc.ReadByte();
 
+
             var player = players.FirstOrDefault(p => p.Player.Username == username);
             if (player != null)
             {
