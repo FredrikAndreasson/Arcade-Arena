@@ -14,6 +14,7 @@ namespace Arcade_Arena.Managers
         NetworkManager networkManager;
         PlayerManager playerManager;
 
+        //The server will treat any and all projectiles as abilities
         public List<Ability> abilities;
 
 
@@ -86,7 +87,12 @@ namespace Arcade_Arena.Managers
             switch (playerType)
             {
                 case Player.ClassType.Wizard:
-                    if (ability.Type == AbilityOutline.AbilityType.AbilityOne)
+                    if (ability.Type == AbilityOutline.AbilityType.Projectile)
+                    {
+                        spriteBatch.Draw(AssetManager.WizardWandProjectile, new Vector2(ability.XPosition, ability.YPosition), source, Color.White, 0.0f,
+                            Vector2.Zero, 6.0f, SpriteEffects.None, 1.0f);
+                    }
+                    else if (ability.Type == AbilityOutline.AbilityType.AbilityOne)
                     {
                         spriteBatch.Draw(AssetManager.WizardIceBlock, new Vector2(ability.XPosition, ability.YPosition), source, Color.White, 0.0f,
                             Vector2.Zero, 5.0f, SpriteEffects.None, 1.0f);

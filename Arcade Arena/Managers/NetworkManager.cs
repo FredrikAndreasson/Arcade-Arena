@@ -178,8 +178,8 @@ namespace Arcade_Arena.Managers
             outmsg.Write(Username);
             outmsg.Write(ID);
             outmsg.Write((byte)(ability.Type));
-            outmsg.Write((int)ability.Position.X);
-            outmsg.Write((int)ability.Position.Y);
+            outmsg.Write((int)ability.position.X);
+            outmsg.Write((int)ability.position.Y);
             outmsg.Write(ability.CurrentAnimation.Source.X);
             outmsg.Write(ability.CurrentAnimation.Source.Y);
             outmsg.Write(ability.CurrentAnimation.Source.Width);
@@ -193,8 +193,8 @@ namespace Arcade_Arena.Managers
             outmsg.Write((byte)PacketType.AbilityUpdate);
             outmsg.Write(Username);
             outmsg.Write(ID);
-            outmsg.Write((int)ability.Position.X);
-            outmsg.Write((int)ability.Position.Y);
+            outmsg.Write((int)ability.position.X);
+            outmsg.Write((int)ability.position.Y);
             outmsg.Write(ability.CurrentAnimation.Source.X);
             outmsg.Write(ability.CurrentAnimation.Source.Y);
             outmsg.Write(ability.CurrentAnimation.Source.Width);

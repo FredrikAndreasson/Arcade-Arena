@@ -33,7 +33,7 @@ namespace Arcade_Arena
 
         public List<Ability> abilityBuffer;
 
-        public Character(Vector2 position, Texture2D texture, float speed, double direction) : base(position, texture, speed, direction)
+        public Character(Vector2 position, float speed, double direction) : base(position, speed, direction)
         {
             abilityBuffer = new List<Ability>();
 
@@ -161,8 +161,6 @@ namespace Arcade_Arena
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, position, Color.White);
-            spriteBatch.Draw(AssetManager.TargetDummy, position, Color.White);
         }
 
         public void CheckLavaCollision(Lava lava)

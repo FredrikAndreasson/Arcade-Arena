@@ -23,9 +23,9 @@ namespace Arcade_Arena.Classes
         List<TimeZone> timeZones = new List<TimeZone>();
         List<Vector2> previousPositions = new List<Vector2>(); //för time travel
 
-        public TimeTraveler(Vector2 position, Texture2D texture, float speed, double direction) : base(position, texture, speed, direction)
+        public TimeTraveler(Vector2 position, float speed, double direction) : base(position, speed, direction)
         {
-            walkingAnimation = new SpriteAnimation(texture, new Vector2(2, 0), new Vector2(7, 0), new Vector2(14, 20), new Vector2(7, 3), 150);
+            walkingAnimation = new SpriteAnimation(AssetManager.TimeTravelerSpriteSheet, new Vector2(2, 0), new Vector2(7, 0), new Vector2(14, 20), new Vector2(7, 3), 150);
 
             currentAnimation = walkingAnimation;
 

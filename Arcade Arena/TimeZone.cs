@@ -15,10 +15,13 @@ namespace Arcade_Arena
         double timeSlowEffectSeverity = -0.30;
         TimeTraveler owner;
 
-        public TimeZone(double timer, TimeTraveler owner, Vector2 position, Texture2D texture) : base(position, texture)
+        private Texture2D texture;
+
+        public TimeZone(double timer, TimeTraveler owner, Vector2 position, Texture2D texture) : base(position)
         {
             this.timer = timer;
             this.owner = owner;
+            this.texture = texture;
         }
 
         public void Update()

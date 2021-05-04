@@ -17,13 +17,11 @@ namespace Arcade_Arena
         public static float orbiterRotation = 0;
         float cooldownTimer;
         Vector2 distance; 
-        List<Projectile> projectileList;
 
-        public ProjectileCharacter(Vector2 position, Texture2D texture, float speed, double direction) : base(position, texture, speed, direction) 
+        public ProjectileCharacter(Vector2 position, float speed, double direction) : base(position, speed, direction) 
         {
             weaponOrigin = new Vector2(0, 0);
             cooldownTimer = 0;
-            projectileList = new List<Projectile>();
         }
 
         public void UpdateWeapon()
@@ -53,46 +51,22 @@ namespace Arcade_Arena
                 Shoot();
                 cooldownTimer = 0;
             }
-            UpdateProjectile();
 
-        }
-
-        public virtual void UpdateProjectile()
-        {
-            foreach (Projectile projectile in projectileList)
-            {
-                projectile.Update();
-            }
-
-            for (int i = 0; i < projectileList.Count; i++)
-            {
-                if (!projectileList[i].projectileIsActive)
-                {
-                    projectileList.RemoveAt(i);
-                }
-            }
         }
 
         public virtual void Shoot()
         {
-
-            Projectile projectile = new Projectile(0, 0, position, AssetManager.WizardWandProjectile, speed, direction);
+            Projectile projectile = new Projectile(5, 2, position, speed, direction);
             projectile.velocity = new Vector2((float)Math.Cos(orbiterRotation) * 10f, (float)Math.Sin(orbiterRotation) * 10f);
             projectile.position = (position - (new Vector2(-40,-58))) + projectile.velocity;
-            projectile.projectileIsActive = true;
-            if (projectileList.Count() < 40)
-            {
-                projectileList.Add(projectile);
-            }
+            abilityBuffer.Add(projectile);
+
         }
 
         public virtual void Draw (SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(AssetManager.WizardWand, new Vector2(weaponPosition.X, weaponPosition.Y), null, Color.White, orbiterRotation, weaponOrigin, 6, SpriteEffects.None, 0);
-            foreach (Projectile projectile in projectileList)
-            {
-                projectile.Draw(spriteBatch);
-            }
+            spriteBatch.Draw(AssetManager.WizardWand, new Vector2(weaponPosition.X, weaponPosition.Y), null, Color.White, orbiterRotation,
+                weaponOrigin, 6, SpriteEffects.None, 0);
 
         }
     }
