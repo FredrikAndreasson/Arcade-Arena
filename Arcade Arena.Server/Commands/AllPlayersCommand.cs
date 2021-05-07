@@ -9,21 +9,21 @@ namespace Arcade_Arena.Server.Commands
         public void Run(ManagerLogger managerLogger, Server server, NetIncomingMessage inc, PlayerAndConnection playerAndConnection, List<PlayerAndConnection> players)
         {
             managerLogger.AddLogMessage("Server", "Sending full player list");
-            var outmessage = server.NetServer.CreateMessage();
-            outmessage.Write((byte)PacketType.AllPlayers);
-            outmessage.Write(players.Count);
+            var outmsg = server.NetServer.CreateMessage();
+            outmsg.Write((byte)PacketType.AllPlayers);
+            outmsg.Write(players.Count);
             foreach (var p in players)
             {
-                outmessage.Write(p.Player.Username);
-                outmessage.Write(p.Player.XPosition);
-                outmessage.Write(p.Player.YPosition);
-                outmessage.Write(p.Player.Animation.XRecPos);
-                outmessage.Write(p.Player.Animation.YRecPos);
-                outmessage.Write(p.Player.Animation.Height);
-                outmessage.Write(p.Player.Animation.Width);
-                outmessage.Write(p.Player.intersectingLava);
+                outmsg.Write(p.Player.Username);
+                outmsg.Write(p.Player.XPosition);
+                outmsg.Write(p.Player.YPosition);
+                outmsg.Write(p.Player.Animation.XRecPos);
+                outmsg.Write(p.Player.Animation.YRecPos);
+                outmsg.Write(p.Player.Animation.Height);
+                outmsg.Write(p.Player.Animation.Width);
+                outmsg.Write(p.Player.intersectingLava);
             }
-            server.NetServer.SendToAll(outmessage, NetDeliveryMethod.ReliableOrdered);
+            server.NetServer.SendToAll(outmsg, NetDeliveryMethod.ReliableOrdered);
         }
     }
 }
