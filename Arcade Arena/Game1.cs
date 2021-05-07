@@ -25,7 +25,7 @@ namespace Arcade_Arena
         public static GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        static Random random = new Random();
+        public static Random random = new Random();
 
         public static double elapsedGameTimeSeconds { get; private set; }
         public static double elapsedGameTimeMilliseconds { get; private set; }
@@ -98,11 +98,6 @@ namespace Arcade_Arena
 
 
             base.Update(gameTime);
-        }
-
-        public static int GenerateRandomNumber(int min, int max)
-        {
-            return random.Next(min, max);
         }
 
         protected override void Draw(GameTime gameTime)

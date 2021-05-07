@@ -117,7 +117,7 @@ namespace Arcade_Arena
                     }
                     else
                     {
-                        if (!this.player.intersectingLava)
+                        if (!this.player.IntersectingLava)
                         {
                             this.player.Draw(spriteBatch);
 

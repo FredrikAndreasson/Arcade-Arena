@@ -37,7 +37,7 @@ namespace Arcade_Arena
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, position, null, Color.White, 0, Vector2.Zero, 6, SpriteEffects.None, 1);
+            spriteBatch.Draw(Texture, Position, null, Color.White, 0, Vector2.Zero, 6, SpriteEffects.None, 1);
         }
     }
 }

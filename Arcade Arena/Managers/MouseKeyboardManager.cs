@@ -11,11 +11,11 @@ namespace Arcade_Arena
         static KeyboardState keyboardState = Keyboard.GetState();
         static KeyboardState previousKeyboardState;
 
-        public static bool leftClick { get; private set; }
-        public static bool leftHold { get; private set; }
-        public static bool rightClick { get; private set; }
-        public static bool rightHold { get; private set; }
-        public static Vector2 mousePosition { get; private set; }
+        public static bool LeftClick { get; private set; }
+        public static bool LeftHold { get; private set; }
+        public static bool RightClick { get; private set; }
+        public static bool RightHold { get; private set; }
+        public static Vector2 MousePosition { get; private set; }
 
         public static void Update()
         {
@@ -24,45 +24,45 @@ namespace Arcade_Arena
             mouseState = Mouse.GetState();
             keyboardState = Keyboard.GetState();
             CheckMouseClicks();
-            mousePosition = mouseState.Position.ToVector2();
+            MousePosition = mouseState.Position.ToVector2();
         }
 
         public static void CheckMouseClicks()
         {
             if (mouseState.LeftButton == ButtonState.Pressed)
             {
-                leftHold = true;
+                LeftHold = true;
                 if (MouseKeyboardManager.previousMouseState.LeftButton != ButtonState.Pressed)
                 {
-                    leftClick = true;
+                    LeftClick = true;
                 }
                 else
                 {
-                    leftClick = false;
+                    LeftClick = false;
                 }
             }
             else
             {
-                leftClick = false;
-                leftHold = false;
+                LeftClick = false;
+                LeftHold = false;
             }
 
             if (mouseState.RightButton == ButtonState.Pressed)
             {
-                rightHold = true;
+                RightHold = true;
                 if (MouseKeyboardManager.previousMouseState.RightButton != ButtonState.Pressed)
                 {
-                    rightClick = true;
+                    RightClick = true;
                 }
                 else
                 {
-                    rightClick = false;
+                    RightClick = false;
                 }
             }
             else
             {
-                rightClick = false;
-                rightHold = false;
+                RightClick = false;
+                RightHold = false;
             }
         }
 

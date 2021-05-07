@@ -83,26 +83,26 @@ namespace Arcade_Arena.Managers
             if (timer < 0 && !isRetrieved)
             {
                 isRetrieved = true;
-                var outmessage = client.CreateMessage();
-                outmessage.Write((byte)PacketType.AllPlayers);
-                client.SendMessage(outmessage, NetDeliveryMethod.ReliableOrdered);
+                var outmsg = client.CreateMessage();
+                outmsg.Write((byte)PacketType.AllPlayers);
+                client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
             }else if(!isRetrieved) timer--;
 
             if (Players.Any(p => p.Username == Username))
             {
                 var player = Players.FirstOrDefault(p => p.Username == Username);
 
-                var outmessage = client.CreateMessage();
-                outmessage.Write((byte)PacketType.Input);
-                outmessage.Write(player.Username);
-                outmessage.Write(player.XPosition);
-                outmessage.Write(player.YPosition);
-                outmessage.Write(player.Animation.XRecPos);
-                outmessage.Write(player.Animation.YRecPos);
-                outmessage.Write(player.Animation.Height);
-                outmessage.Write(player.Animation.Width);
-                outmessage.Write(player.intersectingLava);
-                client.SendMessage(outmessage, NetDeliveryMethod.ReliableOrdered);
+                var outmsg = client.CreateMessage();
+                outmsg.Write((byte)PacketType.Input);
+                outmsg.Write(player.Username);
+                outmsg.Write(player.XPosition);
+                outmsg.Write(player.YPosition);
+                outmsg.Write(player.Animation.XRecPos);
+                outmsg.Write(player.Animation.YRecPos);
+                outmsg.Write(player.Animation.Height);
+                outmsg.Write(player.Animation.Width);
+                outmsg.Write(player.intersectingLava);
+                client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
             }
 
 

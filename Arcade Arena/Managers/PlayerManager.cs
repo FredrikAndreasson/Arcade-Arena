@@ -22,15 +22,15 @@ namespace Arcade_Arena.Managers
                 var player = networkManager.Players.FirstOrDefault(p => p.Username == networkManager.Username);
 
                 //position
-                player.XPosition = (int)clientPlayer.position.X;
-                player.YPosition = (int)clientPlayer.position.Y;
+                player.XPosition = (int)clientPlayer.Position.X;
+                player.YPosition = (int)clientPlayer.Position.Y;
 
                 //source rectangle
                 player.Animation.XRecPos = clientPlayer.CurrentAnimation.Source.X;
                 player.Animation.YRecPos = clientPlayer.CurrentAnimation.Source.Y;
                 player.Animation.Height = clientPlayer.CurrentAnimation.Source.Height;
                 player.Animation.Width = clientPlayer.CurrentAnimation.Source.Width;
-                player.intersectingLava = clientPlayer.intersectingLava;
+                player.intersectingLava = clientPlayer.IntersectingLava;
                 //
                 
 

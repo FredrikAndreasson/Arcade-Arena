@@ -65,7 +65,7 @@ namespace Arcade_Arena.Classes
                 if (groundSmashAnimation.XIndex >= 4)
                 {
                     inGroundSmash = false;
-                    middleOfSprite = new Vector2(position.X + 35, position.Y + 60);
+                    middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
                     aimDirection = UpdateAimDirection();
                 }
             }
@@ -75,14 +75,14 @@ namespace Arcade_Arena.Classes
                 if ((bodySlamCooldown <= 2f))
                 {
                     inBodySlam = false;
-                    middleOfSprite = new Vector2(position.X + 35, position.Y + 60);
+                    middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
                     aimDirection = UpdateAimDirection();
                 }
             }
             else
             {
                 base.Update();
-                middleOfSprite = new Vector2(position.X + 35, position.Y + 60);
+                middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
             }
         }
 
@@ -97,7 +97,7 @@ namespace Arcade_Arena.Classes
 
             if (inGroundSmash)
             {
-                groundSmashAnimation.Draw(spriteBatch, position - new Vector2(71, 71), 0.0f, Vector2.Zero, 5.0f);
+                groundSmashAnimation.Draw(spriteBatch, Position - new Vector2(71, 71), 0.0f, Vector2.Zero, 5.0f);
             }
             else if (inBodySlam)
             {
@@ -107,7 +107,7 @@ namespace Arcade_Arena.Classes
             {
                 currentAnimation = walkingAnimation;
             }
-            currentAnimation.Draw(spriteBatch, position, 0.0f, Vector2.Zero, 5.0f);
+            currentAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, 5.0f);
         }
 
         private void GroundSmash()

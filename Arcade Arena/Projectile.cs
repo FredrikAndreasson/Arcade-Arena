@@ -23,6 +23,11 @@ namespace Arcade_Arena
             activeTimer = timer;
         }
 
+        public void SetPosition(Vector2 pos)
+        {
+            position = pos;
+        }
+
         public void Update()
         {
             position += velocity;
@@ -34,7 +39,7 @@ namespace Arcade_Arena
         }
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, position, null, Color.White, 0, Vector2.Zero, 6, SpriteEffects.None, 1);
+            spriteBatch.Draw(Texture, Position, null, Color.White, 0, Vector2.Zero, 6, SpriteEffects.None, 1);
         }
     }
 }

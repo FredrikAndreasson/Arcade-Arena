@@ -18,11 +18,11 @@ namespace Arcade_Arena
 
         public void Update(Vector2 newPos)
         {
-            if (texture == AssetManager.OgreShadow)
+            if (Texture == AssetManager.OgreShadow)
             {
 
             }
-            else if (texture == AssetManager.WizardShadow)
+            else if (Texture == AssetManager.WizardShadow)
             {
                 position = new Vector2(newPos.X + AssetManager.WizardShadow.Width / 4, newPos.Y+85);
             }
@@ -32,7 +32,7 @@ namespace Arcade_Arena
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, position, Color.Red);
+            spriteBatch.Draw(Texture, Position, Color.Red);
         }
 
     }

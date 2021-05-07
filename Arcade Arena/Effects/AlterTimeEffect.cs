@@ -17,12 +17,12 @@ namespace Arcade_Arena
         public override void OnGetEffect(Character character, double timer)
         {
             base.OnGetEffect(character, timer);
-            character.speedAlteration += amount;
+            character.SpeedAlteration += amount;
         }
 
         public override void OnLossEffect(Character character)
         {
-            character.speedAlteration -= amount;
+            character.SpeedAlteration -= amount;
             base.OnLossEffect(character);
         }
     }

@@ -28,12 +28,12 @@ namespace Arcade_Arena
 
         public void UpdateWeapon()
         {
-            weaponPosition.X = position.X + 50;
-            weaponPosition.Y = position.Y + 60;
+            weaponPosition.X = Position.X + 50;
+            weaponPosition.Y = Position.Y + 60;
             MouseState mousePosition = Mouse.GetState();
 
-            distance.X = mousePosition.X - position.X;
-            distance.Y = mousePosition.Y - position.Y;
+            distance.X = mousePosition.X - Position.X;
+            distance.Y = mousePosition.Y - Position.Y;
 
             orbiterRotation = (float)Math.Atan2(distance.Y, distance.X);
             Console.WriteLine(orbiterRotation);
@@ -76,9 +76,9 @@ namespace Arcade_Arena
         public virtual void Shoot()
         {
 
-            Projectile projectile = new Projectile(0, 0, position, AssetManager.WizardWandProjectile, speed, direction);
+            Projectile projectile = new Projectile(0, 0, Position, AssetManager.WizardWandProjectile, speed, direction);
             projectile.velocity = new Vector2((float)Math.Cos(orbiterRotation) * 10f, (float)Math.Sin(orbiterRotation) * 10f);
-            projectile.position = (position - (new Vector2(-40,-58))) + projectile.velocity;
+            projectile.SetPosition((Position - (new Vector2(-40,-58))) + projectile.velocity);
             projectile.projectileIsActive = true;
             if (projectileList.Count() < 40)
             {

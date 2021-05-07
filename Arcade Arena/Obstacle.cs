@@ -29,7 +29,7 @@ namespace Arcade_Arena
 
         private void UpdateHitbox()
         {
-            hitBox = new Rectangle((int)position.X, (int)position.Y + heightShortener, texture.Width, texture.Height - heightShortener);
+            hitBox = new Rectangle((int)Position.X, (int)Position.Y + heightShortener, Texture.Width, Texture.Height - heightShortener);
         }
     }
 }

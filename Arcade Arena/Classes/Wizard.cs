@@ -73,7 +73,7 @@ namespace Arcade_Arena.Classes
                 {
                     teleporting = false;
                     position = newPosition;
-                    middleOfSprite = new Vector2(position.X + 35, position.Y + 60);
+                    middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
                     aimDirection = UpdateAimDirection();
                 }
             }
@@ -83,17 +83,17 @@ namespace Arcade_Arena.Classes
                 if ((iceBlockCooldown <= 9.7f && MouseKeyboardManager.Clicked(Keys.LeftShift)) || iceBlockAnimation.XIndex >= 4)
                 {
                     inIceBlock = false;
-                    middleOfSprite = new Vector2(position.X + 35, position.Y + 60);
+                    middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
                     aimDirection = UpdateAimDirection();
                 }
             }
             else
             {
                 base.Update();
-                middleOfSprite = new Vector2(position.X + 35, position.Y + 60);
+                middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
             }
 
-            shadow.Update(position);
+            shadow.Update(Position);
 
         }
 
@@ -106,15 +106,15 @@ namespace Arcade_Arena.Classes
         public override void Draw(SpriteBatch spriteBatch)
         {
             shadow.Draw(spriteBatch);
-            spriteBatch.Draw(AssetManager.WizardShadow, new Vector2(position.X+AssetManager.WizardShadow.Width/4, position.Y+85), Color.Red);
-            currentAnimation.Draw(spriteBatch, position, 0.0f, Vector2.Zero, 5.0f);
+            spriteBatch.Draw(AssetManager.WizardShadow, new Vector2(Position.X+AssetManager.WizardShadow.Width/4, Position.Y+85), Color.Red);
+            currentAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, 5.0f);
             if (teleporting)
             {
                 teleportOutAnimation.Draw(spriteBatch, newPosition, 0.0f, Vector2.Zero, 5.0f);
             }
             else if (inIceBlock)
             {
-                iceBlockAnimation.Draw(spriteBatch, position, 0.0f, Vector2.Zero, 5.0f);
+                iceBlockAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, 5.0f);
             } else
             {
                 ChangeAnimation(walkingAnimation);
@@ -135,7 +135,7 @@ namespace Arcade_Arena.Classes
             teleportVelocity.Y = (float)(Math.Sin(MathHelper.ToRadians((float)aimDirection)) * speed);
             teleportVelocity.X = (float)(Math.Cos(MathHelper.ToRadians((float)aimDirection)) * speed);
 
-            newPosition = position + (teleportVelocity * 100);
+            newPosition = Position + (teleportVelocity * 100);
 
             Ability ability = new TeleportAbility(this, newPosition);
             abilityBuffer.Add(ability);
