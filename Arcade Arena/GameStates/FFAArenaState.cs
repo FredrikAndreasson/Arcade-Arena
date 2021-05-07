@@ -43,7 +43,7 @@ namespace Arcade_Arena
             userInterfaceManager = new UserInterfaceManager(networkManager, Window);
             lava.DrawRenderTarget(spriteBatch);
 
-            Intitialize();
+            networkManager.Start();
 
         }
 
@@ -71,12 +71,6 @@ namespace Arcade_Arena
             player.CheckLavaCollision(lava);
         }
 
-        private void Intitialize()
-        {
-            networkManager.Start();
-        }
-
-
         public override void Draw(SpriteBatch spriteBatch, States state)
         {
             Game1.graphics.GraphicsDevice.Clear(networkManager.Active ? Color.Green : Color.Red);
@@ -94,7 +88,6 @@ namespace Arcade_Arena
                     if (player.Username != networkManager.Username && player != null)
                     {
                         Rectangle source = new Rectangle(player.Animation.XRecPos, player.Animation.YRecPos, player.Animation.Width, player.Animation.Height);
-                        System.Diagnostics.Debug.WriteLine(" XrecPos game1: " + player.Animation.XRecPos);
 
                         if (!player.intersectingLava)
                         {
