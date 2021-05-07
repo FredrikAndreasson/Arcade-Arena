@@ -7,26 +7,20 @@ namespace Arcade_Arena
 {
     public class Lava
     {
-        private const int radiusShrinkRate = 1;
-        private const int timerTime = 500;
-        const int rectHeight = 20;
+        const int RECT_HEIGHT = 20;
         public RenderTarget2D renderTarget; // ATALAY HAR GJORT DENNA PUBLIC FOR TILLFELLET
         GraphicsDevice graphicsDevice;
-        int radius;
         Color[] originalLava;
         int middleWidth;
         int middleHeight;
-        bool shrink;
 
-        public Lava(GraphicsDevice graphicsDevice, int radius)
+        public Lava(GraphicsDevice graphicsDevice, GameWindow window)
         {
             this.graphicsDevice = graphicsDevice;
-            renderTarget = new RenderTarget2D(graphicsDevice, 1920, 1080);
+            renderTarget = new RenderTarget2D(graphicsDevice, window.ClientBounds.Width, window.ClientBounds.Height);
             originalLava = new Color[renderTarget.Width * renderTarget.Height];
             middleHeight = AssetManager.Lava.Height / 2;
             middleWidth = AssetManager.Lava.Width / 2;
-           
-            this.radius = radius;
         }
 
 
@@ -63,11 +57,11 @@ namespace Arcade_Arena
 
                 if (i < 180)
                 {
-                    testRects.Add(new Rectangle((int)(Math.Cos(MathHelper.ToRadians(i)) * radius) + middleWidth, (int)(Math.Sin(MathHelper.ToRadians(i)) * radius) + middleHeight, (int)(Math.Cos(MathHelper.ToRadians(90 - j)) * radius) * 2, rectHeight));
+                    testRects.Add(new Rectangle((int)(Math.Cos(MathHelper.ToRadians(i)) * radius) + middleWidth, (int)(Math.Sin(MathHelper.ToRadians(i)) * radius) + middleHeight, (int)(Math.Cos(MathHelper.ToRadians(90 - j)) * radius) * 2, RECT_HEIGHT));
                 }
                 else if (i < 270)
                 {
-                    testRects.Add(new Rectangle((int)(Math.Cos(MathHelper.ToRadians(i)) * radius) + middleWidth, (int)(Math.Sin(MathHelper.ToRadians(i)) * radius) + middleHeight, (int)(Math.Cos(MathHelper.ToRadians(90 - j)) * radius) * 2, rectHeight));
+                    testRects.Add(new Rectangle((int)(Math.Cos(MathHelper.ToRadians(i)) * radius) + middleWidth, (int)(Math.Sin(MathHelper.ToRadians(i)) * radius) + middleHeight, (int)(Math.Cos(MathHelper.ToRadians(90 - j)) * radius) * 2, RECT_HEIGHT));
 
                 }
 
