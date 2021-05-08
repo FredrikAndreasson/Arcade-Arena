@@ -34,7 +34,7 @@ namespace Arcade_Arena
             networkManager = new NetworkManager();
 
             player = new Wizard(new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2), 3f, 0.0);
-            lava = new Lava(Game1.graphics.GraphicsDevice, Window);
+            lava = new Lava(Game1.graphics.GraphicsDevice, 400);
             playerManager = new PlayerManager(networkManager, player);
             abilityManager = new AbilityManager(networkManager, playerManager);
 
@@ -45,7 +45,7 @@ namespace Arcade_Arena
 
         }
 
-        public override void Update(GameTime gameTime, ref States states)
+        public override void Update(GameTime gameTime)
         {
             networkManager.Active = networkManager.Status == NetConnectionStatus.Connected;
             
@@ -66,7 +66,7 @@ namespace Arcade_Arena
         }
 
 
-        public override void Draw(SpriteBatch spriteBatch, States state)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             Game1.graphics.GraphicsDevice.Clear(networkManager.Active ? Color.Green : Color.Red);
 
