@@ -12,14 +12,12 @@ namespace Arcade_Arena
     {
         private Rectangle hitBox;
         private int heightShortener = 10;
-        private Texture2D texture;
         public Rectangle HitBox()
         {
             return hitBox;
         }
-        public Obstacle(Vector2 position, Texture2D texture) : base(position)
+        public Obstacle(Vector2 position, Texture2D texture) : base(position, texture)
         {
-            this.texture = texture;
             UpdateHitbox();
         }
 

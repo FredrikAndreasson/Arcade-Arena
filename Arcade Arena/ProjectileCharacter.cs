@@ -17,21 +17,23 @@ namespace Arcade_Arena
         public static float orbiterRotation = 0;
         float cooldownTimer;
         Vector2 distance; 
+        List<Projectile> projectileList;
 
-        public ProjectileCharacter(Vector2 position, float speed, double direction) : base(position, speed, direction) 
+        public ProjectileCharacter(Vector2 position, Texture2D texture, float speed, double direction) : base(position, texture, speed, direction) 
         {
             weaponOrigin = new Vector2(0, 0);
             cooldownTimer = 0;
+            projectileList = new List<Projectile>();
         }
 
         public void UpdateWeapon()
         {
-            weaponPosition.X = position.X + 50;
-            weaponPosition.Y = position.Y + 60;
+            weaponPosition.X = Position.X + 50;
+            weaponPosition.Y = Position.Y + 60;
             MouseState mousePosition = Mouse.GetState();
 
-            distance.X = mousePosition.X - position.X;
-            distance.Y = mousePosition.Y - position.Y;
+            distance.X = mousePosition.X - Position.X;
+            distance.Y = mousePosition.Y - Position.Y;
 
             orbiterRotation = (float)Math.Atan2(distance.Y, distance.X);
             Console.WriteLine(orbiterRotation);
@@ -46,27 +48,52 @@ namespace Arcade_Arena
 
             cooldownTimer += (float)Game1.elapsedGameTimeSeconds;
 
-            if (cooldownTimer >= 1f && Keyboard.GetState().IsKeyDown(Keys.Space))
+            if (cooldownTimer >= 0.1f && Keyboard.GetState().IsKeyDown(Keys.Space))
             {
                 Shoot();
                 cooldownTimer = 0;
             }
+            UpdateProjectile();
 
+        }
+
+        public virtual void UpdateProjectile()
+        {
+            foreach (Projectile projectile in projectileList)
+            {
+                projectile.Update();
+            }
+
+            for (int i = 0; i < projectileList.Count; i++)
+            {
+                if (!projectileList[i].projectileIsActive)
+                {
+                    projectileList.RemoveAt(i);
+                }
+            }
         }
 
         public virtual void Shoot()
         {
-            Projectile projectile = new Projectile(5, 2, position, speed, direction);
-            projectile.velocity = new Vector2((float)Math.Cos(orbiterRotation) * 10f, (float)Math.Sin(orbiterRotation) * 10f);
-            projectile.position = (position - (new Vector2(-40,-58))) + projectile.velocity;
-            abilityBuffer.Add(projectile);
 
+            Projectile projectile = new Projectile(0, 0, Position, AssetManager.WizardWandProjectile, speed, direction);
+            projectile.velocity = new Vector2((float)Math.Cos(orbiterRotation) * 10f, (float)Math.Sin(orbiterRotation) * 10f);
+            projectile.SetPosition((Position - (new Vector2(-40,-58))) + projectile.velocity);
+            projectile.projectileIsActive = true;
+            if (projectileList.Count() < 40)
+            {
+                projectileList.Add(projectile);
+            }
         }
 
         public virtual void Draw (SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(AssetManager.WizardWand, new Vector2(weaponPosition.X, weaponPosition.Y), null, Color.White, orbiterRotation,
-                weaponOrigin, 6, SpriteEffects.None, 0);
+            spriteBatch.Draw(AssetManager.WizardWand, new Vector2(weaponPosition.X, weaponPosition.Y), null, Color.White, orbiterRotation, weaponOrigin, 6, SpriteEffects.None, 0);
+            foreach (Projectile projectile in projectileList)
+            {
+                projectile.Draw(spriteBatch);
+            }
+
         }
     }
 }

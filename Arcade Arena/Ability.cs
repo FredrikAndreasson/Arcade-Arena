@@ -12,9 +12,8 @@ namespace Arcade_Arena
     public abstract class Ability
     {
 
-        public Vector2 position;
-        public byte ID;
         protected bool isDead;
+        protected Vector2 position;
         protected SpriteAnimation currentAnimation;
 
         public Ability()
@@ -26,6 +25,8 @@ namespace Arcade_Arena
 
         public AbilityOutline.AbilityType Type { get; set; }
         public bool IsDead => isDead;
+
+        public Vector2 Position => position;
 
         public SpriteAnimation CurrentAnimation => currentAnimation;
 
