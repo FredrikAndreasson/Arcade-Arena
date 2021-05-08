@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Arcade_Arena.Library;
 using Arcade_Arena.Server.Commands;
 using Arcade_Arena.Server.Managers;
 using Arcade_Arena.Server.MyEventArgs;
@@ -13,6 +14,7 @@ namespace Arcade_Arena.Server
         public event EventHandler<NewPlayerEventArgs> NewPlayer;
         private readonly ManagerLogger managerLogger;
         private List<PlayerAndConnection> players;
+        private List<AbilityOutline> abilities;
         private NetPeerConfiguration config;
         public NetServer NetServer { get; private set; }
 
@@ -71,7 +73,7 @@ namespace Arcade_Arena.Server
         {
             var packetType = (PacketType)inc.ReadByte();
             var command = PacketFactory.GetCommand(packetType);
-            command.Run(managerLogger, this, inc, null, players);
+            command.Run(managerLogger, this, inc, null, players, abilities);
         }
 
         public void SendNewPlayerEvent(string username)

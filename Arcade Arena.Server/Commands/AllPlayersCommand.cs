@@ -1,4 +1,5 @@
-﻿using Arcade_Arena.Server.Managers;
+﻿using Arcade_Arena.Library;
+using Arcade_Arena.Server.Managers;
 using Lidgren.Network;
 using System.Collections.Generic;
 
@@ -6,7 +7,8 @@ namespace Arcade_Arena.Server.Commands
 {
     class AllPlayersCommand : ICommand
     {
-        public void Run(ManagerLogger managerLogger, Server server, NetIncomingMessage inc, PlayerAndConnection playerAndConnection, List<PlayerAndConnection> players)
+        public void Run(ManagerLogger managerLogger, Server server, NetIncomingMessage inc,
+            PlayerAndConnection playerAndConnection, List<PlayerAndConnection> players, List<AbilityOutline> abilities)
         {
             managerLogger.AddLogMessage("Server", "Sending full player list");
             var outmsg = server.NetServer.CreateMessage();

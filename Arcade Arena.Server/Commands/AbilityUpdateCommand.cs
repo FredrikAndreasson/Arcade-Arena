@@ -11,7 +11,8 @@ namespace Arcade_Arena.Server.Commands
 {
     class AbilityUpdateCommand : ICommand
     {
-        public void Run(ManagerLogger managerLogger, Server server, NetIncomingMessage inc, PlayerAndConnection playerAndConnection, List<PlayerAndConnection> players)
+        public void Run(ManagerLogger managerLogger, Server server, NetIncomingMessage inc,
+            PlayerAndConnection playerAndConnection, List<PlayerAndConnection> players, List<AbilityOutline> abilities)
         {
             managerLogger.AddLogMessage("Update", "Received ability");
             var nmbrOfAbilities = inc.ReadInt32();

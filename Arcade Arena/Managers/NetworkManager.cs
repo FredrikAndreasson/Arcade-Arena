@@ -15,6 +15,8 @@ namespace Arcade_Arena.Managers
         private NetClient client;
         public List<Player> Players { get; set; }
 
+        public List<AbilityOutline> ServerAbilities { get; set; }
+
         public string Username { get; set; }
 
         public bool Active { get; set; }
@@ -224,18 +226,15 @@ namespace Arcade_Arena.Managers
 
         private void DeleteAbility(byte ID, string username)
         {
-            var player = Players.FirstOrDefault(p => p.Username == username);
-            if (player != null)
-            {
-                for (int i = 0; i < player.abilities.Count; i++)
+
+                for (int i = 0; i < ServerAbilities.Count; i++)
                 {
-                    if (player.abilities[i].ID == ID)
+                    if (ServerAbilities[i].ID == ID && ServerAbilities[i].UserName == username)
                     {
-                        player.abilities.RemoveAt(i);
+                        ServerAbilities.RemoveAt(i);
                         i--;
                     }
                 }
-            }
         }
 
         private void ReadAbilityToDelete(NetIncomingMessage inc)

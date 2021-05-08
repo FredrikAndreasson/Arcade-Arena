@@ -11,7 +11,8 @@ namespace Arcade_Arena.Server.Commands
 {
     class AbilityCreationCommand : ICommand
     {
-        public void Run(ManagerLogger managerLogger, Server server, NetIncomingMessage inc, PlayerAndConnection playerAndConnection, List<PlayerAndConnection> players)
+        public void Run(ManagerLogger managerLogger, Server server, NetIncomingMessage inc,
+            PlayerAndConnection playerAndConnection, List<PlayerAndConnection> players, List<AbilityOutline> abilities)
         {
             managerLogger.AddLogMessage("Create", "Received ability");
             var name = inc.ReadString();
