@@ -15,7 +15,6 @@ namespace Arcade_Arena
         protected bool walking = false;
         protected bool canWalk = true;
 
-        protected sbyte health;
         protected int mana;
         protected bool isDead = false;
 
@@ -26,6 +25,7 @@ namespace Arcade_Arena
 
         public List<Effect> EffectList = new List<Effect>();
 
+        public sbyte health;
         
 
         public Shadow shadow;
@@ -42,7 +42,7 @@ namespace Arcade_Arena
 
         public SpriteAnimation CurrentAnimation => currentAnimation;
 
-        public sbyte Health { get; set; }
+        public sbyte Health { get { return health; } private set { health = value; } }
 
         public bool IntersectingLava { get; set; }
 
@@ -66,11 +66,6 @@ namespace Arcade_Arena
         public void TakeDamage()
         {
             health -= 10;
-        }
-
-        public int GetHealth()
-        {
-            return health;
         }
         
         public void UpdateVelocity(double newDirection, float newSpeed)

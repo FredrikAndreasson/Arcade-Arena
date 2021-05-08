@@ -60,7 +60,7 @@ namespace Arcade_Arena.Managers
                         {
                             player.TakeDamage();
                             networkManager.DeleteProjectile(players.abilities[x].ID, players.abilities[x].UserName);
-                            Debug.WriteLine($"hmm {player.GetHealth()}");
+                            Debug.WriteLine($"hmm {player.Health}");
                         }
                     }
                 }
