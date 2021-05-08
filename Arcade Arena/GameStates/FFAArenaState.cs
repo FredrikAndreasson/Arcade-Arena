@@ -95,11 +95,11 @@ namespace Arcade_Arena
                             {
                                 case Library.Player.ClassType.Wizard:
                                     spriteBatch.Draw(AssetManager.WizardSpriteSheet, new Vector2(player.XPosition, player.YPosition), source,
-                                        Color.White, 0f, Vector2.Zero, 5.0f, SpriteEffects.None, 1.0f);
+                                        Color.White, 0f, Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1.0f);
                                     break;
                                 case Library.Player.ClassType.Ogre:
                                     spriteBatch.Draw(AssetManager.ogreSpriteSheet, new Vector2(player.XPosition, player.YPosition), source,
-                                        Color.White, 0f, Vector2.Zero, 5.0f, SpriteEffects.None, 1.0f);
+                                        Color.White, 0f, Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1.0f);
                                     break;
                                 case Library.Player.ClassType.Huntress:
                                     break;

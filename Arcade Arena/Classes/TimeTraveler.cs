@@ -113,7 +113,7 @@ namespace Arcade_Arena.Classes
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            currentAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, 5.0f);
+            currentAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, Game1.SCALE);
             currentAnimation = walkingAnimation;
 
             foreach (TimeZone timeZone in timeZones)

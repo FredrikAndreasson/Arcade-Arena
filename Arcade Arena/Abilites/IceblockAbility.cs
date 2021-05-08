@@ -26,7 +26,7 @@ namespace Arcade_Arena.Abilites
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            //currentAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, 5.0f);
+            //currentAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, Game1.SCALE);
         }
 
         public override void Update()

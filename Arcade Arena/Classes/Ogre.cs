@@ -97,17 +97,17 @@ namespace Arcade_Arena.Classes
 
             if (inGroundSmash)
             {
-                groundSmashAnimation.Draw(spriteBatch, Position - new Vector2(71, 71), 0.0f, Vector2.Zero, 5.0f);
+                groundSmashAnimation.Draw(spriteBatch, Position - new Vector2(71, 71), 0.0f, Vector2.Zero, Game1.SCALE);
             }
             else if (inBodySlam)
             {
-                // bodySlamAnimation.Draw(spriteBatch, position, 0.0f, Vector2.Zero, 5.0f);
+                // bodySlamAnimation.Draw(spriteBatch, position, 0.0f, Vector2.Zero, Game1.SCALE);
             }
             else
             {
                 currentAnimation = walkingAnimation;
             }
-            currentAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, 5.0f);
+            currentAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, Game1.SCALE);
         }
 
         private void GroundSmash()

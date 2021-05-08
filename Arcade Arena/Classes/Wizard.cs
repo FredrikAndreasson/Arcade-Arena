@@ -107,14 +107,14 @@ namespace Arcade_Arena.Classes
         {
             shadow.Draw(spriteBatch);
             spriteBatch.Draw(AssetManager.WizardShadow, new Vector2(Position.X+AssetManager.WizardShadow.Width/4, Position.Y+85), Color.Red);
-            currentAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, 4.0f);
+            currentAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, Game1.SCALE);
             if (teleporting)
             {
-                teleportOutAnimation.Draw(spriteBatch, newPosition, 0.0f, Vector2.Zero, 4.0f);
+                teleportOutAnimation.Draw(spriteBatch, newPosition, 0.0f, Vector2.Zero, Game1.SCALE);
             }
             else if (inIceBlock)
             {
-                iceBlockAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, 4.0f);
+                iceBlockAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, Game1.SCALE);
             } else
             {
                 ChangeAnimation(walkingAnimation);

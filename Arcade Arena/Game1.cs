@@ -27,6 +27,8 @@ namespace Arcade_Arena
 
         public static Random random = new Random();
 
+        public const float SCALE = 5.0f;
+
         public static double elapsedGameTimeSeconds { get; private set; }
         public static double elapsedGameTimeMilliseconds { get; private set; }
 
