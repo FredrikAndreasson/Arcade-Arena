@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,7 +30,7 @@ namespace Arcade_Arena.Managers
             
         }
 
-        public void Update()
+        public void Update(Character player)
         {
             foreach (Ability ability in abilities)
             {
@@ -44,8 +45,21 @@ namespace Arcade_Arena.Managers
                 i--;
             }
 
+
+            foreach (Ability item in abilities)
+            {
+                Rectangle playerRect = new Rectangle(player.Position.ToPoint(), player.CurrentAnimation.FrameSize.ToPoint());
+                if (playerRect.Intersects(new Rectangle(item.position.ToPoint(), item.CurrentAnimation.FrameSize.ToPoint())))
+                {
+                    player.TakeDamage();
+                    item.Kill();
+                    Debug.WriteLine($"hmm {player.GetHealth()}");
+                }
+            }
+
             AbilityDeletionCheck();
         }
+
 
         public void Draw(SpriteBatch spriteBatch)
         {

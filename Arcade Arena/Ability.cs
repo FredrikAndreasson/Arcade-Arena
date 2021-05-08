@@ -31,6 +31,11 @@ namespace Arcade_Arena
         public SpriteAnimation CurrentAnimation => currentAnimation;
 
 
+        public void Kill()
+        {
+            isDead = true;
+        }
+
         public abstract void Update();
 
         public abstract void Draw(SpriteBatch spriteBatch);

@@ -62,7 +62,7 @@ namespace Arcade_Arena
             
             networkManager.Update();
             playerManager.UpdatePlayer();
-            abilityManager.Update();
+            abilityManager.Update(player);
             userInterfaceManager.Update(gameTime);
 
             MouseKeyboardManager.Update();

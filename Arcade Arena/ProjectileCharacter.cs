@@ -35,7 +35,7 @@ namespace Arcade_Arena
             distance.Y = mousePosition.Y - Position.Y;
 
             orbiterRotation = (float)Math.Atan2(distance.Y, distance.X);
-            Console.WriteLine(orbiterRotation);
+           // Console.WriteLine(orbiterRotation);
             //if (Keyboard.GetState().IsKeyDown(Keys.O))
             //{
             //    orbiterRotation += 0.1f;

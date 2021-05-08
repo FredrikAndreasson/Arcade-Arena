@@ -105,6 +105,7 @@ namespace Arcade_Arena.Classes
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            base.Draw(spriteBatch);
             shadow.Draw(spriteBatch);
             spriteBatch.Draw(AssetManager.WizardShadow, new Vector2(Position.X+AssetManager.WizardShadow.Width/4, Position.Y+85), Color.Red);
             currentAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, Game1.SCALE);
@@ -119,7 +120,7 @@ namespace Arcade_Arena.Classes
             {
                 ChangeAnimation(walkingAnimation);
             }
-            base.Draw(spriteBatch);
+            
         }
 
         private void TeleportAbility()

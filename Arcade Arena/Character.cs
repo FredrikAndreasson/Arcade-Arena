@@ -17,6 +17,7 @@ namespace Arcade_Arena
 
         protected int health;
         protected int mana;
+        protected bool isDead = false;
 
 
         protected double aimDirection;
@@ -52,8 +53,23 @@ namespace Arcade_Arena
             {
                 UpdateVelocity(direction, speed);
             }
+            if(health<= 0)
+            {
+                isDead = true;
+            }
+
         }
 
+        public void TakeDamage()
+        {
+            health -= 10;
+        }
+
+        public int GetHealth()
+        {
+            return health;
+        }
+        
         public void UpdateVelocity(double newDirection, float newSpeed)
         {
             velocity.Y = (float)(Math.Sin(MathHelper.ToRadians((float)newDirection)) * newSpeed * SpeedAlteration);
@@ -163,6 +179,8 @@ namespace Arcade_Arena
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
+            if(isDead)
+                return;
         }
 
         public void CheckLavaCollision(Lava lava)
