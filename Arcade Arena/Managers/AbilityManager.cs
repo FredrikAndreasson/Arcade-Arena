@@ -46,16 +46,21 @@ namespace Arcade_Arena.Managers
             }
 
 
-            //foreach (Ability item in abilities)
-            //{
-            //    Rectangle playerRect = new Rectangle(player.Position.ToPoint(), new Point((int)player.CurrentAnimation.FrameSize.X*5, (int)player.CurrentAnimation.FrameSize.Y * 5));
-            //    if (playerRect.Intersects(new Rectangle(item.position.ToPoint(), new Point((int)item.CurrentAnimation.FrameSize.X * 5, (int)item.CurrentAnimation.FrameSize.Y * 5))))
-            //    {
-            //        player.TakeDamage();
-            //        item.Kill();
-            //        Debug.WriteLine($"hmm {player.GetHealth()}");
-            //    }
-            //}
+            foreach (Ability item in abilities)
+            {
+                
+
+                Rectangle playerRect = new Rectangle(player.Position.ToPoint(), new Point((int)player.CurrentAnimation.FrameSize.X*5, (int)player.CurrentAnimation.FrameSize.Y * 5));
+                if (item.Username != networkManager.Username && playerRect.Intersects(new Rectangle(item.position.ToPoint(), new Point((int)item.CurrentAnimation.FrameSize.X * 5, (int)item.CurrentAnimation.FrameSize.Y * 5))))
+                {
+
+
+
+                    player.TakeDamage();
+                    item.Kill();
+                    Debug.WriteLine($"hmm {player.GetHealth()}");
+                }
+            }
 
             AbilityDeletionCheck();
         }
