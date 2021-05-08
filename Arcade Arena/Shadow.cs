@@ -13,7 +13,7 @@ namespace Arcade_Arena
 
         public Shadow(Vector2 position, Texture2D texture, float speed, double direction) : base(position, texture, speed, direction)
         {
-            
+
         }
 
         public void Update(Vector2 newPos)

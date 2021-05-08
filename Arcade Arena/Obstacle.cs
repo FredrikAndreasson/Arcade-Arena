@@ -16,7 +16,7 @@ namespace Arcade_Arena
         {
             return hitBox;
         }
-        public Obstacle(Vector2 position, Texture2D texture) : base(position)
+        public Obstacle(Vector2 position, Texture2D texture) : base(position, texture)
         {
             UpdateHitbox();
         }
