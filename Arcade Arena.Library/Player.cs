@@ -36,6 +36,7 @@ namespace Arcade_Arena.Library
             this.XPosition = xPosition;
             this.YPosition = yPosition;
 
+
             Animation = new Animation();
             abilities = new List<AbilityOutline>();
         }

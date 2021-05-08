@@ -89,7 +89,7 @@ namespace Arcade_Arena
                     {
                         Rectangle source = new Rectangle(player.Animation.XRecPos, player.Animation.YRecPos, player.Animation.Width, player.Animation.Height);
 
-                        if (!player.intersectingLava && player.Health <=0)
+                        if (!player.intersectingLava || player.Health >= 0)
                         {
                             switch (player.Type)
                             {
@@ -112,9 +112,11 @@ namespace Arcade_Arena
                             }
 
                             spriteBatch.DrawString(AssetManager.CooldownFont, $"{player.Username}", new Vector2(player.XPosition, player.YPosition - 5), Color.White);
+                            spriteBatch.DrawString(AssetManager.CooldownFont, $"{player.Health}", new Vector2(player.XPosition, player.YPosition - 10), Color.White);
+
 
                         }
-                        
+
                         //spriteBatch.DrawString(font, player.Username, new Vector2(player.XPosition - 10, player.YPosition - 10), Color.Black);
                     }
                     else
@@ -123,7 +125,7 @@ namespace Arcade_Arena
                         {
                             this.player.Draw(spriteBatch);
                             spriteBatch.DrawString(AssetManager.CooldownFont, $"{networkManager.Username}", new Vector2(player.XPosition, player.YPosition - 5), Color.White);
-
+                            spriteBatch.DrawString(AssetManager.CooldownFont, $"{this.player.GetHealth()}", new Vector2(player.XPosition, player.YPosition - 10), Color.White);
 
                         }
                     }

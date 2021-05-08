@@ -74,18 +74,18 @@ namespace Arcade_Arena.Managers
         {
             foreach (Ability ability in abilities)
             {
-                ability.Draw(spriteBatch);
+                //ability.Draw(spriteBatch);
             }
             for (int i = 0; i < networkManager.Players.Count; i++)
             {
-                if (networkManager.Players[i].Username != networkManager.Username)
-                {
+                //if (networkManager.Players[i].Username != networkManager.Username)
+                //{
                     Player player = networkManager.Players[i];
                     for (int x = 0; x < player.abilities.Count; x++)
                     {
                         DrawAbility(spriteBatch, player.abilities[x], player.Type);
                     }
-                }
+                //}
             }
         }
 
