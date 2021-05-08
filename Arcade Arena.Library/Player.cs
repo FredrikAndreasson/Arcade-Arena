@@ -22,6 +22,8 @@ namespace Arcade_Arena.Library
         public int XPosition { get; set; }
         public int YPosition { get; set; }
 
+        public sbyte Health { get; set; }
+
 
         public bool intersectingLava { get; set; }
 

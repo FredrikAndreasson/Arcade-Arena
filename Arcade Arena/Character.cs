@@ -15,7 +15,7 @@ namespace Arcade_Arena
         protected bool walking = false;
         protected bool canWalk = true;
 
-        protected int health;
+        protected sbyte health;
         protected int mana;
         protected bool isDead = false;
 
@@ -26,7 +26,7 @@ namespace Arcade_Arena
 
         public List<Effect> EffectList = new List<Effect>();
 
-
+        
 
         public Shadow shadow;
 
@@ -42,6 +42,8 @@ namespace Arcade_Arena
 
         public SpriteAnimation CurrentAnimation => currentAnimation;
 
+        public sbyte Health { get; set; }
+
         public bool IntersectingLava { get; set; }
 
         public virtual void Update()
@@ -53,6 +55,7 @@ namespace Arcade_Arena
             {
                 UpdateVelocity(direction, speed);
             }
+
             if(health<= 0)
             {
                 isDead = true;
@@ -114,14 +117,14 @@ namespace Arcade_Arena
             walking = false;
             double newDirection = direction;
 
-            if (Keyboard.GetState().IsKeyDown(Keys.W))
+            if (Keyboard.GetState().IsKeyDown(Keys.W) || MouseKeyboardManager.LeftThumbStickUp())
             {
                 walking = true;
-                if (Keyboard.GetState().IsKeyDown(Keys.D))
+                if (Keyboard.GetState().IsKeyDown(Keys.D) || MouseKeyboardManager.LeftThumbStickRight())
                 {
                     newDirection = 315;
                 }
-                else if (Keyboard.GetState().IsKeyDown(Keys.A))
+                else if (Keyboard.GetState().IsKeyDown(Keys.A) || MouseKeyboardManager.LeftThumbStickLeft())
                 {
                     newDirection = 225;
                 }
@@ -130,14 +133,14 @@ namespace Arcade_Arena
                     newDirection = 270;
                 }
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.S))
+            else if (Keyboard.GetState().IsKeyDown(Keys.S) || MouseKeyboardManager.LeftThumbStickDown())
             {
                 walking = true;
-                if (Keyboard.GetState().IsKeyDown(Keys.D))
+                if (Keyboard.GetState().IsKeyDown(Keys.D) || MouseKeyboardManager.LeftThumbStickRight())
                 {
                     newDirection = 45;
                 }
-                else if (Keyboard.GetState().IsKeyDown(Keys.A))
+                else if (Keyboard.GetState().IsKeyDown(Keys.A) || MouseKeyboardManager.LeftThumbStickLeft())
                 {
                     newDirection = 135;
                 }
@@ -146,14 +149,14 @@ namespace Arcade_Arena
                     newDirection = 90;
                 }
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.D))
+            else if (Keyboard.GetState().IsKeyDown(Keys.D) || MouseKeyboardManager.LeftThumbStickRight())
             {
                 walking = true;
                 {
                     newDirection = 0;
                 }
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.A))
+            else if (Keyboard.GetState().IsKeyDown(Keys.A) || MouseKeyboardManager.LeftThumbStickLeft())
             {
                 walking = true;
                 {

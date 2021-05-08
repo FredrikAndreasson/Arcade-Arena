@@ -24,6 +24,9 @@ namespace Arcade_Arena.Server.Commands
             Byte ID = inc.ReadByte();
 
             var ability = playerAndConnection.Player.abilities.FirstOrDefault(a => a.UserName == name);
+            if (ability == null)
+                return;
+
             if (ability.ID == ID)
             {
                 ability.XPosition = inc.ReadInt32();

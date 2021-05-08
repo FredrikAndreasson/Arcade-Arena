@@ -45,20 +45,24 @@ namespace Arcade_Arena.Managers
                 i--;
             }
 
+            // Rect to check collision between player and projectile, will be moved to Character or removed all together 2 be replaced with pixel perfect
 
-            foreach (Ability item in abilities)
+            Rectangle playerRect = new Rectangle(player.Position.ToPoint(), new Point((int)player.CurrentAnimation.FrameSize.X * 5, (int)player.CurrentAnimation.FrameSize.Y * 5));
+
+            for (int i = 0; i < networkManager.Players.Count; i++)
             {
-                
-
-                Rectangle playerRect = new Rectangle(player.Position.ToPoint(), new Point((int)player.CurrentAnimation.FrameSize.X*5, (int)player.CurrentAnimation.FrameSize.Y * 5));
-                if (item.Username != networkManager.Username && playerRect.Intersects(new Rectangle(item.position.ToPoint(), new Point((int)item.CurrentAnimation.FrameSize.X * 5, (int)item.CurrentAnimation.FrameSize.Y * 5))))
+                if (networkManager.Players[i].Username != networkManager.Username)
                 {
-
-
-
-                    player.TakeDamage();
-                    item.Kill();
-                    Debug.WriteLine($"hmm {player.GetHealth()}");
+                    Player players = networkManager.Players[i];
+                    for (int x = 0; x < players.abilities.Count; x++)
+                    {
+                        if (playerRect.Intersects(new Rectangle(new Point(players.abilities[x].XPosition, players.abilities[x].YPosition), new Point((int)players.abilities[x].Animation.Width * 5, (int)players.abilities[x].Animation.Height* 5))))
+                        {
+                            player.TakeDamage();
+                            networkManager.DeleteProjectile(players.abilities[x].ID, players.abilities[x].UserName);
+                            Debug.WriteLine($"hmm {player.GetHealth()}");
+                        }
+                    }
                 }
             }
 
@@ -121,6 +125,7 @@ namespace Arcade_Arena.Managers
                     {
                         spriteBatch.Draw(AssetManager.WizardWandProjectile, new Vector2(ability.XPosition, ability.YPosition), source, Color.White, 0.0f,
                             Vector2.Zero, 6.0f, SpriteEffects.None, 1.0f);
+                        spriteBatch.DrawString(AssetManager.CooldownFont, $"{ability.UserName} - {ability.ID}", new Vector2(ability.XPosition, ability.YPosition + 5), Color.White);
                     }
                     else if (ability.Type == AbilityOutline.AbilityType.AbilityOne)
                     {

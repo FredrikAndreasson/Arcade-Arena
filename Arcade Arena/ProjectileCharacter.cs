@@ -47,7 +47,7 @@ namespace Arcade_Arena
 
             cooldownTimer += (float)Game1.elapsedGameTimeSeconds;
 
-            if (cooldownTimer >= 1f && Keyboard.GetState().IsKeyDown(Keys.Space))
+            if (cooldownTimer >= 1f && (Keyboard.GetState().IsKeyDown(Keys.Space) || MouseKeyboardManager.Pressed(Buttons.RightTrigger)))
             {
                 Shoot();
                 cooldownTimer = 0;
