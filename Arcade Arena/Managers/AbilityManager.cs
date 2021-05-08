@@ -48,8 +48,8 @@ namespace Arcade_Arena.Managers
 
             foreach (Ability item in abilities)
             {
-                Rectangle playerRect = new Rectangle(player.Position.ToPoint(), player.CurrentAnimation.FrameSize.ToPoint());
-                if (playerRect.Intersects(new Rectangle(item.position.ToPoint(), item.CurrentAnimation.FrameSize.ToPoint())))
+                Rectangle playerRect = new Rectangle(player.Position.ToPoint(), new Point((int)player.CurrentAnimation.FrameSize.X*5, (int)player.CurrentAnimation.FrameSize.Y * 5));
+                if (playerRect.Intersects(new Rectangle(item.position.ToPoint(), new Point((int)item.CurrentAnimation.FrameSize.X * 5, (int)item.CurrentAnimation.FrameSize.Y * 5))))
                 {
                     player.TakeDamage();
                     item.Kill();

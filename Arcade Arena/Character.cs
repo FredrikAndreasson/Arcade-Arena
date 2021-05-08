@@ -179,8 +179,7 @@ namespace Arcade_Arena
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            if(isDead)
-                return;
+            
         }
 
         public void CheckLavaCollision(Lava lava)
