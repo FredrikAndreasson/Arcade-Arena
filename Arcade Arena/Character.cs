@@ -36,6 +36,7 @@ namespace Arcade_Arena
         {
             abilityBuffer = new List<Ability>();
             IntersectingLava = false;
+            health = 100;
         }
 
         public SpriteAnimation CurrentAnimation => currentAnimation;
