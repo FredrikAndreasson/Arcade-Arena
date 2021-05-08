@@ -10,19 +10,19 @@ namespace Arcade_Arena
 {
     public class Shadow : DynamicObject
     {
-
-        public Shadow(Vector2 position, Texture2D texture, float speed, double direction) : base(position, texture, speed, direction)
+        public Texture2D texture;
+        public Shadow(Vector2 position, Texture2D texture, float speed, double direction) : base(position, speed, direction)
         {
-
+            this.texture = texture;
         }
 
         public void Update(Vector2 newPos)
         {
-            if (Texture == AssetManager.OgreShadow)
+            if (texture == AssetManager.OgreShadow)
             {
 
             }
-            else if (Texture == AssetManager.WizardShadow)
+            else if (texture == AssetManager.WizardShadow)
             {
                 position = new Vector2(newPos.X + AssetManager.WizardShadow.Width / 4, newPos.Y+85);
             }
@@ -32,7 +32,7 @@ namespace Arcade_Arena
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, Position, Color.Red);
+            spriteBatch.Draw(texture, Position, Color.Red);
         }
 
     }
