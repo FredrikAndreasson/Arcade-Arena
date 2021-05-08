@@ -10,10 +10,10 @@ namespace Arcade_Arena
 {
     public class Shadow : DynamicObject
     {
-
-        public Shadow(Vector2 position, Texture2D texture, float speed, double direction) : base(position, texture, speed, direction)
+        public Texture2D texture;
+        public Shadow(Vector2 position, float speed, double direction) : base(position, speed, direction)
         {
-            
+            texture = AssetManager.WizardShadow;
         }
 
         public void Update(Vector2 newPos)

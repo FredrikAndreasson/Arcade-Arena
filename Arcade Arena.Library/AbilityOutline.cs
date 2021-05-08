@@ -10,6 +10,7 @@ namespace Arcade_Arena.Library
     {
         public enum AbilityType //using vauge names like these lets the clients figure out through the combination of AbilityType and ClassType the type of ability being used
         {
+            Projectile,
             AbilityOne,
             AbilityTwo
         }

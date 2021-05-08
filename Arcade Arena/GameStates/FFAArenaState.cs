@@ -3,13 +3,11 @@ using Arcade_Arena.Managers;
 using Lidgren.Network;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 
 namespace Arcade_Arena
 {
@@ -29,35 +27,26 @@ namespace Arcade_Arena
 
 
 
-        public FFAArenaState(GameWindow Window, SpriteBatch spriteBatch) : base (Window)
+        public FFAArenaState(GameWindow Window, SpriteBatch spriteBatch)
         {
      
 
             networkManager = new NetworkManager();
 
-            player = new Wizard(new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2), AssetManager.WizardSpriteSheet, 3f, 0.0);
-            lava = new Lava(Game1.graphics.GraphicsDevice, Window);
+            player = new Wizard(new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2), 3f, 0.0);
+            lava = new Lava(Game1.graphics.GraphicsDevice, 400);
             playerManager = new PlayerManager(networkManager, player);
             abilityManager = new AbilityManager(networkManager, playerManager);
 
             userInterfaceManager = new UserInterfaceManager(networkManager, Window);
             lava.DrawRenderTarget(spriteBatch);
 
-            networkManager.Start();
+            Intitialize();
 
         }
 
-        public override void Update(GameTime gameTime, ref States state)
+        public override void Update(GameTime gameTime)
         {
-            if (MouseKeyboardManager.Clicked(Keys.P))
-            {
-                if (state == States.Pause)
-                    state = States.FFA;
-                else
-                    state = States.Pause;
-
-            }
-
             networkManager.Active = networkManager.Status == NetConnectionStatus.Connected;
             
             networkManager.Update();
@@ -71,7 +60,13 @@ namespace Arcade_Arena
             player.CheckLavaCollision(lava);
         }
 
-        public override void Draw(SpriteBatch spriteBatch, States state)
+        private void Intitialize()
+        {
+            networkManager.Start();
+        }
+
+
+        public override void Draw(SpriteBatch spriteBatch)
         {
             Game1.graphics.GraphicsDevice.Clear(networkManager.Active ? Color.Green : Color.Red);
 
@@ -88,6 +83,7 @@ namespace Arcade_Arena
                     if (player.Username != networkManager.Username && player != null)
                     {
                         Rectangle source = new Rectangle(player.Animation.XRecPos, player.Animation.YRecPos, player.Animation.Width, player.Animation.Height);
+                        System.Diagnostics.Debug.WriteLine(" XrecPos game1: " + player.Animation.XRecPos);
 
                         if (!player.intersectingLava)
                         {
@@ -95,11 +91,11 @@ namespace Arcade_Arena
                             {
                                 case Library.Player.ClassType.Wizard:
                                     spriteBatch.Draw(AssetManager.WizardSpriteSheet, new Vector2(player.XPosition, player.YPosition), source,
-                                        Color.White, 0f, Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1.0f);
+                                        Color.White, 0f, Vector2.Zero, 5.0f, SpriteEffects.None, 1.0f);
                                     break;
                                 case Library.Player.ClassType.Ogre:
                                     spriteBatch.Draw(AssetManager.ogreSpriteSheet, new Vector2(player.XPosition, player.YPosition), source,
-                                        Color.White, 0f, Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1.0f);
+                                        Color.White, 0f, Vector2.Zero, 5.0f, SpriteEffects.None, 1.0f);
                                     break;
                                 case Library.Player.ClassType.Huntress:
                                     break;
@@ -117,7 +113,7 @@ namespace Arcade_Arena
                     }
                     else
                     {
-                        if (!this.player.IntersectingLava)
+                        if (!this.player.intersectingLava)
                         {
                             this.player.Draw(spriteBatch);
 

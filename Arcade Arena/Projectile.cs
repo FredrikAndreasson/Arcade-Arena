@@ -9,37 +9,34 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Arcade_Arena
 {
-    class Projectile : DynamicObject
+    class Projectile : Ability
     {
-        public bool projectileIsActive;
         public Vector2 velocity;
         public int damage;
         double activeTimer;
 
-        public Projectile(int damage, double timer, Vector2 position, Texture2D texture, float speed, double direction) : base(position, texture, speed, direction)
+        public Projectile(int damage, double timer, Vector2 position, float speed, double direction)
         {
-            projectileIsActive = false;
+            Type = Library.AbilityOutline.AbilityType.Projectile;
             this.damage = damage;
             activeTimer = timer;
+
+            currentAnimation = new SpriteAnimation(AssetManager.WizardWandProjectile, Vector2.Zero, Vector2.Zero, 
+                new Vector2(2, 1), new Vector2(2, 1));
         }
 
-        public void SetPosition(Vector2 pos)
-        {
-            position = pos;
-        }
-
-        public void Update()
+        public override void Update()
         {
             position += velocity;
             activeTimer -= Game1.elapsedGameTimeSeconds;
             if (activeTimer <= 0)
             {
-                projectileIsActive = false;
+                isDead = true;
             }
         }
-        public virtual void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, Position, null, Color.White, 0, Vector2.Zero, 6, SpriteEffects.None, 1);
+            currentAnimation.Draw(spriteBatch, position, 0.0f, Vector2.Zero, 6.0f);
         }
     }
 }
