@@ -54,8 +54,8 @@ namespace Arcade_Arena
 
         public void UpdateVelocity(double newDirection, float newSpeed)
         {
-            velocity.Y = (float)(Math.Sin(MathHelper.ToRadians((float)newDirection)) * newSpeed * speedAlteration);
-            velocity.X = (float)(Math.Cos(MathHelper.ToRadians((float)newDirection)) * newSpeed * speedAlteration);
+            velocity.Y = (float)(Math.Sin(MathHelper.ToRadians((float)newDirection)) * newSpeed * SpeedAlteration);
+            velocity.X = (float)(Math.Cos(MathHelper.ToRadians((float)newDirection)) * newSpeed * SpeedAlteration);
             position += velocity;
         }
 
@@ -149,7 +149,7 @@ namespace Arcade_Arena
         //returnerar aim angle i grader
         protected double UpdateAimDirection()
         {
-            double newDirection = MathHelper.ToDegrees((float)Math.Atan2(MouseKeyboardManager.mousePosition.Y - middleOfSprite.Y, MouseKeyboardManager.mousePosition.X - middleOfSprite.X));
+            double newDirection = MathHelper.ToDegrees((float)Math.Atan2(MouseKeyboardManager.MousePosition.Y - middleOfSprite.Y, MouseKeyboardManager.MousePosition.X - middleOfSprite.X));
             return newDirection;
         }
 
@@ -169,7 +169,7 @@ namespace Arcade_Arena
             Color[] pixels2 = new Color[shadow.texture.Width * shadow.texture.Height];
             //shadow.texture.GetData<Color>(0, new Rectangle(shadow.position.ToPoint(), new Point(shadow.texture.Width, shadow.texture.Height)), pixels2, 0, pixels2.Length);
             shadow.texture.GetData<Color>(pixels2);
-            lava.renderTarget.GetData(0, new Rectangle(shadow.position.ToPoint(), new Point(shadow.texture.Width, shadow.texture.Height)), pixels, 0, pixels.Length);
+            lava.renderTarget.GetData(0, new Rectangle(shadow.Position.ToPoint(), new Point(shadow.texture.Width, shadow.texture.Height)), pixels, 0, pixels.Length);
             for (int i = 0; i < pixels.Length; ++i)
             {
                 if (pixels[i].A > 0.0f && pixels2[i].A > 0.0f)
