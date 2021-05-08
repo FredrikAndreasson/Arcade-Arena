@@ -32,7 +32,7 @@ namespace Arcade_Arena
 
         public List<Ability> abilityBuffer;
 
-        public Character(Vector2 position, Texture2D texture, float speed, double direction) : base(position, texture, speed, direction)
+        public Character(Vector2 position, float speed, double direction) : base(position, speed, direction)
         {
             abilityBuffer = new List<Ability>();
             IntersectingLava = false;
@@ -162,17 +162,15 @@ namespace Arcade_Arena
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, Position, Color.White);
-            spriteBatch.Draw(AssetManager.TargetDummy, Position, Color.White);
         }
 
         public void CheckLavaCollision(Lava lava)
         {
-            Color[] pixels = new Color[shadow.Texture.Width * shadow.Texture.Height];
-            Color[] pixels2 = new Color[shadow.Texture.Width * shadow.Texture.Height];
+            Color[] pixels = new Color[shadow.texture.Width * shadow.texture.Height];
+            Color[] pixels2 = new Color[shadow.texture.Width * shadow.texture.Height];
             //shadow.texture.GetData<Color>(0, new Rectangle(shadow.position.ToPoint(), new Point(shadow.texture.Width, shadow.texture.Height)), pixels2, 0, pixels2.Length);
-            shadow.Texture.GetData<Color>(pixels2);
-            lava.renderTarget.GetData(0, new Rectangle(shadow.Position.ToPoint(), new Point(shadow.Texture.Width, shadow.Texture.Height)), pixels, 0, pixels.Length);
+            shadow.texture.GetData<Color>(pixels2);
+            lava.renderTarget.GetData(0, new Rectangle(shadow.Position.ToPoint(), new Point(shadow.texture.Width, shadow.texture.Height)), pixels, 0, pixels.Length);
             for (int i = 0; i < pixels.Length; ++i)
             {
                 if (pixels[i].A > 0.0f && pixels2[i].A > 0.0f)

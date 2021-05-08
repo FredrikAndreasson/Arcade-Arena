@@ -14,11 +14,13 @@ namespace Arcade_Arena
         double timer;
         double timeSlowEffectSeverity = -0.30;
         TimeTraveler owner;
+        private Texture2D texture;
 
-        public TimeZone(double timer, TimeTraveler owner, Vector2 position, Texture2D texture) : base(position, texture)
+        public TimeZone(double timer, TimeTraveler owner, Vector2 position, Texture2D texture) : base(position)
         {
             this.timer = timer;
             this.owner = owner;
+            this.texture = texture;
         }
 
         public void Update()
@@ -37,7 +39,7 @@ namespace Arcade_Arena
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, Position, null, Color.White, 0, Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1);
+            spriteBatch.Draw(texture, Position, null, Color.White, 0, Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1);
         }
     }
 }
