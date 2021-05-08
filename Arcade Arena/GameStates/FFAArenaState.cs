@@ -27,7 +27,7 @@ namespace Arcade_Arena
 
 
 
-        public FFAArenaState(GameWindow Window, SpriteBatch spriteBatch)
+        public FFAArenaState(GameWindow Window, SpriteBatch spriteBatch) :base (Window)
         {
      
 
