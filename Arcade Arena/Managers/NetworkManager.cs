@@ -187,19 +187,23 @@ namespace Arcade_Arena.Managers
 
             client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
         }
-        public void SendAbilityUpdate(Ability ability, byte ID)
+        public void SendAbilityUpdates(List<Ability> abilities)
         {
             var outmsg = client.CreateMessage();
             outmsg.Write((byte)PacketType.AbilityUpdate);
-            outmsg.Write(Username);
-            outmsg.Write(ID);
-            outmsg.Write((int)ability.position.X);
-            outmsg.Write((int)ability.position.Y);
-            outmsg.Write(ability.CurrentAnimation.Source.X);
-            outmsg.Write(ability.CurrentAnimation.Source.Y);
-            outmsg.Write(ability.CurrentAnimation.Source.Width);
-            outmsg.Write(ability.CurrentAnimation.Source.Height);
-
+            outmsg.Write(abilities.Count);
+            for (int i = 0; i < abilities.Count; i++)
+            {
+                outmsg.Write(abilities[i].Username);
+                outmsg.Write(abilities[i].ID);
+                outmsg.Write((int)abilities[i].position.X);
+                outmsg.Write((int)abilities[i].position.Y);
+                outmsg.Write(abilities[i].CurrentAnimation.Source.X);
+                outmsg.Write(abilities[i].CurrentAnimation.Source.Y);
+                outmsg.Write(abilities[i].CurrentAnimation.Source.Width);
+                outmsg.Write(abilities[i].CurrentAnimation.Source.Height);
+                
+            }
             client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
         }
 
