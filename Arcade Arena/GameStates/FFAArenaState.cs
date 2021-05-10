@@ -68,7 +68,7 @@ namespace Arcade_Arena
             MouseKeyboardManager.Update();
             player.Update();
 
-            player.CheckLavaCollision(lava);
+            //player.CheckLavaCollision(lava);
         }
 
         public override void Draw(SpriteBatch spriteBatch, States state)
@@ -79,7 +79,7 @@ namespace Arcade_Arena
 
             if (networkManager.Active)
             {
-                lava.Draw(spriteBatch);
+                //lava.Draw(spriteBatch);
                 userInterfaceManager.Draw(spriteBatch);
 
                 foreach (var player in networkManager.Players)

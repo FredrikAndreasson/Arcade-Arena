@@ -26,6 +26,7 @@ namespace Arcade_Arena.Server
         {
             this.managerLogger = managerLogger;
             players = new List<PlayerAndConnection>();
+            abilities = new List<AbilityOutline>();
             config = new NetPeerConfiguration("networkGame") { Port = 14241 };
             config.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
             NetServer = new NetServer(config);
@@ -44,7 +45,7 @@ namespace Arcade_Arena.Server
                    
                     case NetIncomingMessageType.ConnectionApproval:
                         var login = new LoginCommand();
-                        login.Run(managerLogger, this, inc, null, players);
+                        login.Run(managerLogger, this, inc, null, players, abilities);
                         break;
                     case NetIncomingMessageType.Data:
                         Data(inc);

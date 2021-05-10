@@ -25,8 +25,6 @@ namespace Arcade_Arena.Library
 
         public bool intersectingLava { get; set; }
 
-        public List<AbilityOutline> abilities;
-
 
         public Player(string username, int xPosition, int yPosition)
         {
@@ -35,13 +33,11 @@ namespace Arcade_Arena.Library
             this.YPosition = yPosition;
 
             Animation = new Animation();
-            abilities = new List<AbilityOutline>();
         }
 
         public Player() 
         {
             Animation = new Animation();
-            abilities = new List<AbilityOutline>();
         }
     }
 }

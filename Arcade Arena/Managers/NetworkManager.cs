@@ -24,6 +24,7 @@ namespace Arcade_Arena.Managers
         public NetworkManager()
         {
             Players = new List<Player>();
+            ServerAbilities = new List<AbilityOutline>();
         }
        public NetConnectionStatus Status => client.ConnectionStatus;
 
@@ -41,7 +42,7 @@ namespace Arcade_Arena.Managers
             outmsg.Write((byte)PacketType.Login);
             outmsg.Write(Username);
             outmsg.Write((byte)Player.ClassType.Wizard);
-            client.Connect("85.228.136.154", 14241, outmsg);
+            client.Connect("localhost", 14241, outmsg);
             return EstablishInfo();
 
             //var outmsg1 = client.CreateMessage();
@@ -189,23 +190,19 @@ namespace Arcade_Arena.Managers
 
             client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
         }
-        public void SendAbilityUpdates(List<Ability> abilities)
+        public void SendAbilityUpdate(Ability ability)
         {
             var outmsg = client.CreateMessage();
             outmsg.Write((byte)PacketType.AbilityUpdate);
-            outmsg.Write(abilities.Count);
-            for (int i = 0; i < abilities.Count; i++)
-            {
-                outmsg.Write(abilities[i].Username);
-                outmsg.Write(abilities[i].ID);
-                outmsg.Write((int)abilities[i].position.X);
-                outmsg.Write((int)abilities[i].position.Y);
-                outmsg.Write(abilities[i].CurrentAnimation.Source.X);
-                outmsg.Write(abilities[i].CurrentAnimation.Source.Y);
-                outmsg.Write(abilities[i].CurrentAnimation.Source.Width);
-                outmsg.Write(abilities[i].CurrentAnimation.Source.Height);
-                
-            }
+            outmsg.Write(ability.Username);
+            outmsg.Write(ability.ID);
+            outmsg.Write((int)ability.position.X);
+            outmsg.Write((int)ability.position.Y);
+            outmsg.Write(ability.CurrentAnimation.Source.X);
+            outmsg.Write(ability.CurrentAnimation.Source.Y);
+            outmsg.Write(ability.CurrentAnimation.Source.Width);
+            outmsg.Write(ability.CurrentAnimation.Source.Height);
+
             client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
         }
 
@@ -227,14 +224,14 @@ namespace Arcade_Arena.Managers
         private void DeleteAbility(byte ID, string username)
         {
 
-                for (int i = 0; i < ServerAbilities.Count; i++)
+            for (int i = 0; i < ServerAbilities.Count; i++)
+            {
+                if (ServerAbilities[i].ID == ID && ServerAbilities[i].Username == username)
                 {
-                    if (ServerAbilities[i].ID == ID && ServerAbilities[i].UserName == username)
-                    {
-                        ServerAbilities.RemoveAt(i);
-                        i--;
-                    }
+                    ServerAbilities.RemoveAt(i);
+                    i--;
                 }
+            }
         }
 
         private void ReadAbilityToDelete(NetIncomingMessage inc)
@@ -248,48 +245,47 @@ namespace Arcade_Arena.Managers
         {
             var name = inc.ReadString();
             byte ID = inc.ReadByte();
-            if (Players.Any(p => p.Username == name))
+            if (!ServerAbilities.Any(a => a.ID == ID && a.Username == Username))
             {
-                var player = Players.FirstOrDefault(p => p.Username == name);
-                if (!player.abilities.Any(a => a.ID == ID))
-                {
-                    var newAbility = new AbilityOutline();
-                    newAbility.UserName = name;
-                    newAbility.ID = ID;
-                    newAbility.Type = (AbilityOutline.AbilityType)inc.ReadByte();
-                    newAbility.XPosition = inc.ReadInt32();
-                    newAbility.YPosition = inc.ReadInt32();
-                    newAbility.Animation.XRecPos = inc.ReadInt32();
-                    newAbility.Animation.YRecPos = inc.ReadInt32();
-                    newAbility.Animation.Width = inc.ReadInt32();
-                    newAbility.Animation.Height = inc.ReadInt32();
+                var newAbility = new AbilityOutline();
+                newAbility.Username = name;
+                newAbility.ID = ID;
+                newAbility.Type = (AbilityOutline.AbilityType)inc.ReadByte();
+                newAbility.XPosition = inc.ReadInt32();
+                newAbility.YPosition = inc.ReadInt32();
+                newAbility.Animation.XRecPos = inc.ReadInt32();
+                newAbility.Animation.YRecPos = inc.ReadInt32();
+                newAbility.Animation.Width = inc.ReadInt32();
+                newAbility.Animation.Height = inc.ReadInt32();
 
-                    player.abilities.Add(newAbility);
-                }
-
+                ServerAbilities.Add(newAbility);
             }
         }
 
         public void RecieveAbilityUpdate(NetIncomingMessage inc)
         {
+
             var name = inc.ReadString();
             byte ID = inc.ReadByte();
-            if (Players.Any(p => p.Username == name))
+            for (int i = 0; i < ServerAbilities.Count; i++)
             {
-                var oldPlayer = Players.FirstOrDefault(p => p.Username == name);
-                if (oldPlayer.abilities.Any(a => a.ID == ID))
-                {
-                    var oldAbility = oldPlayer.abilities.FirstOrDefault(a => a.ID == ID);
-                    oldAbility.UserName = name;
-                    oldAbility.ID = ID;
-                    oldAbility.XPosition = inc.ReadInt32();
-                    oldAbility.YPosition = inc.ReadInt32();
-                    oldAbility.Animation.XRecPos = inc.ReadInt32();
-                    oldAbility.Animation.YRecPos = inc.ReadInt32();
-                    oldAbility.Animation.Width = inc.ReadInt32();
-                    oldAbility.Animation.Height = inc.ReadInt32();
-                }
+                System.Diagnostics.Debug.WriteLine("name: {0}, ID: {1}, xpos: {2}, ypos: {3} ");
             }
+            
+            var oldAbility = ServerAbilities.FirstOrDefault(a => a.ID == ID && a.Username == Username);
+            if (oldAbility==null)
+            {
+                return;
+            }
+            oldAbility.Username = name;
+            oldAbility.ID = ID;
+            oldAbility.XPosition = inc.ReadInt32();
+            oldAbility.YPosition = inc.ReadInt32();
+            oldAbility.Animation.XRecPos = inc.ReadInt32();
+            oldAbility.Animation.YRecPos = inc.ReadInt32();
+            oldAbility.Animation.Width = inc.ReadInt32();
+            oldAbility.Animation.Height = inc.ReadInt32();
+            
         }
 
 

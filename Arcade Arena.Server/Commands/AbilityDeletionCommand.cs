@@ -18,29 +18,21 @@ namespace Arcade_Arena.Server.Commands
             string username = inc.ReadString();
             byte ID = inc.ReadByte();
 
-            var player = players.FirstOrDefault(p => p.Player.Username == username);
-            if (player != null)
+            for (int i = 0; i < abilities.Count; i++)
             {
-                for (int i = 0; i < player.Player.abilities.Count; i++)
+                if (abilities[i].ID == ID && abilities[i].Username == username)
                 {
-                    if (player.Player.abilities[i].ID == ID)
-                    {
-                        player.Player.abilities.RemoveAt(i);
-                        i--;
+                    abilities.RemoveAt(i);
+                    i--;
 
-                        managerLogger.AddLogMessage("Deletion", "Sending ability to delete to clients");
-                        var outmsg = server.NetServer.CreateMessage();
-                        outmsg.Write((byte)PacketType.AbilityDelete);
-                        outmsg.Write(username);
-                        outmsg.Write(ID);
+                    managerLogger.AddLogMessage("Deletion", "Sending ability to delete to clients");
+                    var outmsg = server.NetServer.CreateMessage();
+                    outmsg.Write((byte)PacketType.AbilityDelete);
+                    outmsg.Write(username);
+                    outmsg.Write(ID);
 
-                        server.NetServer.SendToAll(outmsg, NetDeliveryMethod.ReliableOrdered);
-                    }
+                    server.NetServer.SendToAll(outmsg, NetDeliveryMethod.ReliableOrdered);
                 }
-            }
-            else
-            {
-                managerLogger.AddLogMessage("Deletion", "Did not find a player associated with that ability");
             }
         }
     }

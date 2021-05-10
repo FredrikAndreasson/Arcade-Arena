@@ -28,7 +28,7 @@ namespace Arcade_Arena.Server.Commands
                 }
                 server.NetServer.SendMessage(outmsg, inc.SenderConnection, NetDeliveryMethod.ReliableOrdered, 0);
                 var command = new PlayerPositionCommand();
-                command.Run(managerLogger, server, inc, playerAndConnection, players);
+                command.Run(managerLogger, server, inc, playerAndConnection, players, abilities);
 
                 server.SendNewPlayerEvent(playerAndConnection.Player.Username);
             }

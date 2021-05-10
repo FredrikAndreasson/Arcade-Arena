@@ -42,6 +42,7 @@ namespace Arcade_Arena
 
         public void ShrinkPlatform(int radius)
         {
+            /*
             List<Rectangle> testRects = new List<Rectangle>();
             
             int j = -1;
@@ -80,6 +81,7 @@ namespace Arcade_Arena
             {
                 renderTarget.SetData(0, lavaRects, transparentField, 0, lavaRects.Width * lavaRects.Height);
             }
+            */
         }
     }
 }

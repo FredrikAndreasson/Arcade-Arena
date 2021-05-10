@@ -15,36 +15,28 @@ namespace Arcade_Arena.Server.Commands
             PlayerAndConnection playerAndConnection, List<PlayerAndConnection> players, List<AbilityOutline> abilities)
         {
             managerLogger.AddLogMessage("Update", "Received ability");
-            var nmbrOfAbilities = inc.ReadInt32();
-            for (int i = 0; i < nmbrOfAbilities; i++)
+            var name = inc.ReadString();
+            Byte ID = inc.ReadByte();
+            var ability = ReadAbility(inc, abilities, ID, name);
+
+            for (int i = 0; i < abilities.Count; i++)
             {
-                var name = inc.ReadString();
-                playerAndConnection = players.FirstOrDefault(p => p.Player.Username == name);
-                if (playerAndConnection == null)
-                {
-                    managerLogger.AddLogMessage("Update", string.Format("Didn't find player associated with that name: {0}", name));
-                    return;
-                }
-
-                Byte ID = inc.ReadByte();
-
-                var ability = ReadAbility(inc, playerAndConnection, ID, name);
-
-                SendAbility(server, ability, managerLogger);
+                managerLogger.AddLogMessage("Update", string.Format("ability user: {0}, ID: {1}, xposition: {2}, yposition: {3}", 
+                    abilities[i].Username, abilities[i].ID, abilities[i].XPosition, abilities[i].YPosition));
             }
+
+            SendAbility(server, ability, managerLogger);
         }
-        private AbilityOutline ReadAbility(NetIncomingMessage inc, PlayerAndConnection playerAndConnection, byte ID, string name)
+        private AbilityOutline ReadAbility(NetIncomingMessage inc, List<AbilityOutline> abilities, byte ID, string name)
         {
-            var ability = playerAndConnection.Player.abilities.FirstOrDefault(a => a.UserName == name);
-            if (ability.ID == ID)
-            {
-                ability.XPosition = inc.ReadInt32();
-                ability.YPosition = inc.ReadInt32();
-                ability.Animation.XRecPos = inc.ReadInt32();
-                ability.Animation.YRecPos = inc.ReadInt32();
-                ability.Animation.Width = inc.ReadInt32();
-                ability.Animation.Height = inc.ReadInt32();
-            }
+            var ability = abilities.FirstOrDefault(a => a.Username == name && a.ID == ID);
+            ability.XPosition = inc.ReadInt32();
+            ability.YPosition = inc.ReadInt32();
+            ability.Animation.XRecPos = inc.ReadInt32();
+            ability.Animation.YRecPos = inc.ReadInt32();
+            ability.Animation.Width = inc.ReadInt32();
+            ability.Animation.Height = inc.ReadInt32();
+
             return ability;
         }
 
@@ -52,7 +44,7 @@ namespace Arcade_Arena.Server.Commands
         {
             var outmsg = server.NetServer.CreateMessage();
             outmsg.Write((byte)PacketType.AbilityUpdate);
-            outmsg.Write(ability.UserName);
+            outmsg.Write(ability.Username);
             outmsg.Write(ability.ID);
             outmsg.Write(ability.XPosition);
             outmsg.Write(ability.YPosition);
@@ -61,7 +53,8 @@ namespace Arcade_Arena.Server.Commands
             outmsg.Write(ability.Animation.Width);
             outmsg.Write(ability.Animation.Height);
 
-            managerLogger.AddLogMessage("Update", "Sending ability update to clients");
+            
+            
 
             server.NetServer.SendToAll(outmsg, NetDeliveryMethod.ReliableOrdered);
         }

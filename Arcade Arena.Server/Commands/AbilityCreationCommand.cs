@@ -16,39 +16,17 @@ namespace Arcade_Arena.Server.Commands
         {
             managerLogger.AddLogMessage("Create", "Received ability");
             var name = inc.ReadString();
-            playerAndConnection = players.FirstOrDefault(p => p.Player.Username == name);
-            if (playerAndConnection == null)
-            {
-                managerLogger.AddLogMessage("Create", string.Format("Didn't find player associated with that name: {0}", name));
-                return;
-            }
             Byte ID = inc.ReadByte();
 
-            //this ability will be sent out to all the clients 
-            var ability = new AbilityOutline();
+            var ability = CreateAbility(name, ID, inc);
 
-            //Check if the ability already exists
-            var existingAbility = playerAndConnection.Player.abilities.FirstOrDefault(a => a.UserName == name);
-            if (existingAbility == null || existingAbility.ID != ID) // if it doesnt exist go ahead and create a new one
-            {
-                ability.UserName = name;
-                ability.ID = ID;
-                ability.Type = (AbilityOutline.AbilityType)inc.ReadByte();
-                ability.XPosition = inc.ReadInt32();
-                ability.YPosition = inc.ReadInt32();
-                ability.Animation.XRecPos = inc.ReadInt32();
-                ability.Animation.YRecPos = inc.ReadInt32();
-                ability.Animation.Width = inc.ReadInt32();
-                ability.Animation.Height = inc.ReadInt32();
-
-                playerAndConnection.Player.abilities.Add(ability);
-            }
+            abilities.Add(ability);
 
             //Send ability to all the clients...
 
             var outmsg = server.NetServer.CreateMessage();
             outmsg.Write((byte)PacketType.AbilityCreate);
-            outmsg.Write(ability.UserName);
+            outmsg.Write(ability.Username);
             outmsg.Write(ability.ID);
             outmsg.Write((byte)ability.Type);
             outmsg.Write(ability.XPosition);
@@ -61,6 +39,23 @@ namespace Arcade_Arena.Server.Commands
             managerLogger.AddLogMessage("Create", "Sending new ability to clients");
 
             server.NetServer.SendToAll(outmsg, NetDeliveryMethod.ReliableOrdered);
+        }
+
+        private AbilityOutline CreateAbility(string name, byte ID, NetIncomingMessage inc)
+        {
+            var ability = new AbilityOutline();
+
+            ability.Username = name;
+            ability.ID = ID;
+            ability.Type = (AbilityOutline.AbilityType)inc.ReadByte();
+            ability.XPosition = inc.ReadInt32();
+            ability.YPosition = inc.ReadInt32();
+            ability.Animation.XRecPos = inc.ReadInt32();
+            ability.Animation.YRecPos = inc.ReadInt32();
+            ability.Animation.Width = inc.ReadInt32();
+            ability.Animation.Height = inc.ReadInt32();
+
+            return ability;
         }
     }
 }

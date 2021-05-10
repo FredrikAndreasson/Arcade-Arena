@@ -10,7 +10,7 @@ namespace Arcade_Arena.Server.Commands
         public void Run(ManagerLogger managerLogger, Server server, NetIncomingMessage inc,
             PlayerAndConnection playerAndConnection, List<PlayerAndConnection> players, List<AbilityOutline> abilities)
         {
-            managerLogger.AddLogMessage("Server", "Sending out new player position and animation");
+            //managerLogger.AddLogMessage("Server", "Sending out new player position and animation");
             var outmessage = server.NetServer.CreateMessage();
             outmessage.Write((byte)PacketType.PlayerPosition);
             outmessage.Write(playerAndConnection.Player.Username);
