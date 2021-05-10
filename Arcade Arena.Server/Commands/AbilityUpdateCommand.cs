@@ -27,6 +27,10 @@ namespace Arcade_Arena.Server.Commands
 
                 Byte ID = inc.ReadByte();
 
+                if (playerAndConnection.Player.abilities.FirstOrDefault(a => a.UserName == name) == null)
+                {
+                    return;
+                }
                 var ability = ReadAbility(inc, playerAndConnection, ID, name);
 
                 SendAbility(server, ability, managerLogger);
@@ -35,8 +39,7 @@ namespace Arcade_Arena.Server.Commands
         private AbilityOutline ReadAbility(NetIncomingMessage inc, PlayerAndConnection playerAndConnection, byte ID, string name)
         {
             var ability = playerAndConnection.Player.abilities.FirstOrDefault(a => a.UserName == name);
-            if (ability == null)
-                throw new ArgumentException("Ability is null");
+            
 
             if (ability.ID == ID)
             {
