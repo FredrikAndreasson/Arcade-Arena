@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,7 +30,7 @@ namespace Arcade_Arena.Managers
             
         }
 
-        public void Update()
+        public void Update(Character player)
         {
 
 
@@ -47,25 +48,47 @@ namespace Arcade_Arena.Managers
                 i--;
             }
 
+            // Rect to check collision between player and projectile, will be moved to Character or removed all together 2 be replaced with pixel perfect
+
+            Rectangle playerRect = new Rectangle(player.Position.ToPoint(), new Point((int)player.CurrentAnimation.FrameSize.X * 5, (int)player.CurrentAnimation.FrameSize.Y * 5));
+
+            for (int i = 0; i < networkManager.Players.Count; i++)
+            {
+                if (networkManager.Players[i].Username != networkManager.Username)
+                {
+                    Player players = networkManager.Players[i];
+                    for (int x = 0; x < players.abilities.Count; x++)
+                    {
+                        if (playerRect.Intersects(new Rectangle(new Point(players.abilities[x].XPosition, players.abilities[x].YPosition), new Point((int)players.abilities[x].Animation.Width * 5, (int)players.abilities[x].Animation.Height* 5))))
+                        {
+                            player.TakeDamage();
+                            networkManager.DeleteProjectile(players.abilities[x].ID, players.abilities[x].UserName);
+                            Debug.WriteLine($"hmm {player.Health}");
+                        }
+                    }
+                }
+            }
+
             AbilityDeletionCheck();
         }
+
 
         public void Draw(SpriteBatch spriteBatch)
         {
             foreach (Ability ability in abilities)
             {
-                ability.Draw(spriteBatch);
+                //ability.Draw(spriteBatch);
             }
             for (int i = 0; i < networkManager.Players.Count; i++)
             {
-                if (networkManager.Players[i].Username != networkManager.Username)
-                {
+                //if (networkManager.Players[i].Username != networkManager.Username)
+                //{
                     Player player = networkManager.Players[i];
                     for (int x = 0; x < player.abilities.Count; x++)
                     {
                         DrawAbility(spriteBatch, player.abilities[x], player.Type);
                     }
-                }
+                //}
             }
         }
 
@@ -105,6 +128,7 @@ namespace Arcade_Arena.Managers
                     {
                         spriteBatch.Draw(AssetManager.WizardWandProjectile, new Vector2(ability.XPosition, ability.YPosition), source, Color.White, 0.0f,
                             Vector2.Zero, 6.0f, SpriteEffects.None, 1.0f);
+                        spriteBatch.DrawString(AssetManager.CooldownFont, $"{ability.UserName} - {ability.ID}", new Vector2(ability.XPosition, ability.YPosition + 5), Color.White);
                     }
                     else if (ability.Type == AbilityOutline.AbilityType.AbilityOne)
                     {

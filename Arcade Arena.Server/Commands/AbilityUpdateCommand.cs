@@ -35,6 +35,9 @@ namespace Arcade_Arena.Server.Commands
         private AbilityOutline ReadAbility(NetIncomingMessage inc, PlayerAndConnection playerAndConnection, byte ID, string name)
         {
             var ability = playerAndConnection.Player.abilities.FirstOrDefault(a => a.UserName == name);
+            if (ability == null)
+                return;
+
             if (ability.ID == ID)
             {
                 ability.XPosition = inc.ReadInt32();

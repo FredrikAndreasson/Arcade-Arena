@@ -2,6 +2,7 @@
 using Lidgren.Network;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,6 +32,7 @@ namespace Arcade_Arena.Server.Commands
                         outmsg.Write((byte)PacketType.AbilityDelete);
                         outmsg.Write(username);
                         outmsg.Write(ID);
+                        Debug.WriteLine("Delted");
 
                         server.NetServer.SendToAll(outmsg, NetDeliveryMethod.ReliableOrdered);
                     }

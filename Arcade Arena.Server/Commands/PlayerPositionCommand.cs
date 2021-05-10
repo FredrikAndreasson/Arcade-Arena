@@ -18,6 +18,7 @@ namespace Arcade_Arena.Server.Commands
             outmessage.Write(playerAndConnection.Player.Animation.YRecPos);
             outmessage.Write(playerAndConnection.Player.Animation.Height);
             outmessage.Write(playerAndConnection.Player.Animation.Width);
+            outmessage.Write(playerAndConnection.Player.Health);
             outmessage.Write(playerAndConnection.Player.intersectingLava);
             server.NetServer.SendToAll(outmessage, NetDeliveryMethod.ReliableOrdered);
         }

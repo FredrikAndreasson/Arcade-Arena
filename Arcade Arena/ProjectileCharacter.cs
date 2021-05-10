@@ -34,7 +34,7 @@ namespace Arcade_Arena
             distance.Y = mousePosition.Y - Position.Y;
 
             orbiterRotation = (float)Math.Atan2(distance.Y, distance.X);
-            Console.WriteLine(orbiterRotation);
+           // Console.WriteLine(orbiterRotation);
             //if (Keyboard.GetState().IsKeyDown(Keys.O))
             //{
             //    orbiterRotation += 0.1f;
@@ -46,7 +46,7 @@ namespace Arcade_Arena
 
             cooldownTimer += (float)Game1.elapsedGameTimeSeconds;
 
-            if (cooldownTimer >= 1f && Keyboard.GetState().IsKeyDown(Keys.Space))
+            if (cooldownTimer >= 1f && (Keyboard.GetState().IsKeyDown(Keys.Space) || MouseKeyboardManager.Pressed(Buttons.RightTrigger)))
             {
                 Shoot();
                 cooldownTimer = 0;

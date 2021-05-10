@@ -22,6 +22,8 @@ namespace Arcade_Arena.Library
         public int XPosition { get; set; }
         public int YPosition { get; set; }
 
+        public sbyte Health { get; set; }
+
 
         public bool intersectingLava { get; set; }
 
@@ -33,6 +35,7 @@ namespace Arcade_Arena.Library
             this.Username = username;
             this.XPosition = xPosition;
             this.YPosition = yPosition;
+
 
             Animation = new Animation();
             abilities = new List<AbilityOutline>();
