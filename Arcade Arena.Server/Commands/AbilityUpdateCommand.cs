@@ -19,27 +19,23 @@ namespace Arcade_Arena.Server.Commands
             var name = inc.ReadString();
             Byte ID = inc.ReadByte();
             var ability = ReadAbility(inc, abilities, ID, name);
-
-          
-
-            for (int i = 0; i < abilities.Count; i++)
+            if (ability != null)
             {
-                managerLogger.AddLogMessage("Update", string.Format("ability user: {0}, ID: {1}, xposition: {2}, yposition: {3}", 
-                    abilities[i].Username, abilities[i].ID, abilities[i].XPosition, abilities[i].YPosition));
+                SendAbility(server, ability, managerLogger);
             }
-
-            SendAbility(server, ability, managerLogger);
         }
         private AbilityOutline ReadAbility(NetIncomingMessage inc, List<AbilityOutline> abilities, byte ID, string name)
         {
             var ability = abilities.FirstOrDefault(a => a.Username == name && a.ID == ID);
-            ability.XPosition = inc.ReadInt32();
-            ability.YPosition = inc.ReadInt32();
-            ability.Animation.XRecPos = inc.ReadInt32();
-            ability.Animation.YRecPos = inc.ReadInt32();
-            ability.Animation.Width = inc.ReadInt32();
-            ability.Animation.Height = inc.ReadInt32();
-
+            if (ability != null)
+            {
+                ability.XPosition = inc.ReadInt32();
+                ability.YPosition = inc.ReadInt32();
+                ability.Animation.XRecPos = inc.ReadInt32();
+                ability.Animation.YRecPos = inc.ReadInt32();
+                ability.Animation.Width = inc.ReadInt32();
+                ability.Animation.Height = inc.ReadInt32();
+            }
             return ability;
         }
 
