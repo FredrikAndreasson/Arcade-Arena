@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Arcade_Arena
 {
-    class ProjectileCharacter : Character
+    public class ProjectileCharacter : Character
     {
         public float rotation;
         public Vector2 weaponPosition;

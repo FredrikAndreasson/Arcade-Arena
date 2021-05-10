@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Arcade_Arena.Classes
 {
-    class Wizard : ProjectileCharacter
+    public class Wizard : ProjectileCharacter
     {
         SpriteAnimation walkingAnimation;
         SpriteAnimation teleportInAnimation;
