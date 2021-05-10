@@ -9,29 +9,33 @@ namespace Arcade_Arena
     public class Effect
     {
         public double timer;
+        protected bool isStackable = false;
+        protected DynamicObject owner;
 
-        public Effect()
+        public Effect(DynamicObject owner, double timer)
         {
+            OnGetEffect(owner, timer);
         }
 
-        public virtual void Update(Character character)
+        public virtual void Update()
         {
             timer -= Game1.elapsedGameTimeSeconds;
             if (timer <= 0)
             {
-                OnLossEffect(character);
+                OnLossEffect();
             }
         }
 
-        public virtual void OnGetEffect(Character character, double timer)
+        public virtual void OnGetEffect(DynamicObject owner, double timer)
         {
+            this.owner = owner;
             this.timer = timer;
-            character.AddEffect(this);
+            owner.AddEffect(this, isStackable);
         }
 
-        public virtual void OnLossEffect(Character character)
+        public virtual void OnLossEffect()
         {
-            character.RemoveEffect(this);
+            owner.RemoveEffect(this);
         }
     }
 }

@@ -4,35 +4,39 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Arcade_Arena
+namespace Arcade_Arena.Effects
 {
-    class KnockbackEffect : Effect
+    public class KnockbackEffect : CharacterExclusiveEffect
     {
         double direction;
         float speed;
 
-        public KnockbackEffect(double direction, float speed)
+        public KnockbackEffect(double direction, float speed, DynamicObject owner, double timer) : base (owner, timer)
         {
             this.direction = direction;
             this.speed = speed;
+            isStackable = true;
         }
-        public override void OnGetEffect(Character character, double timer)
+        public override void OnGetEffect(DynamicObject dynamicObject, double timer)
         {
-            base.OnGetEffect(character, timer);
-            character.StartKnockback();
+            base.OnGetEffect(dynamicObject, timer);
+            if (ownerCharacter != null)
+            {
+                ownerCharacter.StartKnockback();
+            }
         }
 
-        public override void Update(Character character)
+        public override void Update()
         {
-            character.UpdateVelocity(direction, speed);
+            ownerCharacter.UpdateVelocity(direction, speed);
             speed = speed / 2 + (float)timer / 4; //idk
-            base.Update(character);
+            base.Update();
         }
 
-        public override void OnLossEffect(Character character)
+        public override void OnLossEffect()
         {
-            character.EndKnockback();
-            base.OnLossEffect(character);
+            ownerCharacter.EndKnockback();
+            base.OnLossEffect();
         }
     }
 }

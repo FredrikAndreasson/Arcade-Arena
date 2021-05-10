@@ -58,5 +58,13 @@ namespace Arcade_Arena.Managers
             obstacleTextures.Add(AssetManager.SmallBox);
             obstacleTextures.Add(AssetManager.LargeBox);
         }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            foreach (Obstacle obstacle in obstacles)
+            {
+                obstacle.Draw(spriteBatch);
+            }
+        }
     }
 }

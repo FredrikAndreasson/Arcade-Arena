@@ -20,7 +20,7 @@ namespace Arcade_Arena
         public static double elapsedGameTimeSeconds { get; private set; }
         public static double elapsedGameTimeMilliseconds { get; private set; }
 
-
+        private static ObstacleManager obstacleManager = new ObstacleManager(); //it be here?
 
         FFAArenaState gameState;
         

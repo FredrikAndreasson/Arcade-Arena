@@ -31,5 +31,10 @@ namespace Arcade_Arena
         {
             hitBox = new Rectangle((int)position.X, (int)position.Y + heightShortener, texture.Width, texture.Height - heightShortener);
         }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(texture, position, null, Color.White, 0, Vector2.Zero, 6, SpriteEffects.None, 1);
+        }
     }
 }

@@ -4,26 +4,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Arcade_Arena
+namespace Arcade_Arena.Effects
 {
     class AlterTimeEffect : Effect
     {
         double amount;
 
-        public AlterTimeEffect(double amount)
+        public AlterTimeEffect(double amount, DynamicObject owner, double timer) : base (owner, timer)
         {
             this.amount = amount;
-        }
-        public override void OnGetEffect(Character character, double timer)
-        {
-            base.OnGetEffect(character, timer);
-            character.speedAlteration += amount;
+            isStackable = true;
         }
 
-        public override void OnLossEffect(Character character)
+        public override void OnGetEffect(DynamicObject dynamicObject, double timer)
         {
-            character.speedAlteration -= amount;
-            base.OnLossEffect(character);
+            base.OnGetEffect(dynamicObject, timer);
+            owner.speedAlteration += amount;
+        }
+
+        public override void OnLossEffect()
+        {
+            owner.speedAlteration -= amount;
+            base.OnLossEffect();
         }
     }
 }

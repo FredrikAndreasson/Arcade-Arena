@@ -46,6 +46,10 @@
     <Compile Include="Abilites\TeleportAbility.cs" />
     <Compile Include="Ability.cs" />
     <Compile Include="AssetManager.cs" />
+    <Compile Include="BearTrap.cs" />
+    <Compile Include="Classes\Huntress.cs" />
+    <Compile Include="Effects\BurningEffect.cs" />
+    <Compile Include="Effects\CharacterExclusiveEffect.cs" />
     <Compile Include="Obstacle.cs" />
     <Compile Include="Character.cs" />
     <Compile Include="Classes\Ogre.cs" />
