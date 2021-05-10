@@ -62,15 +62,10 @@ namespace Arcade_Arena.Managers
                     {
                         if (playerRect.Intersects(new Rectangle(new Point(players.abilities[x].XPosition, players.abilities[x].YPosition), new Point((int)players.abilities[x].Animation.Width * 5, (int)players.abilities[x].Animation.Height* 5))))
                         {
-                            player.TakeDamage();
-                            var ability = abilities.FirstOrDefault(a => a.Username == players.abilities[x].UserName && a.ID == players.abilities[x].ID);
-                            if (ability == null)
-                            {
-                                return;
-                            }
-                            KnockbackEffect knockback = new KnockbackEffect(((Projectile)ability).Direction, 2.0f, player, 1);
+                            KnockbackEffect knockback = new KnockbackEffect(2.0f, 2.0f, player, 1);
                             player.AddEffect(knockback, true);
                             networkManager.DeleteProjectile(players.abilities[x].ID, players.abilities[x].UserName);
+                            player.TakeDamage();
                             Debug.WriteLine($"hmm {player.Health}");
                         }
                     }
