@@ -64,7 +64,6 @@ namespace Arcade_Arena.Managers
                         player.AddEffect(knockback, true);
                         networkManager.DeleteProjectile(networkManager.ServerAbilities[i].ID, networkManager.ServerAbilities[i].Username);
                         player.TakeDamage();
-                        Debug.WriteLine($"hmm {player.Health}");
                     }
                 }
             }

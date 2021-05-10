@@ -43,7 +43,7 @@ namespace Arcade_Arena.Managers
             outmsg.Write((byte)PacketType.Login);
             outmsg.Write(Username);
             outmsg.Write((byte)Player.ClassType.Wizard);
-            client.Connect("localhost", 14241, outmsg);
+            client.Connect("85.228.136.154", 14241, outmsg);
             return EstablishInfo();
 
             //var outmsg1 = client.CreateMessage();
@@ -285,11 +285,6 @@ namespace Arcade_Arena.Managers
 
             var name = inc.ReadString();
             byte ID = inc.ReadByte();
-            for (int i = 0; i < ServerAbilities.Count; i++)
-            {
-                System.Diagnostics.Debug.WriteLine("name: {0}, ID: {1}, xpos: {2}, ypos: {3} ", 
-                    ServerAbilities[i].Username, ServerAbilities[i].ID, ServerAbilities[i].XPosition, ServerAbilities[i].YPosition);
-            }
             
             var oldAbility = ServerAbilities.FirstOrDefault(a => a.ID == ID && a.Username == name);
             if (oldAbility != null)
