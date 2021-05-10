@@ -29,6 +29,7 @@ namespace Arcade_Arena.Server.Commands
 
                 if (playerAndConnection.Player.abilities.FirstOrDefault(a => a.UserName == name) == null)
                 {
+                    managerLogger.AddLogMessage("Update", string.Format("Abilityoutline is null"));
                     return;
                 }
                 var ability = ReadAbility(inc, playerAndConnection, ID, name);
