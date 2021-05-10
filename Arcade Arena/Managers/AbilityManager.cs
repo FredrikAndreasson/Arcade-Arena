@@ -64,6 +64,10 @@ namespace Arcade_Arena.Managers
                         {
                             player.TakeDamage();
                             var ability = abilities.FirstOrDefault(a => a.Username == players.abilities[x].UserName && a.ID == players.abilities[x].ID);
+                            if (ability == null)
+                            {
+                                return;
+                            }
                             KnockbackEffect knockback = new KnockbackEffect(((Projectile)ability).Direction, 2.0f, player, 1);
                             player.AddEffect(knockback, true);
                             networkManager.DeleteProjectile(players.abilities[x].ID, players.abilities[x].UserName);
