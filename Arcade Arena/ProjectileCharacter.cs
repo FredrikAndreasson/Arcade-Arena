@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Arcade_Arena
 {
-    class ProjectileCharacter : Character
+    public class ProjectileCharacter : Character
     {
         public float rotation;
         public Vector2 weaponPosition;
@@ -17,7 +17,6 @@ namespace Arcade_Arena
         public static float orbiterRotation = 0;
         float cooldownTimer;
         Vector2 distance; 
-        List<Projectile> projectileList;
 
         public ProjectileCharacter(Vector2 position, float speed, double direction) : base(position, speed, direction) 
         {
@@ -58,7 +57,7 @@ namespace Arcade_Arena
         public virtual void Shoot()
         {
 
-            Projectile projectile = new Projectile(1, 1, Position, speed, direction);
+            Projectile projectile = new Projectile(3, 3, Position, speed/2, direction);
             projectile.velocity = new Vector2((float)Math.Cos(orbiterRotation) * 10f, (float)Math.Sin(orbiterRotation) * 10f);
             projectile.SetPosition((Position - (new Vector2(-40,-58))) + projectile.velocity);
             projectile.projectileIsActive = true;

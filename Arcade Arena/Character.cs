@@ -16,7 +16,11 @@ namespace Arcade_Arena
         protected bool canWalk = true;
 
         protected int mana;
+
         protected bool isDead = false;
+
+        protected bool invincible = false;
+
 
 
         protected double aimDirection;
@@ -25,11 +29,12 @@ namespace Arcade_Arena
 
         public List<Effect> EffectList = new List<Effect>();
 
+
         public sbyte health;
         
 
-        public Shadow shadow;
 
+        public Shadow shadow;
 
         public List<Ability> abilityBuffer;
 
@@ -75,12 +80,11 @@ namespace Arcade_Arena
             position += velocity;
         }
 
-        void UpdateEffects()
+        public void TakeDamage(int damage)
         {
-            List<Effect> tempEffectList = new List<Effect>(EffectList);
-            foreach(Effect effect in tempEffectList)
+            if (!invincible)
             {
-                effect.Update(this);
+                health -= damage;
             }
         }
 
@@ -94,16 +98,6 @@ namespace Arcade_Arena
         {
             canWalk = true;
             walking = true;
-        }
-
-        public void AddEffect(Effect newEffect)
-        {
-            EffectList.Add(newEffect);
-        }
-
-        public void RemoveEffect(Effect effect)
-        {
-            EffectList.Remove(effect);
         }
 
         //returnerar angle i grader

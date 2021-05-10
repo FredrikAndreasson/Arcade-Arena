@@ -14,15 +14,26 @@ namespace Arcade_Arena.Server.Commands
         public void Run(ManagerLogger managerLogger, Server server, NetIncomingMessage inc, PlayerAndConnection playerAndConnection, List<PlayerAndConnection> players)
         {
             managerLogger.AddLogMessage("Update", "Received ability");
-            var name = inc.ReadString();
-            playerAndConnection = players.FirstOrDefault(p => p.Player.Username == name);
-            if (playerAndConnection == null)
+            var nmbrOfAbilities = inc.ReadInt32();
+            for (int i = 0; i < nmbrOfAbilities; i++)
             {
-                managerLogger.AddLogMessage("Update", string.Format("Didn't find player associated with that name: {0}", name));
-                return;
-            }
-            Byte ID = inc.ReadByte();
+                var name = inc.ReadString();
+                playerAndConnection = players.FirstOrDefault(p => p.Player.Username == name);
+                if (playerAndConnection == null)
+                {
+                    managerLogger.AddLogMessage("Update", string.Format("Didn't find player associated with that name: {0}", name));
+                    return;
+                }
 
+                Byte ID = inc.ReadByte();
+
+                var ability = ReadAbility(inc, playerAndConnection, ID, name);
+
+                SendAbility(server, ability, managerLogger);
+            }
+        }
+        private AbilityOutline ReadAbility(NetIncomingMessage inc, PlayerAndConnection playerAndConnection, byte ID, string name)
+        {
             var ability = playerAndConnection.Player.abilities.FirstOrDefault(a => a.UserName == name);
             if (ability == null)
                 return;
@@ -36,10 +47,11 @@ namespace Arcade_Arena.Server.Commands
                 ability.Animation.Width = inc.ReadInt32();
                 ability.Animation.Height = inc.ReadInt32();
             }
+            return ability;
+        }
 
-
-
-            //Send ability to all the clients...
+        private void SendAbility(Server server, AbilityOutline ability, ManagerLogger managerLogger)
+        {
             var outmsg = server.NetServer.CreateMessage();
             outmsg.Write((byte)PacketType.AbilityUpdate);
             outmsg.Write(ability.UserName);

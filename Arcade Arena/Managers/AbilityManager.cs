@@ -32,10 +32,13 @@ namespace Arcade_Arena.Managers
 
         public void Update(Character player)
         {
+
+
+
+            networkManager.SendAbilityUpdates(abilities);
             foreach (Ability ability in abilities)
             {
                 ability.Update();
-                networkManager.SendAbilityUpdate(ability, ability.ID);
             }
 
             for (int i = 0; i < playerManager.clientPlayer.abilityBuffer.Count; i++)
