@@ -75,8 +75,8 @@ namespace Arcade_Arena
         
         public void UpdateVelocity(double newDirection, float newSpeed)
         {
-            velocity.Y = (float)(Math.Sin(MathHelper.ToRadians((float)newDirection)) * newSpeed * SpeedAlteration);
-            velocity.X = (float)(Math.Cos(MathHelper.ToRadians((float)newDirection)) * newSpeed * SpeedAlteration);
+            velocity.Y = (float)(Math.Sin(MathHelper.ToRadians((float)newDirection)) * newSpeed * speedAlteration);
+            velocity.X = (float)(Math.Cos(MathHelper.ToRadians((float)newDirection)) * newSpeed * speedAlteration);
             position += velocity;
         }
 
@@ -84,7 +84,7 @@ namespace Arcade_Arena
         {
             if (!invincible)
             {
-                health -= damage;
+                health -= (sbyte)damage;
             }
         }
 

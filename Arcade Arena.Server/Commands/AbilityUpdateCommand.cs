@@ -36,7 +36,7 @@ namespace Arcade_Arena.Server.Commands
         {
             var ability = playerAndConnection.Player.abilities.FirstOrDefault(a => a.UserName == name);
             if (ability == null)
-                return;
+                throw new ArgumentException("Ability is null");
 
             if (ability.ID == ID)
             {

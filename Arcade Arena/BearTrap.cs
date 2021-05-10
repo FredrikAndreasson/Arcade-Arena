@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Arcade_Arena.Classes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -14,7 +15,7 @@ namespace Arcade_Arena
         bool activated = false;
         Huntress owner;
 
-        public BearTrap(int timer, Vector2 position, Texture2D texture) : base(position, texture)
+        public BearTrap(int timer, Vector2 position, Texture2D texture) : base(position)
         {
             this.timer = timer;
         }
@@ -24,7 +25,7 @@ namespace Arcade_Arena
             timer -= Game1.elapsedGameTimeSeconds;
             if (timer <= 0)
             {
-                Despawn();
+                //Despawn();
             }
             if (!activated)
             {
@@ -37,9 +38,9 @@ namespace Arcade_Arena
             }
         }
 
-        public void Despawn()
-        {
-            owner.desp
-        }
+        //public void Despawn()
+        //{
+        //    owner.desp
+        //}
     }
 }

@@ -14,7 +14,7 @@ namespace Arcade_Arena
 
         public DynamicObject(Vector2 position, float speed, double direction) : base(position)
         {
-            SpeedAlteration = 1;
+            speedAlteration = 1;
             this.speed = speed;
             this.direction = direction;
         }
