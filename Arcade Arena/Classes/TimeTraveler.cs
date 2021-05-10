@@ -23,9 +23,9 @@ namespace Arcade_Arena.Classes
         List<TimeZone> timeZones = new List<TimeZone>();
         List<Vector2> previousPositions = new List<Vector2>(); //för time travel
 
-        public TimeTraveler(Vector2 position, Texture2D texture, float speed, double direction) : base(position, texture, speed, direction)
+        public TimeTraveler(Vector2 position, float speed, double direction) : base(position, speed, direction)
         {
-            walkingAnimation = new SpriteAnimation(texture, new Vector2(2, 0), new Vector2(7, 0), new Vector2(14, 20), new Vector2(7, 3), 150);
+            walkingAnimation = new SpriteAnimation(AssetManager.TimeTravelerSpriteSheet, new Vector2(2, 0), new Vector2(7, 0), new Vector2(14, 20), new Vector2(7, 3), 150);
 
             currentAnimation = walkingAnimation;
 
@@ -36,7 +36,7 @@ namespace Arcade_Arena.Classes
         {
             if (!doingTimeTravel)
             {
-                previousPositions.Add(new Vector2(position.X, position.Y));
+                previousPositions.Add(new Vector2(Position.X, Position.Y));
             }
             UpdateTimeZones();
             currentAnimation.Update();
@@ -102,7 +102,7 @@ namespace Arcade_Arena.Classes
         {
             doingTimeZone = true;
             timeZoneCooldown = timeZoneMaxCooldown;
-            TimeZone newTimeZone = new TimeZone(timeZoneTimer, this, position, AssetManager.TimeTravelerTimeZone);
+            TimeZone newTimeZone = new TimeZone(timeZoneTimer, this, Position, AssetManager.TimeTravelerTimeZone);
             timeZones.Add(newTimeZone);
         }
 
@@ -113,7 +113,7 @@ namespace Arcade_Arena.Classes
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            currentAnimation.Draw(spriteBatch, position, 0.0f, Vector2.Zero, 5.0f);
+            currentAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, Game1.SCALE);
             currentAnimation = walkingAnimation;
 
             foreach (TimeZone timeZone in timeZones)

@@ -22,7 +22,11 @@ namespace Arcade_Arena.Library
         public int XPosition { get; set; }
         public int YPosition { get; set; }
 
+
+        public bool intersectingLava { get; set; }
+
         public List<AbilityOutline> abilities;
+
 
         public Player(string username, int xPosition, int yPosition)
         {

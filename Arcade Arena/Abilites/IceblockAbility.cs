@@ -21,12 +21,12 @@ namespace Arcade_Arena.Abilites
             currentAnimation = new SpriteAnimation(AssetManager.WizardIceBlock, new Vector2(0, 0), new Vector2(4, 0), 
                 new Vector2(14, 20), new Vector2(4, 0), 1000);
 
-            this.position = player.position;
+            this.position = player.Position;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            //currentAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, 5.0f);
+            //currentAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, Game1.SCALE);
         }
 
         public override void Update()

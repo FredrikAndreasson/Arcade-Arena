@@ -39,7 +39,7 @@ namespace Arcade_Arena.Managers
             outmsg.Write((byte)PacketType.Login);
             outmsg.Write(Username);
             outmsg.Write((byte)Player.ClassType.Wizard);
-            client.Connect("localhost", 14241, outmsg);
+            client.Connect("85.228.136.154", 14241, outmsg);
             return EstablishInfo();
 
             //var outmsg1 = client.CreateMessage();
@@ -83,25 +83,26 @@ namespace Arcade_Arena.Managers
             if (timer < 0 && !isRetrieved)
             {
                 isRetrieved = true;
-                var outmessage = client.CreateMessage();
-                outmessage.Write((byte)PacketType.AllPlayers);
-                client.SendMessage(outmessage, NetDeliveryMethod.ReliableOrdered);
+                var outmsg = client.CreateMessage();
+                outmsg.Write((byte)PacketType.AllPlayers);
+                client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
             }else if(!isRetrieved) timer--;
 
             if (Players.Any(p => p.Username == Username))
             {
                 var player = Players.FirstOrDefault(p => p.Username == Username);
 
-                var outmessage = client.CreateMessage();
-                outmessage.Write((byte)PacketType.Input);
-                outmessage.Write(player.Username);
-                outmessage.Write(player.XPosition);
-                outmessage.Write(player.YPosition);
-                outmessage.Write(player.Animation.XRecPos);
-                outmessage.Write(player.Animation.YRecPos);
-                outmessage.Write(player.Animation.Height);
-                outmessage.Write(player.Animation.Width);
-                client.SendMessage(outmessage, NetDeliveryMethod.ReliableOrdered);
+                var outmsg = client.CreateMessage();
+                outmsg.Write((byte)PacketType.Input);
+                outmsg.Write(player.Username);
+                outmsg.Write(player.XPosition);
+                outmsg.Write(player.YPosition);
+                outmsg.Write(player.Animation.XRecPos);
+                outmsg.Write(player.Animation.YRecPos);
+                outmsg.Write(player.Animation.Height);
+                outmsg.Write(player.Animation.Width);
+                outmsg.Write(player.intersectingLava);
+                client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
             }
 
 
@@ -177,8 +178,8 @@ namespace Arcade_Arena.Managers
             outmsg.Write(Username);
             outmsg.Write(ID);
             outmsg.Write((byte)(ability.Type));
-            outmsg.Write((int)ability.Position.X);
-            outmsg.Write((int)ability.Position.Y);
+            outmsg.Write((int)ability.position.X);
+            outmsg.Write((int)ability.position.Y);
             outmsg.Write(ability.CurrentAnimation.Source.X);
             outmsg.Write(ability.CurrentAnimation.Source.Y);
             outmsg.Write(ability.CurrentAnimation.Source.Width);
@@ -186,19 +187,23 @@ namespace Arcade_Arena.Managers
 
             client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
         }
-        public void SendAbilityUpdate(Ability ability, byte ID)
+        public void SendAbilityUpdates(List<Ability> abilities)
         {
             var outmsg = client.CreateMessage();
             outmsg.Write((byte)PacketType.AbilityUpdate);
-            outmsg.Write(Username);
-            outmsg.Write(ID);
-            outmsg.Write((int)ability.Position.X);
-            outmsg.Write((int)ability.Position.Y);
-            outmsg.Write(ability.CurrentAnimation.Source.X);
-            outmsg.Write(ability.CurrentAnimation.Source.Y);
-            outmsg.Write(ability.CurrentAnimation.Source.Width);
-            outmsg.Write(ability.CurrentAnimation.Source.Height);
-
+            outmsg.Write(abilities.Count);
+            for (int i = 0; i < abilities.Count; i++)
+            {
+                outmsg.Write(abilities[i].Username);
+                outmsg.Write(abilities[i].ID);
+                outmsg.Write((int)abilities[i].position.X);
+                outmsg.Write((int)abilities[i].position.Y);
+                outmsg.Write(abilities[i].CurrentAnimation.Source.X);
+                outmsg.Write(abilities[i].CurrentAnimation.Source.Y);
+                outmsg.Write(abilities[i].CurrentAnimation.Source.Width);
+                outmsg.Write(abilities[i].CurrentAnimation.Source.Height);
+                
+            }
             client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
         }
 
@@ -318,6 +323,7 @@ namespace Arcade_Arena.Managers
                 oldPlayer.Animation.YRecPos = inc.ReadInt32();
                 oldPlayer.Animation.Height = inc.ReadInt32();
                 oldPlayer.Animation.Width = inc.ReadInt32();
+                oldPlayer.intersectingLava = inc.ReadBoolean();
             }
             else
             {
@@ -329,6 +335,7 @@ namespace Arcade_Arena.Managers
                 player.Animation.YRecPos = inc.ReadInt32();
                 player.Animation.Height = inc.ReadInt32();
                 player.Animation.Width = inc.ReadInt32();
+                player.intersectingLava = inc.ReadBoolean();
                 Players.Add(player);
             }
         }

@@ -17,7 +17,7 @@ namespace Arcade_Arena.Server
         public NetServer NetServer { get; private set; }
 
         public DateTime lavaTimer = DateTime.Now;
-        public int LavaRadius = 400;
+        public int lavaRadius = 400;
 
 
         public Server(ManagerLogger managerLogger)
@@ -60,9 +60,9 @@ namespace Arcade_Arena.Server
         {
             lavaTimer = DateTime.Now;
             NetOutgoingMessage om = NetServer.CreateMessage();
-            LavaRadius -= 5;
+            lavaRadius -= 5;
             om.Write((byte)PacketType.ShrinkLava);
-            om.Write(LavaRadius);
+            om.Write(lavaRadius);
             NetServer.SendToAll(om, NetDeliveryMethod.Unreliable);
             managerLogger.AddLogMessage("Server", $"LAVA UPDATED {lavaTimer}  {DateTime.Now}");
         }

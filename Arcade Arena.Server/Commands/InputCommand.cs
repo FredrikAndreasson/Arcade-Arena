@@ -24,6 +24,17 @@ namespace Arcade_Arena.Server
             playerAndConnection.Player.Animation.Height = inc.ReadInt32();
             playerAndConnection.Player.Animation.Width = inc.ReadInt32();
 
+            playerAndConnection.Player.intersectingLava = inc.ReadBoolean();
+
+            if (playerAndConnection == null)
+            {
+                managerLogger.AddLogMessage("Server", string.Format("Didn't find player with name {0}", name));
+                return;
+            }
+
+
+
+
             var command = new PlayerPositionCommand();
             command.Run(managerLogger, server, inc, playerAndConnection, players);
         }

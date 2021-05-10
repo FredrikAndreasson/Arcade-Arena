@@ -10,28 +10,43 @@ using System.Collections.ObjectModel;
 
 namespace Arcade_Arena
 {
+    enum States
+    {
+        Menu,
+        FFA,
+        Pause,
+        Settings,
+        Quit,
+    }
+
+
     public class Game1 : Game
     {
         public static GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        static Random random = new Random();
+        public static Random random = new Random();
+
+        public const float SCALE = 5.0f;
 
         public static double elapsedGameTimeSeconds { get; private set; }
         public static double elapsedGameTimeMilliseconds { get; private set; }
 
         private static ObstacleManager obstacleManager = new ObstacleManager(); //it be here?
-
-        FFAArenaState gameState;
         
+        States state = States.Menu;
+
+        FFAArenaState ffaArena;
+        MainMenuState mainMenu;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
 
-            graphics.PreferredBackBufferHeight = 720;
-            graphics.PreferredBackBufferWidth = 1080;
+            graphics.PreferredBackBufferHeight = 1080;
+            graphics.PreferredBackBufferWidth = 1920;
             graphics.ApplyChanges();
         }
 
@@ -41,7 +56,8 @@ namespace Arcade_Arena
             spriteBatch = new SpriteBatch(GraphicsDevice);
             AssetManager.LoadTextures(Content);
 
-            gameState = new FFAArenaState(Window, spriteBatch);
+            ffaArena = new FFAArenaState(Window, spriteBatch);
+            mainMenu = new MainMenuState(Window);
 
         }
 
@@ -59,23 +75,55 @@ namespace Arcade_Arena
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            MouseKeyboardManager.Update();
+
             elapsedGameTimeSeconds = gameTime.ElapsedGameTime.TotalSeconds;
             elapsedGameTimeMilliseconds = gameTime.ElapsedGameTime.TotalMilliseconds;
 
-            gameState.Update(gameTime);
-       
-            base.Update(gameTime);
-        }
+            switch (state)
+            {
+                case States.Menu:
+                    mainMenu.Update(gameTime, ref state);
+                    break;
+                case States.Quit:
+                    Exit();
+                    break;
+                case States.FFA:
+                    ffaArena.Update(gameTime, ref state);
+                    break;
+                case States.Pause:
+                    mainMenu.Update(gameTime, ref state);
+                    break;
 
-        public static int GenerateRandomNumber(int min, int max)
-        {
-            return random.Next(min, max);
+                default:
+                    break;
+
+            }
+
+
+            base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
+            Game1.graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            gameState.Draw(spriteBatch);
+            switch (state)
+            {
+                case (States.Menu):
+                    mainMenu.Draw(spriteBatch, state);
+                    break;
+                case (States.FFA):
+                    ffaArena.Draw(spriteBatch, state);
+                    break;
+                case States.Pause:
+                    ffaArena.Draw(spriteBatch, state);
+                    mainMenu.Draw(spriteBatch, state);
+                    break;
+                default:
+                    break;
+
+            }
 
             base.Draw(gameTime);
         }

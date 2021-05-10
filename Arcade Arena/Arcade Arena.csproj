@@ -45,11 +45,11 @@
     <Compile Include="Abilites\IceblockAbility.cs" />
     <Compile Include="Abilites\TeleportAbility.cs" />
     <Compile Include="Ability.cs" />
-    <Compile Include="AssetManager.cs" />
     <Compile Include="BearTrap.cs" />
     <Compile Include="Classes\Huntress.cs" />
     <Compile Include="Effects\BurningEffect.cs" />
     <Compile Include="Effects\CharacterExclusiveEffect.cs" />
+    <Compile Include="Managers\AssetManager.cs" />
     <Compile Include="Obstacle.cs" />
     <Compile Include="Character.cs" />
     <Compile Include="Classes\Ogre.cs" />
@@ -70,14 +70,15 @@
     <Compile Include="Managers\ObstacleManager.cs" />
     <Compile Include="Managers\PlayerManager.cs" />
     <Compile Include="Managers\UserInterfaceManager.cs" />
-    <Compile Include="MouseKeyboardManager.cs" />
+    <Compile Include="Managers\MouseKeyboardManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Projectile.cs" />
     <Compile Include="ProjectileCharacter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shadow.cs" />
     <Compile Include="Effects\AlterTimeEffect.cs" />
     <Compile Include="SpriteAnimation.cs" />
-    <Compile Include="TimeZone.cs" />
+    <Compile Include="Abilites\TimeZone.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Lidgren.Network, Version=2012.1.7.0, Culture=neutral, processorArchitecture=MSIL">

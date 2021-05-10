@@ -14,8 +14,12 @@ namespace Arcade_Arena.Managers
         NetworkManager networkManager;
         PlayerManager playerManager;
 
+
+        //The server will treat any and all projectiles as abilities
         public List<Ability> abilities;
 
+
+        private byte IDsum;
 
         public AbilityManager(NetworkManager networkManager, PlayerManager playerManager)
         {
@@ -27,10 +31,13 @@ namespace Arcade_Arena.Managers
 
         public void Update()
         {
+
+
+
+            networkManager.SendAbilityUpdates(abilities);
             foreach (Ability ability in abilities)
             {
                 ability.Update();
-                networkManager.SendAbilityUpdate(ability, (byte)(abilities.Count-1));
             }
 
             for (int i = 0; i < playerManager.clientPlayer.abilityBuffer.Count; i++)
@@ -68,16 +75,24 @@ namespace Arcade_Arena.Managers
             {
                 if (abilities[i].IsDead)
                 {
+                    networkManager.DeleteLocalAbility(abilities[i].ID);
                     abilities.RemoveAt(i);
-                    networkManager.DeleteLocalAbility((byte)i);
                 }
             }
         }
         public void CreateAbility(Ability ability)
         {
             ability.Username = networkManager.Username;
+            ability.ID = IDGenerator();
             abilities.Add(ability);
-            networkManager.SendAbility(ability, (byte)(abilities.Count-1));
+            networkManager.SendAbility(ability, ability.ID);
+        }
+        public byte IDGenerator()
+        {
+            if (IDsum >= 255)
+            { IDsum = 0; }
+            else { IDsum++; }
+            return IDsum;
         }
 
         private void DrawAbility(SpriteBatch spriteBatch, AbilityOutline ability, Player.ClassType playerType)
@@ -86,7 +101,12 @@ namespace Arcade_Arena.Managers
             switch (playerType)
             {
                 case Player.ClassType.Wizard:
-                    if (ability.Type == AbilityOutline.AbilityType.AbilityOne)
+                    if (ability.Type == AbilityOutline.AbilityType.Projectile)
+                    {
+                        spriteBatch.Draw(AssetManager.WizardWandProjectile, new Vector2(ability.XPosition, ability.YPosition), source, Color.White, 0.0f,
+                            Vector2.Zero, 6.0f, SpriteEffects.None, 1.0f);
+                    }
+                    else if (ability.Type == AbilityOutline.AbilityType.AbilityOne)
                     {
                         spriteBatch.Draw(AssetManager.WizardIceBlock, new Vector2(ability.XPosition, ability.YPosition), source, Color.White, 0.0f,
                             Vector2.Zero, 5.0f, SpriteEffects.None, 1.0f);

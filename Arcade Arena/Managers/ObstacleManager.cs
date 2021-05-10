@@ -27,17 +27,17 @@ namespace Arcade_Arena.Managers
 
         public void GenerateObstacles()
         {
-            int nrObstacles = Game1.GenerateRandomNumber(minObstacles, maxObstacles + 1);
+            int nrObstacles = Game1.random.Next(minObstacles, maxObstacles + 1);
             int loop = 0;
             for (int i = 0; i < nrObstacles; i++)
             {
                 bool successfulBoxPlacement = false;
-                Texture2D obstacleTexture = obstacleTextures[Game1.GenerateRandomNumber(0, obstacleTextures.Count)];
+                Texture2D obstacleTexture = obstacleTextures[Game1.random.Next(0, obstacleTextures.Count)];
                 Obstacle obstacle = new Obstacle(new Vector2(0, 0), obstacleTexture);
                 while (successfulBoxPlacement == false)
                 {
-                    int xValue = Game1.GenerateRandomNumber(obstacleBoundary.X, obstacleBoundary.Width + 1);
-                    int yValue = Game1.GenerateRandomNumber(obstacleBoundary.Y, obstacleBoundary.Height+ 1);
+                    int xValue = Game1.random.Next(obstacleBoundary.X, obstacleBoundary.Width + 1);
+                    int yValue = Game1.random.Next(obstacleBoundary.Y, obstacleBoundary.Height+ 1);
                     obstacle.MoveObstacle(new Vector2(xValue, yValue));
                     if (true) //om den inte kolliderar med något
                     {

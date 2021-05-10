@@ -12,9 +12,9 @@ namespace Arcade_Arena
         public double speedAlteration { get; set; } //för time zone
         protected List<Effect> EffectList = new List<Effect>();
 
-        public DynamicObject(Vector2 position, Texture2D texture, float speed, double direction) : base(position, texture)
+        public DynamicObject(Vector2 position, float speed, double direction) : base(position)
         {
-            speedAlteration = 1;
+            SpeedAlteration = 1;
             this.speed = speed;
             this.direction = direction;
         }
