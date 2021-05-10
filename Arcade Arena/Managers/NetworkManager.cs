@@ -269,23 +269,22 @@ namespace Arcade_Arena.Managers
             byte ID = inc.ReadByte();
             for (int i = 0; i < ServerAbilities.Count; i++)
             {
-                System.Diagnostics.Debug.WriteLine("name: {0}, ID: {1}, xpos: {2}, ypos: {3} ");
+                System.Diagnostics.Debug.WriteLine("name: {0}, ID: {1}, xpos: {2}, ypos: {3} ", 
+                    ServerAbilities[i].Username, ServerAbilities[i].ID, ServerAbilities[i].XPosition, ServerAbilities[i].YPosition);
             }
             
-            var oldAbility = ServerAbilities.FirstOrDefault(a => a.ID == ID && a.Username == Username);
-            if (oldAbility==null)
+            var oldAbility = ServerAbilities.FirstOrDefault(a => a.ID == ID && a.Username == name);
+            if (oldAbility != null)
             {
-                return;
+                oldAbility.Username = name;
+                oldAbility.ID = ID;
+                oldAbility.XPosition = inc.ReadInt32();
+                oldAbility.YPosition = inc.ReadInt32();
+                oldAbility.Animation.XRecPos = inc.ReadInt32();
+                oldAbility.Animation.YRecPos = inc.ReadInt32();
+                oldAbility.Animation.Width = inc.ReadInt32();
+                oldAbility.Animation.Height = inc.ReadInt32();
             }
-            oldAbility.Username = name;
-            oldAbility.ID = ID;
-            oldAbility.XPosition = inc.ReadInt32();
-            oldAbility.YPosition = inc.ReadInt32();
-            oldAbility.Animation.XRecPos = inc.ReadInt32();
-            oldAbility.Animation.YRecPos = inc.ReadInt32();
-            oldAbility.Animation.Width = inc.ReadInt32();
-            oldAbility.Animation.Height = inc.ReadInt32();
-            
         }
 
 

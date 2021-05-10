@@ -53,9 +53,6 @@ namespace Arcade_Arena.Server.Commands
             outmsg.Write(ability.Animation.Width);
             outmsg.Write(ability.Animation.Height);
 
-            
-            
-
             server.NetServer.SendToAll(outmsg, NetDeliveryMethod.ReliableOrdered);
         }
     }
