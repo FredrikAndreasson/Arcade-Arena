@@ -62,7 +62,7 @@ namespace Arcade_Arena
             
             networkManager.Update();
             playerManager.UpdatePlayer();
-            abilityManager.Update();
+            abilityManager.Update(player);
             userInterfaceManager.Update(gameTime);
 
             MouseKeyboardManager.Update();
@@ -88,38 +88,47 @@ namespace Arcade_Arena
                     if (player.Username != networkManager.Username && player != null)
                     {
                         Rectangle source = new Rectangle(player.Animation.XRecPos, player.Animation.YRecPos, player.Animation.Width, player.Animation.Height);
+                        if (!player.intersectingLava) 
+                        { 
 
-                        if (!player.intersectingLava)
-                        {
-                            switch (player.Type)
+                            if (player.Health > 0)
                             {
-                                case Library.Player.ClassType.Wizard:
-                                    spriteBatch.Draw(AssetManager.WizardSpriteSheet, new Vector2(player.XPosition, player.YPosition), source,
-                                        Color.White, 0f, Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1.0f);
-                                    break;
-                                case Library.Player.ClassType.Ogre:
-                                    spriteBatch.Draw(AssetManager.ogreSpriteSheet, new Vector2(player.XPosition, player.YPosition), source,
-                                        Color.White, 0f, Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1.0f);
-                                    break;
-                                case Library.Player.ClassType.Huntress:
-                                    break;
-                                case Library.Player.ClassType.TimeTraveler:
-                                    break;
-                                case Library.Player.ClassType.Assassin:
-                                    break;
-                                case Library.Player.ClassType.Knight:
-                                    break;
-                            }
+                                switch (player.Type)
+                                {
+                                    case Library.Player.ClassType.Wizard:
+                                        spriteBatch.Draw(AssetManager.WizardSpriteSheet, new Vector2(player.XPosition, player.YPosition), source,
+                                            Color.White, 0f, Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1.0f);
+                                        break;
+                                    case Library.Player.ClassType.Ogre:
+                                        spriteBatch.Draw(AssetManager.ogreSpriteSheet, new Vector2(player.XPosition, player.YPosition), source,
+                                            Color.White, 0f, Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1.0f);
+                                        break;
+                                    case Library.Player.ClassType.Huntress:
+                                        break;
+                                    case Library.Player.ClassType.TimeTraveler:
+                                        break;
+                                    case Library.Player.ClassType.Assassin:
+                                        break;
+                                    case Library.Player.ClassType.Knight:
+                                        break;
+                                }
 
-                        }
-                        
+                                spriteBatch.DrawString(AssetManager.CooldownFont, $"{player.Username}", new Vector2(player.XPosition, player.YPosition - 5), Color.White);
+                                spriteBatch.DrawString(AssetManager.CooldownFont, $"{player.Health}", new Vector2(player.XPosition, player.YPosition - 20), Color.White);
+
+
+                            }
+                    }
+
                         //spriteBatch.DrawString(font, player.Username, new Vector2(player.XPosition - 10, player.YPosition - 10), Color.Black);
                     }
                     else
                     {
-                        if (!this.player.IntersectingLava)
+                        if (!this.player.IntersectingLava || player.Health > 0)
                         {
                             this.player.Draw(spriteBatch);
+                            spriteBatch.DrawString(AssetManager.CooldownFont, $"{networkManager.Username}", new Vector2(player.XPosition, player.YPosition - 5), Color.White);
+                            spriteBatch.DrawString(AssetManager.CooldownFont, $"{this.player.Health}", new Vector2(player.XPosition, player.YPosition - 20), Color.White);
 
                         }
                     }

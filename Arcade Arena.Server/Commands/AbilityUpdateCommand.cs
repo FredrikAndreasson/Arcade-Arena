@@ -15,9 +15,12 @@ namespace Arcade_Arena.Server.Commands
             PlayerAndConnection playerAndConnection, List<PlayerAndConnection> players, List<AbilityOutline> abilities)
         {
             managerLogger.AddLogMessage("Update", "Received ability");
+
             var name = inc.ReadString();
             Byte ID = inc.ReadByte();
             var ability = ReadAbility(inc, abilities, ID, name);
+
+          
 
             for (int i = 0; i < abilities.Count; i++)
             {

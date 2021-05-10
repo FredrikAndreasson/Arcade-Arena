@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Arcade_Arena
 {
-    class ProjectileCharacter : Character
+    public class ProjectileCharacter : Character
     {
         public float rotation;
         public Vector2 weaponPosition;
@@ -34,7 +34,7 @@ namespace Arcade_Arena
             distance.Y = mousePosition.Y - Position.Y;
 
             orbiterRotation = (float)Math.Atan2(distance.Y, distance.X);
-            Console.WriteLine(orbiterRotation);
+           // Console.WriteLine(orbiterRotation);
             //if (Keyboard.GetState().IsKeyDown(Keys.O))
             //{
             //    orbiterRotation += 0.1f;
@@ -46,7 +46,7 @@ namespace Arcade_Arena
 
             cooldownTimer += (float)Game1.elapsedGameTimeSeconds;
 
-            if (cooldownTimer >= 1f && Keyboard.GetState().IsKeyDown(Keys.Space))
+            if (cooldownTimer >= 1f && (Keyboard.GetState().IsKeyDown(Keys.Space) || MouseKeyboardManager.Pressed(Buttons.RightTrigger)))
             {
                 Shoot();
                 cooldownTimer = 0;
@@ -57,7 +57,7 @@ namespace Arcade_Arena
         public virtual void Shoot()
         {
 
-            Projectile projectile = new Projectile(3, 3, Position, speed/2, direction);
+            Projectile projectile = new Projectile(1, 1, Position, speed/2, (double)orbiterRotation);
             projectile.velocity = new Vector2((float)Math.Cos(orbiterRotation) * 10f, (float)Math.Sin(orbiterRotation) * 10f);
             projectile.SetPosition((Position - (new Vector2(-40,-58))) + projectile.velocity);
             projectile.projectileIsActive = true;

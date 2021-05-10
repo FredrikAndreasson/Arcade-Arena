@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Arcade_Arena.Library;
 using System.Linq;
+using System.Diagnostics;
 
 namespace Arcade_Arena.Managers
 {
@@ -104,6 +105,7 @@ namespace Arcade_Arena.Managers
                 outmsg.Write(player.Animation.YRecPos);
                 outmsg.Write(player.Animation.Height);
                 outmsg.Write(player.Animation.Width);
+                outmsg.Write(player.Health);
                 outmsg.Write(player.intersectingLava);
                 client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
             }
@@ -160,13 +162,14 @@ namespace Arcade_Arena.Managers
                     RecieveAbilityCreate(inc);
                     break;
 
+                case PacketType.AbilityDelete:
+                    ReadAbilityToDelete(inc);
+                    break;
+                
                 case PacketType.AbilityUpdate:
                     RecieveAbilityUpdate(inc);
                     break;
 
-                case PacketType.AbilityDelete:
-                    ReadAbilityToDelete(inc);
-                    break;
 
 
                 default:
@@ -220,6 +223,20 @@ namespace Arcade_Arena.Managers
         }
 
 
+        public void DeleteProjectile(byte ID, string ownerUsername)
+        {
+
+            DeleteAbility(ID, ownerUsername);
+
+            var outmsg = client.CreateMessage();
+            outmsg.Write((byte)PacketType.AbilityDelete);
+            outmsg.Write(ownerUsername);
+            outmsg.Write(ID);
+
+            client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
+        }
+
+
 
         private void DeleteAbility(byte ID, string username)
         {
@@ -232,6 +249,7 @@ namespace Arcade_Arena.Managers
                     i--;
                 }
             }
+            
         }
 
         private void ReadAbilityToDelete(NetIncomingMessage inc)
@@ -317,6 +335,7 @@ namespace Arcade_Arena.Managers
                 oldPlayer.Animation.YRecPos = inc.ReadInt32();
                 oldPlayer.Animation.Height = inc.ReadInt32();
                 oldPlayer.Animation.Width = inc.ReadInt32();
+                oldPlayer.Health = inc.ReadSByte();
                 oldPlayer.intersectingLava = inc.ReadBoolean();
             }
             else
@@ -329,6 +348,7 @@ namespace Arcade_Arena.Managers
                 player.Animation.YRecPos = inc.ReadInt32();
                 player.Animation.Height = inc.ReadInt32();
                 player.Animation.Width = inc.ReadInt32();
+                player.Health = inc.ReadSByte();
                 player.intersectingLava = inc.ReadBoolean();
                 Players.Add(player);
             }

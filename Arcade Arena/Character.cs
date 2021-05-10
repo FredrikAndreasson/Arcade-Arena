@@ -15,8 +15,12 @@ namespace Arcade_Arena
         protected bool walking = false;
         protected bool canWalk = true;
 
-        protected int health;
         protected int mana;
+
+        protected bool isDead = false;
+
+        protected bool invincible = false;
+
 
 
         protected double aimDirection;
@@ -26,9 +30,11 @@ namespace Arcade_Arena
         public List<Effect> EffectList = new List<Effect>();
 
 
+        public sbyte health;
+        
+
 
         public Shadow shadow;
-
 
         public List<Ability> abilityBuffer;
 
@@ -41,6 +47,8 @@ namespace Arcade_Arena
 
         public SpriteAnimation CurrentAnimation => currentAnimation;
 
+        public sbyte Health { get { return health; } private set { health = value; } }
+
         public bool IntersectingLava { get; set; }
 
         public virtual void Update()
@@ -52,21 +60,31 @@ namespace Arcade_Arena
             {
                 UpdateVelocity(direction, speed);
             }
+
+            if(health<= 0)
+            {
+                isDead = true;
+            }
+
         }
 
+        public void TakeDamage()
+        {
+            health -= 10;
+        }
+        
         public void UpdateVelocity(double newDirection, float newSpeed)
         {
-            velocity.Y = (float)(Math.Sin(MathHelper.ToRadians((float)newDirection)) * newSpeed * SpeedAlteration);
-            velocity.X = (float)(Math.Cos(MathHelper.ToRadians((float)newDirection)) * newSpeed * SpeedAlteration);
+            velocity.Y = (float)(Math.Sin(MathHelper.ToRadians((float)newDirection)) * newSpeed * speedAlteration);
+            velocity.X = (float)(Math.Cos(MathHelper.ToRadians((float)newDirection)) * newSpeed * speedAlteration);
             position += velocity;
         }
 
-        void UpdateEffects()
+        public void TakeDamage(int damage)
         {
-            List<Effect> tempEffectList = new List<Effect>(EffectList);
-            foreach(Effect effect in tempEffectList)
+            if (!invincible)
             {
-                effect.Update(this);
+                health -= (sbyte)damage;
             }
         }
 
@@ -82,30 +100,20 @@ namespace Arcade_Arena
             walking = true;
         }
 
-        public void AddEffect(Effect newEffect)
-        {
-            EffectList.Add(newEffect);
-        }
-
-        public void RemoveEffect(Effect effect)
-        {
-            EffectList.Remove(effect);
-        }
-
         //returnerar angle i grader
         protected double UpdateMovementDirection()
         {
             walking = false;
             double newDirection = direction;
 
-            if (Keyboard.GetState().IsKeyDown(Keys.W))
+            if (Keyboard.GetState().IsKeyDown(Keys.W) || MouseKeyboardManager.LeftThumbStickUp())
             {
                 walking = true;
-                if (Keyboard.GetState().IsKeyDown(Keys.D))
+                if (Keyboard.GetState().IsKeyDown(Keys.D) || MouseKeyboardManager.LeftThumbStickRight())
                 {
                     newDirection = 315;
                 }
-                else if (Keyboard.GetState().IsKeyDown(Keys.A))
+                else if (Keyboard.GetState().IsKeyDown(Keys.A) || MouseKeyboardManager.LeftThumbStickLeft())
                 {
                     newDirection = 225;
                 }
@@ -114,14 +122,14 @@ namespace Arcade_Arena
                     newDirection = 270;
                 }
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.S))
+            else if (Keyboard.GetState().IsKeyDown(Keys.S) || MouseKeyboardManager.LeftThumbStickDown())
             {
                 walking = true;
-                if (Keyboard.GetState().IsKeyDown(Keys.D))
+                if (Keyboard.GetState().IsKeyDown(Keys.D) || MouseKeyboardManager.LeftThumbStickRight())
                 {
                     newDirection = 45;
                 }
-                else if (Keyboard.GetState().IsKeyDown(Keys.A))
+                else if (Keyboard.GetState().IsKeyDown(Keys.A) || MouseKeyboardManager.LeftThumbStickLeft())
                 {
                     newDirection = 135;
                 }
@@ -130,14 +138,14 @@ namespace Arcade_Arena
                     newDirection = 90;
                 }
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.D))
+            else if (Keyboard.GetState().IsKeyDown(Keys.D) || MouseKeyboardManager.LeftThumbStickRight())
             {
                 walking = true;
                 {
                     newDirection = 0;
                 }
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.A))
+            else if (Keyboard.GetState().IsKeyDown(Keys.A) || MouseKeyboardManager.LeftThumbStickLeft())
             {
                 walking = true;
                 {
@@ -163,6 +171,7 @@ namespace Arcade_Arena
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
+            
         }
 
         public void CheckLavaCollision(Lava lava)
