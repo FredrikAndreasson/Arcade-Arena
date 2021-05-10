@@ -1,4 +1,5 @@
-﻿using Arcade_Arena.Server.Managers;
+﻿using Arcade_Arena.Library;
+using Arcade_Arena.Server.Managers;
 using Lidgren.Network;
 using System.Collections.Generic;
 
@@ -6,9 +7,10 @@ namespace Arcade_Arena.Server.Commands
 {
     class PlayerPositionCommand : ICommand
     {
-        public void Run(ManagerLogger managerLogger, Server server, NetIncomingMessage inc, PlayerAndConnection playerAndConnection, List<PlayerAndConnection> players)
+        public void Run(ManagerLogger managerLogger, Server server, NetIncomingMessage inc,
+            PlayerAndConnection playerAndConnection, List<PlayerAndConnection> players, List<AbilityOutline> abilities)
         {
-            managerLogger.AddLogMessage("Server", "Sending out new player position and animation");
+            //managerLogger.AddLogMessage("Server", "Sending out new player position and animation");
             var outmessage = server.NetServer.CreateMessage();
             outmessage.Write((byte)PacketType.PlayerPosition);
             outmessage.Write(playerAndConnection.Player.Username);

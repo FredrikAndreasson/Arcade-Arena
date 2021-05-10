@@ -36,10 +36,10 @@ namespace Arcade_Arena.Managers
 
 
 
-            networkManager.SendAbilityUpdates(abilities);
             foreach (Ability ability in abilities)
             {
                 ability.Update();
+                networkManager.SendAbilityUpdate(ability);
             }
 
             for (int i = 0; i < playerManager.clientPlayer.abilityBuffer.Count; i++)
@@ -82,16 +82,13 @@ namespace Arcade_Arena.Managers
             {
                 //ability.Draw(spriteBatch);
             }
-            for (int i = 0; i < networkManager.Players.Count; i++)
+            for (int i = 0; i < networkManager.ServerAbilities.Count; i++)
             {
-                //if (networkManager.Players[i].Username != networkManager.Username)
-                //{
-                    Player player = networkManager.Players[i];
-                    for (int x = 0; x < player.abilities.Count; x++)
-                    {
-                        DrawAbility(spriteBatch, player.abilities[x], player.Type);
-                    }
-                //}
+                if (networkManager.ServerAbilities[i].Username != networkManager.Username)
+                {
+                    Player player = networkManager.Players.FirstOrDefault(p => p.Username == networkManager.ServerAbilities[i].Username);
+                    DrawAbility(spriteBatch, networkManager.ServerAbilities[i], player.Type);
+                }
             }
         }
 
