@@ -13,7 +13,9 @@ namespace Arcade_Arena
 
         protected int weaponLvl; //pay for lvls or get powerups?
         protected bool walking = false;
-        protected bool canWalk = true;
+
+        public bool CanWalk { get; private set; }
+        int nCanWalkStoppingEffects = 0;
 
         protected int mana;
 
@@ -43,6 +45,7 @@ namespace Arcade_Arena
             abilityBuffer = new List<Ability>();
             IntersectingLava = false;
             health = 100;
+            CanWalk = true;
         }
 
         public SpriteAnimation CurrentAnimation => currentAnimation;
@@ -56,7 +59,7 @@ namespace Arcade_Arena
             UpdateEffects();
             direction = UpdateMovementDirection();
             aimDirection = UpdateAimDirection();
-            if (walking && canWalk)
+            if (walking && CanWalk)
             {
                 UpdateVelocity(direction, speed);
             }
@@ -90,14 +93,29 @@ namespace Arcade_Arena
 
         public virtual void StartKnockback() //behöver en egen metod pga sprite sheet
         {
-            canWalk = false;
+            CanWalk = false;
             walking = false;
         }
 
         public virtual void EndKnockback()
         {
-            canWalk = true;
+            CanWalk = true;
             walking = true;
+        }
+
+        public void GetCanWalkStoppingEffect()
+        {
+            nCanWalkStoppingEffects++;
+            CanWalk = false;
+        }
+
+        public void UndoCanWalkStoppingEffect()
+        {
+            nCanWalkStoppingEffects--;
+            if (nCanWalkStoppingEffects <= 0)
+            {
+                CanWalk = true;
+            }
         }
 
         //returnerar angle i grader
