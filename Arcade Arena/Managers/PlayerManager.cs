@@ -31,7 +31,7 @@ namespace Arcade_Arena.Managers
                 player.Animation.Height = clientPlayer.CurrentAnimation.Source.Height;
                 player.Animation.Width = clientPlayer.CurrentAnimation.Source.Width;
                 player.Health = clientPlayer.Health;
-                player.intersectingLava = clientPlayer.IntersectingLava;
+                player.IntersectingLava = clientPlayer.IntersectingLava;
                 //
                 
 

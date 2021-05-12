@@ -88,7 +88,7 @@ namespace Arcade_Arena
                     if (player.Username != networkManager.Username && player != null)
                     {
                         Rectangle source = new Rectangle(player.Animation.XRecPos, player.Animation.YRecPos, player.Animation.Width, player.Animation.Height);
-                        if (!player.intersectingLava) 
+                        if (!player.IntersectingLava) 
                         { 
 
                             if (player.Health > 0)

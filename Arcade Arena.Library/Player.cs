@@ -24,8 +24,10 @@ namespace Arcade_Arena.Library
 
         public sbyte Health { get; set; }
 
+        public sbyte Score { get; set; }
 
-        public bool intersectingLava { get; set; }
+
+        public bool IntersectingLava { get; set; }
 
 
         public Player(string username, int xPosition, int yPosition)

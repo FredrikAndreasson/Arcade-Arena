@@ -43,7 +43,7 @@ namespace Arcade_Arena.Managers
             outmsg.Write((byte)PacketType.Login);
             outmsg.Write(Username);
             outmsg.Write((byte)Player.ClassType.Wizard);
-            client.Connect("85.228.136.154", 14241, outmsg);
+            client.Connect("localhost", 14241, outmsg);
             return EstablishInfo();
 
             //var outmsg1 = client.CreateMessage();
@@ -106,7 +106,7 @@ namespace Arcade_Arena.Managers
                 outmsg.Write(player.Animation.Height);
                 outmsg.Write(player.Animation.Width);
                 outmsg.Write(player.Health);
-                outmsg.Write(player.intersectingLava);
+                outmsg.Write(player.IntersectingLava);
                 client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
             }
 
@@ -331,7 +331,7 @@ namespace Arcade_Arena.Managers
                 oldPlayer.Animation.Height = inc.ReadInt32();
                 oldPlayer.Animation.Width = inc.ReadInt32();
                 oldPlayer.Health = inc.ReadSByte();
-                oldPlayer.intersectingLava = inc.ReadBoolean();
+                oldPlayer.IntersectingLava = inc.ReadBoolean();
             }
             else
             {
@@ -344,7 +344,7 @@ namespace Arcade_Arena.Managers
                 player.Animation.Height = inc.ReadInt32();
                 player.Animation.Width = inc.ReadInt32();
                 player.Health = inc.ReadSByte();
-                player.intersectingLava = inc.ReadBoolean();
+                player.IntersectingLava = inc.ReadBoolean();
                 Players.Add(player);
             }
         }
