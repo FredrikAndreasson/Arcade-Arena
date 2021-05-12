@@ -36,7 +36,7 @@ namespace Arcade_Arena
         
         States state = States.Menu;
 
-        FFAArenaState ffaArena;
+        PlayState ffaArena;
         MainMenuState mainMenu;
 
         public Game1()
@@ -56,7 +56,7 @@ namespace Arcade_Arena
             spriteBatch = new SpriteBatch(GraphicsDevice);
             AssetManager.LoadTextures(Content);
 
-            ffaArena = new FFAArenaState(Window, spriteBatch);
+            ffaArena = new PlayState(Window, spriteBatch);
             mainMenu = new MainMenuState(Window);
 
         }

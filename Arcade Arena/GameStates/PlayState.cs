@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Arcade_Arena
 {
-    class FFAArenaState : GameState
+    class PlayState : GameState
     {
 
         //multiplayer
@@ -29,7 +29,7 @@ namespace Arcade_Arena
 
 
 
-        public FFAArenaState(GameWindow Window, SpriteBatch spriteBatch) : base (Window)
+        public PlayState(GameWindow Window, SpriteBatch spriteBatch) : base (Window)
         {
      
 
