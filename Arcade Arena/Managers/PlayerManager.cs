@@ -37,6 +37,12 @@ namespace Arcade_Arena.Managers
 
                 //add more code for updating player later...
             }
+
+            if (clientPlayer.IsDead && clientPlayer.LastToDamage != "")
+            {
+                networkManager.SendPlayerScore(clientPlayer.LastToDamage);
+                clientPlayer.LastToDamage = "";
+            }
         }
     }
 }
