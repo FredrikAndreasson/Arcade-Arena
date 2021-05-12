@@ -46,5 +46,10 @@ namespace Arcade_Arena.Managers
                 spriteBatch.Draw(wizardAbilites, abilityPositions[i], new Rectangle(i * 32, 0, 32, 32), Color.White, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 1.0f);
             }
         }
+
+        private void DrawScore()
+        {
+
+        }
     }
 }

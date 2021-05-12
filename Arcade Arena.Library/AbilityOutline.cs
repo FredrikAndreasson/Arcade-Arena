@@ -19,6 +19,7 @@ namespace Arcade_Arena.Library
         public string Username { get; set; }
         public int XPosition { get; set; }
         public int YPosition { get; set; }
+        public double Direction { get; set; }
 
         public Animation Animation { get; set; }
 

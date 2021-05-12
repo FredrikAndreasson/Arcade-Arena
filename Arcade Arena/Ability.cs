@@ -17,6 +17,7 @@ namespace Arcade_Arena
 
         protected bool isDead;
         protected SpriteAnimation currentAnimation;
+        protected double direction;
 
         public Ability()
         {
@@ -24,10 +25,9 @@ namespace Arcade_Arena
         }
 
         public string Username { get; set; }
-
         public AbilityOutline.AbilityType Type { get; set; }
         public bool IsDead => isDead;
-
+        public double Direction => direction;
         public SpriteAnimation CurrentAnimation => currentAnimation;
 
 

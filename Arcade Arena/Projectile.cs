@@ -15,7 +15,7 @@ namespace Arcade_Arena
         public Vector2 velocity;
         public int damage;
         private double activeTimer;
-        private double direction;
+
 
         public Projectile(int damage, double timer, Vector2 position, float speed, double direction)
         {
@@ -26,8 +26,6 @@ namespace Arcade_Arena
             currentAnimation = new SpriteAnimation(AssetManager.WizardWandProjectile, Vector2.Zero, Vector2.Zero,
                 new Vector2(2, 1), new Vector2(2, 1));
         }
-
-        public double Direction => direction;
 
         public void SetPosition(Vector2 pos)
         {
