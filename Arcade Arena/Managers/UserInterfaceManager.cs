@@ -45,11 +45,16 @@ namespace Arcade_Arena.Managers
                 spriteBatch.DrawString(cooldownFont, cooldown.ToString(), abilityPositions[i]+ new Vector2(0, -16), Color.White);
                 spriteBatch.Draw(wizardAbilites, abilityPositions[i], new Rectangle(i * 32, 0, 32, 32), Color.White, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 1.0f);
             }
+            for (int i = 0; i < networkManager.Players.Count; i++)
+            {
+                DrawScore(spriteBatch, new Vector2(i*(window.ClientBounds.Width/networkManager.Players.Count)+
+                    ((window.ClientBounds.Width/2)/networkManager.Players.Count),20), networkManager.Players[i].Username, networkManager.Players[i].Score);
+            }
         }
 
-        private void DrawScore()
+        private void DrawScore(SpriteBatch spriteBatch, Vector2 position, string username, int score)
         {
-
+            spriteBatch.DrawString(cooldownFont, username + ": " + score, position, Color.White);
         }
     }
 }

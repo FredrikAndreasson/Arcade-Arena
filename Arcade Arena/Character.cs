@@ -29,10 +29,7 @@ namespace Arcade_Arena
 
         public List<Effect> EffectList = new List<Effect>();
 
-
         public sbyte health;
-        
-
 
         public Shadow shadow;
 
@@ -49,7 +46,12 @@ namespace Arcade_Arena
 
         public sbyte Health { get { return health; } private set { health = value; } }
 
+        public bool IsDead => isDead;
+
         public bool IntersectingLava { get; set; }
+
+        public string LastToDamage { get; set; } //This is used to keep track of which player last did damage to you.
+        public float LastToDamageTimer { get; set; }//The player gets the kill if the damage has been within the span of this timer.
 
         public virtual void Update()
         {
@@ -66,11 +68,22 @@ namespace Arcade_Arena
                 isDead = true;
             }
 
+            if (LastToDamageTimer < 0)
+            {
+                LastToDamage = "";
+            }
+            else
+            {
+                LastToDamageTimer -= (float)Game1.elapsedGameTimeSeconds;
+            }
+
         }
 
-        public void TakeDamage()
+        public void TakeDamage(string username, float timerSeconds)
         {
             health -= 10;
+            LastToDamage = username;
+            LastToDamageTimer = timerSeconds;
         }
         
         public void UpdateVelocity(double newDirection, float newSpeed)
@@ -80,11 +93,13 @@ namespace Arcade_Arena
             position += velocity;
         }
 
-        public void TakeDamage(int damage)
+        public void TakeDamage(int damage, string username, float timerSeconds)
         {
             if (!invincible)
             {
                 health -= (sbyte)damage;
+                LastToDamage = username;
+                LastToDamageTimer = timerSeconds;
             }
         }
 

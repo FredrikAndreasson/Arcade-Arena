@@ -169,6 +169,9 @@ namespace Arcade_Arena.Managers
                 case PacketType.AbilityUpdate:
                     RecieveAbilityUpdate(inc);
                     break;
+                case PacketType.Score:
+                    RecieveScore(inc);
+                    break;
 
 
 
@@ -177,6 +180,22 @@ namespace Arcade_Arena.Managers
             }
         }
 
+        private void RecieveScore(NetIncomingMessage inc)
+        {
+            string name = inc.ReadString();
+            sbyte score = inc.ReadSByte();
+
+            var player = Players.FirstOrDefault(p => p.Username == name);
+            if (player != null) player.Score = score;
+        }
+
+        public void SendPlayerScore(string Username)
+        {
+            var outmsg = client.CreateMessage();
+            outmsg.Write((byte)PacketType.Score);
+            outmsg.Write(Username);
+            client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
+        }
         public void SendAbility(Ability ability, byte ID)
         {
             var outmsg = client.CreateMessage();
