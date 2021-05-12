@@ -49,6 +49,7 @@
     <Compile Include="Classes\Huntress.cs" />
     <Compile Include="Effects\BurningEffect.cs" />
     <Compile Include="Effects\CharacterExclusiveEffect.cs" />
+    <Compile Include="Level.cs" />
     <Compile Include="Managers\AssetManager.cs" />
     <Compile Include="Obstacle.cs" />
     <Compile Include="Character.cs" />

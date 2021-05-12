@@ -24,24 +24,23 @@ namespace Arcade_Arena
         private UserInterfaceManager userInterfaceManager;
 
 
+        public Level currentLevel;
         private Wizard player;
-        public static Lava lava;
 
 
 
         public PlayState(GameWindow Window, SpriteBatch spriteBatch) : base (Window)
         {
-     
+            player = new Wizard(new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2), 3f, 0.0);
+            currentLevel = new Level(Window, spriteBatch, player);
 
             networkManager = new NetworkManager();
-
-            player = new Wizard(new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2), 3f, 0.0);
-            lava = new Lava(Game1.graphics.GraphicsDevice, Window);
             playerManager = new PlayerManager(networkManager, player);
             abilityManager = new AbilityManager(networkManager, playerManager);
 
             userInterfaceManager = new UserInterfaceManager(networkManager, Window);
-            lava.DrawRenderTarget(spriteBatch);
+
+            
 
             networkManager.Start();
 
@@ -64,10 +63,9 @@ namespace Arcade_Arena
             playerManager.UpdatePlayer();
             abilityManager.Update(player);
             userInterfaceManager.Update(gameTime);
-
             MouseKeyboardManager.Update();
-            player.Update();
 
+            currentLevel.Update();
             //player.CheckLavaCollision(lava);
         }
 
@@ -82,57 +80,8 @@ namespace Arcade_Arena
                 //lava.Draw(spriteBatch);
                 userInterfaceManager.Draw(spriteBatch);
 
-                foreach (var player in networkManager.Players)
-                {
+                currentLevel.Draw(spriteBatch, networkManager);
 
-                    if (player.Username != networkManager.Username && player != null)
-                    {
-                        Rectangle source = new Rectangle(player.Animation.XRecPos, player.Animation.YRecPos, player.Animation.Width, player.Animation.Height);
-                        if (!player.IntersectingLava) 
-                        { 
-
-                            if (player.Health > 0)
-                            {
-                                switch (player.Type)
-                                {
-                                    case Library.Player.ClassType.Wizard:
-                                        spriteBatch.Draw(AssetManager.WizardSpriteSheet, new Vector2(player.XPosition, player.YPosition), source,
-                                            Color.White, 0f, Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1.0f);
-                                        break;
-                                    case Library.Player.ClassType.Ogre:
-                                        spriteBatch.Draw(AssetManager.ogreSpriteSheet, new Vector2(player.XPosition, player.YPosition), source,
-                                            Color.White, 0f, Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1.0f);
-                                        break;
-                                    case Library.Player.ClassType.Huntress:
-                                        break;
-                                    case Library.Player.ClassType.TimeTraveler:
-                                        break;
-                                    case Library.Player.ClassType.Assassin:
-                                        break;
-                                    case Library.Player.ClassType.Knight:
-                                        break;
-                                }
-
-                                spriteBatch.DrawString(AssetManager.CooldownFont, $"{player.Username}", new Vector2(player.XPosition, player.YPosition - 5), Color.White);
-                                spriteBatch.DrawString(AssetManager.CooldownFont, $"{player.Health}", new Vector2(player.XPosition, player.YPosition - 20), Color.White);
-
-
-                            }
-                    }
-
-                        //spriteBatch.DrawString(font, player.Username, new Vector2(player.XPosition - 10, player.YPosition - 10), Color.Black);
-                    }
-                    else
-                    {
-                        if (!this.player.IntersectingLava || player.Health > 0)
-                        {
-                            this.player.Draw(spriteBatch);
-                            spriteBatch.DrawString(AssetManager.CooldownFont, $"{networkManager.Username}", new Vector2(player.XPosition, player.YPosition - 5), Color.White);
-                            spriteBatch.DrawString(AssetManager.CooldownFont, $"{this.player.Health}", new Vector2(player.XPosition, player.YPosition - 20), Color.White);
-
-                        }
-                    }
-                }
                 abilityManager.Draw(spriteBatch);
             }
             // spriteBatch.Draw(AssetManager.lava, new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2), null, Color.White, 0.0f, new Vector2(AssetManager.lava.Width / 2, AssetManager.lava.Height / 2), 1.0f, SpriteEffects.None, 1.0f);
