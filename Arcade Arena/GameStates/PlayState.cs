@@ -24,18 +24,22 @@ namespace Arcade_Arena
         private UserInterfaceManager userInterfaceManager;
 
 
-        private Wizard player;
+        
         public static Lava lava;
+        private Wizard player;
 
 
-
-        public PlayState(GameWindow Window, SpriteBatch spriteBatch) : base (Window)
+        public PlayState(GameWindow Window, SpriteBatch spriteBatch, Wizard player) : base (Window)
         {
-     
+            if(player is Wizard)
+            {
+                this.player = player;
+
+            }
+
+
 
             networkManager = new NetworkManager();
-
-            player = new Wizard(new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2), 3f, 0.0);
             lava = new Lava(Game1.graphics.GraphicsDevice, Window);
             playerManager = new PlayerManager(networkManager, player);
             abilityManager = new AbilityManager(networkManager, playerManager);
@@ -47,7 +51,8 @@ namespace Arcade_Arena
 
         }
 
-        public override void Update(GameTime gameTime, ref States state)
+
+        public override void Update(GameTime gameTime, ref States state, ref Character unused)
         {
             if (MouseKeyboardManager.Clicked(Keys.P))
             {
