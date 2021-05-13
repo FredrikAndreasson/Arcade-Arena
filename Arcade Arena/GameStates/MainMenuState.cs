@@ -25,10 +25,10 @@ namespace Arcade_Arena
 
         public MainMenuState(GameWindow Window) : base(Window)
         {
-            logoPos = SetAlignedPos(AssetManager.arcadeArenaLogo, (int)(Window.ClientBounds.Height * 0.05));
-            startPos = SetAlignedPos(AssetManager.startButton, (int)(Window.ClientBounds.Height * 0.3));
-            settingsPos = SetAlignedPos(AssetManager.settingsButton, (int)(Window.ClientBounds.Height * 0.52));
-            quitPos = SetAlignedPos(AssetManager.quitButton, (int)(Window.ClientBounds.Height * 0.74));
+            logoPos = SetAlignedYPos(AssetManager.arcadeArenaLogo, (int)(Window.ClientBounds.Height * 0.05));
+            startPos = SetAlignedYPos(AssetManager.startButton, (int)(Window.ClientBounds.Height * 0.3));
+            settingsPos = SetAlignedYPos(AssetManager.settingsButton, (int)(Window.ClientBounds.Height * 0.52));
+            quitPos = SetAlignedYPos(AssetManager.quitButton, (int)(Window.ClientBounds.Height * 0.74));
 
             startRect = new Rectangle(startPos.ToPoint(), new Point(AssetManager.startButton.Width, AssetManager.startButton.Height));
             settingsRect = new Rectangle(startPos.ToPoint(), new Point(AssetManager.settingsButton.Width, AssetManager.settingsButton.Height));
@@ -57,20 +57,15 @@ namespace Arcade_Arena
 
         }
 
-        private Vector2 SetAlignedPos(Texture2D tex, int yPos)
-        {
-            Vector2 vector = new Vector2(Window.ClientBounds.Width / 2 - tex.Width / 2, yPos);
-            return vector;
-        }
+      
 
-        public override void Update(GameTime gameTime, ref States state)
+        public override void Update(GameTime gameTime, ref States state, ref Character player)
         {
             if (MouseKeyboardManager.LeftClick)
             {
-
                 if (startRect.Contains(MouseKeyboardManager.MousePosition.ToPoint()))
                 {
-                    state = States.FFA;
+                    state = States.CharacterSelection;
                 }
                 else if (settingsRect.Contains(MouseKeyboardManager.MousePosition.ToPoint()))
                 {
@@ -82,12 +77,13 @@ namespace Arcade_Arena
                         state = States.Menu;
                     else
                         state = States.Quit;
-
                 }
 
             }
 
         }
+
+
 
     }
 }
