@@ -26,7 +26,7 @@ namespace Arcade_Arena
 
         
         public static Lava lava;
-        private var player;
+        private Wizard player;
 
 
         public PlayState(GameWindow Window, SpriteBatch spriteBatch, Wizard player) : base (Window)
