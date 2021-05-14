@@ -35,6 +35,7 @@ namespace Arcade_Arena.Server.Commands
             outmsg.Write(ability.Animation.YRecPos);
             outmsg.Write(ability.Animation.Width);
             outmsg.Write(ability.Animation.Height);
+            outmsg.Write(ability.Direction);
 
             managerLogger.AddLogMessage("Create", "Sending new ability to clients");
 
@@ -54,6 +55,7 @@ namespace Arcade_Arena.Server.Commands
             ability.Animation.YRecPos = inc.ReadInt32();
             ability.Animation.Width = inc.ReadInt32();
             ability.Animation.Height = inc.ReadInt32();
+            ability.Direction = inc.ReadDouble();
 
             return ability;
         }
