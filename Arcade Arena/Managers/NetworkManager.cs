@@ -203,8 +203,8 @@ namespace Arcade_Arena.Managers
             outmsg.Write(Username);
             outmsg.Write(ID);
             outmsg.Write((byte)(ability.Type));
-            outmsg.Write((int)ability.position.X);
-            outmsg.Write((int)ability.position.Y);
+            outmsg.Write((short)ability.position.X);
+            outmsg.Write((short)ability.position.Y);
             outmsg.Write(ability.Direction);
 
             client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
