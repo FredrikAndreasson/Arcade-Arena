@@ -34,7 +34,6 @@ namespace Arcade_Arena.Managers
             var random = new Random();
 
             client = new NetClient(new NetPeerConfiguration("networkGame"));
-            client.FlushSendQueue();
             client.Start();
 
             Username = "name_" + random.Next(0, 100);
@@ -43,7 +42,8 @@ namespace Arcade_Arena.Managers
             outmsg.Write((byte)PacketType.Login);
             outmsg.Write(Username);
             outmsg.Write((byte)Player.ClassType.Wizard);
-            client.Connect("85.228.136.154", 14241, outmsg);
+            //client.Connect("85.228.136.154", 14241, outmsg);
+            client.Connect("localhost", 14241, outmsg);
             return EstablishInfo();
 
             //var outmsg1 = client.CreateMessage();
@@ -205,10 +205,6 @@ namespace Arcade_Arena.Managers
             outmsg.Write((byte)(ability.Type));
             outmsg.Write((int)ability.position.X);
             outmsg.Write((int)ability.position.Y);
-            outmsg.Write(ability.CurrentAnimation.Source.X);
-            outmsg.Write(ability.CurrentAnimation.Source.Y);
-            outmsg.Write(ability.CurrentAnimation.Source.Width);
-            outmsg.Write(ability.CurrentAnimation.Source.Height);
             outmsg.Write(ability.Direction);
 
             client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
@@ -291,10 +287,6 @@ namespace Arcade_Arena.Managers
                 newAbility.Type = (AbilityOutline.AbilityType)inc.ReadByte();
                 newAbility.XPosition = inc.ReadInt32();
                 newAbility.YPosition = inc.ReadInt32();
-                newAbility.Animation.XRecPos = inc.ReadInt32();
-                newAbility.Animation.YRecPos = inc.ReadInt32();
-                newAbility.Animation.Width = inc.ReadInt32();
-                newAbility.Animation.Height = inc.ReadInt32();
                 newAbility.Direction = inc.ReadDouble();
 
                 ServerAbilities.Add(newAbility);

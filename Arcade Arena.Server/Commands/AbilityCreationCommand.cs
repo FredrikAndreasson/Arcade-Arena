@@ -31,10 +31,6 @@ namespace Arcade_Arena.Server.Commands
             outmsg.Write((byte)ability.Type);
             outmsg.Write(ability.XPosition);
             outmsg.Write(ability.YPosition);
-            outmsg.Write(ability.Animation.XRecPos);
-            outmsg.Write(ability.Animation.YRecPos);
-            outmsg.Write(ability.Animation.Width);
-            outmsg.Write(ability.Animation.Height);
             outmsg.Write(ability.Direction);
 
             managerLogger.AddLogMessage("Create", string.Format(" {0}", ability.Direction));
@@ -51,10 +47,6 @@ namespace Arcade_Arena.Server.Commands
             ability.Type = (AbilityOutline.AbilityType)inc.ReadByte();
             ability.XPosition = inc.ReadInt32();
             ability.YPosition = inc.ReadInt32();
-            ability.Animation.XRecPos = inc.ReadInt32();
-            ability.Animation.YRecPos = inc.ReadInt32();
-            ability.Animation.Width = inc.ReadInt32();
-            ability.Animation.Height = inc.ReadInt32();
             ability.Direction = inc.ReadDouble();
 
             return ability;

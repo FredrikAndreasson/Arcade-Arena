@@ -10,8 +10,10 @@ namespace Arcade_Arena.Library
 
         public Animation()
         {
-            Width = 14;
-            Height = 20;
+            XRecPos = 0;
+            YRecPos = 0;
+            Width = 0;
+            Height = 0;
         }
     }
 }
