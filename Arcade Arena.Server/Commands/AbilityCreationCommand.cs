@@ -37,7 +37,7 @@ namespace Arcade_Arena.Server.Commands
             outmsg.Write(ability.Animation.Height);
             outmsg.Write(ability.Direction);
 
-            managerLogger.AddLogMessage("Create", "Sending new ability to clients");
+            managerLogger.AddLogMessage("Create", string.Format(" {0}", ability.Direction));
 
             server.NetServer.SendToAll(outmsg, NetDeliveryMethod.ReliableOrdered);
         }
