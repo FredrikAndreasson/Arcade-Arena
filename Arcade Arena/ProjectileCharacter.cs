@@ -16,33 +16,28 @@ namespace Arcade_Arena
         public Vector2 weaponOrigin;
         public static float orbiterRotation = 0;
         float cooldownTimer;
-        Vector2 distance; 
+        Vector2 distance;
+        private int xPos;
+        private int yPos;
 
         public ProjectileCharacter(Vector2 position, float speed, double direction) : base(position, speed, direction) 
         {
             weaponOrigin = new Vector2(0, 0);
             cooldownTimer = 0;
+            xPos = 35;
+            yPos = 65;
         }
 
         public void UpdateWeapon()
         {
-            weaponPosition.X = Position.X + 35;
-            weaponPosition.Y = Position.Y + 65;
+            weaponPosition.X = Position.X + xPos;
+            weaponPosition.Y = Position.Y + yPos;
             MouseState mousePosition = Mouse.GetState();
 
-            distance.X = mousePosition.X - Position.X - 35;
-            distance.Y = mousePosition.Y - Position.Y - 65;
+            distance.X = mousePosition.X - Position.X - xPos;
+            distance.Y = mousePosition.Y - Position.Y - yPos;
 
             orbiterRotation = (float)Math.Atan2(distance.Y, distance.X);
-           // Console.WriteLine(orbiterRotation);
-            //if (Keyboard.GetState().IsKeyDown(Keys.O))
-            //{
-            //    orbiterRotation += 0.1f;
-            //}
-            //if (Keyboard.GetState().IsKeyDown(Keys.P))
-            //{
-            //    orbiterRotation -= 0.1f;
-            //}
 
             cooldownTimer += (float)Game1.elapsedGameTimeSeconds;
 
@@ -51,7 +46,6 @@ namespace Arcade_Arena
                 Shoot();
                 cooldownTimer = 0;
             }
-
         }
 
         public virtual void Shoot()
@@ -68,7 +62,6 @@ namespace Arcade_Arena
         {
             spriteBatch.Draw(AssetManager.WizardWand, new Vector2(weaponPosition.X, weaponPosition.Y), null, Color.White, orbiterRotation,
                 weaponOrigin, 6, SpriteEffects.None, 0);
-
         }
     }
 }

@@ -32,6 +32,7 @@ namespace Arcade_Arena.Managers
                 player.Animation.Width = clientPlayer.CurrentAnimation.Source.Width;
                 player.Health = clientPlayer.Health;
                 player.IntersectingLava = clientPlayer.IntersectingLava;
+                player.isHit = clientPlayer.isHit;
                 //
                 
 

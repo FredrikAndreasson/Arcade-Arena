@@ -26,6 +26,7 @@ namespace Arcade_Arena.Library
 
         public sbyte Score { get; set; }
 
+        public bool isHit { get; set; }
 
         public bool IntersectingLava { get; set; }
 

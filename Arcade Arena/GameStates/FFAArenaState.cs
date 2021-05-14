@@ -40,7 +40,7 @@ namespace Arcade_Arena
             playerManager = new PlayerManager(networkManager, player);
             abilityManager = new AbilityManager(networkManager, playerManager);
 
-            userInterfaceManager = new UserInterfaceManager(networkManager, Window);
+            userInterfaceManager = new UserInterfaceManager(networkManager, playerManager, Window);
             lava.DrawRenderTarget(spriteBatch);
 
             networkManager.Start();
@@ -81,6 +81,7 @@ namespace Arcade_Arena
             {
                 //lava.Draw(spriteBatch);
                 userInterfaceManager.Draw(spriteBatch);
+                userInterfaceManager.DrawHealth(spriteBatch);
 
                 foreach (var player in networkManager.Players)
                 {
@@ -115,12 +116,10 @@ namespace Arcade_Arena
 
                                 spriteBatch.DrawString(AssetManager.CooldownFont, $"{player.Username}", new Vector2(player.XPosition, player.YPosition - 5), Color.White);
                                 spriteBatch.DrawString(AssetManager.CooldownFont, $"{player.Health}", new Vector2(player.XPosition, player.YPosition - 20), Color.White);
-
-
+                             //   spriteBatch.Draw(AssetManager.HealthBar, new Vector2(player.XPosition, player.YPosition), Color.White);
                             }
                     }
 
-                        //spriteBatch.DrawString(font, player.Username, new Vector2(player.XPosition - 10, player.YPosition - 10), Color.Black);
                     }
                     else
                     {
@@ -129,6 +128,7 @@ namespace Arcade_Arena
                             this.player.Draw(spriteBatch);
                             spriteBatch.DrawString(AssetManager.CooldownFont, $"{networkManager.Username}", new Vector2(player.XPosition, player.YPosition - 5), Color.White);
                             spriteBatch.DrawString(AssetManager.CooldownFont, $"{this.player.Health}", new Vector2(player.XPosition, player.YPosition - 20), Color.White);
+                           // spriteBatch.Draw(AssetManager.HealthBar, new Vector2(this.player.Position.X, this.player.Position.Y), Color.White);
 
                         }
                     }

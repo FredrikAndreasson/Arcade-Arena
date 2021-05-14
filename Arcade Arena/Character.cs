@@ -21,16 +21,15 @@ namespace Arcade_Arena
 
         protected bool invincible = false;
 
-
-
         protected double aimDirection;
 
         protected Vector2 middleOfSprite;
 
         public List<Effect> EffectList = new List<Effect>();
 
+        public static sbyte health;
 
-        public sbyte health;
+        public bool isHit;
         
 
 
@@ -43,6 +42,7 @@ namespace Arcade_Arena
             abilityBuffer = new List<Ability>();
             IntersectingLava = false;
             health = 100;
+            isHit = false;
         }
 
         public SpriteAnimation CurrentAnimation => currentAnimation;
@@ -65,12 +65,12 @@ namespace Arcade_Arena
             {
                 isDead = true;
             }
-
         }
 
         public void TakeDamage()
         {
             health -= 10;
+            isHit = true;
         }
         
         public void UpdateVelocity(double newDirection, float newSpeed)
