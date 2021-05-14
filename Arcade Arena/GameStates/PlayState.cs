@@ -26,14 +26,14 @@ namespace Arcade_Arena
 
         
         public static Lava lava;
-        private Wizard player;
+        private Character player;
 
 
-        public PlayState(GameWindow Window, SpriteBatch spriteBatch, Wizard player) : base (Window)
+        public PlayState(GameWindow Window, SpriteBatch spriteBatch, Character player) : base (Window)
         {
             if(player is Wizard)
             {
-                this.player = player;
+                this.player = (Wizard)player;
 
             }
 
@@ -123,7 +123,7 @@ namespace Arcade_Arena
 
 
                             }
-                    }
+                        }
 
                         //spriteBatch.DrawString(font, player.Username, new Vector2(player.XPosition - 10, player.YPosition - 10), Color.Black);
                     }
@@ -131,7 +131,16 @@ namespace Arcade_Arena
                     {
                         if (!this.player.IntersectingLava || player.Health > 0)
                         {
-                            this.player.Draw(spriteBatch);
+                            if(this.player is Wizard)
+                            {
+                                Wizard tempPlayer = (Wizard)this.player;
+                                tempPlayer.Draw(spriteBatch);
+                                this.player.Draw(spriteBatch);
+
+                            }
+
+                            
+
                             spriteBatch.DrawString(AssetManager.CooldownFont, $"{networkManager.Username}", new Vector2(player.XPosition, player.YPosition - 5), Color.White);
                             spriteBatch.DrawString(AssetManager.CooldownFont, $"{this.player.Health}", new Vector2(player.XPosition, player.YPosition - 20), Color.White);
 
