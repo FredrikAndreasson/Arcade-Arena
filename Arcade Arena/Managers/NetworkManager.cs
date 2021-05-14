@@ -215,12 +215,12 @@ namespace Arcade_Arena.Managers
             outmsg.Write((byte)PacketType.AbilityUpdate);
             outmsg.Write(ability.Username);
             outmsg.Write(ability.ID);
-            outmsg.Write((int)ability.position.X);
-            outmsg.Write((int)ability.position.Y);
-            outmsg.Write(ability.CurrentAnimation.Source.X);
-            outmsg.Write(ability.CurrentAnimation.Source.Y);
-            outmsg.Write(ability.CurrentAnimation.Source.Width);
-            outmsg.Write(ability.CurrentAnimation.Source.Height);
+            outmsg.Write((short)ability.position.X);
+            outmsg.Write((short)ability.position.Y);
+            outmsg.Write((short)ability.CurrentAnimation.Source.X);
+            outmsg.Write((short)ability.CurrentAnimation.Source.Y);
+            outmsg.Write((short)ability.CurrentAnimation.Source.Width);
+            outmsg.Write((short)ability.CurrentAnimation.Source.Height);
 
             client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
         }
@@ -285,8 +285,8 @@ namespace Arcade_Arena.Managers
                 newAbility.Username = name;
                 newAbility.ID = ID;
                 newAbility.Type = (AbilityOutline.AbilityType)inc.ReadByte();
-                newAbility.XPosition = inc.ReadInt32();
-                newAbility.YPosition = inc.ReadInt32();
+                newAbility.XPosition = inc.ReadInt16();
+                newAbility.YPosition = inc.ReadInt16();
                 newAbility.Direction = inc.ReadDouble();
 
                 ServerAbilities.Add(newAbility);
@@ -304,12 +304,12 @@ namespace Arcade_Arena.Managers
             {
                 oldAbility.Username = name;
                 oldAbility.ID = ID;
-                oldAbility.XPosition = inc.ReadInt32();
-                oldAbility.YPosition = inc.ReadInt32();
-                oldAbility.Animation.XRecPos = inc.ReadInt32();
-                oldAbility.Animation.YRecPos = inc.ReadInt32();
-                oldAbility.Animation.Width = inc.ReadInt32();
-                oldAbility.Animation.Height = inc.ReadInt32();
+                oldAbility.XPosition = inc.ReadInt16();
+                oldAbility.YPosition = inc.ReadInt16();
+                oldAbility.Animation.XRecPos = inc.ReadInt16();
+                oldAbility.Animation.YRecPos = inc.ReadInt16();
+                oldAbility.Animation.Width = inc.ReadInt16();
+                oldAbility.Animation.Height = inc.ReadInt16();
             }
         }
 
@@ -337,12 +337,12 @@ namespace Arcade_Arena.Managers
             {
                 
                 var oldPlayer = Players.FirstOrDefault(p => p.Username == name);
-                oldPlayer.XPosition = inc.ReadInt32();
-                oldPlayer.YPosition = inc.ReadInt32();
-                oldPlayer.Animation.XRecPos = inc.ReadInt32();
-                oldPlayer.Animation.YRecPos = inc.ReadInt32();
-                oldPlayer.Animation.Height = inc.ReadInt32();
-                oldPlayer.Animation.Width = inc.ReadInt32();
+                oldPlayer.XPosition = inc.ReadInt16();
+                oldPlayer.YPosition = inc.ReadInt16();
+                oldPlayer.Animation.XRecPos = inc.ReadInt16();
+                oldPlayer.Animation.YRecPos = inc.ReadInt16();
+                oldPlayer.Animation.Height = inc.ReadInt16();
+                oldPlayer.Animation.Width = inc.ReadInt16();
                 oldPlayer.Health = inc.ReadSByte();
                 oldPlayer.IntersectingLava = inc.ReadBoolean();
             }
@@ -350,12 +350,12 @@ namespace Arcade_Arena.Managers
             {
                 var player = new Player();
                 player.Username = name;
-                player.XPosition = inc.ReadInt32();
-                player.YPosition = inc.ReadInt32();
-                player.Animation.XRecPos = inc.ReadInt32();
-                player.Animation.YRecPos = inc.ReadInt32();
-                player.Animation.Height = inc.ReadInt32();
-                player.Animation.Width = inc.ReadInt32();
+                player.XPosition = inc.ReadInt16();
+                player.YPosition = inc.ReadInt16();
+                player.Animation.XRecPos = inc.ReadInt16();
+                player.Animation.YRecPos = inc.ReadInt16();
+                player.Animation.Height = inc.ReadInt16();
+                player.Animation.Width = inc.ReadInt16();
                 player.Health = inc.ReadSByte();
                 player.IntersectingLava = inc.ReadBoolean();
                 Players.Add(player);

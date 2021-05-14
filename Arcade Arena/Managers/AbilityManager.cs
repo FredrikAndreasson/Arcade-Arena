@@ -57,7 +57,7 @@ namespace Arcade_Arena.Managers
             {
                 if (networkManager.ServerAbilities[i].Username != networkManager.Username)
                 {
-                    if (playerRect.Intersects(new Rectangle(new Point(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition),
+                    if (playerRect.Intersects(new Rectangle(new Point((int)networkManager.ServerAbilities[i].XPosition, (int)networkManager.ServerAbilities[i].YPosition),
                             new Point((int)networkManager.ServerAbilities[i].Animation.Width * 5, (int)networkManager.ServerAbilities[i].Animation.Height * 5))))
                     {
                         KnockbackEffect knockback = new KnockbackEffect(networkManager.ServerAbilities[i].Direction, 20.0f, player, 1);

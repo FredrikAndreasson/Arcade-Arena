@@ -19,8 +19,8 @@ namespace Arcade_Arena.Library
         public string Username { get; set; }
 
         public Animation Animation { get; set; }
-        public int XPosition { get; set; }
-        public int YPosition { get; set; }
+        public short XPosition { get; set; }
+        public short YPosition { get; set; }
 
         public sbyte Health { get; set; }
 
@@ -30,7 +30,7 @@ namespace Arcade_Arena.Library
         public bool IntersectingLava { get; set; }
 
 
-        public Player(string username, int xPosition, int yPosition)
+        public Player(string username, short xPosition, short yPosition)
         {
             this.Username = username;
             this.XPosition = xPosition;

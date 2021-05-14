@@ -29,12 +29,12 @@ namespace Arcade_Arena.Server.Commands
             var ability = abilities.FirstOrDefault(a => a.Username == name && a.ID == ID);
             if (ability != null)
             {
-                ability.XPosition = inc.ReadInt32();
-                ability.YPosition = inc.ReadInt32();
-                ability.Animation.XRecPos = inc.ReadInt32();
-                ability.Animation.YRecPos = inc.ReadInt32();
-                ability.Animation.Width = inc.ReadInt32();
-                ability.Animation.Height = inc.ReadInt32();
+                ability.XPosition = inc.ReadInt16();
+                ability.YPosition = inc.ReadInt16();
+                ability.Animation.XRecPos = inc.ReadInt16();
+                ability.Animation.YRecPos = inc.ReadInt16();
+                ability.Animation.Width = inc.ReadInt16();
+                ability.Animation.Height = inc.ReadInt16();
             }
             return ability;
         }
