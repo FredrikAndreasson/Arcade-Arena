@@ -60,6 +60,8 @@ namespace Arcade_Arena.GameStates
                 }
                 else if (ogreRect.Contains(MouseKeyboardManager.MousePosition.ToPoint()))
                 {
+                    player = new Ogre(new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2), 3f, 0.0);
+                    state = States.FFA;
                     
                 }
                 else if (huntressRect.Contains(MouseKeyboardManager.MousePosition.ToPoint()))
