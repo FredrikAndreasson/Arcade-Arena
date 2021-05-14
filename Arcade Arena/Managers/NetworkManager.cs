@@ -42,7 +42,7 @@ namespace Arcade_Arena.Managers
             var outmsg = client.CreateMessage();
             outmsg.Write((byte)PacketType.Login);
             outmsg.Write(Username);
-            outmsg.Write((byte)Player.ClassType.Wizard);
+            outmsg.Write((byte)Player.ClassType.Ogre);
             client.Connect("85.228.136.154", 14241, outmsg);
             return EstablishInfo();
 
@@ -172,12 +172,22 @@ namespace Arcade_Arena.Managers
                 case PacketType.Score:
                     RecieveScore(inc);
                     break;
+                case PacketType.Login:
+                    RecieveLogin(inc);
+                    break;
 
+                    
 
 
                 default:
                     break;
             }
+        }
+
+
+        private void RecieveLogin(NetIncomingMessage inc)
+        {
+            
         }
 
         private void RecieveScore(NetIncomingMessage inc)

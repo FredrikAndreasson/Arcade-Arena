@@ -20,6 +20,7 @@ namespace Arcade_Arena.Server.Commands
                 inc.SenderConnection.Approve();
                 var outmsg = server.NetServer.CreateMessage();
                 outmsg.Write((byte)PacketType.Login);
+                outmsg.c
                 outmsg.Write(true);
                 outmsg.Write(players.Count);
                 for (int n = 0; n < players.Count - 1; n++)
