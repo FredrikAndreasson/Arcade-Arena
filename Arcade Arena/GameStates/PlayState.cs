@@ -24,15 +24,18 @@ namespace Arcade_Arena
         private UserInterfaceManager userInterfaceManager;
 
 
-        public Level currentLevel;
+        private Level currentLevel;
         private Wizard player;
+        private SpriteBatch spriteBatch;
 
 
 
         public PlayState(GameWindow Window, SpriteBatch spriteBatch) : base (Window)
         {
+            this.spriteBatch = spriteBatch;
+
             player = new Wizard(new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2), 3f, 0.0);
-            currentLevel = new Level(Window, spriteBatch, player);
+            currentLevel = CreateNewLevel();
 
             networkManager = new NetworkManager();
             playerManager = new PlayerManager(networkManager, player);
@@ -40,10 +43,12 @@ namespace Arcade_Arena
 
             userInterfaceManager = new UserInterfaceManager(networkManager, Window);
 
-            
-
             networkManager.Start();
+        }
 
+        private Level CreateNewLevel()
+        {
+            return new Level(Window, spriteBatch, player);
         }
 
         public override void Update(GameTime gameTime, ref States state)

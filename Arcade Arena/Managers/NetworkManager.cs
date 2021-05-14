@@ -209,6 +209,7 @@ namespace Arcade_Arena.Managers
             outmsg.Write(ability.CurrentAnimation.Source.Y);
             outmsg.Write(ability.CurrentAnimation.Source.Width);
             outmsg.Write(ability.CurrentAnimation.Source.Height);
+            outmsg.Write(ability.Direction);
 
             client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
         }
@@ -294,6 +295,7 @@ namespace Arcade_Arena.Managers
                 newAbility.Animation.YRecPos = inc.ReadInt32();
                 newAbility.Animation.Width = inc.ReadInt32();
                 newAbility.Animation.Height = inc.ReadInt32();
+                newAbility.Direction = inc.ReadDouble();
 
                 ServerAbilities.Add(newAbility);
             }
