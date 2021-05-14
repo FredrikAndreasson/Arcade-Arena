@@ -14,11 +14,11 @@ namespace Arcade_Arena
     {
         private List<Obstacle> obstacles;
 
-        private Wizard player;
+        private Character player;
         public static Lava lava;
 
 
-        public Level(GameWindow Window, SpriteBatch spriteBatch, Wizard player)
+        public Level(GameWindow Window, SpriteBatch spriteBatch, Character player)
         {
             obstacles = new List<Obstacle>();
 
@@ -91,7 +91,13 @@ namespace Arcade_Arena
                 {
                     if (!this.player.IntersectingLava || player.Health > 0)
                     {
-                        this.player.Draw(spriteBatch);
+                        if (this.player is Wizard)
+                        {
+                            Wizard tempPlayer = (Wizard)this.player;
+                            tempPlayer.Draw(spriteBatch);
+                        }
+
+                        
                         spriteBatch.DrawString(AssetManager.CooldownFont, $"{networkManager.Username}", new Vector2(player.XPosition, player.YPosition - 5), Color.White);
                         spriteBatch.DrawString(AssetManager.CooldownFont, $"{this.player.Health}", new Vector2(player.XPosition, player.YPosition - 20), Color.White);
 
