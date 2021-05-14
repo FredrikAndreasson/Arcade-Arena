@@ -60,7 +60,7 @@ namespace Arcade_Arena.Managers
                     if (playerRect.Intersects(new Rectangle(new Point(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition),
                             new Point((int)networkManager.ServerAbilities[i].Animation.Width * 5, (int)networkManager.ServerAbilities[i].Animation.Height * 5))))
                     {
-                        KnockbackEffect knockback = new KnockbackEffect(networkManager.ServerAbilities[i].Direction, 2.0f, player, 1);
+                        KnockbackEffect knockback = new KnockbackEffect(networkManager.ServerAbilities[i].Direction, 5.0f, player, 2);
                         player.AddEffect(knockback, true);
                         player.TakeDamage(networkManager.ServerAbilities[i].Username, 5);
                         networkManager.DeleteProjectile(networkManager.ServerAbilities[i].ID, networkManager.ServerAbilities[i].Username);
