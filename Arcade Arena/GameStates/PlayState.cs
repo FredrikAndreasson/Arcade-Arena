@@ -25,19 +25,25 @@ namespace Arcade_Arena
 
 
         private Level currentLevel;
-        private Wizard player;
         private SpriteBatch spriteBatch;
+        
+        private Character player;
 
 
-
-        public PlayState(GameWindow Window, SpriteBatch spriteBatch) : base (Window)
+        public PlayState(GameWindow Window, SpriteBatch spriteBatch, Character player) : base (Window)
         {
             this.spriteBatch = spriteBatch;
+            if(player is Wizard)
+            {
+                this.player = (Wizard)player;
 
-            player = new Wizard(new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2), 3f, 0.0);
+            }
+            
             currentLevel = CreateNewLevel();
 
             networkManager = new NetworkManager();
+            
+
             playerManager = new PlayerManager(networkManager, player);
             abilityManager = new AbilityManager(networkManager, playerManager);
 
@@ -51,7 +57,8 @@ namespace Arcade_Arena
             return new Level(Window, spriteBatch, player);
         }
 
-        public override void Update(GameTime gameTime, ref States state)
+
+        public override void Update(GameTime gameTime, ref States state, ref Character unused)
         {
             if (MouseKeyboardManager.Clicked(Keys.P))
             {

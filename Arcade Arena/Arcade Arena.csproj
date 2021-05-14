@@ -50,6 +50,7 @@
     <Compile Include="Effects\BurningEffect.cs" />
     <Compile Include="Effects\CharacterExclusiveEffect.cs" />
     <Compile Include="Level.cs" />
+    <Compile Include="GameStates\CharacterSelectionState.cs" />
     <Compile Include="Managers\AssetManager.cs" />
     <Compile Include="Obstacle.cs" />
     <Compile Include="Character.cs" />
