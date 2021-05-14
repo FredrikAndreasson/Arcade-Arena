@@ -61,17 +61,17 @@ namespace Arcade_Arena
 
         public override void Update(GameTime gameTime, ref States state, ref Character player)
         {
-            if (MouseKeyboardManager.LeftClick)
+            if (InputManager.LeftClick)
             {
-                if (startRect.Contains(MouseKeyboardManager.MousePosition.ToPoint()))
+                if (startRect.Contains(InputManager.MousePosition.ToPoint()))
                 {
                     state = States.CharacterSelection;
                 }
-                else if (settingsRect.Contains(MouseKeyboardManager.MousePosition.ToPoint()))
+                else if (settingsRect.Contains(InputManager.MousePosition.ToPoint()))
                 {
                     state = States.Settings;
                 }
-                else if (quitRect.Contains(MouseKeyboardManager.MousePosition.ToPoint()))
+                else if (quitRect.Contains(InputManager.MousePosition.ToPoint()))
                 {
                     if (state == States.Pause)
                         state = States.Menu;

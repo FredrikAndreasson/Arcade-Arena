@@ -91,13 +91,16 @@ namespace Arcade_Arena
                 {
                     if (!this.player.IntersectingLava || player.Health > 0)
                     {
-                        if (this.player is Wizard)
-                        {
-                            Wizard tempPlayer = (Wizard)this.player;
-                            tempPlayer.Draw(spriteBatch);
-                        }
+                        if (this.player is Wizard wizard)
+                        { wizard.Draw(spriteBatch);}
+                        if (this.player is Ogre ogre)
+                        { ogre.Draw(spriteBatch); }
+                        if (this.player is TimeTraveler timeTraveler)
+                        { timeTraveler.Draw(spriteBatch); }
+                        if (this.player is Assassin assasin)
+                        { assasin.Draw(spriteBatch); }
 
-                        
+
                         spriteBatch.DrawString(AssetManager.CooldownFont, $"{networkManager.Username}", new Vector2(player.XPosition, player.YPosition - 5), Color.White);
                         spriteBatch.DrawString(AssetManager.CooldownFont, $"{this.player.Health}", new Vector2(player.XPosition, player.YPosition - 20), Color.White);
 

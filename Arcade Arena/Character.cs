@@ -121,14 +121,14 @@ namespace Arcade_Arena
             walking = false;
             double newDirection = direction;
 
-            if (Keyboard.GetState().IsKeyDown(Keys.W) || MouseKeyboardManager.LeftThumbStickUp())
+            if (Keyboard.GetState().IsKeyDown(Keys.W) || InputManager.LeftThumbStickUp())
             {
                 walking = true;
-                if (Keyboard.GetState().IsKeyDown(Keys.D) || MouseKeyboardManager.LeftThumbStickRight())
+                if (Keyboard.GetState().IsKeyDown(Keys.D) || InputManager.LeftThumbStickRight())
                 {
                     newDirection = Math.PI * 1.75;
                 }
-                else if (Keyboard.GetState().IsKeyDown(Keys.A) || MouseKeyboardManager.LeftThumbStickLeft())
+                else if (Keyboard.GetState().IsKeyDown(Keys.A) || InputManager.LeftThumbStickLeft())
                 {
                     newDirection = Math.PI * 1.25;
                 }
@@ -137,14 +137,14 @@ namespace Arcade_Arena
                     newDirection = Math.PI*1.5;
                 }
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.S) || MouseKeyboardManager.LeftThumbStickDown())
+            else if (Keyboard.GetState().IsKeyDown(Keys.S) || InputManager.LeftThumbStickDown())
             {
                 walking = true;
-                if (Keyboard.GetState().IsKeyDown(Keys.D) || MouseKeyboardManager.LeftThumbStickRight())
+                if (Keyboard.GetState().IsKeyDown(Keys.D) || InputManager.LeftThumbStickRight())
                 {
                     newDirection = Math.PI * 0.25;
                 }
-                else if (Keyboard.GetState().IsKeyDown(Keys.A) || MouseKeyboardManager.LeftThumbStickLeft())
+                else if (Keyboard.GetState().IsKeyDown(Keys.A) || InputManager.LeftThumbStickLeft())
                 {
                     newDirection = Math.PI * 0.75;
                 }
@@ -153,14 +153,14 @@ namespace Arcade_Arena
                     newDirection = Math.PI * 0.5;
                 }
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.D) || MouseKeyboardManager.LeftThumbStickRight())
+            else if (Keyboard.GetState().IsKeyDown(Keys.D) || InputManager.LeftThumbStickRight())
             {
                 walking = true;
                 {
                     newDirection = 0;
                 }
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.A) || MouseKeyboardManager.LeftThumbStickLeft())
+            else if (Keyboard.GetState().IsKeyDown(Keys.A) || InputManager.LeftThumbStickLeft())
             {
                 walking = true;
                 {
@@ -174,7 +174,7 @@ namespace Arcade_Arena
         //returnerar aim angle i grader
         protected double UpdateAimDirection()
         {
-            double newDirection = MathHelper.ToDegrees((float)Math.Atan2(MouseKeyboardManager.MousePosition.Y - middleOfSprite.Y, MouseKeyboardManager.MousePosition.X - middleOfSprite.X));
+            double newDirection =(float)Math.Atan2(InputManager.MousePosition.Y - middleOfSprite.Y, InputManager.MousePosition.X - middleOfSprite.X);
             return newDirection;
         }
 

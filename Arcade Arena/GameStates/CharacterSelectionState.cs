@@ -50,19 +50,20 @@ namespace Arcade_Arena.GameStates
 
         public override void Update(GameTime gameTime, ref States state, ref Character player)
         {
-            if (MouseKeyboardManager.LeftClick)
+            if (InputManager.LeftClick)
             {
 
-                if (wizardRect.Contains(MouseKeyboardManager.MousePosition.ToPoint()))
+                if (wizardRect.Contains(InputManager.MousePosition.ToPoint()))
                 {
                     player = new Wizard(new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2), 3f, 0.0);
                     state = States.FFA;
                 }
-                else if (ogreRect.Contains(MouseKeyboardManager.MousePosition.ToPoint()))
+                else if (ogreRect.Contains(InputManager.MousePosition.ToPoint()))
                 {
-                    
+                    player = new Assassin(new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2), 3f, 0.0);
+                    state = States.FFA;
                 }
-                else if (huntressRect.Contains(MouseKeyboardManager.MousePosition.ToPoint()))
+                else if (huntressRect.Contains(InputManager.MousePosition.ToPoint()))
                 {
 
                 }

@@ -84,7 +84,7 @@ namespace Arcade_Arena
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            MouseKeyboardManager.Update();
+            InputManager.Update();
 
             elapsedGameTimeSeconds = gameTime.ElapsedGameTime.TotalSeconds;
             elapsedGameTimeMilliseconds = gameTime.ElapsedGameTime.TotalMilliseconds;

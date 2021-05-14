@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace Arcade_Arena
 {
-    public class MouseKeyboardManager
+    public class InputManager
     {
         static MouseState mouseState = Mouse.GetState();
         static MouseState previousMouseState;
@@ -45,7 +45,7 @@ namespace Arcade_Arena
             if (mouseState.LeftButton == ButtonState.Pressed)
             {
                 LeftHold = true;
-                if (MouseKeyboardManager.previousMouseState.LeftButton != ButtonState.Pressed)
+                if (InputManager.previousMouseState.LeftButton != ButtonState.Pressed)
                 {
                     LeftClick = true;
                 }
@@ -63,7 +63,7 @@ namespace Arcade_Arena
             if (mouseState.RightButton == ButtonState.Pressed)
             {
                 RightHold = true;
-                if (MouseKeyboardManager.previousMouseState.RightButton != ButtonState.Pressed)
+                if (InputManager.previousMouseState.RightButton != ButtonState.Pressed)
                 {
                     RightClick = true;
                 }

@@ -33,12 +33,16 @@ namespace Arcade_Arena
         public PlayState(GameWindow Window, SpriteBatch spriteBatch, Character player) : base (Window)
         {
             this.spriteBatch = spriteBatch;
-            if(player is Wizard)
-            {
-                this.player = (Wizard)player;
 
-            }
-            
+            if(player is Wizard wizard)
+            {this.player = wizard;}
+            if (player is Ogre ogre)
+            { this.player = ogre; }
+            if (player is TimeTraveler timeTraveler)
+            { this.player = timeTraveler; }
+            if (player is Assassin assassin)
+            { this.player = assassin; }
+
             currentLevel = CreateNewLevel();
 
             networkManager = new NetworkManager();
@@ -60,7 +64,7 @@ namespace Arcade_Arena
 
         public override void Update(GameTime gameTime, ref States state, ref Character unused)
         {
-            if (MouseKeyboardManager.Clicked(Keys.P))
+            if (InputManager.Clicked(Keys.P))
             {
                 if (state == States.Pause)
                     state = States.FFA;
@@ -75,7 +79,7 @@ namespace Arcade_Arena
             playerManager.UpdatePlayer();
             abilityManager.Update(player);
             userInterfaceManager.Update(gameTime);
-            MouseKeyboardManager.Update();
+            InputManager.Update();
 
             currentLevel.Update();
             //player.CheckLavaCollision(lava);

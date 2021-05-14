@@ -80,7 +80,7 @@ namespace Arcade_Arena.Classes
             else if (inIceBlock)
             {
                 iceBlockAnimation.Update();
-                if ((iceBlockCooldown <= 9.7f && MouseKeyboardManager.Clicked(Keys.LeftShift)) || iceBlockAnimation.XIndex >= 4)
+                if ((iceBlockCooldown <= 9.7f && InputManager.Clicked(Keys.LeftShift)) || iceBlockAnimation.XIndex >= 4)
                 {
                     inIceBlock = false;
                     middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
