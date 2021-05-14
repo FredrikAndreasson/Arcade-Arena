@@ -126,15 +126,15 @@ namespace Arcade_Arena
                 walking = true;
                 if (Keyboard.GetState().IsKeyDown(Keys.D) || MouseKeyboardManager.LeftThumbStickRight())
                 {
-                    newDirection = 315;
+                    newDirection = Math.PI * 1.75;
                 }
                 else if (Keyboard.GetState().IsKeyDown(Keys.A) || MouseKeyboardManager.LeftThumbStickLeft())
                 {
-                    newDirection = 225;
+                    newDirection = Math.PI * 1.25;
                 }
                 else
                 {
-                    newDirection = 270;
+                    newDirection = Math.PI*1.5;
                 }
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.S) || MouseKeyboardManager.LeftThumbStickDown())
@@ -142,15 +142,15 @@ namespace Arcade_Arena
                 walking = true;
                 if (Keyboard.GetState().IsKeyDown(Keys.D) || MouseKeyboardManager.LeftThumbStickRight())
                 {
-                    newDirection = 45;
+                    newDirection = Math.PI * 0.25;
                 }
                 else if (Keyboard.GetState().IsKeyDown(Keys.A) || MouseKeyboardManager.LeftThumbStickLeft())
                 {
-                    newDirection = 135;
+                    newDirection = Math.PI * 0.75;
                 }
                 else
                 {
-                    newDirection = 90;
+                    newDirection = Math.PI * 0.5;
                 }
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.D) || MouseKeyboardManager.LeftThumbStickRight())
@@ -164,7 +164,7 @@ namespace Arcade_Arena
             {
                 walking = true;
                 {
-                    newDirection = 180;
+                    newDirection = Math.PI;
                 }
             }
 
