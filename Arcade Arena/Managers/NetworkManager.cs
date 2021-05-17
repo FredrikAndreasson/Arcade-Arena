@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Arcade_Arena.Library;
 using System.Linq;
 using System.Diagnostics;
+using Arcade_Arena.Classes;
 
 namespace Arcade_Arena.Managers
 {
@@ -22,10 +23,38 @@ namespace Arcade_Arena.Managers
 
         public bool Active { get; set; }
 
-        public NetworkManager()
+        private Player.ClassType classType;
+
+        public NetworkManager(Character playerCharacter)
         {
             Players = new List<Player>();
             ServerAbilities = new List<AbilityOutline>();
+
+            if(playerCharacter is Wizard)
+            {
+                classType = Player.ClassType.Wizard;
+            }
+            else if(playerCharacter is Ogre)
+            {
+                classType = Player.ClassType.Ogre;
+            }
+            else if(playerCharacter is Huntress)
+            {
+                classType = Player.ClassType.Huntress;
+            }
+            else if(playerCharacter is TimeTraveler)
+            {
+                classType = Player.ClassType.TimeTraveler;
+            }
+            //else if(playerCharacter is Knight)
+            //{
+            //    classType = Player.ClassType.Knight;
+            //}
+            //else if(playerCharacter is Assassin)
+            //{
+            //    classType = Player.ClassType.Assassin;
+            //}
+
         }
        public NetConnectionStatus Status => client.ConnectionStatus;
 
@@ -42,7 +71,7 @@ namespace Arcade_Arena.Managers
             var outmsg = client.CreateMessage();
             outmsg.Write((byte)PacketType.Login);
             outmsg.Write(Username);
-            outmsg.Write((byte)Player.ClassType.Ogre);
+            outmsg.Write((byte)classType);
             client.Connect("85.228.136.154", 14241, outmsg);
             return EstablishInfo();
 
