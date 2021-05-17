@@ -16,9 +16,10 @@ namespace Arcade_Arena.Library
         }
         public AbilityType Type { get; set; }
         public Byte ID { get; set; }
-        public string UserName { get; set; }
-        public int XPosition { get; set; }
-        public int YPosition { get; set; }
+        public string Username { get; set; }
+        public short XPosition { get; set; }
+        public short YPosition { get; set; }
+        public double Direction { get; set; }
 
         public Animation Animation { get; set; }
 

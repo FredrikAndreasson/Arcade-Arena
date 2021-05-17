@@ -31,10 +31,7 @@ namespace Arcade_Arena
 
         public List<Effect> EffectList = new List<Effect>();
 
-
         public sbyte health;
-        
-
 
         public Shadow shadow;
 
@@ -52,7 +49,12 @@ namespace Arcade_Arena
 
         public sbyte Health { get { return health; } private set { health = value; } }
 
+        public bool IsDead => isDead;
+
         public bool IntersectingLava { get; set; }
+
+        public string LastToDamage { get; set; } //This is used to keep track of which player last did damage to you.
+        public float LastToDamageTimer { get; set; }//The player gets the kill if the damage has been within the span of this timer.
 
         public virtual void Update()
         {
@@ -69,25 +71,38 @@ namespace Arcade_Arena
                 isDead = true;
             }
 
+            if (LastToDamageTimer < 0)
+            {
+                LastToDamage = "";
+            }
+            else
+            {
+                LastToDamageTimer -= (float)Game1.elapsedGameTimeSeconds;
+            }
+
         }
 
-        public void TakeDamage()
+        public void TakeDamage(string username, float timerSeconds)
         {
             health -= 10;
+            LastToDamage = username;
+            LastToDamageTimer = timerSeconds;
         }
         
         public void UpdateVelocity(double newDirection, float newSpeed)
         {
-            velocity.Y = (float)(Math.Sin(MathHelper.ToRadians((float)newDirection)) * newSpeed * speedAlteration);
-            velocity.X = (float)(Math.Cos(MathHelper.ToRadians((float)newDirection)) * newSpeed * speedAlteration);
+            velocity.Y = (float)(Math.Sin((float)newDirection) * newSpeed * speedAlteration);
+            velocity.X = (float)(Math.Cos((float)newDirection) * newSpeed * speedAlteration);
             position += velocity;
         }
 
-        public void TakeDamage(int damage)
+        public void TakeDamage(int damage, string username, float timerSeconds)
         {
             if (!invincible)
             {
                 health -= (sbyte)damage;
+                LastToDamage = username;
+                LastToDamageTimer = timerSeconds;
             }
         }
 
@@ -129,15 +144,15 @@ namespace Arcade_Arena
                 walking = true;
                 if (Keyboard.GetState().IsKeyDown(Keys.D) || MouseKeyboardManager.LeftThumbStickRight())
                 {
-                    newDirection = 315;
+                    newDirection = Math.PI * 1.75;
                 }
                 else if (Keyboard.GetState().IsKeyDown(Keys.A) || MouseKeyboardManager.LeftThumbStickLeft())
                 {
-                    newDirection = 225;
+                    newDirection = Math.PI * 1.25;
                 }
                 else
                 {
-                    newDirection = 270;
+                    newDirection = Math.PI*1.5;
                 }
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.S) || MouseKeyboardManager.LeftThumbStickDown())
@@ -145,15 +160,15 @@ namespace Arcade_Arena
                 walking = true;
                 if (Keyboard.GetState().IsKeyDown(Keys.D) || MouseKeyboardManager.LeftThumbStickRight())
                 {
-                    newDirection = 45;
+                    newDirection = Math.PI * 0.25;
                 }
                 else if (Keyboard.GetState().IsKeyDown(Keys.A) || MouseKeyboardManager.LeftThumbStickLeft())
                 {
-                    newDirection = 135;
+                    newDirection = Math.PI * 0.75;
                 }
                 else
                 {
-                    newDirection = 90;
+                    newDirection = Math.PI * 0.5;
                 }
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.D) || MouseKeyboardManager.LeftThumbStickRight())
@@ -167,7 +182,7 @@ namespace Arcade_Arena
             {
                 walking = true;
                 {
-                    newDirection = 180;
+                    newDirection = Math.PI;
                 }
             }
 

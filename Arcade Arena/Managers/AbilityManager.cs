@@ -36,10 +36,10 @@ namespace Arcade_Arena.Managers
 
 
 
-            networkManager.SendAbilityUpdates(abilities);
             foreach (Ability ability in abilities)
             {
                 ability.Update();
+                networkManager.SendAbilityUpdate(ability);
             }
 
             for (int i = 0; i < playerManager.clientPlayer.abilityBuffer.Count; i++)
@@ -53,26 +53,17 @@ namespace Arcade_Arena.Managers
 
             Rectangle playerRect = new Rectangle(player.Position.ToPoint(), new Point((int)player.CurrentAnimation.FrameSize.X * 5, (int)player.CurrentAnimation.FrameSize.Y * 5));
 
-            for (int i = 0; i < networkManager.Players.Count; i++)
+            for (int i = 0; i < networkManager.ServerAbilities.Count; i++)
             {
-                if (networkManager.Players[i].Username != networkManager.Username)
+                if (networkManager.ServerAbilities[i].Username != networkManager.Username)
                 {
-                    Player players = networkManager.Players[i];
-                    for (int x = 0; x < players.abilities.Count; x++)
+                    if (playerRect.Intersects(new Rectangle(new Point(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition),
+                            new Point(networkManager.ServerAbilities[i].Animation.Width * 5, networkManager.ServerAbilities[i].Animation.Height * 5))))
                     {
-                        if (playerRect.Intersects(new Rectangle(new Point(players.abilities[x].XPosition, players.abilities[x].YPosition), new Point((int)players.abilities[x].Animation.Width * 5, (int)players.abilities[x].Animation.Height* 5))))
-                        {
-                            player.TakeDamage();
-                            var ability = abilities.FirstOrDefault(a => a.Username == players.abilities[x].UserName && a.ID == players.abilities[x].ID);
-                            if (ability == null)
-                            {
-                                return;
-                            }
-                            KnockbackEffect knockback = new KnockbackEffect(((Projectile)ability).Direction, 2.0f, player, 1);
-                            player.AddEffect(knockback, true);
-                            networkManager.DeleteProjectile(players.abilities[x].ID, players.abilities[x].UserName);
-                            Debug.WriteLine($"hmm {player.Health}");
-                        }
+                        KnockbackEffect knockback = new KnockbackEffect(networkManager.ServerAbilities[i].Direction, 20.0f, player, 1);
+                        player.AddEffect(knockback, true);
+                        player.TakeDamage(networkManager.ServerAbilities[i].Username, 5);
+                        networkManager.DeleteProjectile(networkManager.ServerAbilities[i].ID, networkManager.ServerAbilities[i].Username);
                     }
                 }
             }
@@ -87,16 +78,10 @@ namespace Arcade_Arena.Managers
             {
                 //ability.Draw(spriteBatch);
             }
-            for (int i = 0; i < networkManager.Players.Count; i++)
+            for (int i = 0; i < networkManager.ServerAbilities.Count; i++)
             {
-                //if (networkManager.Players[i].Username != networkManager.Username)
-                //{
-                    Player player = networkManager.Players[i];
-                    for (int x = 0; x < player.abilities.Count; x++)
-                    {
-                        DrawAbility(spriteBatch, player.abilities[x], player.Type);
-                    }
-                //}
+                Player player = networkManager.Players.FirstOrDefault(p => p.Username == networkManager.ServerAbilities[i].Username);
+                DrawAbility(spriteBatch, networkManager.ServerAbilities[i], player.Type);
             }
         }
 
@@ -136,7 +121,7 @@ namespace Arcade_Arena.Managers
                     {
                         spriteBatch.Draw(AssetManager.WizardWandProjectile, new Vector2(ability.XPosition, ability.YPosition), source, Color.White, 0.0f,
                             Vector2.Zero, 6.0f, SpriteEffects.None, 1.0f);
-                        spriteBatch.DrawString(AssetManager.CooldownFont, $"{ability.UserName} - {ability.ID}", new Vector2(ability.XPosition, ability.YPosition + 5), Color.White);
+                        spriteBatch.DrawString(AssetManager.CooldownFont, $"{ability.Username} - {ability.ID}", new Vector2(ability.XPosition, ability.YPosition + 5), Color.White);
                     }
                     else if (ability.Type == AbilityOutline.AbilityType.AbilityOne)
                     {

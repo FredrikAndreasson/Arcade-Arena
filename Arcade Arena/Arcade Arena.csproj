@@ -45,11 +45,13 @@
     <Compile Include="Abilites\IceblockAbility.cs" />
     <Compile Include="Abilites\TeleportAbility.cs" />
     <Compile Include="Ability.cs" />
-    <Compile Include="BearTrap.cs" />
+    <Compile Include="Abilites\BearTrap.cs" />
     <Compile Include="Classes\Huntress.cs" />
     <Compile Include="Effects\BearTrapEffect.cs" />
     <Compile Include="Effects\BurningEffect.cs" />
     <Compile Include="Effects\CharacterExclusiveEffect.cs" />
+    <Compile Include="Level.cs" />
+    <Compile Include="GameStates\CharacterSelectionState.cs" />
     <Compile Include="Managers\AssetManager.cs" />
     <Compile Include="Obstacle.cs" />
     <Compile Include="Character.cs" />
@@ -61,7 +63,7 @@
     <Compile Include="DynamicObject.cs" />
     <Compile Include="Effects\KnockbackEffect.cs" />
     <Compile Include="Game1.cs" />
-    <Compile Include="GameStates\FFAArenaState.cs" />
+    <Compile Include="GameStates\PlayState.cs" />
     <Compile Include="GameStates\GameState.cs" />
     <Compile Include="GameStates\MainMenuState.cs" />
     <Compile Include="GameObject.cs" />

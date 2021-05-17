@@ -57,6 +57,13 @@ namespace Arcade_Arena
 
         public static Texture2D resumeButton { get; private set; }
 
+
+        public static Texture2D selectOgre { get; private set; }
+
+        public static Texture2D selectHuntress { get; private set; }
+        public static Texture2D selectWizard { get; private set; }
+
+
         public static void LoadTextures(ContentManager Content)
         {
             Arena = Content.Load<Texture2D>("Arena");
@@ -101,6 +108,10 @@ namespace Arcade_Arena
             settingsButton = Content.Load<Texture2D>("MainMenu\\settingsButton");
             startButton = Content.Load<Texture2D>("MainMenu\\startButton");
             resumeButton = Content.Load<Texture2D>("MainMenu\\resumeButton");
+
+            selectHuntress = Content.Load<Texture2D>("MainMenu\\selectHuntress");
+            selectOgre = Content.Load<Texture2D>("MainMenu\\selectOgre");
+            selectWizard = Content.Load<Texture2D>("MainMenu\\selectWizard");
 
 
 

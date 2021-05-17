@@ -8,5 +8,6 @@
     ShrinkLava,
     AbilityCreate,
     AbilityUpdate,
-    AbilityDelete
+    AbilityDelete,
+    Score
 }

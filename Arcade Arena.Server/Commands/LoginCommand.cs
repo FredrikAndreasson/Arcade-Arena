@@ -8,7 +8,8 @@ namespace Arcade_Arena.Server.Commands
 {
     class LoginCommand :  ICommand
     {
-        public void Run(ManagerLogger managerLogger, Server server, NetIncomingMessage inc, PlayerAndConnection playerAndConnection, List<PlayerAndConnection> players)
+        public void Run(ManagerLogger managerLogger, Server server, NetIncomingMessage inc,
+            PlayerAndConnection playerAndConnection, List<PlayerAndConnection> players, List<AbilityOutline> abilities)
         {
             managerLogger.AddLogMessage("Server", "New connection...");
             var data = inc.ReadByte();
@@ -27,7 +28,7 @@ namespace Arcade_Arena.Server.Commands
                 }
                 server.NetServer.SendMessage(outmsg, inc.SenderConnection, NetDeliveryMethod.ReliableOrdered, 0);
                 var command = new PlayerPositionCommand();
-                command.Run(managerLogger, server, inc, playerAndConnection, players);
+                command.Run(managerLogger, server, inc, playerAndConnection, players, abilities);
 
                 server.SendNewPlayerEvent(playerAndConnection.Player.Username);
             }
@@ -43,8 +44,8 @@ namespace Arcade_Arena.Server.Commands
             {
                 Username = inc.ReadString(),
                 Type = (Player.ClassType)inc.ReadByte(),
-                XPosition = random.Next(0, 750), 
-                YPosition = random.Next(0, 400)
+                XPosition = (short)random.Next(0, 750), 
+                YPosition = (short)random.Next(0, 400)
                 
             };
 

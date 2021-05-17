@@ -16,6 +16,8 @@ namespace Arcade_Arena.Managers
         private NetClient client;
         public List<Player> Players { get; set; }
 
+        public List<AbilityOutline> ServerAbilities { get; set; }
+
         public string Username { get; set; }
 
         public bool Active { get; set; }
@@ -23,6 +25,7 @@ namespace Arcade_Arena.Managers
         public NetworkManager()
         {
             Players = new List<Player>();
+            ServerAbilities = new List<AbilityOutline>();
         }
        public NetConnectionStatus Status => client.ConnectionStatus;
 
@@ -31,7 +34,6 @@ namespace Arcade_Arena.Managers
             var random = new Random();
 
             client = new NetClient(new NetPeerConfiguration("networkGame"));
-            client.FlushSendQueue();
             client.Start();
 
             Username = "name_" + random.Next(0, 100);
@@ -41,6 +43,7 @@ namespace Arcade_Arena.Managers
             outmsg.Write(Username);
             outmsg.Write((byte)Player.ClassType.Wizard);
             client.Connect("85.228.136.154", 14241, outmsg);
+            //client.Connect("localhost", 14241, outmsg);
             return EstablishInfo();
 
             //var outmsg1 = client.CreateMessage();
@@ -103,7 +106,7 @@ namespace Arcade_Arena.Managers
                 outmsg.Write(player.Animation.Height);
                 outmsg.Write(player.Animation.Width);
                 outmsg.Write(player.Health);
-                outmsg.Write(player.intersectingLava);
+                outmsg.Write(player.IntersectingLava);
                 client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
             }
 
@@ -166,6 +169,9 @@ namespace Arcade_Arena.Managers
                 case PacketType.AbilityUpdate:
                     RecieveAbilityUpdate(inc);
                     break;
+                case PacketType.Score:
+                    RecieveScore(inc);
+                    break;
 
 
 
@@ -174,6 +180,22 @@ namespace Arcade_Arena.Managers
             }
         }
 
+        private void RecieveScore(NetIncomingMessage inc)
+        {
+            string name = inc.ReadString();
+            sbyte score = inc.ReadSByte();
+
+            var player = Players.FirstOrDefault(p => p.Username == name);
+            if (player != null) player.Score = score;
+        }
+
+        public void SendPlayerScore(string Username)
+        {
+            var outmsg = client.CreateMessage();
+            outmsg.Write((byte)PacketType.Score);
+            outmsg.Write(Username);
+            client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
+        }
         public void SendAbility(Ability ability, byte ID)
         {
             var outmsg = client.CreateMessage();
@@ -181,32 +203,25 @@ namespace Arcade_Arena.Managers
             outmsg.Write(Username);
             outmsg.Write(ID);
             outmsg.Write((byte)(ability.Type));
-            outmsg.Write((int)ability.position.X);
-            outmsg.Write((int)ability.position.Y);
-            outmsg.Write(ability.CurrentAnimation.Source.X);
-            outmsg.Write(ability.CurrentAnimation.Source.Y);
-            outmsg.Write(ability.CurrentAnimation.Source.Width);
-            outmsg.Write(ability.CurrentAnimation.Source.Height);
+            outmsg.Write((short)ability.position.X);
+            outmsg.Write((short)ability.position.Y);
+            outmsg.Write(ability.Direction);
 
             client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
         }
-        public void SendAbilityUpdates(List<Ability> abilities)
+        public void SendAbilityUpdate(Ability ability)
         {
             var outmsg = client.CreateMessage();
             outmsg.Write((byte)PacketType.AbilityUpdate);
-            outmsg.Write(abilities.Count);
-            for (int i = 0; i < abilities.Count; i++)
-            {
-                outmsg.Write(abilities[i].Username);
-                outmsg.Write(abilities[i].ID);
-                outmsg.Write((int)abilities[i].position.X);
-                outmsg.Write((int)abilities[i].position.Y);
-                outmsg.Write(abilities[i].CurrentAnimation.Source.X);
-                outmsg.Write(abilities[i].CurrentAnimation.Source.Y);
-                outmsg.Write(abilities[i].CurrentAnimation.Source.Width);
-                outmsg.Write(abilities[i].CurrentAnimation.Source.Height);
-                
-            }
+            outmsg.Write(ability.Username);
+            outmsg.Write(ability.ID);
+            outmsg.Write((short)ability.position.X);
+            outmsg.Write((short)ability.position.Y);
+            outmsg.Write((short)ability.CurrentAnimation.Source.X);
+            outmsg.Write((short)ability.CurrentAnimation.Source.Y);
+            outmsg.Write((short)ability.CurrentAnimation.Source.Width);
+            outmsg.Write((short)ability.CurrentAnimation.Source.Height);
+
             client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
         }
 
@@ -241,16 +256,13 @@ namespace Arcade_Arena.Managers
 
         private void DeleteAbility(byte ID, string username)
         {
-            var player = Players.FirstOrDefault(p => p.Username == username);
-            if (player != null)
+
+            for (int i = 0; i < ServerAbilities.Count; i++)
             {
-                for (int i = 0; i < player.abilities.Count; i++)
+                if (ServerAbilities[i].ID == ID && ServerAbilities[i].Username == username)
                 {
-                    if (player.abilities[i].ID == ID)
-                    {
-                        player.abilities.RemoveAt(i);
-                        i--;
-                    }
+                    ServerAbilities.RemoveAt(i);
+                    i--;
                 }
             }
             
@@ -267,47 +279,37 @@ namespace Arcade_Arena.Managers
         {
             var name = inc.ReadString();
             byte ID = inc.ReadByte();
-            if (Players.Any(p => p.Username == name))
+            if (!ServerAbilities.Any(a => a.ID == ID && a.Username == Username))
             {
-                var player = Players.FirstOrDefault(p => p.Username == name);
-                if (!player.abilities.Any(a => a.ID == ID))
-                {
-                    var newAbility = new AbilityOutline();
-                    newAbility.UserName = name;
-                    newAbility.ID = ID;
-                    newAbility.Type = (AbilityOutline.AbilityType)inc.ReadByte();
-                    newAbility.XPosition = inc.ReadInt32();
-                    newAbility.YPosition = inc.ReadInt32();
-                    newAbility.Animation.XRecPos = inc.ReadInt32();
-                    newAbility.Animation.YRecPos = inc.ReadInt32();
-                    newAbility.Animation.Width = inc.ReadInt32();
-                    newAbility.Animation.Height = inc.ReadInt32();
+                var newAbility = new AbilityOutline();
+                newAbility.Username = name;
+                newAbility.ID = ID;
+                newAbility.Type = (AbilityOutline.AbilityType)inc.ReadByte();
+                newAbility.XPosition = inc.ReadInt16();
+                newAbility.YPosition = inc.ReadInt16();
+                newAbility.Direction = inc.ReadDouble();
 
-                    player.abilities.Add(newAbility);
-                }
-
+                ServerAbilities.Add(newAbility);
             }
         }
 
         public void RecieveAbilityUpdate(NetIncomingMessage inc)
         {
+
             var name = inc.ReadString();
             byte ID = inc.ReadByte();
-            if (Players.Any(p => p.Username == name))
+            
+            var oldAbility = ServerAbilities.FirstOrDefault(a => a.ID == ID && a.Username == name);
+            if (oldAbility != null)
             {
-                var oldPlayer = Players.FirstOrDefault(p => p.Username == name);
-                if (oldPlayer.abilities.Any(a => a.ID == ID))
-                {
-                    var oldAbility = oldPlayer.abilities.FirstOrDefault(a => a.ID == ID);
-                    oldAbility.UserName = name;
-                    oldAbility.ID = ID;
-                    oldAbility.XPosition = inc.ReadInt32();
-                    oldAbility.YPosition = inc.ReadInt32();
-                    oldAbility.Animation.XRecPos = inc.ReadInt32();
-                    oldAbility.Animation.YRecPos = inc.ReadInt32();
-                    oldAbility.Animation.Width = inc.ReadInt32();
-                    oldAbility.Animation.Height = inc.ReadInt32();
-                }
+                oldAbility.Username = name;
+                oldAbility.ID = ID;
+                oldAbility.XPosition = inc.ReadInt16();
+                oldAbility.YPosition = inc.ReadInt16();
+                oldAbility.Animation.XRecPos = inc.ReadInt16();
+                oldAbility.Animation.YRecPos = inc.ReadInt16();
+                oldAbility.Animation.Width = inc.ReadInt16();
+                oldAbility.Animation.Height = inc.ReadInt16();
             }
         }
 
@@ -324,7 +326,7 @@ namespace Arcade_Arena.Managers
 
         private void UpdateLava(NetIncomingMessage inc)
         {
-            FFAArenaState.lava.ShrinkPlatform(inc.ReadInt16());
+            Level.lava.ShrinkPlatform(inc.ReadInt16());
         }
         
 
@@ -335,27 +337,27 @@ namespace Arcade_Arena.Managers
             {
                 
                 var oldPlayer = Players.FirstOrDefault(p => p.Username == name);
-                oldPlayer.XPosition = inc.ReadInt32();
-                oldPlayer.YPosition = inc.ReadInt32();
-                oldPlayer.Animation.XRecPos = inc.ReadInt32();
-                oldPlayer.Animation.YRecPos = inc.ReadInt32();
-                oldPlayer.Animation.Height = inc.ReadInt32();
-                oldPlayer.Animation.Width = inc.ReadInt32();
+                oldPlayer.XPosition = inc.ReadInt16();
+                oldPlayer.YPosition = inc.ReadInt16();
+                oldPlayer.Animation.XRecPos = inc.ReadInt16();
+                oldPlayer.Animation.YRecPos = inc.ReadInt16();
+                oldPlayer.Animation.Height = inc.ReadInt16();
+                oldPlayer.Animation.Width = inc.ReadInt16();
                 oldPlayer.Health = inc.ReadSByte();
-                oldPlayer.intersectingLava = inc.ReadBoolean();
+                oldPlayer.IntersectingLava = inc.ReadBoolean();
             }
             else
             {
                 var player = new Player();
                 player.Username = name;
-                player.XPosition = inc.ReadInt32();
-                player.YPosition = inc.ReadInt32();
-                player.Animation.XRecPos = inc.ReadInt32();
-                player.Animation.YRecPos = inc.ReadInt32();
-                player.Animation.Height = inc.ReadInt32();
-                player.Animation.Width = inc.ReadInt32();
+                player.XPosition = inc.ReadInt16();
+                player.YPosition = inc.ReadInt16();
+                player.Animation.XRecPos = inc.ReadInt16();
+                player.Animation.YRecPos = inc.ReadInt16();
+                player.Animation.Height = inc.ReadInt16();
+                player.Animation.Width = inc.ReadInt16();
                 player.Health = inc.ReadSByte();
-                player.intersectingLava = inc.ReadBoolean();
+                player.IntersectingLava = inc.ReadBoolean();
                 Players.Add(player);
             }
         }

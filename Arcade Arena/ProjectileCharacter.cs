@@ -26,12 +26,12 @@ namespace Arcade_Arena
 
         public void UpdateWeapon()
         {
-            weaponPosition.X = Position.X + 50;
-            weaponPosition.Y = Position.Y + 60;
+            weaponPosition.X = Position.X + 35;
+            weaponPosition.Y = Position.Y + 65;
             MouseState mousePosition = Mouse.GetState();
 
-            distance.X = mousePosition.X - Position.X;
-            distance.Y = mousePosition.Y - Position.Y;
+            distance.X = mousePosition.X - Position.X - 35;
+            distance.Y = mousePosition.Y - Position.Y - 65;
 
             orbiterRotation = (float)Math.Atan2(distance.Y, distance.X);
            // Console.WriteLine(orbiterRotation);

@@ -19,18 +19,20 @@ namespace Arcade_Arena.Library
         public string Username { get; set; }
 
         public Animation Animation { get; set; }
-        public int XPosition { get; set; }
-        public int YPosition { get; set; }
+        public short XPosition { get; set; }
+        public short YPosition { get; set; }
 
         public sbyte Health { get; set; }
 
+        public sbyte Score { get; set; }
 
-        public bool intersectingLava { get; set; }
-
-        public List<AbilityOutline> abilities;
+        public bool isHit { get; set; }
 
 
-        public Player(string username, int xPosition, int yPosition)
+        public bool IntersectingLava { get; set; }
+
+
+        public Player(string username, short xPosition, short yPosition)
         {
             this.Username = username;
             this.XPosition = xPosition;
@@ -38,13 +40,11 @@ namespace Arcade_Arena.Library
 
 
             Animation = new Animation();
-            abilities = new List<AbilityOutline>();
         }
 
         public Player() 
         {
             Animation = new Animation();
-            abilities = new List<AbilityOutline>();
         }
     }
 }
