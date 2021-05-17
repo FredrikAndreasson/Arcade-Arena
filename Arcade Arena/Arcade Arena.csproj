@@ -43,6 +43,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Abilites\IceblockAbility.cs" />
+    <Compile Include="Abilites\PoisonDart.cs" />
     <Compile Include="Abilites\TeleportAbility.cs" />
     <Compile Include="Ability.cs" />
     <Compile Include="Abilites\BearTrap.cs" />

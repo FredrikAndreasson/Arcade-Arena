@@ -39,6 +39,8 @@ namespace Arcade_Arena
         public static Texture2D KnightSpriteSheet { get; private set; }
         public static Texture2D KnightShield { get; private set; }
 
+        public static Texture2D PoisonDart { get; private set; }
+
         public static SpriteFont CooldownFont { get; private set; }
         public static Texture2D WizardAbilityIconSheet { get; private set; }
 
@@ -97,6 +99,8 @@ namespace Arcade_Arena
 
             KnightSpriteSheet = Content.Load<Texture2D>("Classes\\Knight\\KnightSpriteSheet");
             KnightShield = Content.Load<Texture2D>("Classes\\Knight\\Shield");
+
+            PoisonDart = Content.Load<Texture2D>("Classes\\Assassin\\PoisonDart");
 
             ogreSpriteSheet = Content.Load<Texture2D>("Classes\\OgreSpriteSheet");
             groundSmashCrackle = Content.Load<Texture2D>("Classes\\groundSmashCrackle");

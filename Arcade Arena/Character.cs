@@ -115,7 +115,10 @@ namespace Arcade_Arena
             walking = true;
         }
 
-        //returnerar angle i grader
+        /// <summary>
+        /// returns angle in radians
+        /// </summary>
+        /// <returns></returns>
         protected double UpdateMovementDirection()
         {
             walking = false;
@@ -171,10 +174,13 @@ namespace Arcade_Arena
             return newDirection;
         }
 
-        //returnerar aim angle i grader
+        /// <summary>
+        /// returns the aim direction in radians
+        /// </summary>
+        /// <returns></returns>
         protected double UpdateAimDirection()
         {
-            double newDirection =(float)Math.Atan2(InputManager.MousePosition.Y - middleOfSprite.Y, InputManager.MousePosition.X - middleOfSprite.X);
+            double newDirection = (float)Math.Atan2(InputManager.MousePosition.Y - middleOfSprite.Y, InputManager.MousePosition.X - middleOfSprite.X);
             return newDirection;
         }
 

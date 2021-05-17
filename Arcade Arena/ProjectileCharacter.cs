@@ -59,7 +59,8 @@ namespace Arcade_Arena
 
             Projectile projectile = new Projectile(1, 1, Position, speed/2, (double)orbiterRotation);
             projectile.velocity = new Vector2((float)Math.Cos(orbiterRotation) * 10f, (float)Math.Sin(orbiterRotation) * 10f);
-            projectile.SetPosition((Position - (new Vector2(-40,-58))) + projectile.velocity);
+            //projectile.SetPosition((Position - (new Vector2(-40,-58))) + projectile.velocity);
+            projectile.SetPosition((Position - (new Vector2(-currentAnimation.FrameSize.X*2, -currentAnimation.FrameSize.Y*3))) + projectile.velocity);
             projectile.projectileIsActive = true;
             abilityBuffer.Add(projectile);
         }
