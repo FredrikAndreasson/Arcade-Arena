@@ -14,7 +14,6 @@ namespace Arcade_Arena
         public float rotation;
         public Vector2 weaponPosition;
         public Vector2 weaponOrigin;
-        public static float orbiterRotation = 0;
         float cooldownTimer;
         Vector2 distance; 
 

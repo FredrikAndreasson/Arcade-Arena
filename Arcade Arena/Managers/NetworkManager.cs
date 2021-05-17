@@ -42,7 +42,7 @@ namespace Arcade_Arena.Managers
             outmsg.Write((byte)PacketType.Login);
             outmsg.Write(Username);
             outmsg.Write((byte)Player.ClassType.Wizard);
-            client.Connect("85.228.136.154", 14241, outmsg);
+            client.Connect("localhost", 14241, outmsg);
             //client.Connect("localhost", 14241, outmsg);
             return EstablishInfo();
 
