@@ -14,7 +14,7 @@ namespace Arcade_Arena.Library
             Assassin,
             Knight
         }
-        public ClassType Type;
+        public ClassType Type { get; set; }
 
         public string Username { get; set; }
 

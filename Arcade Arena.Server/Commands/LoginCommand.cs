@@ -20,7 +20,7 @@ namespace Arcade_Arena.Server.Commands
                 inc.SenderConnection.Approve();
                 var outmsg = server.NetServer.CreateMessage();
                 outmsg.Write((byte)PacketType.Login);
-                outmsg.Write(true);
+                outmsg.Write(true);                
                 outmsg.Write(players.Count);
                 for (int n = 0; n < players.Count - 1; n++)
                 {
@@ -46,7 +46,7 @@ namespace Arcade_Arena.Server.Commands
                 Username = inc.ReadString(),
                 Type = (Player.ClassType)inc.ReadByte(),
                 XPosition = random.Next(0, 750), 
-                YPosition = random.Next(0, 400)
+                YPosition = random.Next(0, 400),
                 
             };
 

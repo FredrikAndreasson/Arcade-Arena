@@ -27,7 +27,7 @@ namespace Arcade_Arena.Server
             playerAndConnection.Player.Animation.Width = inc.ReadInt32();
             playerAndConnection.Player.Health = inc.ReadSByte();
             playerAndConnection.Player.IntersectingLava = inc.ReadBoolean();
-
+           
 
 
 

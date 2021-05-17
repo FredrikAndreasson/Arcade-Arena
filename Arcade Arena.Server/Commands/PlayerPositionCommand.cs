@@ -11,18 +11,20 @@ namespace Arcade_Arena.Server.Commands
             PlayerAndConnection playerAndConnection, List<PlayerAndConnection> players, List<AbilityOutline> abilities)
         {
             //managerLogger.AddLogMessage("Server", "Sending out new player position and animation");
-            var outmessage = server.NetServer.CreateMessage();
-            outmessage.Write((byte)PacketType.PlayerPosition);
-            outmessage.Write(playerAndConnection.Player.Username);
-            outmessage.Write(playerAndConnection.Player.XPosition);
-            outmessage.Write(playerAndConnection.Player.YPosition);
-            outmessage.Write(playerAndConnection.Player.Animation.XRecPos);
-            outmessage.Write(playerAndConnection.Player.Animation.YRecPos);
-            outmessage.Write(playerAndConnection.Player.Animation.Height);
-            outmessage.Write(playerAndConnection.Player.Animation.Width);
-            outmessage.Write(playerAndConnection.Player.Health);
-            outmessage.Write(playerAndConnection.Player.IntersectingLava);
-            server.NetServer.SendToAll(outmessage, NetDeliveryMethod.ReliableOrdered);
+            var outmsg = server.NetServer.CreateMessage();
+            outmsg.Write((byte)PacketType.PlayerPosition);
+            outmsg.Write(playerAndConnection.Player.Username);
+            outmsg.Write(playerAndConnection.Player.XPosition);
+            outmsg.Write(playerAndConnection.Player.YPosition);
+            outmsg.Write(playerAndConnection.Player.Animation.XRecPos);
+            outmsg.Write(playerAndConnection.Player.Animation.YRecPos);
+            outmsg.Write(playerAndConnection.Player.Animation.Height);
+            outmsg.Write(playerAndConnection.Player.Animation.Width);
+            outmsg.Write(playerAndConnection.Player.Health);
+            outmsg.Write(playerAndConnection.Player.IntersectingLava);
+            outmsg.Write((byte)playerAndConnection.Player.Type);
+            managerLogger.AddLogMessage("Server", playerAndConnection.Player.Type.ToString());
+            server.NetServer.SendToAll(outmsg, NetDeliveryMethod.ReliableOrdered);
         }
     }
 }

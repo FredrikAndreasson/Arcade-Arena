@@ -392,6 +392,7 @@ namespace Arcade_Arena.Managers
                 oldPlayer.Animation.Width = inc.ReadInt32();
                 oldPlayer.Health = inc.ReadSByte();
                 oldPlayer.IntersectingLava = inc.ReadBoolean();
+                oldPlayer.Type = (Player.ClassType)inc.ReadByte();
             }
             else
             {
@@ -405,6 +406,7 @@ namespace Arcade_Arena.Managers
                 player.Animation.Width = inc.ReadInt32();
                 player.Health = inc.ReadSByte();
                 player.IntersectingLava = inc.ReadBoolean();
+                player.Type = (Player.ClassType)inc.ReadByte();
                 Players.Add(player);
             }
         }

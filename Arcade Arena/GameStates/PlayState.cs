@@ -45,7 +45,7 @@ namespace Arcade_Arena
             
             currentLevel = CreateNewLevel();
 
-            networkManager = new NetworkManager();
+            networkManager = new NetworkManager(player);
             
 
             playerManager = new PlayerManager(networkManager, player);
