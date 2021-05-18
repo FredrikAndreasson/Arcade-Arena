@@ -10,7 +10,6 @@ namespace Arcade_Arena
         private Vector2 end;        // What index in the spritesheet the current animation ends at
         private Vector2 frameSize;  // How big the frames are in X and Y
         private Vector2 dimensions; // How many rows and columns there are in the sprite sheet
-        private SpriteEffects spriteFX;
         private float msSinceLastFrame = 0;
         private float msBetweenFrames;
         public double speedAlteration = 1;
@@ -31,6 +30,8 @@ namespace Arcade_Arena
 
             Loop = 0;
         }
+
+        public SpriteEffects SpriteFX { get; set; }
 
         public Rectangle Source => new Rectangle((int)(start.X*frameSize.X + (frameSize.X * (xIndex-(int)start.X))), 
             (int)(start.Y * (frameSize.Y * (yIndex-(int)start.Y+1))), (int)frameSize.X, (int)frameSize.Y);
@@ -77,15 +78,6 @@ namespace Arcade_Arena
             {
                 msSinceLastFrame += (float)Game1.elapsedGameTimeMilliseconds * (float)speedAlteration;
             }
-           
-            if(ProjectileCharacter.orbiterRotation >= 1.53269 || ProjectileCharacter.orbiterRotation <= -1.547545)
-            {
-                    spriteFX = SpriteEffects.FlipHorizontally;
-            }
-            else
-            {
-                spriteFX = SpriteEffects.None;
-            }
         }
 
         public void StartAnimation()
@@ -100,7 +92,7 @@ namespace Arcade_Arena
 
         public void Draw(SpriteBatch spriteBatch, Vector2 position, float rotation, Vector2 origin, float scale)
         {
-            spriteBatch.Draw(texture, position, Source, Color.White, rotation, origin, scale, spriteFX, 1.0f);
+            spriteBatch.Draw(texture, position, Source, Color.White, rotation, origin, scale, SpriteFX, 1.0f);
         }
     }
 }

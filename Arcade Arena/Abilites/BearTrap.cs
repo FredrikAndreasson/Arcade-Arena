@@ -14,10 +14,12 @@ namespace Arcade_Arena
         double timer;
         bool activated = false;
         Huntress owner;
+        Texture2D texture;
 
         public BearTrap(int timer, Vector2 position, Texture2D texture) : base(position)
         {
             this.timer = timer;
+            this.texture = texture;
         }
 
         public void Update()
@@ -37,10 +39,9 @@ namespace Arcade_Arena
                 }
             }
         }
-
-        //public void Despawn()
-        //{
-        //    owner.desp
-        //}
+        public void Despawn()
+        {
+            owner.DespawnBearTrap(this);
+        }
     }
 }

@@ -18,7 +18,7 @@ namespace Arcade_Arena.Classes
 
         List<BearTrap> bearTraps = new List<BearTrap>();
 
-        public Huntress(Vector2 position, Texture2D texture, float speed, double direction) : base(position, speed, direction)
+        public Huntress(Vector2 position, float speed, double direction) : base(position, speed, direction)
         {
             
         }

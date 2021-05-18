@@ -11,17 +11,19 @@ namespace Arcade_Arena
     {
         protected SpriteAnimation currentAnimation;
 
+        protected float orbiterRotation = 0;
+
         protected int weaponLvl; //pay for lvls or get powerups?
         protected bool walking = false;
-        protected bool canWalk = true;
+
+        public bool CanWalk { get; private set; }
+        int nCanWalkStoppingEffects = 0;
 
         protected int mana;
 
         protected bool isDead = false;
 
         protected bool invincible = false;
-
-
 
         protected double aimDirection;
 
@@ -40,6 +42,7 @@ namespace Arcade_Arena
             abilityBuffer = new List<Ability>();
             IntersectingLava = false;
             health = 100;
+            CanWalk = true;
         }
 
         public SpriteAnimation CurrentAnimation => currentAnimation;
@@ -58,12 +61,12 @@ namespace Arcade_Arena
             UpdateEffects();
             direction = UpdateMovementDirection();
             aimDirection = UpdateAimDirection();
-            if (walking && canWalk)
+            if (walking && CanWalk)
             {
                 UpdateVelocity(direction, speed);
             }
 
-            if(health<= 0)
+            if (health <= 0)
             {
                 isDead = true;
             }
@@ -76,7 +79,32 @@ namespace Arcade_Arena
             {
                 LastToDamageTimer -= (float)Game1.elapsedGameTimeSeconds;
             }
+            UpdateSpriteEffect();
+        }
 
+        private void UpdateSpriteEffect()
+        {
+            if (orbiterRotation >= 1.53269 || orbiterRotation <= -1.547545)
+            {
+                currentAnimation.SpriteFX = SpriteEffects.FlipHorizontally;
+            }
+            else
+            {
+                currentAnimation.SpriteFX = SpriteEffects.None;
+            }
+        }
+
+        protected bool WalkingBackwards()
+        {
+            if ((direction > Math.PI * 0.5 && direction < Math.PI * 1.5) && !(orbiterRotation >= 1.53269 || orbiterRotation <= -1.547545))
+            {
+                return true;
+            }
+            if (!(direction > Math.PI * 0.5 && direction < Math.PI * 1.5) && (orbiterRotation >= 1.53269 || orbiterRotation <= -1.547545))
+            {
+                return true;
+            }
+            return false;
         }
 
         public void TakeDamage(string username, float timerSeconds)
@@ -105,14 +133,29 @@ namespace Arcade_Arena
 
         public virtual void StartKnockback() //behöver en egen metod pga sprite sheet
         {
-            canWalk = false;
+            CanWalk = false;
             walking = false;
         }
 
         public virtual void EndKnockback()
         {
-            canWalk = true;
+            CanWalk = true;
             walking = true;
+        }
+
+        public void GetCanWalkStoppingEffect()
+        {
+            nCanWalkStoppingEffects++;
+            CanWalk = false;
+        }
+
+        public void UndoCanWalkStoppingEffect()
+        {
+            nCanWalkStoppingEffects--;
+            if (nCanWalkStoppingEffects <= 0)
+            {
+                CanWalk = true;
+            }
         }
 
         //returnerar angle i grader
@@ -178,10 +221,13 @@ namespace Arcade_Arena
             return newDirection;
         }
 
-        protected void ChangeAnimation(SpriteAnimation newAnimation)
+        protected void ChangeAnimation(ref SpriteAnimation currentAnim, SpriteAnimation newAnimation)
         {
-            currentAnimation = newAnimation;
-            currentAnimation.StartAnimation();
+            if (currentAnim != newAnimation)
+            {
+                currentAnim = newAnimation;
+                currentAnim.StartAnimation();
+            }
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)

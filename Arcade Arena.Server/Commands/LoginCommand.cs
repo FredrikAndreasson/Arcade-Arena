@@ -45,8 +45,8 @@ namespace Arcade_Arena.Server.Commands
             {
                 Username = inc.ReadString(),
                 Type = (Player.ClassType)inc.ReadByte(),
-                XPosition = random.Next(0, 750), 
-                YPosition = random.Next(0, 400),
+                XPosition = (short)random.Next(0, 750), 
+                YPosition = (short)random.Next(0, 400)
                 
             };
 
