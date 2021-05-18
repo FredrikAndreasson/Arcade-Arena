@@ -23,6 +23,7 @@ namespace Arcade_Arena.Effects
             if (ownerCharacter != null)
             {
                 ownerCharacter.StartKnockback();
+                ownerCharacter.GetStunEffects();
             }
         }
 
@@ -36,6 +37,7 @@ namespace Arcade_Arena.Effects
         public override void OnLossEffect()
         {
             ownerCharacter.EndKnockback();
+            ownerCharacter.UndoStunEffect();
             base.OnLossEffect();
         }
     }

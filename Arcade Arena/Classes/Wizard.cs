@@ -22,6 +22,7 @@ namespace Arcade_Arena.Classes
         SpriteAnimation iceBlockWizardAnimation;
         SpriteAnimation handIceBlockAnimation;
         SpriteAnimation iceBlockAnimation;
+        SpriteAnimation deadAnimation;
 
         SpriteAnimation currentHandAnimation;
 
@@ -51,6 +52,7 @@ namespace Arcade_Arena.Classes
             iceBlockWizardAnimation = new SpriteAnimation(AssetManager.WizardSpriteSheet, new Vector2(1, 2), new Vector2(1, 2), new Vector2(14, 20), new Vector2(7, 3), 1000);
             handIceBlockAnimation = new SpriteAnimation(AssetManager.WizardHandSpriteSheet, new Vector2(1, 2), new Vector2(1, 2), new Vector2(14, 20), new Vector2(7, 3), 1000);
             iceBlockAnimation = new SpriteAnimation(AssetManager.WizardIceBlock, new Vector2(0, 0), new Vector2(4, 0), new Vector2(14, 20), new Vector2(4, 0), 1000);
+            deadAnimation = new SpriteAnimation(AssetManager.WizardSpriteSheet, new Vector2(5, 4), new Vector2(5, 4), new Vector2(14, 20), new Vector2(7, 3), 5000);
 
             shadow = new Shadow(position, AssetManager.WizardShadow, speed, direction);
 
@@ -86,11 +88,7 @@ namespace Arcade_Arena.Classes
 
                 if (teleportOutAnimation.XIndex >= 4)
                 {
-                    teleporting = false;
-                    position = newPosition;
-                    middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
-                    aimDirection = UpdateAimDirection();
-                    CheckRegularAnimation();
+                    ExitTeleport();
                 }
             }
             else if (inIceBlock)
@@ -98,20 +96,35 @@ namespace Arcade_Arena.Classes
                 iceBlockAnimation.Update();
                 if ((iceBlockCooldown <= 9.7f && MouseKeyboardManager.Clicked(Keys.LeftShift)) || iceBlockAnimation.XIndex >= 4)
                 {
-                    inIceBlock = false;
-                    middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
-                    aimDirection = UpdateAimDirection();
-                    CheckRegularAnimation();
+                    ExitIceBlock();
                 }
             }
             else
             {
-                base.Update();
                 CheckRegularAnimation();
-                currentHandAnimation.SpriteFX = currentAnimation.SpriteFX;
                 middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
             }
+            base.Update();
+            currentHandAnimation.SpriteFX = currentAnimation.SpriteFX;
             shadow.Update(Position);
+        }
+
+        private void ExitTeleport()
+        {
+            teleporting = false;
+            position = newPosition;
+            middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
+            aimDirection = UpdateAimDirection();
+            CheckRegularAnimation();
+        }
+
+        private void ExitIceBlock()
+        {
+            inIceBlock = false;
+            middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
+            aimDirection = UpdateAimDirection();
+            CheckRegularAnimation();
+            invincible = false;
         }
 
         private void CheckRegularAnimation()
@@ -142,10 +155,18 @@ namespace Arcade_Arena.Classes
             iceBlockCooldown -= Game1.elapsedGameTimeSeconds;
         }
 
+        protected override void Die()
+        {
+            base.Die();
+            ChangeAnimation(ref currentAnimation, deadAnimation);
+        }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             if (isDead)
             {
+                DrawAnimations(spriteBatch);
+                currentHandAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, Game1.SCALE);
                 return;
             }
 
@@ -198,6 +219,7 @@ namespace Arcade_Arena.Classes
             ChangeAnimation(ref currentHandAnimation, handIceBlockAnimation);
             iceBlockAnimation.XIndex = 0;
             iceBlockCooldown = 10;
+            invincible = true;
 
 
             Ability ability = new IceblockAbility(this);

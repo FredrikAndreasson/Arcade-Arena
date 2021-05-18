@@ -59,22 +59,32 @@ namespace Arcade_Arena.Classes
                 previousPositions.Remove(previousPositions[previousPositions.Count - 1]);
                 if (true)// slut på ability
                 {
-                    doingTimeTravel = false;
-                    aimDirection = UpdateAimDirection();
+                    ExitTimeTravel();
                 }
             }
             else if (doingTimeZone)
             {
                 if (true)//slut på ability
                 {
-                    doingTimeZone = false;
-                    aimDirection = UpdateAimDirection();
+                    ExitTimeZone();
                 }
             }
             else
             {
-                base.Update();
             }
+            base.Update();
+        }
+
+        private void ExitTimeZone()
+        {
+            doingTimeZone = false;
+            aimDirection = UpdateAimDirection();
+        }
+
+        private void ExitTimeTravel()
+        {
+            doingTimeTravel = false;
+            aimDirection = UpdateAimDirection();
         }
 
         private void UpdateTimeZones()

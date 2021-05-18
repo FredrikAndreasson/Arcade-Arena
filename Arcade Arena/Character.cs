@@ -19,6 +19,9 @@ namespace Arcade_Arena
         public bool CanWalk { get; private set; }
         int nCanWalkStoppingEffects = 0;
 
+        public bool stunned { get; private set; }
+        int nStunEffects = 0;
+
         protected int mana;
 
         protected bool isDead = false;
@@ -59,16 +62,18 @@ namespace Arcade_Arena
         public virtual void Update()
         {
             UpdateEffects();
-            direction = UpdateMovementDirection();
-            aimDirection = UpdateAimDirection();
-            if (walking && CanWalk)
+            if (stunned)
             {
-                UpdateVelocity(direction, speed);
-            }
 
-            if (health <= 0)
+            }
+            else
             {
-                isDead = true;
+                direction = UpdateMovementDirection();
+                aimDirection = UpdateAimDirection();
+                if (walking && CanWalk)
+                {
+                    UpdateVelocity(direction, speed);
+                }
             }
 
             if (LastToDamageTimer < 0)
@@ -80,6 +85,11 @@ namespace Arcade_Arena
                 LastToDamageTimer -= (float)Game1.elapsedGameTimeSeconds;
             }
             UpdateSpriteEffect();
+        }
+
+        protected virtual void Die()
+        {
+            isDead = true;
         }
 
         private void UpdateSpriteEffect()
@@ -109,9 +119,16 @@ namespace Arcade_Arena
 
         public void TakeDamage(string username, float timerSeconds)
         {
-            health -= 10;
-            LastToDamage = username;
-            LastToDamageTimer = timerSeconds;
+            if (!invincible)
+            {
+                health -= 10;
+                LastToDamage = username;
+                LastToDamageTimer = timerSeconds;
+                if (health <= 0)
+                {
+                    Die();
+                }
+            }
         }
         
         public void UpdateVelocity(double newDirection, float newSpeed)
@@ -149,12 +166,27 @@ namespace Arcade_Arena
             CanWalk = false;
         }
 
+        public void GetStunEffects()
+        {
+            nStunEffects++;
+            stunned = true;
+        }
+
         public void UndoCanWalkStoppingEffect()
         {
             nCanWalkStoppingEffects--;
             if (nCanWalkStoppingEffects <= 0)
             {
                 CanWalk = true;
+            }
+        }
+
+        public void UndoStunEffect()
+        {
+            nStunEffects--;
+            if (nStunEffects <= 0)
+            {
+                stunned = false;
             }
         }
 
