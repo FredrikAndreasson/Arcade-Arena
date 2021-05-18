@@ -38,10 +38,14 @@ namespace Arcade_Arena
                 this.player = (Wizard)player;
 
             }
+            else if(player is Ogre)
+            {
+                this.player = (Ogre)player;
+            }
             
             currentLevel = CreateNewLevel();
 
-            networkManager = new NetworkManager();
+            networkManager = new NetworkManager(player);
             
 
             playerManager = new PlayerManager(networkManager, player);

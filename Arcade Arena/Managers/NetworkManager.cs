@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Arcade_Arena.Library;
 using System.Linq;
 using System.Diagnostics;
+using Arcade_Arena.Classes;
 
 namespace Arcade_Arena.Managers
 {
@@ -22,10 +23,38 @@ namespace Arcade_Arena.Managers
 
         public bool Active { get; set; }
 
-        public NetworkManager()
+        private Player.ClassType classType;
+
+        public NetworkManager(Character playerCharacter)
         {
             Players = new List<Player>();
             ServerAbilities = new List<AbilityOutline>();
+
+            if(playerCharacter is Wizard)
+            {
+                classType = Player.ClassType.Wizard;
+            }
+            else if(playerCharacter is Ogre)
+            {
+                classType = Player.ClassType.Ogre;
+            }
+            else if(playerCharacter is Huntress)
+            {
+                classType = Player.ClassType.Huntress;
+            }
+            else if(playerCharacter is TimeTraveler)
+            {
+                classType = Player.ClassType.TimeTraveler;
+            }
+            //else if(playerCharacter is Knight)
+            //{
+            //    classType = Player.ClassType.Knight;
+            //}
+            //else if(playerCharacter is Assassin)
+            //{
+            //    classType = Player.ClassType.Assassin;
+            //}
+
         }
        public NetConnectionStatus Status => client.ConnectionStatus;
 
@@ -172,12 +201,22 @@ namespace Arcade_Arena.Managers
                 case PacketType.Score:
                     RecieveScore(inc);
                     break;
+                case PacketType.Login:
+                    RecieveLogin(inc);
+                    break;
 
+                    
 
 
                 default:
                     break;
             }
+        }
+
+
+        private void RecieveLogin(NetIncomingMessage inc)
+        {
+            
         }
 
         private void RecieveScore(NetIncomingMessage inc)
@@ -345,6 +384,7 @@ namespace Arcade_Arena.Managers
                 oldPlayer.Animation.Width = inc.ReadInt16();
                 oldPlayer.Health = inc.ReadSByte();
                 oldPlayer.IntersectingLava = inc.ReadBoolean();
+                oldPlayer.Type = (Player.ClassType)inc.ReadByte();
             }
             else
             {
@@ -358,6 +398,7 @@ namespace Arcade_Arena.Managers
                 player.Animation.Width = inc.ReadInt16();
                 player.Health = inc.ReadSByte();
                 player.IntersectingLava = inc.ReadBoolean();
+                player.Type = (Player.ClassType)inc.ReadByte();
                 Players.Add(player);
             }
         }

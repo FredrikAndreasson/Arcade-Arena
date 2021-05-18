@@ -96,6 +96,11 @@ namespace Arcade_Arena
                             Wizard tempPlayer = (Wizard)this.player;
                             tempPlayer.Draw(spriteBatch);
                         }
+                        else if(this.player is Ogre)
+                        {
+                            Ogre templPlayer = (Ogre)this.player;
+                            templPlayer.Draw(spriteBatch);
+                        }
 
                         
                         spriteBatch.DrawString(AssetManager.CooldownFont, $"{networkManager.Username}", new Vector2(player.XPosition, player.YPosition - 5), Color.White);
