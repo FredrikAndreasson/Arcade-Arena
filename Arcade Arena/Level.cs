@@ -81,7 +81,7 @@ namespace Arcade_Arena
             {
                 return;
             }
-            if (value >= 0.5)
+            if (value >= 0.9)
             {
                 if (!isFilled[xNormalized, yNormalized])
                 {

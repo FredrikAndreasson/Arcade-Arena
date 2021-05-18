@@ -70,12 +70,12 @@ namespace Arcade_Arena
                 case RelativePosition.top:
                     currentAnimation = new SpriteAnimation(AssetManager.BoxSpriteSheet, new Vector2(2, 0), new Vector2(2, 0),
                         new Vector2(17, 16), new Vector2(51, 16));
-                    rotation = Math.PI * 0.5;
+                    rotation = Math.PI * 1.5;
                     break;
                 case RelativePosition.bottom:
                     currentAnimation = new SpriteAnimation(AssetManager.BoxSpriteSheet, new Vector2(2, 0), new Vector2(2, 0),
                         new Vector2(17, 16), new Vector2(51, 16));
-                    rotation = Math.PI * 1.5;
+                    rotation = Math.PI * 0.5;
                     break;
                 case RelativePosition.topRightCorner:
                     currentAnimation = new SpriteAnimation(AssetManager.BoxSpriteSheet, new Vector2(1, 0), new Vector2(1, 0),
@@ -103,34 +103,34 @@ namespace Arcade_Arena
                     rotation = 0;
                     break;
                 case RelativePosition.topSingle:
-                    currentAnimation = new SpriteAnimation(AssetManager.BoxSpriteSheet, new Vector2(3, 0), new Vector2(3, 0),
+                    currentAnimation = new SpriteAnimation(AssetManager.BoxSpriteSheet, new Vector2(4, 0), new Vector2(3, 0),
                         new Vector2(17, 16), new Vector2(51, 16));
                     rotation = Math.PI;
                     break;
                 case RelativePosition.leftSingle:
-                    currentAnimation = new SpriteAnimation(AssetManager.BoxSpriteSheet, new Vector2(3, 0), new Vector2(3, 0),
-                        new Vector2(17, 16), new Vector2(51, 16));
-                    rotation = Math.PI * 1.5;
-                    break;
-                case RelativePosition.rightSingle:
-                    currentAnimation = new SpriteAnimation(AssetManager.BoxSpriteSheet, new Vector2(3, 0), new Vector2(3, 0),
+                    currentAnimation = new SpriteAnimation(AssetManager.BoxSpriteSheet, new Vector2(4, 0), new Vector2(3, 0),
                         new Vector2(17, 16), new Vector2(51, 16));
                     rotation = Math.PI * 0.5;
                     break;
+                case RelativePosition.rightSingle:
+                    currentAnimation = new SpriteAnimation(AssetManager.BoxSpriteSheet, new Vector2(4, 0), new Vector2(3, 0),
+                        new Vector2(17, 16), new Vector2(51, 16));
+                    rotation = Math.PI * 1.5;
+                    break;
                 case RelativePosition.bottomSingle:
-                    currentAnimation = new SpriteAnimation(AssetManager.BoxSpriteSheet, new Vector2(3, 0), new Vector2(3, 0),
+                    currentAnimation = new SpriteAnimation(AssetManager.BoxSpriteSheet, new Vector2(4, 0), new Vector2(3, 0),
                         new Vector2(17, 16), new Vector2(51, 16));
                     rotation = 0;
                     break;
                 case RelativePosition.verticalTunnel:
-                    currentAnimation = new SpriteAnimation(AssetManager.BoxSpriteSheet, new Vector2(4, 0), new Vector2(4, 0),
-                        new Vector2(17, 16), new Vector2(51, 16));
-                    rotation = 0;
-                    break;
-                case RelativePosition.horizontalTunnel:
-                    currentAnimation = new SpriteAnimation(AssetManager.BoxSpriteSheet, new Vector2(4, 0), new Vector2(4, 0),
+                    currentAnimation = new SpriteAnimation(AssetManager.BoxSpriteSheet, new Vector2(3, 0), new Vector2(4, 0),
                         new Vector2(17, 16), new Vector2(51, 16));
                     rotation = Math.PI * 0.5;
+                    break;
+                case RelativePosition.horizontalTunnel:
+                    currentAnimation = new SpriteAnimation(AssetManager.BoxSpriteSheet, new Vector2(3, 0), new Vector2(4, 0),
+                        new Vector2(17, 16), new Vector2(51, 16));
+                    rotation = 0;
                     break;
                 case RelativePosition.middle:
                     currentAnimation = new SpriteAnimation(AssetManager.BoxSpriteSheet, new Vector2(5, 0), new Vector2(5, 0),
