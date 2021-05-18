@@ -20,11 +20,12 @@ namespace Arcade_Arena.Server.Commands
                 inc.SenderConnection.Approve();
                 var outmsg = server.NetServer.CreateMessage();
                 outmsg.Write((byte)PacketType.Login);
-                outmsg.Write(true);
+                outmsg.Write(true);                
                 outmsg.Write(players.Count);
                 for (int n = 0; n < players.Count - 1; n++)
                 {
                     outmsg.WriteAllProperties(players[n].Player);
+
                 }
                 server.NetServer.SendMessage(outmsg, inc.SenderConnection, NetDeliveryMethod.ReliableOrdered, 0);
                 var command = new PlayerPositionCommand();

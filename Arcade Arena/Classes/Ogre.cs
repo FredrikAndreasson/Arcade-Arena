@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Arcade_Arena.Abilites;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -98,7 +99,7 @@ namespace Arcade_Arena.Classes
 
             if (inGroundSmash)
             {
-                groundSmashAnimation.Draw(spriteBatch, Position - new Vector2(71, 71), 0.0f, Vector2.Zero, Game1.SCALE);
+               // groundSmashAnimation.Draw(spriteBatch, Position - new Vector2(71, 71), 0.0f, Vector2.Zero, Game1.SCALE);
             }
             else if (inBodySlam)
             {
@@ -116,6 +117,10 @@ namespace Arcade_Arena.Classes
             inGroundSmash = true;
             currentAnimation = groundSmashOgreAnimation;
             groundSmashAnimation.XIndex = 0;
+
+            Ability ability = new GroundSlamAbility(this);
+            abilityBuffer.Add(ability);
+
         }
 
         private void BodySlam()
