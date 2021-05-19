@@ -29,6 +29,7 @@ namespace Arcade_Arena
 
         }
 
+        public Rectangle Hitbox => new Rectangle((int)Position.X, (int)Position.Y, texture.Width, texture.Height);
 
         public void Draw(SpriteBatch spriteBatch)
         {

@@ -48,7 +48,7 @@ namespace Arcade_Arena
             networkManager = new NetworkManager(player);
             
 
-            playerManager = new PlayerManager(networkManager, player);
+            playerManager = new PlayerManager(networkManager, player, currentLevel);
             abilityManager = new AbilityManager(networkManager, playerManager);
 
             userInterfaceManager = new UserInterfaceManager(networkManager, Window);

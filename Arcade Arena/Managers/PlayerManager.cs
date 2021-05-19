@@ -1,19 +1,25 @@
-﻿using System.Linq;
+﻿using Microsoft.Xna.Framework;
+using System;
+using System.Linq;
 
 namespace Arcade_Arena.Managers
 {
     class PlayerManager
     {
         private NetworkManager networkManager;
+        private Level level;
         public Character clientPlayer;
 
 
-        public PlayerManager(NetworkManager networkManager, Character Player)
+        public PlayerManager(NetworkManager networkManager, Character Player, Level level)
         {
             this.networkManager = networkManager;
+            this.level = level;
            
             this.clientPlayer = Player;
         }
+
+        public Level Level => level;
 
         public void UpdatePlayer()
         {
@@ -43,6 +49,22 @@ namespace Arcade_Arena.Managers
                 networkManager.SendPlayerScore(clientPlayer.LastToDamage);
                 clientPlayer.LastToDamage = "";
             }
+
+
+            PlayerCollision();
+        }
+
+        private void PlayerCollision()
+        {
+            foreach (Obstacle obstacle in level.Obstacles)
+            {
+                if (obstacle.HitBox().Intersects(clientPlayer.shadow.Hitbox))
+                {
+                    clientPlayer.Blocked = true;
+                    return;
+                }
+            }
+            clientPlayer.Blocked = false;
         }
     }
 }

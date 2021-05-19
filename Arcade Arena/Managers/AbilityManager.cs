@@ -69,19 +69,41 @@ namespace Arcade_Arena.Managers
             }
 
             AbilityDeletionCheck();
+            AbilityObstacleCollision();
         }
 
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            foreach (Ability ability in abilities)
-            {
-                //ability.Draw(spriteBatch);
-            }
             for (int i = 0; i < networkManager.ServerAbilities.Count; i++)
             {
                 Player player = networkManager.Players.FirstOrDefault(p => p.Username == networkManager.ServerAbilities[i].Username);
                 DrawAbility(spriteBatch, networkManager.ServerAbilities[i], player.Type);
+            }
+        }
+
+        private void AbilityObstacleCollision()
+        {
+            for (int i = 0; i < networkManager.ServerAbilities.Count; i++)
+            {
+                Rectangle tempHitbox = new Rectangle(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition,
+                    networkManager.ServerAbilities[i].Animation.Width, networkManager.ServerAbilities[i].Animation.Height);
+                foreach (Obstacle obstacle in playerManager.Level.Obstacles)
+                {
+                    if (tempHitbox.Intersects(obstacle.HitBox()) && networkManager.ServerAbilities.Count > 0)
+                    {
+                        int index = abilities.FindIndex(a => a.ID == networkManager.ServerAbilities[i].ID &&
+                        a.Username == networkManager.ServerAbilities[i].Username);
+
+                        if (abilities.Any(a => a.ID == networkManager.ServerAbilities[i].ID &&
+                        a.Username == networkManager.ServerAbilities[i].Username))
+                        { abilities.RemoveAt(index); }
+
+                        networkManager.DeleteLocalAbility(networkManager.ServerAbilities[i].ID);
+
+                        i--;
+                    }
+                }
             }
         }
 

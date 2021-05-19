@@ -36,6 +36,8 @@ namespace Arcade_Arena
             InitiateLevel();
         }
 
+        public List<Obstacle> Obstacles => obstacles;
+
         /// <summary>
         /// Initiating the level means creating obstacles and adding other stuff such as powerupplatforms and potential player spawn areas
         /// </summary>
@@ -65,7 +67,7 @@ namespace Arcade_Arena
                     var obstacle = obstacles.Find(o => o.xIndex == x && o.yIndex == y);
                     if (obstacle != null)
                     {
-                        obstacle.UpdateOrientation(relativePosition(ref isFilled, x, y));
+                        obstacle.UpdateOrientation(RelativePositionCalc(ref isFilled, x, y));
                     }
                     
                 }
@@ -93,7 +95,7 @@ namespace Arcade_Arena
             }
         }
 
-        private RelativePosition relativePosition(ref bool[,] isFilled, int x, int y)
+        private RelativePosition RelativePositionCalc(ref bool[,] isFilled, int x, int y)
         {
             bool bottom = false, left = false, right = false, top = false;
 
