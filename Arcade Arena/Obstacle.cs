@@ -142,14 +142,13 @@ namespace Arcade_Arena
 
         public void MoveObstacle(Vector2 newPosition)
         {
-            position = newPosition;
-            UpdateHitbox();
+            //position = newPosition;
+            //UpdateHitbox();
         }
 
         private void UpdateHitbox()
         {
-            hitBox = new Rectangle((int)Position.X, (int)Position.Y + heightShortener, (int)currentAnimation.FrameSize.X,
-                (int)currentAnimation.FrameSize.Y - heightShortener);
+            hitBox = new Rectangle((int)Position.X-32, (int)Position.Y-32, 64, 64);
         }
 
         public void Draw(SpriteBatch spriteBatch)
