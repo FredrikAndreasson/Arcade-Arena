@@ -184,11 +184,17 @@ namespace Arcade_Arena
                 health -= damage;
                 LastToDamage = username;
                 LastToDamageTimer = timerSeconds;
+                ExitAnimationOnHit();
                 if (health <= 0)
                 {
                     Die();
                 }
             }
+        }
+
+        protected virtual void ExitAnimationOnHit()
+        {
+
         }
 
         public virtual void StartKnockback() //behöver en egen metod pga sprite sheet

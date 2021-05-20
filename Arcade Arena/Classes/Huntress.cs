@@ -170,21 +170,15 @@ namespace Arcade_Arena.Classes
             boars.Remove(boar);
         }
 
-        public override void TakeDamage(sbyte damage, string username, float timerSeconds)
+        protected override void ExitAnimationOnHit()
         {
-            if (!Invincible)
+            if (doingBearTrap)
             {
-                health -= (sbyte)damage;
-                LastToDamage = username;
-                LastToDamageTimer = timerSeconds;
-                if (doingBearTrap)
-                {
-                    ExitBearTrap();
-                }
-                if (doingBoar)
-                {
-                    ExitBoar();
-                }
+                ExitBearTrap();
+            }
+            if (doingBoar)
+            {
+                ExitBoar();
             }
         }
 

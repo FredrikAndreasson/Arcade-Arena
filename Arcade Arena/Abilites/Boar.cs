@@ -23,6 +23,15 @@ namespace Arcade_Arena.Abilites
             timer = 0;
             this.owner = owner;
             CalculateStartingPosition(position, clientBounds);
+            CheckRotation(direction);
+        }
+
+        private void CheckRotation(double direction)
+        {
+            if (direction > Math.PI * 0.5 && direction < Math.PI * 1.5)
+            {
+                animation.SpriteFX = SpriteEffects.FlipHorizontally;
+            }
         }
 
         private void CalculateStartingPosition(Vector2 ownerPosition, Rectangle clientBounds)
@@ -30,7 +39,7 @@ namespace Arcade_Arena.Abilites
             bool ready = false;
             while (!ready)
             {
-                UpdateVelocity(direction, -1);
+                UpdateVelocity(direction, -10);
                 if (position.X < 0 || position.X > clientBounds.Width
                     || position.Y < 0 || position.Y > clientBounds.Height)
                 {

@@ -171,17 +171,11 @@ namespace Arcade_Arena.Classes
             ChangeAnimation(ref currentAnimation, deadAnimation);
         }
 
-        public override void TakeDamage(sbyte damage, string username, float timerSeconds)
+        protected override void ExitAnimationOnHit()
         {
-            if (!Invincible)
+            if (teleporting)
             {
-                health -= (sbyte)damage;
-                LastToDamage = username;
-                LastToDamageTimer = timerSeconds;
-                if (teleporting)
-                {
-                    ExitTeleport(false);
-                }
+                ExitTeleport(false);
             }
         }
 

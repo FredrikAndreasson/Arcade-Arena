@@ -170,17 +170,11 @@ namespace Arcade_Arena.Classes
             ChangeAnimation(ref currentHandAnimation, handTimeZoneAnimation);
         }
 
-        public override void TakeDamage(sbyte damage, string username, float timerSeconds)
+        protected override void ExitAnimationOnHit()
         {
-            if (!Invincible)
+            if (doingTimeZone)
             {
-                health -= damage;
-                LastToDamage = username;
-                LastToDamageTimer = timerSeconds;
-                if (doingTimeZone)
-                {
-                    ExitTimeZone();
-                }
+                ExitTimeZone();
             }
         }
 
