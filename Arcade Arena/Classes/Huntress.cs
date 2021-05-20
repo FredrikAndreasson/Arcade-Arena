@@ -168,6 +168,24 @@ namespace Arcade_Arena.Classes
             boars.Remove(boar);
         }
 
+        public override void TakeDamage(sbyte damage, string username, float timerSeconds)
+        {
+            if (!Invincible)
+            {
+                health -= (sbyte)damage;
+                LastToDamage = username;
+                LastToDamageTimer = timerSeconds;
+                if (doingBearTrap)
+                {
+                    ExitBearTrap();
+                }
+                if (doingBoar)
+                {
+                    ExitBoar();
+                }
+            }
+        }
+
         private void CheckRegularAnimation()
         {
             if (walking)

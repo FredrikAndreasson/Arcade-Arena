@@ -157,20 +157,6 @@ namespace Arcade_Arena
             }
             return false;
         }
-
-        public void TakeDamage(string username, float timerSeconds)
-        {
-            if (!Invincible)
-            {
-                health -= 10;
-                LastToDamage = username;
-                LastToDamageTimer = timerSeconds;
-                if (health <= 0)
-                {
-                    Die();
-                }
-            }
-        }
         
         public void UpdateVelocity(double newDirection, float newSpeed)
         {
@@ -191,13 +177,17 @@ namespace Arcade_Arena
             
         }
 
-        public void TakeDamage(int damage, string username, float timerSeconds)
+        public virtual void TakeDamage(sbyte damage, string username, float timerSeconds)
         {
             if (!Invincible)
             {
-                health -= (sbyte)damage;
+                health -= damage;
                 LastToDamage = username;
                 LastToDamageTimer = timerSeconds;
+                if (health <= 0)
+                {
+                    Die();
+                }
             }
         }
 

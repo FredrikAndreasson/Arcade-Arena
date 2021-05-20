@@ -171,7 +171,7 @@ namespace Arcade_Arena.Classes
             ChangeAnimation(ref currentAnimation, deadAnimation);
         }
 
-        public override void TakeDamage(int damage, string username, float timerSeconds)
+        public override void TakeDamage(sbyte damage, string username, float timerSeconds)
         {
             if (!Invincible)
             {
