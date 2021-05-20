@@ -42,6 +42,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Abilites\Boar.cs" />
     <Compile Include="Abilites\GroundSlamAbility.cs" />
     <Compile Include="Abilites\IceblockAbility.cs" />
     <Compile Include="Abilites\TeleportAbility.cs" />

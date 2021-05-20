@@ -69,7 +69,7 @@ namespace Arcade_Arena.Managers
             }
 
             AbilityDeletionCheck();
-            AbilityObstacleCollision();
+            //AbilityObstacleCollision();
         }
 
 
