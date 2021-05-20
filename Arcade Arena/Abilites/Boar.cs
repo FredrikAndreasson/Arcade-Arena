@@ -30,7 +30,7 @@ namespace Arcade_Arena.Abilites
             bool ready = false;
             while (!ready)
             {
-                UpdateVelocity(direction, -speed);
+                UpdateVelocity(direction, -1);
                 if (position.X < 0 || position.X > clientBounds.Width
                     || position.Y < 0 || position.Y > clientBounds.Height)
                 {

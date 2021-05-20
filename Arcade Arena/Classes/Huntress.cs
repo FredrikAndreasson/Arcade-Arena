@@ -37,7 +37,9 @@ namespace Arcade_Arena.Classes
         List<BearTrap> bearTraps = new List<BearTrap>();
         List<Boar> boars = new List<Boar>();
 
-        public Huntress(Vector2 position, float speed, double direction) : base(position, speed, direction)
+        Rectangle clientBounds;
+
+        public Huntress(Vector2 position, float speed, double direction, Rectangle clientBounds) : base(position, speed, direction)
         {
             idleAnimation = new SpriteAnimation(AssetManager.HuntressSpriteSheet, new Vector2(0, 0), new Vector2(1, 0), new Vector2(14, 20), new Vector2(7, 2), 900);
             handIdleAnimation = new SpriteAnimation(AssetManager.HuntressHandSpriteSheet, new Vector2(0, 0), new Vector2(1, 0), new Vector2(14, 20), new Vector2(7, 2), 900);
@@ -56,6 +58,8 @@ namespace Arcade_Arena.Classes
 
             ChangeAnimation(ref currentAnimation, idleAnimation);
             ChangeAnimation(ref currentHandAnimation, handIdleAnimation);
+
+            this.clientBounds = clientBounds;
 
             speed = 1.2f;
         }
@@ -138,7 +142,7 @@ namespace Arcade_Arena.Classes
         private void BoarAbility()
         {
             boarCooldown = boarMaxCooldown;
-            Boar boar = new Boar(this, aimDirection, position, 1);
+            Boar boar = new Boar(this, aimDirection, position, 1, clientBounds);
             boars.Add(boar);
         }
 
