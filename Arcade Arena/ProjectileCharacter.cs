@@ -25,8 +25,8 @@ namespace Arcade_Arena
 
         public void UpdateWeapon()
         {
-            weaponPosition.X = Position.X + 35;
-            weaponPosition.Y = Position.Y + 65;
+            weaponPosition.X = lastPosition.X + 35;
+            weaponPosition.Y = lastPosition.Y + 65;
             MouseState mousePosition = Mouse.GetState();
 
             distance.X = mousePosition.X - Position.X - 35;

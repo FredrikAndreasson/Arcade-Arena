@@ -33,7 +33,7 @@ namespace Arcade_Arena.Managers
             {
                 bool successfulBoxPlacement = false;
                 Texture2D obstacleTexture = obstacleTextures[Game1.random.Next(0, obstacleTextures.Count)];
-                Obstacle obstacle = new Obstacle(new Vector2(0, 0), obstacleTexture);
+                Obstacle obstacle = new Obstacle(new Vector2(0, 0), Obstacle.RelativePosition.right, 0, 0);
                 while (successfulBoxPlacement == false)
                 {
                     int xValue = Game1.random.Next(obstacleBoundary.X, obstacleBoundary.Width + 1);

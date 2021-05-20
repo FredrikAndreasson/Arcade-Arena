@@ -112,6 +112,7 @@ namespace Arcade_Arena
                 aimDirection = UpdateAimDirection();
                 if (walking && CanWalk)
                 {
+                    UpdatePosition();
                     UpdateVelocity(direction, speed);
                 }
             }
@@ -177,8 +178,20 @@ namespace Arcade_Arena
             velocity.X = (float)(Math.Cos((float)newDirection) * newSpeed * speedAlteration);
             position += velocity;
         }
+        public void UpdatePosition()
+        {
+            if (Blocked)
+            {
+                position = lastPosition;
+            }
+            else
+            {
+                lastPosition = position;
+            }
+            
+        }
 
-        public virtual void TakeDamage(int damage, string username, float timerSeconds)
+        public void TakeDamage(int damage, string username, float timerSeconds)
         {
             if (!Invincible)
             {

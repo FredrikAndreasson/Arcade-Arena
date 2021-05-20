@@ -204,9 +204,9 @@ namespace Arcade_Arena.Classes
             shadow.Draw(spriteBatch);
             spriteBatch.Draw(AssetManager.WizardShadow, new Vector2(Position.X + AssetManager.WizardShadow.Width / 4, Position.Y + 85), Color.Red);
             DrawAnimations(spriteBatch);
-            currentAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, Game1.SCALE);
+            currentAnimation.Draw(spriteBatch, lastPosition, 0.0f, Vector2.Zero, Game1.SCALE);
             base.Draw(spriteBatch);
-            currentHandAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, Game1.SCALE);
+            currentHandAnimation.Draw(spriteBatch, lastPosition, 0.0f, Vector2.Zero, Game1.SCALE);
         }
 
         private void DrawAnimations(SpriteBatch spriteBatch)

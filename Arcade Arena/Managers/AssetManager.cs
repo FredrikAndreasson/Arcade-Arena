@@ -15,6 +15,7 @@ namespace Arcade_Arena
 
         public static Texture2D SmallBox { get; private set; }
         public static Texture2D LargeBox { get; private set; }
+        public static Texture2D BoxSpriteSheet { get; private set; }
 
         public static Texture2D WizardSpriteSheet { get; private set; }
         public static Texture2D WizardHandSpriteSheet { get; private set; }
@@ -63,6 +64,9 @@ namespace Arcade_Arena
         public static Texture2D selectHuntress { get; private set; }
         public static Texture2D selectWizard { get; private set; }
 
+        public static Texture2D selectKnight { get; private set; }
+
+        public static Texture2D selectTimeTraveler { get; private set; }
 
         public static void LoadTextures(ContentManager Content)
         {
@@ -74,6 +78,7 @@ namespace Arcade_Arena
 
             SmallBox = Content.Load<Texture2D>("Obstacles\\SmallBox");
             LargeBox = Content.Load<Texture2D>("Obstacles\\LargeBox");
+            BoxSpriteSheet = Content.Load<Texture2D>("Obstacles\\BoxSpriteSheet");
 
             WizardSpriteSheet = Content.Load<Texture2D>("Classes\\Wizard\\WizardSpriteSheet");
             WizardIceBlock = Content.Load<Texture2D>("Classes\\Wizard\\IceBlock");
@@ -112,6 +117,8 @@ namespace Arcade_Arena
             selectHuntress = Content.Load<Texture2D>("MainMenu\\selectHuntress");
             selectOgre = Content.Load<Texture2D>("MainMenu\\selectOgre");
             selectWizard = Content.Load<Texture2D>("MainMenu\\selectWizard");
+            selectKnight = Content.Load<Texture2D>("MainMenu\\selectKnight");
+            selectTimeTraveler = Content.Load<Texture2D>("MainMenu\\selectTimeTraveler");
 
 
 
