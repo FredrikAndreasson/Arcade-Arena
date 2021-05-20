@@ -62,7 +62,7 @@ namespace Arcade_Arena.Managers
                     {
                         KnockbackEffect knockback = new KnockbackEffect(networkManager.ServerAbilities[i].Direction, 20.0f, player, 1);
                         player.AddEffect(knockback, true);
-                        player.TakeDamage(networkManager.ServerAbilities[i].Username, 5);
+                        player.TakeDamage(10, networkManager.ServerAbilities[i].Username, 5);
                         networkManager.DeleteProjectile(networkManager.ServerAbilities[i].ID, networkManager.ServerAbilities[i].Username);
                     }
                 }

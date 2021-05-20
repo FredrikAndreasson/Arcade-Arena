@@ -165,11 +165,11 @@ namespace Arcade_Arena.Classes
             ChangeAnimation(ref currentHandAnimation, handTimeZoneAnimation);
         }
 
-        public override void TakeDamage(int damage, string username, float timerSeconds)
+        public override void TakeDamage(sbyte damage, string username, float timerSeconds)
         {
             if (!Invincible)
             {
-                health -= (sbyte)damage;
+                health -= damage;
                 LastToDamage = username;
                 LastToDamageTimer = timerSeconds;
                 if (doingTimeZone)

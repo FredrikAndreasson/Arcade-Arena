@@ -76,7 +76,7 @@ namespace Arcade_Arena.GameStates
                 }
                 else if (huntressRect.Contains(MouseKeyboardManager.MousePosition.ToPoint()))
                 {
-                    player = new Huntress(new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2), 3f, 0.0);
+                    player = new Huntress(new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2), 3f, 0.0, Window.ClientBounds);
                     state = States.FFA;
                 }
 
