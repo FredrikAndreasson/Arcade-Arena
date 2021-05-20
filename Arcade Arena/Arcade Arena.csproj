@@ -48,6 +48,7 @@
     <Compile Include="Ability.cs" />
     <Compile Include="Abilites\BearTrap.cs" />
     <Compile Include="Classes\Huntress.cs" />
+    <Compile Include="Classes\Knight.cs" />
     <Compile Include="Effects\BearTrapEffect.cs" />
     <Compile Include="Effects\BurningEffect.cs" />
     <Compile Include="Effects\CharacterExclusiveEffect.cs" />

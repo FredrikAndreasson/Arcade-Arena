@@ -98,10 +98,24 @@ namespace Arcade_Arena
                         }
                         else if(this.player is Ogre)
                         {
-                            Ogre templPlayer = (Ogre)this.player;
-                            templPlayer.Draw(spriteBatch);
+                            Ogre tempPlayer = (Ogre)this.player;
+                            tempPlayer.Draw(spriteBatch);
                         }
-
+                        else if (this.player is Huntress)
+                        {
+                            Huntress tempPlayer = (Huntress)this.player;
+                            tempPlayer.Draw(spriteBatch);
+                        }
+                        else if (this.player is Knight)
+                        {
+                            Knight tempPlayer = (Knight)this.player;
+                            tempPlayer.Draw(spriteBatch);
+                        }
+                        else if(this.player is TimeTraveler)
+                        {
+                            TimeTraveler tempPlayer = (TimeTraveler)this.player;
+                            tempPlayer.Draw(spriteBatch);
+                        }
                         
                         spriteBatch.DrawString(AssetManager.CooldownFont, $"{networkManager.Username}", new Vector2(player.XPosition, player.YPosition - 5), Color.White);
                         spriteBatch.DrawString(AssetManager.CooldownFont, $"{this.player.Health}", new Vector2(player.XPosition, player.YPosition - 20), Color.White);

@@ -42,7 +42,18 @@ namespace Arcade_Arena
             {
                 this.player = (Ogre)player;
             }
-            
+            else if (player is Huntress)
+            {
+                this.player = (Huntress)player;
+            }
+            else if(player is Knight)
+            {
+                this.player = (Knight)player;
+            }
+            else if (player is TimeTraveler)
+            {
+                this.player = (TimeTraveler)player;
+            }
             currentLevel = CreateNewLevel();
 
             networkManager = new NetworkManager(player);
