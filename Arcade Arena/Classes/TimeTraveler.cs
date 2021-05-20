@@ -8,7 +8,17 @@ namespace Arcade_Arena.Classes
 {
     public class TimeTraveler : Character
     {
-        SpriteAnimation walkingAnimation;
+        SpriteAnimation idleAnimation;
+        SpriteAnimation handIdleAnimation;
+        SpriteAnimation timeTravelAnimation;
+        SpriteAnimation handTimeTravelAnimation;
+        SpriteAnimation timeZoneAnimation;
+        SpriteAnimation handTimeZoneAnimation;
+        SpriteAnimation knockBackAnimation;
+        SpriteAnimation handKnockBackAnimation;
+        SpriteAnimation deadAnimation;
+
+        SpriteAnimation currentHandAnimation;
 
         private double timeZoneCooldown = 0;
         private bool doingTimeZone = false;
@@ -25,9 +35,18 @@ namespace Arcade_Arena.Classes
 
         public TimeTraveler(Vector2 position, float speed, double direction) : base(position, speed, direction)
         {
-            walkingAnimation = new SpriteAnimation(AssetManager.TimeTravelerSpriteSheet, new Vector2(2, 0), new Vector2(7, 0), new Vector2(14, 20), new Vector2(7, 3), 150);
+            idleAnimation = new SpriteAnimation(AssetManager.TimeTravelerSpriteSheet, new Vector2(0, 0), new Vector2(0, 0), new Vector2(14, 20), new Vector2(5, 0), 5000);
+            handIdleAnimation = new SpriteAnimation(AssetManager.TimeTravelerHandSpriteSheet, new Vector2(0, 0), new Vector2(0, 0), new Vector2(14, 20), new Vector2(5, 0), 5000);
+            timeTravelAnimation = new SpriteAnimation(AssetManager.TimeTravelerSpriteSheet, new Vector2(2, 0), new Vector2(3, 0), new Vector2(14, 20), new Vector2(5, 0), 600);
+            handTimeTravelAnimation = new SpriteAnimation(AssetManager.TimeTravelerHandSpriteSheet, new Vector2(2, 0), new Vector2(3, 0), new Vector2(14, 20), new Vector2(5, 0), 600);
+            timeZoneAnimation = new SpriteAnimation(AssetManager.TimeTravelerSpriteSheet, new Vector2(4, 0), new Vector2(4, 0), new Vector2(14, 20), new Vector2(5, 0), 5000);
+            handTimeZoneAnimation = new SpriteAnimation(AssetManager.TimeTravelerHandSpriteSheet, new Vector2(4, 0), new Vector2(4, 0), new Vector2(14, 20), new Vector2(5, 0), 5000);
+            knockBackAnimation = new SpriteAnimation(AssetManager.TimeTravelerSpriteSheet, new Vector2(1, 0), new Vector2(1, 0), new Vector2(14, 20), new Vector2(5, 0), 5000);
+            handKnockBackAnimation = new SpriteAnimation(AssetManager.TimeTravelerHandSpriteSheet, new Vector2(1, 0), new Vector2(1, 0), new Vector2(14, 20), new Vector2(5, 0), 5000);
+            deadAnimation = new SpriteAnimation(AssetManager.TimeTravelerSpriteSheet, new Vector2(5, 0), new Vector2(5, 0), new Vector2(14, 20), new Vector2(5, 0), 5000);
 
-            currentAnimation = walkingAnimation;
+            ChangeAnimation(ref currentAnimation, idleAnimation);
+            ChangeAnimation(ref currentHandAnimation, handIdleAnimation);
 
             speed = 1;
         }
@@ -40,6 +59,7 @@ namespace Arcade_Arena.Classes
             }
             UpdateTimeZones();
             currentAnimation.Update();
+            currentHandAnimation.Update();
             UpdateCooldowns();
             if (!doingTimeTravel && !doingTimeZone)
             {
@@ -55,23 +75,33 @@ namespace Arcade_Arena.Classes
 
             if (doingTimeTravel)
             {
-                position = previousPositions[previousPositions.Count - 1];
-                previousPositions.Remove(previousPositions[previousPositions.Count - 1]);
-                if (true)// slut på ability
+                if (previousPositions.Count > 1)
+                {
+                    position = previousPositions[previousPositions.Count - 1];
+                    previousPositions.Remove(previousPositions[previousPositions.Count - 1]);
+                }
+                if (timeTravelCooldown <= timeTravelMaxCooldown - 1.5f)// slut på ability
                 {
                     ExitTimeTravel();
+                    ChangeAnimation(ref currentAnimation, idleAnimation);
+                    ChangeAnimation(ref currentHandAnimation, handIdleAnimation);
                 }
             }
             else if (doingTimeZone)
             {
-                if (true)//slut på ability
+                if (timeZoneCooldown <= timeZoneMaxCooldown - 0.7f)//slut på ability
                 {
                     ExitTimeZone();
+                    ChangeAnimation(ref currentAnimation, idleAnimation);
+                    ChangeAnimation(ref currentHandAnimation, handIdleAnimation);
                 }
             }
             else
             {
+                ChangeAnimation(ref currentAnimation, idleAnimation);
+                ChangeAnimation(ref currentHandAnimation, handIdleAnimation);
             }
+            currentHandAnimation.SpriteFX = currentAnimation.SpriteFX;
             base.Update();
         }
 
@@ -84,6 +114,7 @@ namespace Arcade_Arena.Classes
         private void ExitTimeTravel()
         {
             doingTimeTravel = false;
+            RemoveInvincibleEffect();
             aimDirection = UpdateAimDirection();
         }
 
@@ -96,6 +127,19 @@ namespace Arcade_Arena.Classes
             }
         }
 
+        protected override void Die()
+        {
+            base.Die();
+            ChangeAnimation(ref currentAnimation, deadAnimation);
+        }
+
+        public override void StartKnockback()
+        {
+            base.StartKnockback();
+            ChangeAnimation(ref currentAnimation, knockBackAnimation);
+            ChangeAnimation(ref currentHandAnimation, handKnockBackAnimation);
+        }
+
         private void UpdateCooldowns()
         {
             timeTravelCooldown -= Game1.elapsedGameTimeSeconds;
@@ -105,7 +149,10 @@ namespace Arcade_Arena.Classes
         void TimeTravelAbility()
         {
             doingTimeTravel = true;
+            AddInvincibleEffect();
             timeTravelCooldown = timeTravelMaxCooldown;
+            ChangeAnimation(ref currentAnimation, timeTravelAnimation);
+            ChangeAnimation(ref currentHandAnimation, handTimeTravelAnimation);
         }
 
         void TimeZoneAbility()
@@ -114,6 +161,22 @@ namespace Arcade_Arena.Classes
             timeZoneCooldown = timeZoneMaxCooldown;
             TimeZone newTimeZone = new TimeZone(timeZoneTimer, this, Position, AssetManager.TimeTravelerTimeZone);
             timeZones.Add(newTimeZone);
+            ChangeAnimation(ref currentAnimation, timeZoneAnimation);
+            ChangeAnimation(ref currentHandAnimation, handTimeZoneAnimation);
+        }
+
+        public override void TakeDamage(int damage, string username, float timerSeconds)
+        {
+            if (!Invincible)
+            {
+                health -= (sbyte)damage;
+                LastToDamage = username;
+                LastToDamageTimer = timerSeconds;
+                if (doingTimeZone)
+                {
+                    ExitTimeZone();
+                }
+            }
         }
 
         public void RemoveTimeZoneFromList(TimeZone timeZone)
@@ -123,13 +186,22 @@ namespace Arcade_Arena.Classes
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            currentAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, Game1.SCALE);
-            currentAnimation = walkingAnimation;
-
             foreach (TimeZone timeZone in timeZones)
             {
                 timeZone.Draw(spriteBatch);
             }
+            if (isDead)
+            {
+                currentAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, Game1.SCALE);
+                currentHandAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, Game1.SCALE);
+                return;
+            }
+
+            shadow.Draw(spriteBatch);
+            //spriteBatch.Draw(AssetManager.WizardShadow, new Vector2(Position.X + AssetManager.WizardShadow.Width / 4, Position.Y + 85), Color.Red);
+            currentAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, Game1.SCALE);
+            base.Draw(spriteBatch);
+            currentHandAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, Game1.SCALE);
         }
     }
 }

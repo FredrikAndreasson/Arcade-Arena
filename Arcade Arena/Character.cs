@@ -17,16 +17,56 @@ namespace Arcade_Arena
         protected bool walking = false;
 
         public bool CanWalk { get; private set; }
-        int nCanWalkStoppingEffects = 0;
+        private int nCanWalkStoppingEffects;
+        public void AddCanWalkStoppingEffect()
+        {
+            nCanWalkStoppingEffects++;
+            CanWalk = true;
+        }
+        public void RemoveCanWalkStoppingEffect()
+        {
+            if (nCanWalkStoppingEffects <= 0)
+            {
+                CanWalk = false;
+                nCanWalkStoppingEffects = 0;
+            }
+        }
 
-        public bool stunned { get; private set; }
-        int nStunEffects = 0;
+        public bool Stunned { get; private set; }
+        private int nStunEffects;
+        public void AddStunEffect()
+        {
+            nStunEffects++;
+            Stunned = true;
+        }
+        public void RemoveStunEffect()
+        {
+            if (nStunEffects <= 0)
+            {
+                Stunned = false;
+                nStunEffects = 0;
+            }
+        }
+
+        public bool Invincible { get; private set; }
+        private int nInvincibleEffects;
+        public void AddInvincibleEffect()
+        {
+            nInvincibleEffects++;
+            Invincible = true;
+        }
+        public void RemoveInvincibleEffect()
+        {
+            if (nInvincibleEffects <= 0)
+            {
+                Invincible = false;
+                nInvincibleEffects = 0;
+            }
+        }
 
         protected int mana;
 
         protected bool isDead = false;
-
-        protected bool invincible = false;
 
         protected double aimDirection;
 
@@ -62,7 +102,7 @@ namespace Arcade_Arena
         public virtual void Update()
         {
             UpdateEffects();
-            if (stunned)
+            if (Stunned)
             {
 
             }
@@ -120,7 +160,7 @@ namespace Arcade_Arena
 
         public void TakeDamage(string username, float timerSeconds)
         {
-            if (!invincible)
+            if (!Invincible)
             {
                 health -= 10;
                 LastToDamage = username;
@@ -138,7 +178,6 @@ namespace Arcade_Arena
             velocity.X = (float)(Math.Cos((float)newDirection) * newSpeed * speedAlteration);
             position += velocity;
         }
-
         public void UpdatePosition()
         {
             if (Blocked)
@@ -154,7 +193,7 @@ namespace Arcade_Arena
 
         public void TakeDamage(int damage, string username, float timerSeconds)
         {
-            if (!invincible)
+            if (!Invincible)
             {
                 health -= (sbyte)damage;
                 LastToDamage = username;
@@ -172,36 +211,6 @@ namespace Arcade_Arena
         {
             CanWalk = true;
             walking = true;
-        }
-
-        public void GetCanWalkStoppingEffect()
-        {
-            nCanWalkStoppingEffects++;
-            CanWalk = false;
-        }
-
-        public void GetStunEffects()
-        {
-            nStunEffects++;
-            stunned = true;
-        }
-
-        public void UndoCanWalkStoppingEffect()
-        {
-            nCanWalkStoppingEffects--;
-            if (nCanWalkStoppingEffects <= 0)
-            {
-                CanWalk = true;
-            }
-        }
-
-        public void UndoStunEffect()
-        {
-            nStunEffects--;
-            if (nStunEffects <= 0)
-            {
-                stunned = false;
-            }
         }
 
         //returnerar angle i grader

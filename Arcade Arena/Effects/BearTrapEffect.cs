@@ -19,13 +19,13 @@ namespace Arcade_Arena.Effects
         public override void OnGetEffect(DynamicObject dynamicObject, double timer)
         {
             base.OnGetEffect(dynamicObject, timer);
-            ownerCharacter.GetCanWalkStoppingEffect();
+            ownerCharacter.AddCanWalkStoppingEffect();
         }
 
         public override void OnLossEffect()
         {
             base.OnLossEffect();
-            ownerCharacter.UndoCanWalkStoppingEffect();
+            ownerCharacter.RemoveCanWalkStoppingEffect();
         }
     }
 }

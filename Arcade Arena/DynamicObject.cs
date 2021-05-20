@@ -22,7 +22,7 @@ namespace Arcade_Arena
 
         public bool Blocked { get; set; }
 
-        public void AddEffect(Effect newEffect, bool stackableEffect)
+        public bool AddEffect(Effect newEffect, bool stackableEffect)
         {
             bool alreadyHasEffect = false;
             if (!stackableEffect)
@@ -39,6 +39,11 @@ namespace Arcade_Arena
             if (!alreadyHasEffect)
             {
                 EffectList.Add(newEffect);
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
