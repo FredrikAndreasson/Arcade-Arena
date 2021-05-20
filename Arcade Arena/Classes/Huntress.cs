@@ -61,6 +61,8 @@ namespace Arcade_Arena.Classes
 
             this.clientBounds = clientBounds;
 
+            shadow = new Shadow(position, AssetManager.WizardShadow, speed, direction);
+
             speed = 1.2f;
         }
 

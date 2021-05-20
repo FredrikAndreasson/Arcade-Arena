@@ -48,6 +48,8 @@ namespace Arcade_Arena.Classes
             ChangeAnimation(ref currentAnimation, idleAnimation);
             ChangeAnimation(ref currentHandAnimation, handIdleAnimation);
 
+            shadow = new Shadow(position, AssetManager.WizardShadow, speed, direction);
+
             speed = 1;
         }
 
@@ -102,7 +104,10 @@ namespace Arcade_Arena.Classes
                 ChangeAnimation(ref currentHandAnimation, handIdleAnimation);
             }
             currentHandAnimation.SpriteFX = currentAnimation.SpriteFX;
+
+            
             base.Update();
+            shadow.Update(Position);
         }
 
         private void ExitTimeZone()

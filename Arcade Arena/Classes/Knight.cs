@@ -39,6 +39,8 @@ namespace Arcade_Arena.Classes
             groundSmashAnimation = new SpriteAnimation(AssetManager.groundSmashCrackle, new Vector2(0, 0), new Vector2(4, 0), new Vector2(71, 71), new Vector2(4, 0), 500);
             currentAnimation = backwardsAnimation;
 
+            shadow = new Shadow(position, AssetManager.WizardShadow, speed, direction);
+
             speed = 1;
         }
         public override void Update()
@@ -84,9 +86,11 @@ namespace Arcade_Arena.Classes
             }
             else
             {
-                base.Update();
                 middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
             }
+                base.Update();
+
+            shadow.Update(Position);
         }
 
         private void UpdateCooldowns()
@@ -97,6 +101,8 @@ namespace Arcade_Arena.Classes
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            shadow.Draw(spriteBatch);
+
 
             if (inGroundSmash)
             {
