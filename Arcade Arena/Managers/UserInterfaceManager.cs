@@ -14,14 +14,12 @@ namespace Arcade_Arena.Managers
         private Texture2D wizardAbilites;
 
         private List<Vector2> abilityPositions;
-        private NetworkManager networkManager;
         private GameWindow window;
 
         private int cooldown = 1000;
 
-        public UserInterfaceManager(NetworkManager networkManager, GameWindow window)
+        public UserInterfaceManager(GameWindow window)
         {
-            this.networkManager = networkManager;
             this.window = window;
 
             cooldownFont = AssetManager.CooldownFont;
@@ -33,12 +31,12 @@ namespace Arcade_Arena.Managers
             abilityPositions.Add(new Vector2(window.ClientBounds.Width / 2 + 32, window.ClientBounds.Height - 32));
         }
 
-        public void Update(GameTime gameTime)
+        public void UpdateGameplayLoop()
         {
             cooldown--;
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void DrawGameplayLoop(SpriteBatch spriteBatch, NetworkManager networkManager)
         {
             for (int i = 0; i < abilityPositions.Count; i++)
             {

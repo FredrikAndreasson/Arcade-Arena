@@ -51,7 +51,7 @@ namespace Arcade_Arena
             playerManager = new PlayerManager(networkManager, player, currentLevel);
             abilityManager = new AbilityManager(networkManager, playerManager);
 
-            userInterfaceManager = new UserInterfaceManager(networkManager, Window);
+            userInterfaceManager = new UserInterfaceManager(Window);
 
             networkManager.Start();
         }
@@ -78,7 +78,7 @@ namespace Arcade_Arena
             networkManager.Update();
             playerManager.UpdatePlayer();
             abilityManager.Update(player);
-            userInterfaceManager.Update(gameTime);
+            userInterfaceManager.UpdateGameplayLoop();
             MouseKeyboardManager.Update();
 
             currentLevel.Update();
@@ -94,7 +94,7 @@ namespace Arcade_Arena
             if (networkManager.Active)
             {
                 //lava.Draw(spriteBatch);
-                userInterfaceManager.Draw(spriteBatch);
+                userInterfaceManager.DrawGameplayLoop(spriteBatch, networkManager);
 
                 currentLevel.Draw(spriteBatch, networkManager);
 

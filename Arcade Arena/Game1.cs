@@ -19,6 +19,7 @@ namespace Arcade_Arena
         CharacterSelection,
         Pause,
         Settings,
+        Lobby,
         Quit,
     }
 
@@ -46,6 +47,7 @@ namespace Arcade_Arena
         PlayState ffaArena;
         MainMenuState mainMenu;
         CharacterSelectionState characterSelection;
+        LobbyState lobby;
 
         public Game1()
         {
@@ -67,6 +69,7 @@ namespace Arcade_Arena
             
             mainMenu = new MainMenuState(Window);
             characterSelection = new CharacterSelectionState(Window);
+            lobby = new LobbyState(Window);
 
         }
 
