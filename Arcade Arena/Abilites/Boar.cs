@@ -15,6 +15,7 @@ namespace Arcade_Arena.Abilites
         double timer;
         Huntress owner;
         double damage = 1;
+        int offset = 20;
         
         public Boar(Huntress owner, double direction, Vector2 position, float speed, Rectangle clientBounds) : base(position, speed, direction)
         {
@@ -23,10 +24,10 @@ namespace Arcade_Arena.Abilites
             timer = 0;
             this.owner = owner;
             CalculateStartingPosition(position, clientBounds);
-            CheckRotation(direction);
+            CheckRotation();
         }
 
-        private void CheckRotation(double direction)
+        private void CheckRotation()
         {
             if (direction > Math.PI * 0.5 && direction < Math.PI * 1.5)
             {
@@ -36,7 +37,7 @@ namespace Arcade_Arena.Abilites
 
         private void CalculateStartingPosition(Vector2 ownerPosition, Rectangle clientBounds)
         {
-            bool ready = false;
+            /*bool ready = false;
             while (!ready)
             {
                 UpdateVelocity(direction, -10);
@@ -45,7 +46,69 @@ namespace Arcade_Arena.Abilites
                 {
                     ready = true;
                 }
+            }*/
+
+            double tempDirection = direction - Math.PI;
+            if (tempDirection < 0)
+            {
+                tempDirection += Math.PI * 2;
             }
+            double shortestTravelDistance = CalculateTravelDistance(clientBounds, tempDirection);
+            UpdateVelocity(tempDirection, (float)shortestTravelDistance);
+        }
+
+        private double CalculateTravelDistance(Rectangle clientBounds, double tempDirection)
+        {
+            double travelDistance1, travelDistance2;
+            double distanceX, distanceY;
+            double angle;
+
+            if (tempDirection <= Math.PI * 0.5f)
+            {
+                distanceX = MathHelper.Distance(position.X, clientBounds.Width);
+                distanceY = MathHelper.Distance(position.Y, clientBounds.Height);
+                angle = tempDirection;
+                travelDistance1 = distanceX / Math.Cos(angle);
+                angle = Math.PI * 0.5f - angle;
+                travelDistance2 = distanceY / Math.Cos(angle);
+                position.X += offset;
+                position.Y += offset;
+            }
+            else if (tempDirection <= Math.PI * 1)
+            {
+                distanceX = MathHelper.Distance(position.X, 0);
+                distanceY = MathHelper.Distance(position.Y, clientBounds.Height);
+                angle = tempDirection - Math.PI * 0.5f;
+                travelDistance1 = distanceY / Math.Cos(angle);
+                angle = Math.PI * 0.5f - angle;
+                travelDistance2 = distanceX / Math.Cos(angle);
+                position.X += offset;
+                position.Y -= offset;
+            }
+            else if (tempDirection <= Math.PI * 1.5f)
+            {
+                distanceX = MathHelper.Distance(position.X, 0);
+                distanceY = MathHelper.Distance(position.Y, 0);
+                angle = tempDirection - Math.PI;
+                travelDistance1 = distanceX / Math.Cos(angle);
+                angle = Math.PI * 0.5f - angle;
+                travelDistance2 = distanceY / Math.Cos(angle);
+                position.X -= offset;
+                position.Y -= offset;
+            }
+            else
+            {
+                distanceX = MathHelper.Distance(position.X, clientBounds.Width);
+                distanceY = MathHelper.Distance(position.Y, 0);
+                angle = tempDirection - Math.PI * 1.5f;
+                travelDistance1 = distanceY / Math.Cos(angle);
+                angle = Math.PI * 0.5f - angle;
+                travelDistance2 = distanceX / Math.Cos(angle);
+                position.X -= offset;
+                position.Y += offset;
+            }
+
+            return Math.Min(travelDistance1, travelDistance2);
         }
 
         public void Update()
