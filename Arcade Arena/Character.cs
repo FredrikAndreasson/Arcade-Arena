@@ -41,6 +41,7 @@ namespace Arcade_Arena
         }
         public void RemoveStunEffect()
         {
+            nStunEffects--;
             if (nStunEffects <= 0)
             {
                 Stunned = false;
