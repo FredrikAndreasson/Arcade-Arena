@@ -64,6 +64,9 @@ namespace Arcade_Arena.Classes
             shadow = new Shadow(position, AssetManager.WizardShadow, speed, direction);
 
             speed = 1.3f;
+
+            maxHealth = 110;
+            health = maxHealth;
         }
 
         public override void Update()

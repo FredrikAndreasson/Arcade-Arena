@@ -64,6 +64,9 @@ namespace Arcade_Arena.Classes
             ChangeAnimation(ref currentAnimation, idleAnimation);
             ChangeAnimation(ref currentHandAnimation, handIdleAnimation);
 
+            maxHealth = 100;
+            health = maxHealth;
+
             speed = 1;
         }
 
