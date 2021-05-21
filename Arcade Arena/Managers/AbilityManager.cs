@@ -1,4 +1,6 @@
-﻿using Arcade_Arena.Effects;
+﻿using Arcade_Arena.Abilites;
+using Arcade_Arena.Classes;
+using Arcade_Arena.Effects;
 using Arcade_Arena.Library;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -45,6 +47,7 @@ namespace Arcade_Arena.Managers
             for (int i = 0; i < playerManager.clientPlayer.abilityBuffer.Count; i++)
             {
                 CreateAbility(playerManager.clientPlayer.abilityBuffer[i]);
+                CheckAbilityConditions(i);
                 playerManager.clientPlayer.abilityBuffer.RemoveAt(i);
                 i--;
             }
@@ -72,6 +75,17 @@ namespace Arcade_Arena.Managers
             //AbilityObstacleCollision();
         }
 
+        private void CheckAbilityConditions(int i)
+        {
+            if (playerManager.clientPlayer.abilityBuffer[i] is TeleportAbility teleport)
+            {
+                if (HitBoxIntersectsObstacle(teleport.HitBox))
+                {
+                    ((Wizard)(playerManager.clientPlayer)).CancelTeleportStart();
+                    abilities.Remove(playerManager.clientPlayer.abilityBuffer[i]);
+                }
+            }
+        }
 
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -105,6 +119,18 @@ namespace Arcade_Arena.Managers
                     }
                 }
             }
+        }
+
+        public bool HitBoxIntersectsObstacle(Rectangle hitBox)
+        {
+            foreach (Obstacle obstacle in playerManager.Level.Obstacles)
+            {
+                if (hitBox.Intersects(obstacle.HitBox()))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private void AbilityDeletionCheck()

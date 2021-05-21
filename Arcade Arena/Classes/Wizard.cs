@@ -1,4 +1,5 @@
 ﻿using Arcade_Arena.Abilites;
+using Arcade_Arena.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -41,7 +42,7 @@ namespace Arcade_Arena.Classes
 
         public Wizard(Vector2 position, float speed, double direction) : base(position, speed, direction)
         {
-            idleAnimation = new SpriteAnimation(AssetManager.WizardSpriteSheet, new Vector2(0, 0), new Vector2(1, 0), new Vector2(30, 27), new Vector2(7, 3), 1000);
+            idleAnimation = new SpriteAnimation(AssetManager.WizardSpriteSheet, new Vector2(0, 0), new Vector2(1, 0), new Vector2(14, 20), new Vector2(7, 3), 1000);
             handIdleAnimation = new SpriteAnimation(AssetManager.WizardHandSpriteSheet, new Vector2(0, 0), new Vector2(1, 0), new Vector2(14, 20), new Vector2(7, 3), 1000);
             walkingAnimation = new SpriteAnimation(AssetManager.WizardSpriteSheet, new Vector2(2, 0), new Vector2(7, 0), new Vector2(14, 20), new Vector2(7, 3), 150);
             handWalkingAnimation = new SpriteAnimation(AssetManager.WizardHandSpriteSheet, new Vector2(2, 0), new Vector2(7, 0), new Vector2(14, 20), new Vector2(7, 3), 150);
@@ -139,6 +140,12 @@ namespace Arcade_Arena.Classes
             }
             middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
             aimDirection = UpdateAimDirection();
+        }
+
+        public void CancelTeleportStart()
+        {
+            ExitTeleport(false);
+            teleportCooldown = 0;
         }
 
         private void ExitIceBlock()

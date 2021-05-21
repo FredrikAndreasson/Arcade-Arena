@@ -13,6 +13,7 @@ namespace Arcade_Arena.Abilites
     class TeleportAbility : Ability
     {
         Wizard player;
+        public Rectangle HitBox { get; set; }
         public TeleportAbility(Wizard player, Vector2 position)
         {
             this.player = player;
@@ -21,6 +22,7 @@ namespace Arcade_Arena.Abilites
             currentAnimation = new SpriteAnimation(AssetManager.WizardSpriteSheet, new Vector2(0, 3), new Vector2(5, 3), new Vector2(14, 20), new Vector2(7, 3), 150);
 
             this.position = position;
+            HitBox = new Rectangle((int)position.X, (int)position.Y + 75, (int)(currentAnimation.FrameSize.X * Game1.SCALE), (int)((currentAnimation.FrameSize.Y * Game1.SCALE)) - 65);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
