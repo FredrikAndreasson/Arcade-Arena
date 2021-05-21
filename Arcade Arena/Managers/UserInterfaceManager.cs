@@ -54,5 +54,10 @@ namespace Arcade_Arena.Managers
         {
             spriteBatch.DrawString(cooldownFont, username + ": " + score, position, Color.White);
         }
+
+        private void DrawConnectedPlayers(SpriteBatch spriteBatch, NetworkManager networkManager)
+        {
+
+        }
     }
 }

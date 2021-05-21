@@ -34,6 +34,8 @@ namespace Arcade_Arena
         public const float SCALE = 5.0f;
 
 
+        private NetworkManager networkManager;
+
 
         public static double elapsedGameTimeSeconds { get; private set; }
         public static double elapsedGameTimeMilliseconds { get; private set; }
@@ -63,13 +65,18 @@ namespace Arcade_Arena
    
         protected override void LoadContent()
         {
+            //initiating networkmanager in game1 so that the lobby can have access to it aswell
+            Library.Player tempPlayer = new Library.Player
+            {Type = Library.Player.ClassType.Wizard};
+            networkManager = new NetworkManager(tempPlayer);
+
             spriteBatch = new SpriteBatch(GraphicsDevice);
             AssetManager.LoadTextures(Content);
 
             
             mainMenu = new MainMenuState(Window);
             characterSelection = new CharacterSelectionState(Window);
-            lobby = new LobbyState(Window);
+            lobby = new LobbyState(Window, networkManager, ref player);
 
         }
 
@@ -107,7 +114,7 @@ namespace Arcade_Arena
                     characterSelection.Update(gameTime, ref state, ref player);
                     if(state == States.FFA)
                     {
-                        ffaArena = new PlayState(Window, spriteBatch, player);
+                        ffaArena = new PlayState(Window, spriteBatch, player, networkManager);
                     }
                     break;
                 case States.Pause:

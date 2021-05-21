@@ -54,6 +54,7 @@
     <Compile Include="Commands\AbilityUpdateCommand.cs" />
     <Compile Include="Commands\AbilityDeletionCommand.cs" />
     <Compile Include="Commands\AllPlayersCommand.cs" />
+    <Compile Include="Commands\ClassChangeCommand.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\InputCommand.cs" />
     <Compile Include="Commands\LoginCommand.cs" />

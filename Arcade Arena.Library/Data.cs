@@ -9,5 +9,6 @@
     AbilityCreate,
     AbilityUpdate,
     AbilityDelete,
-    Score
+    Score, 
+    ClassChange
 }
