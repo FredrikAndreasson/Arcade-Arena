@@ -46,11 +46,11 @@ namespace Arcade_Arena.Managers
             {
                 classType = Player.ClassType.TimeTraveler;
             }
-            //else if(playerCharacter is Knight)
-            //{
-            //    classType = Player.ClassType.Knight;
-            //}
-            //else if(playerCharacter is Assassin)
+            else if (playerCharacter is Knight)
+            {
+                classType = Player.ClassType.Knight;
+            }
+            //else if (playerCharacter is Assassin)
             //{
             //    classType = Player.ClassType.Assassin;
             //}
@@ -70,7 +70,7 @@ namespace Arcade_Arena.Managers
             var outmsg = client.CreateMessage();
             outmsg.Write((byte)PacketType.Login);
             outmsg.Write(Username);
-            outmsg.Write((byte)Player.ClassType.Wizard);
+            outmsg.Write((byte)classType);
             //client.Connect("85.228.136.154", 14241, outmsg);
             client.Connect("localhost", 14241, outmsg);
             return EstablishInfo();
