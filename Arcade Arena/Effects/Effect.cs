@@ -14,6 +14,8 @@ namespace Arcade_Arena
 
         public Effect(DynamicObject owner, double timer)
         {
+            this.owner = owner;
+
             if (CheckIfEffectAdded())
             {
                 OnGetEffect(owner, timer);
