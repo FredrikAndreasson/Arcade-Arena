@@ -28,7 +28,7 @@ namespace Arcade_Arena
 
             currentAnimation = openAnimation;
             this.owner = owner;
-            timer = 10;
+            timer = 20;
         }
 
         public void Update()
@@ -45,7 +45,7 @@ namespace Arcade_Arena
                     //trap character
                     currentAnimation = activatedAnimation;
                     activated = true;
-                    timer = 4;
+                    timer = 5;
                 }
             }
         }

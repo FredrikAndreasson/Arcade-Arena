@@ -15,13 +15,13 @@ namespace Arcade_Arena.Abilites
         double timer;
         Huntress owner;
         double damage = 1;
-        int offset = 20;
+        int offset = 0;
         
         public Boar(Huntress owner, double direction, Vector2 position, float speed, Rectangle clientBounds) : base(position, speed, direction)
         {
-            animation = new SpriteAnimation(AssetManager.HuntressBoar, new Vector2(0, 0), new Vector2(2, 0), new Vector2(20, 9), new Vector2(2, 0), 200);
+            animation = new SpriteAnimation(AssetManager.HuntressBoar, new Vector2(0, 0), new Vector2(2, 0), new Vector2(20, 9), new Vector2(2, 0), 100);
 
-            timer = 0;
+            timer = 20;
             this.owner = owner;
             CalculateStartingPosition(position, clientBounds);
             CheckRotation();
@@ -114,6 +114,7 @@ namespace Arcade_Arena.Abilites
         public void Update()
         {
             UpdateVelocity(direction, speed);
+            animation.Update();
             timer -= Game1.elapsedGameTimeSeconds;
             if (timer <= 0)
             {
@@ -136,6 +137,7 @@ namespace Arcade_Arena.Abilites
         public void Draw(SpriteBatch spriteBatch)
         {
             animation.Draw(spriteBatch, position, 0.0f, Vector2.Zero, Game1.SCALE);
+            spriteBatch.DrawString(AssetManager.CooldownFont, position.ToString(), new Vector2(200, 200), Color.Black);
         }
     }
 }

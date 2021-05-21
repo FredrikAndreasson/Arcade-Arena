@@ -63,17 +63,7 @@ namespace Arcade_Arena.Classes
             currentAnimation.Update();
             currentHandAnimation.Update();
             UpdateCooldowns();
-            if (!doingTimeTravel && !doingTimeZone)
-            {
-                if (Keyboard.GetState().IsKeyDown(Keys.E) && timeTravelCooldown <= 0)
-                {
-                    TimeTravelAbility();
-                }
-                else if (Keyboard.GetState().IsKeyDown(Keys.LeftShift) && timeZoneCooldown <= 0)
-                {
-                    TimeZoneAbility();
-                }
-            }
+            CheckAbilityUse();
 
             if (doingTimeTravel)
             {
@@ -97,17 +87,43 @@ namespace Arcade_Arena.Classes
                     ChangeAnimation(ref currentAnimation, idleAnimation);
                     ChangeAnimation(ref currentHandAnimation, handIdleAnimation);
                 }
+                UpdateEffects();
             }
             else
             {
                 ChangeAnimation(ref currentAnimation, idleAnimation);
                 ChangeAnimation(ref currentHandAnimation, handIdleAnimation);
+                base.Update();
             }
             currentHandAnimation.SpriteFX = currentAnimation.SpriteFX;
-
-            
-            base.Update();
             shadow.Update(Position);
+        }
+
+        private void CheckAbilityUse()
+        {
+            if (!Stunned)
+            {
+                if (!doingTimeTravel)
+                {
+                    if (Keyboard.GetState().IsKeyDown(Keys.E) && timeTravelCooldown <= 0)
+                    {
+                        TimeTravelAbility();
+                    }
+                    return;
+                }
+                else if (!doingTimeZone)
+                {
+                    if (Keyboard.GetState().IsKeyDown(Keys.LeftShift) && timeZoneCooldown <= 0)
+                    {
+                        TimeZoneAbility();
+                    }
+                }
+            }
+        }
+
+        protected override void UpdateMiddleOfSprite()
+        {
+            middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
         }
 
         private void ExitTimeZone()
@@ -153,6 +169,7 @@ namespace Arcade_Arena.Classes
 
         void TimeTravelAbility()
         {
+            doingTimeZone = false;
             doingTimeTravel = true;
             AddInvincibleEffect();
             timeTravelCooldown = timeTravelMaxCooldown;

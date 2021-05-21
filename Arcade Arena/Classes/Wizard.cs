@@ -74,17 +74,7 @@ namespace Arcade_Arena.Classes
             currentHandAnimation.Update();
             UpdateCooldowns();
             UpdateWeapon();
-            if (!teleporting && !inIceBlock)
-            {
-                if (Keyboard.GetState().IsKeyDown(Keys.E) && teleportCooldown <= 0)
-                {
-                    TeleportAbility();
-                }
-                else if (Keyboard.GetState().IsKeyDown(Keys.LeftShift) && iceBlockCooldown <= 0)
-                {
-                    IceBlockAbility();
-                }
-            }
+            CheckAbilityUse();
 
             if (teleporting)
             {
@@ -95,6 +85,7 @@ namespace Arcade_Arena.Classes
                     ExitTeleport(true);
                     CheckRegularAnimation();
                 }
+                UpdateEffects();
             }
             else if (inIceBlock)
             {
@@ -104,6 +95,7 @@ namespace Arcade_Arena.Classes
                     ExitIceBlock();
                     CheckRegularAnimation();
                 }
+                UpdateEffects();
             }
             else
             {
@@ -111,11 +103,31 @@ namespace Arcade_Arena.Classes
                 {
                     CheckRegularAnimation();
                 }
-                middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
+                UpdateMiddleOfSprite();
+                base.Update();
             }
-            base.Update();
             currentHandAnimation.SpriteFX = currentAnimation.SpriteFX;
             shadow.Update(Position);
+        }
+
+        protected override void UpdateMiddleOfSprite()
+        {
+            middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
+        }
+
+        private void CheckAbilityUse()
+        {
+            if (!teleporting && !inIceBlock & !Stunned)
+            {
+                if (Keyboard.GetState().IsKeyDown(Keys.E) && teleportCooldown <= 0)
+                {
+                    TeleportAbility();
+                }
+                else if (Keyboard.GetState().IsKeyDown(Keys.LeftShift) && iceBlockCooldown <= 0)
+                {
+                    IceBlockAbility();
+                }
+            }
         }
 
         private void ExitTeleport(bool finished)

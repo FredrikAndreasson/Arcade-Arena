@@ -25,6 +25,7 @@ namespace Arcade_Arena
         }
         public void RemoveCanWalkStoppingEffect()
         {
+            nCanWalkStoppingEffects--;
             if (nCanWalkStoppingEffects <= 0)
             {
                 CanWalk = false;
@@ -41,6 +42,7 @@ namespace Arcade_Arena
         }
         public void RemoveStunEffect()
         {
+            nStunEffects--;
             if (nStunEffects <= 0)
             {
                 Stunned = false;
@@ -57,6 +59,7 @@ namespace Arcade_Arena
         }
         public void RemoveInvincibleEffect()
         {
+            nInvincibleEffects--;
             if (nInvincibleEffects <= 0)
             {
                 Invincible = false;
@@ -268,6 +271,7 @@ namespace Arcade_Arena
         //returnerar aim angle i grader
         protected double UpdateAimDirection()
         {
+            UpdateMiddleOfSprite();
             double newDirection = MathHelper.ToDegrees((float)Math.Atan2(MouseKeyboardManager.MousePosition.Y - middleOfSprite.Y, MouseKeyboardManager.MousePosition.X - middleOfSprite.X));
             return newDirection;
         }
@@ -279,6 +283,11 @@ namespace Arcade_Arena
                 currentAnim = newAnimation;
                 currentAnim.StartAnimation();
             }
+        }
+
+        protected virtual void UpdateMiddleOfSprite()
+        {
+
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)

@@ -63,7 +63,7 @@ namespace Arcade_Arena.Classes
 
             shadow = new Shadow(position, AssetManager.WizardShadow, speed, direction);
 
-            speed = 1.2f;
+            speed = 1.3f;
         }
 
         public override void Update()
@@ -73,7 +73,45 @@ namespace Arcade_Arena.Classes
             UpdateCooldowns();
             UpdateWeapon();
             UpdateAbilities();
-            if (!doingBearTrap && !doingBoar)
+            CheckAbilityUse();
+            if (doingBearTrap)
+            {
+                if (bearTrapCooldown <= bearTrapMaxCooldown - 1)
+                {
+                    ExitBearTrap();
+                    CheckRegularAnimation();
+                }
+                UpdateEffects();
+            }
+            else if (doingBoar)
+            {
+                if (boarCooldown <= boarMaxCooldown - 1)
+                {
+                    ExitBoar();
+                    CheckRegularAnimation();
+                }
+                UpdateEffects();
+            }
+            else
+            {
+                if (!Stunned)
+                {
+                    CheckRegularAnimation();
+                }
+                base.Update();
+            }
+            currentHandAnimation.SpriteFX = currentAnimation.SpriteFX;
+            shadow.Update(Position);
+        }
+
+        protected override void UpdateMiddleOfSprite()
+        {
+            middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
+        }
+
+        private void CheckAbilityUse()
+        {
+            if (!doingBearTrap && !doingBoar && !Stunned)
             {
                 if (Keyboard.GetState().IsKeyDown(Keys.E) && bearTrapCooldown <= 0)
                 {
@@ -84,34 +122,6 @@ namespace Arcade_Arena.Classes
                     BoarAbility();
                 }
             }
-
-            if (doingBearTrap)
-            {
-                if (bearTrapCooldown <= bearTrapMaxCooldown - 1)
-                {
-                    ExitBearTrap();
-                    CheckRegularAnimation();
-                }
-            }
-            else if (doingBoar)
-            {
-                if (boarCooldown <= boarMaxCooldown - 1)
-                {
-                    ExitBoar();
-                    CheckRegularAnimation();
-                }
-            }
-            else
-            {
-                if (!Stunned)
-                {
-                    CheckRegularAnimation();
-                }
-                middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
-            }
-            base.Update();
-            currentHandAnimation.SpriteFX = currentAnimation.SpriteFX;
-            shadow.Update(Position);
         }
 
         private void UpdateCooldowns()
@@ -136,15 +146,21 @@ namespace Arcade_Arena.Classes
 
         private void BearTrapAbility()
         {
+            doingBearTrap = true;
+            ChangeAnimation(ref currentAnimation, bearTrapAnimation);
+            ChangeAnimation(ref currentHandAnimation, handBearTrapAnimation);
             bearTrapCooldown = bearTrapMaxCooldown;
-            BearTrap bearTrap = new BearTrap(this, position);
+            BearTrap bearTrap = new BearTrap(this, shadow.Position);
             bearTraps.Add(bearTrap);
         }
 
         private void BoarAbility()
         {
+            doingBoar = true;
+            ChangeAnimation(ref currentAnimation, boarAnimation);
+            ChangeAnimation(ref currentHandAnimation, handBoarAnimation);
             boarCooldown = boarMaxCooldown;
-            Boar boar = new Boar(this, aimDirection, position, 1, clientBounds);
+            Boar boar = new Boar(this, MathHelper.ToRadians((float)aimDirection), position, 8, clientBounds);
             boars.Add(boar);
         }
 
