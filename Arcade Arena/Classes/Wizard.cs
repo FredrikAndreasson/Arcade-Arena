@@ -252,7 +252,7 @@ namespace Arcade_Arena.Classes
 
             newPosition = Position + (teleportVelocity * 100);
 
-            Ability ability = new TeleportAbility(this, newPosition);
+            Ability ability = new TeleportAbility(this, newPosition, speed, direction);
             abilityBuffer.Add(ability);
         }
 
@@ -268,7 +268,7 @@ namespace Arcade_Arena.Classes
             AddInvincibleEffect();
 
 
-            Ability ability = new IceblockAbility(this);
+            Ability ability = new IceblockAbility(this, Position, speed, direction);
             abilityBuffer.Add(ability);
         }
     }

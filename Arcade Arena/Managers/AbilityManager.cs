@@ -196,11 +196,13 @@ namespace Arcade_Arena.Managers
                 case Player.ClassType.Huntress:
                     if (ability.Type == AbilityOutline.AbilityType.AbilityOne)
                     {
-
+                        spriteBatch.Draw(AssetManager.HuntressBoar, new Vector2(ability.XPosition, ability.YPosition), source, Color.White, 0.0f,
+                            Vector2.Zero, 5.0f, SpriteEffects.None, 1.0f);
                     }
                     else if (ability.Type == AbilityOutline.AbilityType.AbilityTwo)
                     {
-
+                        spriteBatch.Draw(AssetManager.HuntressBearTrap, new Vector2(ability.XPosition, ability.YPosition), source, Color.White, 0.0f,
+                            Vector2.Zero, 5.0f, SpriteEffects.None, 1.0f);
                     }
                     break;
                 case Player.ClassType.TimeTraveler:

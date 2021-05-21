@@ -8,9 +8,8 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Arcade_Arena.Abilites
 {
-    public class Boar : DynamicObject
+    public class Boar : Ability
     {
-        SpriteAnimation animation;
 
         double timer;
         Huntress owner;
@@ -19,7 +18,9 @@ namespace Arcade_Arena.Abilites
         
         public Boar(Huntress owner, double direction, Vector2 position, float speed, Rectangle clientBounds) : base(position, speed, direction)
         {
-            animation = new SpriteAnimation(AssetManager.HuntressBoar, new Vector2(0, 0), new Vector2(2, 0), new Vector2(20, 9), new Vector2(2, 0), 100);
+            Type = Library.AbilityOutline.AbilityType.AbilityOne;
+
+            currentAnimation = new SpriteAnimation(AssetManager.HuntressBoar, new Vector2(0, 0), new Vector2(2, 0), new Vector2(20, 9), new Vector2(2, 0), 100);
 
             timer = 20;
             this.owner = owner;
@@ -44,7 +45,7 @@ namespace Arcade_Arena.Abilites
         {
             if (direction > Math.PI * 0.5 && direction < Math.PI * 1.5)
             {
-                animation.SpriteFX = SpriteEffects.FlipHorizontally;
+                currentAnimation.SpriteFX = SpriteEffects.FlipHorizontally;
             }
         }
 
@@ -78,8 +79,8 @@ namespace Arcade_Arena.Abilites
 
             if (tempDirection <= Math.PI * 0.5f)
             {
-                distanceX = MathHelper.Distance(position.X, clientBounds.Width);
-                distanceY = MathHelper.Distance(position.Y, clientBounds.Height);
+                distanceX = MathHelper.Distance(Position.X, clientBounds.Width);
+                distanceY = MathHelper.Distance(Position.Y, clientBounds.Height);
                 angle = tempDirection;
                 travelDistance1 = distanceX / Math.Cos(angle);
                 angle = Math.PI * 0.5f - angle;
@@ -89,8 +90,8 @@ namespace Arcade_Arena.Abilites
             }
             else if (tempDirection <= Math.PI * 1)
             {
-                distanceX = MathHelper.Distance(position.X, 0);
-                distanceY = MathHelper.Distance(position.Y, clientBounds.Height);
+                distanceX = MathHelper.Distance(Position.X, 0);
+                distanceY = MathHelper.Distance(Position.Y, clientBounds.Height);
                 angle = tempDirection - Math.PI * 0.5f;
                 travelDistance1 = distanceY / Math.Cos(angle);
                 angle = Math.PI * 0.5f - angle;
@@ -100,8 +101,8 @@ namespace Arcade_Arena.Abilites
             }
             else if (tempDirection <= Math.PI * 1.5f)
             {
-                distanceX = MathHelper.Distance(position.X, 0);
-                distanceY = MathHelper.Distance(position.Y, 0);
+                distanceX = MathHelper.Distance(Position.X, 0);
+                distanceY = MathHelper.Distance(Position.Y, 0);
                 angle = tempDirection - Math.PI;
                 travelDistance1 = distanceX / Math.Cos(angle);
                 angle = Math.PI * 0.5f - angle;
@@ -111,8 +112,8 @@ namespace Arcade_Arena.Abilites
             }
             else
             {
-                distanceX = MathHelper.Distance(position.X, clientBounds.Width);
-                distanceY = MathHelper.Distance(position.Y, 0);
+                distanceX = MathHelper.Distance(Position.X, clientBounds.Width);
+                distanceY = MathHelper.Distance(Position.Y, 0);
                 angle = tempDirection - Math.PI * 1.5f;
                 travelDistance1 = distanceY / Math.Cos(angle);
                 angle = Math.PI * 0.5f - angle;
@@ -124,14 +125,14 @@ namespace Arcade_Arena.Abilites
             return Math.Min(travelDistance1, travelDistance2);
         }
 
-        public void Update()
+        public override void Update()
         {
             UpdateVelocity(direction, speed);
-            animation.Update();
+            currentAnimation.Update();
             timer -= Game1.elapsedGameTimeSeconds;
             if (timer <= 0)
             {
-                Despawn();
+                isDead = true;
             }
         }
 
@@ -142,14 +143,9 @@ namespace Arcade_Arena.Abilites
             position += velocity;
         }
 
-        void Despawn()
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            owner.DespawnBoar(this);
-        }
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            animation.Draw(spriteBatch, position, 0.0f, Vector2.Zero, Game1.SCALE);
+            currentAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, Game1.SCALE);
             //spriteBatch.DrawString(AssetManager.CooldownFont, (direction / Math.PI).ToString(), new Vector2(200, 200), Color.Black);
         }
     }

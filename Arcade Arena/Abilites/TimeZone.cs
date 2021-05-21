@@ -9,21 +9,21 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Arcade_Arena
 {
-    public class TimeZone : GameObject
+    public class TimeZone : Ability
     {
         double timer;
         double timeSlowEffectSeverity = -0.30;
         TimeTraveler owner;
         private Texture2D texture;
 
-        public TimeZone(double timer, TimeTraveler owner, Vector2 position, Texture2D texture) : base(position)
+        public TimeZone(double timer, TimeTraveler owner, Vector2 position, Texture2D texture, float speed, double direction) : base(position, speed, direction)
         {
             this.timer = timer;
             this.owner = owner;
             this.texture = texture;
         }
 
-        public void Update()
+        public override void Update()
         {
             timer -= Game1.elapsedGameTimeSeconds;
             if(true)//kollision med dynamic objects, avoid med owner
@@ -37,7 +37,7 @@ namespace Arcade_Arena
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, Position, null, Color.White, 0, Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1);
         }

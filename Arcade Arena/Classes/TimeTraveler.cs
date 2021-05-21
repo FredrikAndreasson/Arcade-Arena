@@ -182,7 +182,7 @@ namespace Arcade_Arena.Classes
         {
             doingTimeZone = true;
             timeZoneCooldown = timeZoneMaxCooldown;
-            TimeZone newTimeZone = new TimeZone(timeZoneTimer, this, Position, AssetManager.TimeTravelerTimeZone);
+            TimeZone newTimeZone = new TimeZone(timeZoneTimer, this, Position, AssetManager.TimeTravelerTimeZone, speed, direction);
             timeZones.Add(newTimeZone);
             ChangeAnimation(ref currentAnimation, timeZoneAnimation);
             ChangeAnimation(ref currentHandAnimation, handTimeZoneAnimation);

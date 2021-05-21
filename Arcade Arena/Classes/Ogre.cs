@@ -124,7 +124,7 @@ namespace Arcade_Arena.Classes
             currentAnimation = groundSmashOgreAnimation;
             groundSmashAnimation.XIndex = 0;
 
-            Ability ability = new GroundSlamAbility(this);
+            Ability ability = new GroundSlamAbility(this, Position, speed, direction);
             abilityBuffer.Add(ability);
 
         }

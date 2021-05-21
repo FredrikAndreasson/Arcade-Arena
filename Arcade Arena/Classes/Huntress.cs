@@ -72,7 +72,6 @@ namespace Arcade_Arena.Classes
             currentHandAnimation.Update();
             UpdateCooldowns();
             UpdateWeapon();
-            UpdateAbilities();
             CheckAbilityUse();
             if (doingBearTrap)
             {
@@ -130,20 +129,6 @@ namespace Arcade_Arena.Classes
             boarCooldown -= Game1.elapsedGameTimeSeconds;
         }
 
-        private void UpdateAbilities()
-        {
-            List<BearTrap> tempBearTraps = new List<BearTrap>(bearTraps);
-            foreach(BearTrap trap in tempBearTraps)
-            {
-                trap.Update();
-            }
-            List<Boar> tempBoars = new List<Boar>(boars);
-            foreach (Boar boar in tempBoars)
-            {
-                boar.Update();
-            }
-        }
-
         private void BearTrapAbility()
         {
             doingBearTrap = true;
@@ -151,8 +136,8 @@ namespace Arcade_Arena.Classes
             ChangeAnimation(ref currentHandAnimation, handBearTrapAnimation);
             bearTrapCooldown = bearTrapMaxCooldown;
             UpdateSpriteEffect();
-            BearTrap bearTrap = new BearTrap(this, shadow.Position);
-            bearTraps.Add(bearTrap);
+            BearTrap bearTrap = new BearTrap(this, shadow.Position, speed, direction);
+            abilityBuffer.Add(bearTrap);
         }
 
         private void BoarAbility()
@@ -163,7 +148,7 @@ namespace Arcade_Arena.Classes
             boarCooldown = boarMaxCooldown;
             UpdateSpriteEffect();
             Boar boar = new Boar(this, MathHelper.ToRadians((float)aimDirection), shadow.Position, 8, clientBounds);
-            boars.Add(boar);
+            abilityBuffer.Add(boar);
         }
 
         private void ExitBoar()
@@ -176,16 +161,6 @@ namespace Arcade_Arena.Classes
         {
             doingBearTrap = false;
             aimDirection = UpdateAimDirection();
-        }
-
-        public void DespawnBearTrap(BearTrap trap)
-        {
-            bearTraps.Remove(trap);
-        }
-
-        public void DespawnBoar(Boar boar)
-        {
-            boars.Remove(boar);
         }
 
         protected override void ExitAnimationOnHit()
@@ -224,7 +199,6 @@ namespace Arcade_Arena.Classes
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            DrawAbilities(spriteBatch);
             if (isDead)
             {
                 currentAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, Game1.SCALE);
@@ -237,18 +211,6 @@ namespace Arcade_Arena.Classes
             currentAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, Game1.SCALE);
             base.Draw(spriteBatch);
             currentHandAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, Game1.SCALE);
-        }
-
-        private void DrawAbilities(SpriteBatch spriteBatch)
-        {
-            foreach (BearTrap trap in bearTraps)
-            {
-                trap.Draw(spriteBatch);
-            }
-            foreach (Boar boar in boars)
-            {
-                boar.Draw(spriteBatch);
-            }
         }
     }
 }

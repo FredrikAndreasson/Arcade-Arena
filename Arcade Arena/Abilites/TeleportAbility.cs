@@ -14,7 +14,7 @@ namespace Arcade_Arena.Abilites
     {
         Wizard player;
         public Rectangle HitBox { get; set; }
-        public TeleportAbility(Wizard player, Vector2 position)
+        public TeleportAbility(Wizard player, Vector2 position, float speed, double direction) : base(position, speed, direction)
         {
             this.player = player;
 
@@ -27,7 +27,7 @@ namespace Arcade_Arena.Abilites
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            currentAnimation.Draw(spriteBatch, position, 0.0f, Vector2.Zero, Game1.SCALE);
+            currentAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, Game1.SCALE);
         }
 
         public override void Update()
