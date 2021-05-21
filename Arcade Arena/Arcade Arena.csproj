@@ -102,6 +102,7 @@
     <Content Include="Content\AbilityIcons\WizardAbilityIconSheet.png" />
     <Content Include="Content\Class\Ball.png" />
     <Content Include="Content\LavaSprite\Lava.png" />
+    <Content Include="Content\px.png" />
     <Content Include="Content\TargetDummy.png" />
     <Content Include="Icon.ico" />
   </ItemGroup>
