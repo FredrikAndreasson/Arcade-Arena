@@ -69,6 +69,8 @@ namespace Arcade_Arena
 
         protected int mana;
 
+        protected sbyte maxHealth;
+
         protected bool isDead = false;
 
         protected double aimDirection;
@@ -192,6 +194,15 @@ namespace Arcade_Arena
                 {
                     Die();
                 }
+            }
+        }
+
+        public void Heal(sbyte amount)
+        {
+            health += amount;
+            if (health > maxHealth)
+            {
+                health = maxHealth;
             }
         }
 

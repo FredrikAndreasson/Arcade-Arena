@@ -39,6 +39,9 @@ namespace Arcade_Arena.Classes
 
             shadow = new Shadow(Position, AssetManager.OgreShadow, speed, direction);
 
+            maxHealth = 170;
+            health = maxHealth;
+
             speed = 1;
         }
 
