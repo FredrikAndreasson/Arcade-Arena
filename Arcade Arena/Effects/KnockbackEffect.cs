@@ -31,6 +31,11 @@ namespace Arcade_Arena.Effects
             ownerCharacter.UpdateVelocity(direction, speed);
             speed = speed / 2 + (float)timer / 4; //idk
             base.Update();
+
+            if (speed < 0.1f)
+            {
+                OnLossEffect();
+            }
         }
 
         public override void OnLossEffect()
