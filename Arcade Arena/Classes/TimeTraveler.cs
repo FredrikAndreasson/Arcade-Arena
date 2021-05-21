@@ -175,6 +175,7 @@ namespace Arcade_Arena.Classes
             timeTravelCooldown = timeTravelMaxCooldown;
             ChangeAnimation(ref currentAnimation, timeTravelAnimation);
             ChangeAnimation(ref currentHandAnimation, handTimeTravelAnimation);
+            UpdateSpriteEffect();
         }
 
         void TimeZoneAbility()
@@ -185,6 +186,7 @@ namespace Arcade_Arena.Classes
             timeZones.Add(newTimeZone);
             ChangeAnimation(ref currentAnimation, timeZoneAnimation);
             ChangeAnimation(ref currentHandAnimation, handTimeZoneAnimation);
+            UpdateSpriteEffect();
         }
 
         protected override void ExitAnimationOnHit()

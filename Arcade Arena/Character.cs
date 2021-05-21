@@ -136,7 +136,7 @@ namespace Arcade_Arena
             isDead = true;
         }
 
-        private void UpdateSpriteEffect()
+        protected void UpdateSpriteEffect()
         {
             if (orbiterRotation >= 1.53269 || orbiterRotation <= -1.547545)
             {

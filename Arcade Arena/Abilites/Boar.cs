@@ -24,7 +24,20 @@ namespace Arcade_Arena.Abilites
             timer = 20;
             this.owner = owner;
             CalculateStartingPosition(position, clientBounds);
+            NormalizeAngle();
             CheckRotation();
+        }
+
+        private void NormalizeAngle()
+        {
+            while (direction < 0)
+            {
+                direction += Math.PI * 2;
+            }
+            while (direction > Math.PI * 2)
+            {
+                direction -= Math.PI * 2;
+            }
         }
 
         private void CheckRotation()
@@ -137,7 +150,7 @@ namespace Arcade_Arena.Abilites
         public void Draw(SpriteBatch spriteBatch)
         {
             animation.Draw(spriteBatch, position, 0.0f, Vector2.Zero, Game1.SCALE);
-            spriteBatch.DrawString(AssetManager.CooldownFont, position.ToString(), new Vector2(200, 200), Color.Black);
+            //spriteBatch.DrawString(AssetManager.CooldownFont, (direction / Math.PI).ToString(), new Vector2(200, 200), Color.Black);
         }
     }
 }

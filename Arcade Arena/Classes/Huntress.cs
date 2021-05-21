@@ -32,7 +32,7 @@ namespace Arcade_Arena.Classes
 
         bool doingBoar;
         double boarCooldown;
-        double boarMaxCooldown = 10;
+        double boarMaxCooldown = 8;
 
         List<BearTrap> bearTraps = new List<BearTrap>();
         List<Boar> boars = new List<Boar>();
@@ -150,6 +150,7 @@ namespace Arcade_Arena.Classes
             ChangeAnimation(ref currentAnimation, bearTrapAnimation);
             ChangeAnimation(ref currentHandAnimation, handBearTrapAnimation);
             bearTrapCooldown = bearTrapMaxCooldown;
+            UpdateSpriteEffect();
             BearTrap bearTrap = new BearTrap(this, shadow.Position);
             bearTraps.Add(bearTrap);
         }
@@ -160,7 +161,8 @@ namespace Arcade_Arena.Classes
             ChangeAnimation(ref currentAnimation, boarAnimation);
             ChangeAnimation(ref currentHandAnimation, handBoarAnimation);
             boarCooldown = boarMaxCooldown;
-            Boar boar = new Boar(this, MathHelper.ToRadians((float)aimDirection), position, 8, clientBounds);
+            UpdateSpriteEffect();
+            Boar boar = new Boar(this, MathHelper.ToRadians((float)aimDirection), shadow.Position, 8, clientBounds);
             boars.Add(boar);
         }
 
