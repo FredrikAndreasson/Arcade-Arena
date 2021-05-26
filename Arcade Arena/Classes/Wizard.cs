@@ -1,4 +1,5 @@
 ﻿using Arcade_Arena.Abilites;
+using Arcade_Arena.Effects;
 using Arcade_Arena.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -36,6 +37,8 @@ namespace Arcade_Arena.Classes
         private bool inIceBlock;
         private double iceBlockCooldown = 0;
         private double iceBlockMaxCooldown = 10;
+
+        private int iceBlockHealAmount = 3;
 
         private Vector2 newPosition;
         
@@ -249,6 +252,8 @@ namespace Arcade_Arena.Classes
             teleportInAnimation.XIndex = 0;
             teleportCooldown = 6;
 
+            HoTEffect hoTEffect = new HoTEffect(iceBlockHealAmount, 4, this);
+
             Vector2 teleportVelocity;
             teleportVelocity.Y = (float)(Math.Sin(aimDirection) * speed);
             teleportVelocity.X = (float)(Math.Cos(aimDirection) * speed);
@@ -262,6 +267,7 @@ namespace Arcade_Arena.Classes
         private void IceBlockAbility()
         {
             inIceBlock = true;
+            
             iceBlockCooldown = iceBlockMaxCooldown;
             ChangeAnimation(ref currentAnimation, iceBlockWizardAnimation);
             ChangeAnimation(ref currentHandAnimation, handIceBlockAnimation);

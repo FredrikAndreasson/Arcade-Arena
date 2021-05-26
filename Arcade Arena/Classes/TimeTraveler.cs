@@ -32,7 +32,7 @@ namespace Arcade_Arena.Classes
         private double timeZoneTimer = 10;
 
         List<TimeZone> timeZones = new List<TimeZone>();
-        List<Vector2> previousPositions = new List<Vector2>(); //för time travel
+        List<TimeTravelPosition> previousPositions = new List<TimeTravelPosition>(); //för time travel
 
         public TimeTraveler(Vector2 position, float speed, double direction) : base(position, speed, direction)
         {
@@ -67,7 +67,8 @@ namespace Arcade_Arena.Classes
 
             if (!doingTimeTravel)
             {
-                previousPositions.Add(new Vector2(Position.X, Position.Y));
+                TimeTravelPosition previousPosition = new TimeTravelPosition(health, position);
+                previousPositions.Add(previousPosition);
                 if (previousPositions.Count > 400)
                 {
                     previousPositions.RemoveAt(0);
@@ -96,19 +97,26 @@ namespace Arcade_Arena.Classes
             }
             else
             {
-                if (previousPositions.Count > 2)
-                {
-                    position = previousPositions[previousPositions.Count - 3];
-                    previousPositions.Remove(previousPositions[previousPositions.Count - 1]);
-                    previousPositions.Remove(previousPositions[previousPositions.Count - 1]);
-                    previousPositions.Remove(previousPositions[previousPositions.Count - 1]);
-                }
+                UpdateTimeTravelPosition();
                 if (timeTravelCooldown <= timeTravelMaxCooldown - 1.4f)// slut på ability
                 {
                     ExitTimeTravel();
                     ChangeAnimation(ref currentAnimation, idleAnimation);
                     ChangeAnimation(ref currentHandAnimation, handIdleAnimation);
                 }
+            }
+        }
+
+        private void UpdateTimeTravelPosition()
+        {
+            if (previousPositions.Count > 2)
+            {
+                position = previousPositions[previousPositions.Count - 3].Position;
+                health = (sbyte)MathHelper.Max(previousPositions[previousPositions.Count - 3].Health, health);
+
+                previousPositions.Remove(previousPositions[previousPositions.Count - 1]);
+                previousPositions.Remove(previousPositions[previousPositions.Count - 1]);
+                previousPositions.Remove(previousPositions[previousPositions.Count - 1]);
             }
         }
 
