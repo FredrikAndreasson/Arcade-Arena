@@ -43,7 +43,7 @@ namespace Arcade_Arena.Classes
 
             speed = 1;
 
-            maxHealth = 130;
+            maxHealth = 105;
             health = maxHealth;
         }
         public override void Update()
