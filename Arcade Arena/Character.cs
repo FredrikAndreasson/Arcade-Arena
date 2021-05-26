@@ -95,6 +95,8 @@ namespace Arcade_Arena
 
         public sbyte Health { get { return health; } private set { health = value; } }
 
+        public double OrbiterRotation { get { return orbiterRotation; } private set { orbiterRotation = value; } }
+
         public bool IsDead => isDead;
 
         public bool IntersectingLava { get; set; }
