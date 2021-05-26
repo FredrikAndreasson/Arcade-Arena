@@ -10,5 +10,6 @@
     AbilityUpdate,
     AbilityDelete,
     Score, 
-    ClassChange
+    ClassChange,
+    ReadyCheck
 }

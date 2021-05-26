@@ -59,6 +59,7 @@
     <Compile Include="Commands\InputCommand.cs" />
     <Compile Include="Commands\LoginCommand.cs" />
     <Compile Include="Commands\PlayerPositionCommand.cs" />
+    <Compile Include="Commands\ReadyCheckCommand.cs" />
     <Compile Include="Commands\ScoreCommand.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

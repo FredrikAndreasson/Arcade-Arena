@@ -112,13 +112,16 @@ namespace Arcade_Arena
                     break;
                 case States.CharacterSelection:
                     characterSelection.Update(gameTime, ref state, ref player);
-                    if(state == States.FFA)
-                    {
-                        ffaArena = new PlayState(Window, spriteBatch, player, networkManager);
-                    }
                     break;
                 case States.Pause:
                     mainMenu.Update(gameTime, ref state, ref player);
+                    break;
+                case States.Lobby: 
+                    lobby.Update(gameTime, ref state, ref player);
+                    if (state == States.FFA)
+                    {
+                        ffaArena = new PlayState(Window, spriteBatch, player, networkManager);
+                    }
                     break;
 
                 default:
@@ -149,6 +152,9 @@ namespace Arcade_Arena
                 case States.Pause:
                     ffaArena.Draw(spriteBatch, state);
                     mainMenu.Draw(spriteBatch, state);
+                    break;
+                case States.Lobby:
+                    lobby.Draw(spriteBatch, state);
                     break;
                 default:
                     break;

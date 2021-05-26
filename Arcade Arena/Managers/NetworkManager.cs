@@ -47,11 +47,21 @@ namespace Arcade_Arena.Managers
             outmsg.Write((byte)PacketType.Login);
             outmsg.Write(Username);
             outmsg.Write((byte)classType);
+
+            Player player = new Player()
+            {
+                Username = Username,
+                Type = classType
+            };
+            Players.Add(player);
+
             //client.Connect("85.228.136.154", 14241, outmsg);
             client.Connect("localhost", 14241, outmsg);
             return EstablishInfo();
 
         }
+
+
 
         private bool EstablishInfo()
         {
@@ -174,7 +184,9 @@ namespace Arcade_Arena.Managers
                 case PacketType.Login:
                     RecieveLogin(inc);
                     break;
-
+                case PacketType.ReadyCheck:
+                    RecieveReadyCheck(inc);
+                    break;
                     
 
 
@@ -186,7 +198,14 @@ namespace Arcade_Arena.Managers
 
         private void RecieveLogin(NetIncomingMessage inc)
         {
-            
+            inc.ReadByte();
+            int count = inc.ReadInt32();
+            for (int i = 0; i < count; i++)
+            {
+                Player player = new Player();
+                inc.ReadAllProperties(player);
+                Players.Add(player);
+            }
         }
 
         private void RecieveScore(NetIncomingMessage inc)
@@ -196,6 +215,24 @@ namespace Arcade_Arena.Managers
 
             var player = Players.FirstOrDefault(p => p.Username == name);
             if (player != null) player.Score = score;
+        }
+
+        private void RecieveReadyCheck(NetIncomingMessage inc)
+        {
+            string name = inc.ReadString();
+            bool ready = inc.ReadBoolean();
+
+            var player = Players.FirstOrDefault(p => p.Username == name);
+            if (player != null) player.Ready = ready;
+        }
+
+        public void SendReadyTag(bool ready)
+        {
+            var outmsg = client.CreateMessage();
+            outmsg.Write((byte)PacketType.ReadyCheck);
+            outmsg.Write(Username);
+            outmsg.Write(ready);
+            client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
         }
 
         public void SendPlayerScore(string Username)
@@ -302,7 +339,7 @@ namespace Arcade_Arena.Managers
             }
         }
 
-        public void RecieveAbilityUpdate(NetIncomingMessage inc)
+        private void RecieveAbilityUpdate(NetIncomingMessage inc)
         {
 
             var name = inc.ReadString();
@@ -335,6 +372,7 @@ namespace Arcade_Arena.Managers
 
         private void UpdateLava(NetIncomingMessage inc)
         {
+            if (Level.lava == null) return;
             Level.lava.ShrinkPlatform(inc.ReadInt16());
         }
         
