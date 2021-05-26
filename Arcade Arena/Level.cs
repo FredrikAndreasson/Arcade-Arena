@@ -212,31 +212,42 @@ namespace Arcade_Arena
 
                         if (player.Health > 0)
                         {
+                            SpriteEffects spritEffect;
+
+                            if (player.OrbiterRotation >= 1.53269 || player.OrbiterRotation <= -1.547545)
+                            {
+                                spritEffect = SpriteEffects.FlipHorizontally;
+                            }
+                            else
+                            {
+                                spritEffect = SpriteEffects.None;
+                            }
+
                             switch (player.Type)
                             {
                                 case Library.Player.ClassType.Wizard:
                                     spriteBatch.Draw(AssetManager.WizardSpriteSheet, new Vector2(player.XPosition, player.YPosition), source,
-                                        Color.White, 0f, Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1.0f);
+                                        Color.White, 0f, Vector2.Zero, Game1.SCALE, spritEffect, 1.0f);
                                     break;
                                 case Library.Player.ClassType.Ogre:
                                     spriteBatch.Draw(AssetManager.ogreSpriteSheet, new Vector2(player.XPosition, player.YPosition), source,
-                                        Color.White, 0f, Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1.0f);
+                                        Color.White, 0f, Vector2.Zero, Game1.SCALE, spritEffect, 1.0f);
                                     break;
                                 case Library.Player.ClassType.Huntress:
                                     spriteBatch.Draw(AssetManager.HuntressSpriteSheet, new Vector2(player.XPosition, player.YPosition), source,
-                                        Color.White, 0f, Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1.0f);
+                                        Color.White, 0f, Vector2.Zero, Game1.SCALE, spritEffect, 1.0f);
                                     break;
                                 case Library.Player.ClassType.TimeTraveler:
                                     spriteBatch.Draw(AssetManager.TimeTravelerSpriteSheet, new Vector2(player.XPosition, player.YPosition), source,
-                                        Color.White, 0f, Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1.0f);
+                                        Color.White, 0f, Vector2.Zero, Game1.SCALE, spritEffect, 1.0f);
                                     break;
                                 case Library.Player.ClassType.Assassin:
                                     //spriteBatch.Draw(AssetManager., new Vector2(player.XPosition, player.YPosition), source,
-                                    //    Color.White, 0f, Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1.0f);
+                                    //    Color.White, 0f, Vector2.Zero, Game1.SCALE, spritEffect, 1.0f);
                                     break;
                                 case Library.Player.ClassType.Knight:
                                     spriteBatch.Draw(AssetManager.KnightSpriteSheet, new Vector2(player.XPosition, player.YPosition), source,
-                                        Color.White, 0f, Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1.0f);
+                                        Color.White, 0f, Vector2.Zero, Game1.SCALE, spritEffect, 1.0f);
                                     break;
                             }
 
