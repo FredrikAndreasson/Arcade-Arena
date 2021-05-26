@@ -140,7 +140,7 @@ namespace Arcade_Arena
 
         protected void UpdateSpriteEffect()
         {
-            if (orbiterRotation >= 1.53269 || orbiterRotation <= -1.547545)
+            if (aimDirection >= 1.53269 || aimDirection <= -1.547545)
             {
                 currentAnimation.SpriteFX = SpriteEffects.FlipHorizontally;
             }
@@ -152,11 +152,11 @@ namespace Arcade_Arena
 
         protected bool WalkingBackwards()
         {
-            if ((direction > Math.PI * 0.5 && direction < Math.PI * 1.5) && !(orbiterRotation >= 1.53269 || orbiterRotation <= -1.547545))
+            if ((direction > Math.PI * 0.5 && direction < Math.PI * 1.5) && !(aimDirection >= 1.53269 || aimDirection <= -1.547545))
             {
                 return true;
             }
-            if (!(direction > Math.PI * 0.5 && direction < Math.PI * 1.5) && (orbiterRotation >= 1.53269 || orbiterRotation <= -1.547545))
+            if (!(direction > Math.PI * 0.5 && direction < Math.PI * 1.5) && (aimDirection >= 1.53269 || aimDirection <= -1.547545))
             {
                 return true;
             }
@@ -200,7 +200,7 @@ namespace Arcade_Arena
         public void Heal(sbyte amount)
         {
             health += amount;
-            if (health > maxHealth)
+            if (health > maxHealth || health < 0)
             {
                 health = maxHealth;
             }
@@ -283,7 +283,7 @@ namespace Arcade_Arena
         protected double UpdateAimDirection()
         {
             UpdateMiddleOfSprite();
-            double newDirection = MathHelper.ToDegrees((float)Math.Atan2(MouseKeyboardManager.MousePosition.Y - middleOfSprite.Y, MouseKeyboardManager.MousePosition.X - middleOfSprite.X));
+            double newDirection = Math.Atan2(MouseKeyboardManager.MousePosition.Y - middleOfSprite.Y, MouseKeyboardManager.MousePosition.X - middleOfSprite.X);
             return newDirection;
         }
 

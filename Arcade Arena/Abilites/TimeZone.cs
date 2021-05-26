@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Arcade_Arena.Classes;
+using Arcade_Arena.Library;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -18,6 +19,7 @@ namespace Arcade_Arena
 
         public TimeZone(double timer, TimeTraveler owner, Vector2 position, Texture2D texture, float speed, double direction) : base(position, speed, direction)
         {
+            Type = AbilityOutline.AbilityType.AbilityTwo;
             this.timer = timer;
             this.owner = owner;
             this.texture = texture;
@@ -26,14 +28,10 @@ namespace Arcade_Arena
         public override void Update()
         {
             timer -= Game1.elapsedGameTimeSeconds;
-            if(true)//kollision med dynamic objects, avoid med owner
-            {
-                //apply time slow effect
-            }
 
             if (timer <= 0)
             {
-                //remove this
+                isDead = true;
             }
         }
 

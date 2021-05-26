@@ -64,7 +64,7 @@ namespace Arcade_Arena.Classes
             ChangeAnimation(ref currentAnimation, idleAnimation);
             ChangeAnimation(ref currentHandAnimation, handIdleAnimation);
 
-            maxHealth = 100;
+            maxHealth = 80;
             health = maxHealth;
 
             speed = 1;
@@ -250,8 +250,8 @@ namespace Arcade_Arena.Classes
             teleportCooldown = 6;
 
             Vector2 teleportVelocity;
-            teleportVelocity.Y = (float)(Math.Sin(MathHelper.ToRadians((float)aimDirection)) * speed);
-            teleportVelocity.X = (float)(Math.Cos(MathHelper.ToRadians((float)aimDirection)) * speed);
+            teleportVelocity.Y = (float)(Math.Sin(aimDirection) * speed);
+            teleportVelocity.X = (float)(Math.Cos(aimDirection) * speed);
 
             newPosition = Position + (teleportVelocity * 100);
 

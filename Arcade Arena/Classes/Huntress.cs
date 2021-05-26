@@ -65,7 +65,7 @@ namespace Arcade_Arena.Classes
 
             speed = 1.3f;
 
-            maxHealth = 110;
+            maxHealth = 100;
             health = maxHealth;
         }
 
@@ -150,7 +150,7 @@ namespace Arcade_Arena.Classes
             ChangeAnimation(ref currentHandAnimation, handBoarAnimation);
             boarCooldown = boarMaxCooldown;
             UpdateSpriteEffect();
-            Boar boar = new Boar(this, MathHelper.ToRadians((float)aimDirection), shadow.Position, 8, clientBounds);
+            Boar boar = new Boar(this, aimDirection, shadow.Position, 8, clientBounds);
             abilityBuffer.Add(boar);
         }
 
