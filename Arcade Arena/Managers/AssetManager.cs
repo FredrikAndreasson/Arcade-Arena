@@ -68,6 +68,8 @@ namespace Arcade_Arena
 
         public static Texture2D selectTimeTraveler { get; private set; }
 
+        public static Texture2D stoneTiles { get; private set; }
+
         public static void LoadTextures(ContentManager Content)
         {
             px = Content.Load<Texture2D>("px");
@@ -122,6 +124,7 @@ namespace Arcade_Arena
             selectKnight = Content.Load<Texture2D>("MainMenu\\selectKnight");
             selectTimeTraveler = Content.Load<Texture2D>("MainMenu\\selectTimeTraveler");
 
+            stoneTiles = Content.Load<Texture2D>("stoneTiles");
 
 
             CooldownFont = Content.Load<SpriteFont>("Fonts\\CooldownFont");
