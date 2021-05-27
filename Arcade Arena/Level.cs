@@ -47,7 +47,7 @@ namespace Arcade_Arena
             int twoThirdsWidth = (window.ClientBounds.Width * 2) / 3;
             int twoThirdsHeight = (window.ClientBounds.Height * 2) / 3;
             bool[,] isFilled = new bool[twoThirdsWidth / 64, twoThirdsHeight / 64];
-            perlin.Seed = Game1.random.Next(100);
+            perlin.Seed = Game1.seed;
             for (double x = 0; x < twoThirdsWidth; x++)
             {
                 for (double y = 0; y < twoThirdsHeight; y++)

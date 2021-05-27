@@ -30,6 +30,7 @@ namespace Arcade_Arena
         SpriteBatch spriteBatch;
 
         public static Random random = new Random();
+        public static int seed = 0;
 
         public const float SCALE = 5.0f;
 

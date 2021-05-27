@@ -11,5 +11,6 @@
     AbilityDelete,
     Score, 
     ClassChange,
-    ReadyCheck
+    ReadyCheck,
+    Seed
 }

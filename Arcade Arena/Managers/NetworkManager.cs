@@ -187,6 +187,9 @@ namespace Arcade_Arena.Managers
                 case PacketType.ReadyCheck:
                     RecieveReadyCheck(inc);
                     break;
+                case PacketType.Seed:
+                    RecieveSeed(inc);
+                    break;
                     
 
 
@@ -195,6 +198,10 @@ namespace Arcade_Arena.Managers
             }
         }
 
+        private void RecieveSeed(NetIncomingMessage inc)
+        {
+            Game1.seed = inc.ReadInt32();
+        }
 
         private void RecieveLogin(NetIncomingMessage inc)
         {
@@ -223,7 +230,7 @@ namespace Arcade_Arena.Managers
             bool ready = inc.ReadBoolean();
 
             var player = Players.FirstOrDefault(p => p.Username == name);
-            if (player != null) player.Ready = ready;
+            player.Ready = ready;
         }
 
         public void SendReadyTag(bool ready)
