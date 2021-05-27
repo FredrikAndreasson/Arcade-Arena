@@ -117,6 +117,7 @@ namespace Arcade_Arena.Managers
                 outmsg.Write(player.Animation.Width);
                 outmsg.Write(player.Health);
                 outmsg.Write(player.IntersectingLava);
+                outmsg.Write(player.OrbiterRotation);
                 client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
             }
 
@@ -425,6 +426,7 @@ namespace Arcade_Arena.Managers
                 oldPlayer.Health = inc.ReadSByte();
                 oldPlayer.IntersectingLava = inc.ReadBoolean();
                 oldPlayer.Type = (Player.ClassType)inc.ReadByte();
+                oldPlayer.OrbiterRotation = inc.ReadDouble();
             }
             else
             {
@@ -439,6 +441,7 @@ namespace Arcade_Arena.Managers
                 player.Health = inc.ReadSByte();
                 player.IntersectingLava = inc.ReadBoolean();
                 player.Type = (Player.ClassType)inc.ReadByte();
+                player.OrbiterRotation = inc.ReadFloat();
                 Players.Add(player);
             }
         }
