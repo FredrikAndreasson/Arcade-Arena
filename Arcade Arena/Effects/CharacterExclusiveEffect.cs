@@ -24,7 +24,8 @@ namespace Arcade_Arena.Effects
             }
             else
             {
-                OnLossEffect();
+                //doesnt do OnLossEffect (because no OnGetEffect)
+                owner.RemoveEffect(this);
             }
         }
     }

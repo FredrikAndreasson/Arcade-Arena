@@ -16,7 +16,7 @@ namespace Arcade_Arena.Abilites
     {
         Ogre player;
 
-        public GroundSlamAbility(Ogre player)
+        public GroundSlamAbility(Ogre player, Vector2 position, float speed, double direction) : base(position, speed, direction)
         {
             this.player = player;
 
@@ -29,7 +29,7 @@ namespace Arcade_Arena.Abilites
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-          //  currentAnimation.Draw(spriteBatch, position, 0.0f, Vector2.Zero, Game1.SCALE);
+          //currentAnimation.Draw(spriteBatch, position, 0.0f, Vector2.Zero, Game1.SCALE);
         }
 
         public override void Update()

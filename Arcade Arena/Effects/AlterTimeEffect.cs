@@ -13,7 +13,6 @@ namespace Arcade_Arena.Effects
         public AlterTimeEffect(double amount, DynamicObject owner, double timer) : base (owner, timer)
         {
             this.amount = amount;
-            isStackable = true;
         }
 
         public override void OnGetEffect(DynamicObject dynamicObject, double timer)
@@ -26,6 +25,12 @@ namespace Arcade_Arena.Effects
         {
             owner.speedAlteration -= amount;
             base.OnLossEffect();
+        }
+
+        protected override bool CheckIfEffectAdded()
+        {
+            isStackable = true;
+            return base.CheckIfEffectAdded();
         }
     }
 }

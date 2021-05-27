@@ -1,5 +1,4 @@
-﻿using Arcade_Arena.Abilites;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -10,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Arcade_Arena.Classes
 {
-    class Ogre : Character
+    class Knight : Character
     {
         SpriteAnimation walkingAnimation;
         SpriteAnimation backwardsAnimation;
@@ -25,27 +24,29 @@ namespace Arcade_Arena.Classes
         private bool inBodySlam;
         private double bodySlamCooldown = 0;
 
+        private Vector2 sheetSize = new Vector2(6, 3);
+        private Vector2 frameSize = new Vector2(24, 20);
 
-        public Ogre(Vector2 position, float speed, double direction) : base(position, speed, direction)
+
+
+        public Knight(Vector2 position, float speed, double direction) : base(position, speed, direction)
         {
-            walkingAnimation = new SpriteAnimation(AssetManager.ogreSpriteSheet, new Vector2(2, 0), new Vector2(5, 0), new Vector2(23, 33), new Vector2(7, 3), 300);
-            backwardsAnimation = new SpriteAnimation(AssetManager.ogreSpriteSheet, new Vector2(0, 1), new Vector2(4, 1), new Vector2(23, 33), new Vector2(7, 3), 150);
-            groundSmashOgreAnimation = new SpriteAnimation(AssetManager.ogreSpriteSheet, new Vector2(0, 2), new Vector2(3, 2), new Vector2(23, 33), new Vector2(7, 3), 125);
-            bodySlamAnimation = new SpriteAnimation(AssetManager.ogreSpriteSheet, new Vector2(0, 3), new Vector2(2, 3), new Vector2(23, 33), new Vector2(7, 3), 300);
-
+            walkingAnimation = new SpriteAnimation(AssetManager.KnightSpriteSheet, new Vector2(0, 0), new Vector2(6, 0), frameSize, sheetSize, 300);
+            backwardsAnimation = new SpriteAnimation(AssetManager.KnightSpriteSheet, new Vector2(0, 3), new Vector2(2, 3), frameSize, sheetSize, 150);
+            groundSmashOgreAnimation = new SpriteAnimation(AssetManager.KnightSpriteSheet, new Vector2(0, 2), new Vector2(3, 2), frameSize, sheetSize, 125);
+            bodySlamAnimation = new SpriteAnimation(AssetManager.KnightSpriteSheet, new Vector2(0, 3), new Vector2(2, 3), frameSize, sheetSize, 300);
 
             groundSmashAnimation = new SpriteAnimation(AssetManager.groundSmashCrackle, new Vector2(0, 0), new Vector2(4, 0), new Vector2(71, 71), new Vector2(4, 0), 500);
             currentAnimation = backwardsAnimation;
 
-            shadow = new Shadow(Position, AssetManager.OgreShadow, speed, direction);
-
-            maxHealth = 120;
-            health = maxHealth;
+            shadow = new Shadow(position, AssetManager.WizardShadow, speed, direction);
 
             speed = 1;
-        }
+            maxHealth = 100;
 
-        public override void Update( )
+            health = maxHealth;
+        }
+        public override void Update()
         {
             currentAnimation.Update();
             UpdateCooldowns();
@@ -90,12 +91,12 @@ namespace Arcade_Arena.Classes
             {
                 middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
             }
+                base.Update();
 
-            base.Update();
             shadow.Update(Position);
         }
 
-        private void UpdateCooldowns( )
+        private void UpdateCooldowns()
         {
             groundSmashCooldown -= Game1.elapsedGameTimeSeconds;
             bodySlamCooldown -= Game1.elapsedGameTimeSeconds;
@@ -108,7 +109,7 @@ namespace Arcade_Arena.Classes
 
             if (inGroundSmash)
             {
-               // groundSmashAnimation.Draw(spriteBatch, Position - new Vector2(71, 71), 0.0f, Vector2.Zero, Game1.SCALE);
+                // groundSmashAnimation.Draw(spriteBatch, Position - new Vector2(71, 71), 0.0f, Vector2.Zero, Game1.SCALE);
             }
             else if (inBodySlam)
             {
@@ -127,8 +128,8 @@ namespace Arcade_Arena.Classes
             currentAnimation = groundSmashOgreAnimation;
             groundSmashAnimation.XIndex = 0;
 
-            Ability ability = new GroundSlamAbility(this, Position, speed, direction);
-            abilityBuffer.Add(ability);
+            //Ability ability = new GroundSlamAbility(this);
+            //abilityBuffer.Add(ability);
 
         }
 
@@ -140,4 +141,7 @@ namespace Arcade_Arena.Classes
 
         }
     }
+
+
+
 }

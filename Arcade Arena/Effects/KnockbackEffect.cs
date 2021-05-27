@@ -15,7 +15,6 @@ namespace Arcade_Arena.Effects
         {
             this.direction = direction;
             this.speed = speed;
-            isStackable = true;
         }
         public override void OnGetEffect(DynamicObject dynamicObject, double timer)
         {
@@ -23,7 +22,7 @@ namespace Arcade_Arena.Effects
             if (ownerCharacter != null)
             {
                 ownerCharacter.StartKnockback();
-                ownerCharacter.GetStunEffects();
+                ownerCharacter.AddStunEffect();
             }
         }
 
@@ -32,13 +31,23 @@ namespace Arcade_Arena.Effects
             ownerCharacter.UpdateVelocity(direction, speed);
             speed = speed / 2 + (float)timer / 4; //idk
             base.Update();
+            if (speed < 0.1f)
+            {
+                OnLossEffect();
+            }
         }
 
         public override void OnLossEffect()
         {
             ownerCharacter.EndKnockback();
-            ownerCharacter.UndoStunEffect();
+            ownerCharacter.RemoveStunEffect();
             base.OnLossEffect();
+        }
+
+        protected override bool CheckIfEffectAdded()
+        {
+            isStackable = true;
+            return base.CheckIfEffectAdded();
         }
     }
 }

@@ -47,7 +47,9 @@ namespace Arcade_Arena
             int twoThirdsWidth = (window.ClientBounds.Width * 2) / 3;
             int twoThirdsHeight = (window.ClientBounds.Height * 2) / 3;
             bool[,] isFilled = new bool[twoThirdsWidth / 64, twoThirdsHeight / 64];
+
             perlin.Seed = Game1.seed;
+
             for (double x = 0; x < twoThirdsWidth; x++)
             {
                 for (double y = 0; y < twoThirdsHeight; y++)
@@ -223,12 +225,20 @@ namespace Arcade_Arena
                                         Color.White, 0f, Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1.0f);
                                     break;
                                 case Library.Player.ClassType.Huntress:
+                                    spriteBatch.Draw(AssetManager.HuntressSpriteSheet, new Vector2(player.XPosition, player.YPosition), source,
+                                        Color.White, 0f, Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1.0f);
                                     break;
                                 case Library.Player.ClassType.TimeTraveler:
+                                    spriteBatch.Draw(AssetManager.TimeTravelerSpriteSheet, new Vector2(player.XPosition, player.YPosition), source,
+                                        Color.White, 0f, Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1.0f);
                                     break;
                                 case Library.Player.ClassType.Assassin:
+                                    //spriteBatch.Draw(AssetManager., new Vector2(player.XPosition, player.YPosition), source,
+                                    //    Color.White, 0f, Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1.0f);
                                     break;
                                 case Library.Player.ClassType.Knight:
+                                    spriteBatch.Draw(AssetManager.KnightSpriteSheet, new Vector2(player.XPosition, player.YPosition), source,
+                                        Color.White, 0f, Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1.0f);
                                     break;
                             }
 
@@ -252,10 +262,24 @@ namespace Arcade_Arena
                         }
                         else if(this.player is Ogre)
                         {
-                            Ogre templPlayer = (Ogre)this.player;
-                            templPlayer.Draw(spriteBatch);
+                            Ogre tempPlayer = (Ogre)this.player;
+                            tempPlayer.Draw(spriteBatch);
                         }
-
+                        else if (this.player is Huntress)
+                        {
+                            Huntress tempPlayer = (Huntress)this.player;
+                            tempPlayer.Draw(spriteBatch);
+                        }
+                        else if (this.player is Knight)
+                        {
+                            Knight tempPlayer = (Knight)this.player;
+                            tempPlayer.Draw(spriteBatch);
+                        }
+                        else if(this.player is TimeTraveler)
+                        {
+                            TimeTraveler tempPlayer = (TimeTraveler)this.player;
+                            tempPlayer.Draw(spriteBatch);
+                        }
                         
                         spriteBatch.DrawString(AssetManager.CooldownFont, $"{networkManager.Username}", new Vector2(player.XPosition, player.YPosition - 5), Color.White);
                         spriteBatch.DrawString(AssetManager.CooldownFont, $"{this.player.Health}", new Vector2(player.XPosition, player.YPosition - 20), Color.White);

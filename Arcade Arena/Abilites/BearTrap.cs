@@ -9,39 +9,50 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Arcade_Arena
 {
-    public class BearTrap : GameObject
+    public class BearTrap : Ability
     {
+        SpriteAnimation openAnimation;
+        SpriteAnimation activatedAnimation;
+
         double timer;
         bool activated = false;
         Huntress owner;
         Texture2D texture;
 
-        public BearTrap(int timer, Vector2 position, Texture2D texture) : base(position)
+        public BearTrap(Huntress owner, Vector2 position, float speed, double direction) : base(position, speed, direction)
         {
-            this.timer = timer;
-            this.texture = texture;
+            Type = Library.AbilityOutline.AbilityType.AbilityTwo;
+
+            openAnimation = new SpriteAnimation(AssetManager.HuntressBearTrap, new Vector2(0, 0), new Vector2(0, 0), new Vector2(10, 6), new Vector2(1, 0), 5000);
+            activatedAnimation = new SpriteAnimation(AssetManager.HuntressBearTrap, new Vector2(1, 0), new Vector2(1, 0), new Vector2(10, 6), new Vector2(1, 0), 5000);
+
+            currentAnimation = openAnimation;
+            this.owner = owner;
+            timer = 20;
         }
 
-        public void Update()
+        public override void Update()
         {
             timer -= Game1.elapsedGameTimeSeconds;
             if (timer <= 0)
             {
-                //Despawn();
+                isDead = true;
             }
             if (!activated)
             {
                 if (true)//check collision
                 {
                     //trap character
+                    currentAnimation = activatedAnimation;
                     activated = true;
-                    timer = 4;
+                    timer = 5;
                 }
             }
         }
-        public void Despawn()
+
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            owner.DespawnBearTrap(this);
+            currentAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, Game1.SCALE);
         }
     }
 }

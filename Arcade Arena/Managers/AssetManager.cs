@@ -64,6 +64,9 @@ namespace Arcade_Arena
         public static Texture2D selectHuntress { get; private set; }
         public static Texture2D selectWizard { get; private set; }
 
+        public static Texture2D selectKnight { get; private set; }
+
+        public static Texture2D selectTimeTraveler { get; private set; }
 
         public static void LoadTextures(ContentManager Content)
         {
@@ -116,6 +119,8 @@ namespace Arcade_Arena
             selectHuntress = Content.Load<Texture2D>("MainMenu\\selectHuntress");
             selectOgre = Content.Load<Texture2D>("MainMenu\\selectOgre");
             selectWizard = Content.Load<Texture2D>("MainMenu\\selectWizard");
+            selectKnight = Content.Load<Texture2D>("MainMenu\\selectKnight");
+            selectTimeTraveler = Content.Load<Texture2D>("MainMenu\\selectTimeTraveler");
 
 
 

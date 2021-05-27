@@ -31,6 +31,7 @@ namespace Arcade_Arena.Managers
             ServerAbilities = new List<AbilityOutline>();
 
             classType = playerCharacter.Type;
+
         }
        public NetConnectionStatus Status => client.ConnectionStatus;
 
@@ -47,7 +48,7 @@ namespace Arcade_Arena.Managers
             outmsg.Write((byte)PacketType.Login);
             outmsg.Write(Username);
             outmsg.Write((byte)classType);
-
+          
             Player player = new Player()
             {
                 Username = Username,
@@ -256,8 +257,8 @@ namespace Arcade_Arena.Managers
             outmsg.Write(Username);
             outmsg.Write(ID);
             outmsg.Write((byte)(ability.Type));
-            outmsg.Write((short)ability.position.X);
-            outmsg.Write((short)ability.position.Y);
+            outmsg.Write((short)ability.Position.X);
+            outmsg.Write((short)ability.Position.Y);
             outmsg.Write(ability.Direction);
 
             client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
@@ -268,8 +269,8 @@ namespace Arcade_Arena.Managers
             outmsg.Write((byte)PacketType.AbilityUpdate);
             outmsg.Write(ability.Username);
             outmsg.Write(ability.ID);
-            outmsg.Write((short)ability.position.X);
-            outmsg.Write((short)ability.position.Y);
+            outmsg.Write((short)ability.Position.X);
+            outmsg.Write((short)ability.Position.Y);
             outmsg.Write((short)ability.CurrentAnimation.Source.X);
             outmsg.Write((short)ability.CurrentAnimation.Source.Y);
             outmsg.Write((short)ability.CurrentAnimation.Source.Width);

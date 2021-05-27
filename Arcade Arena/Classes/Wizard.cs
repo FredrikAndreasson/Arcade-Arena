@@ -1,4 +1,5 @@
 ﻿using Arcade_Arena.Abilites;
+using Arcade_Arena.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -21,8 +22,10 @@ namespace Arcade_Arena.Classes
         SpriteAnimation handBackwardsAnimation;
         SpriteAnimation iceBlockWizardAnimation;
         SpriteAnimation handIceBlockAnimation;
-        SpriteAnimation iceBlockAnimation;
         SpriteAnimation deadAnimation;
+        SpriteAnimation knockBackAnimation;
+        SpriteAnimation handKnockBackAnimation;
+        SpriteAnimation iceBlockAnimation;
 
         SpriteAnimation currentHandAnimation;
 
@@ -51,13 +54,18 @@ namespace Arcade_Arena.Classes
             handBackwardsAnimation = new SpriteAnimation(AssetManager.WizardHandSpriteSheet, new Vector2(0, 1), new Vector2(5, 1), new Vector2(14, 20), new Vector2(7, 3), 150);
             iceBlockWizardAnimation = new SpriteAnimation(AssetManager.WizardSpriteSheet, new Vector2(1, 2), new Vector2(1, 2), new Vector2(14, 20), new Vector2(7, 3), 1000);
             handIceBlockAnimation = new SpriteAnimation(AssetManager.WizardHandSpriteSheet, new Vector2(1, 2), new Vector2(1, 2), new Vector2(14, 20), new Vector2(7, 3), 1000);
-            iceBlockAnimation = new SpriteAnimation(AssetManager.WizardIceBlock, new Vector2(0, 0), new Vector2(4, 0), new Vector2(14, 20), new Vector2(4, 0), 1000);
+            knockBackAnimation = new SpriteAnimation(AssetManager.WizardSpriteSheet, new Vector2(6, 1), new Vector2(6, 1), new Vector2(14, 20), new Vector2(7, 3), 5000);
+            handKnockBackAnimation = new SpriteAnimation(AssetManager.WizardHandSpriteSheet, new Vector2(6, 1), new Vector2(6, 1), new Vector2(14, 20), new Vector2(7, 3), 5000);
             deadAnimation = new SpriteAnimation(AssetManager.WizardSpriteSheet, new Vector2(5, 4), new Vector2(5, 4), new Vector2(14, 20), new Vector2(7, 3), 5000);
+            iceBlockAnimation = new SpriteAnimation(AssetManager.WizardIceBlock, new Vector2(0, 0), new Vector2(4, 0), new Vector2(14, 20), new Vector2(4, 0), 1000);
 
             shadow = new Shadow(position, AssetManager.WizardShadow, speed, direction);
 
             ChangeAnimation(ref currentAnimation, idleAnimation);
             ChangeAnimation(ref currentHandAnimation, handIdleAnimation);
+
+            maxHealth = 80;
+            health = maxHealth;
 
             speed = 1;
         }
@@ -66,11 +74,54 @@ namespace Arcade_Arena.Classes
 
         public override void Update()
         {
-            
             currentAnimation.Update();
+            currentHandAnimation.Update();
             UpdateCooldowns();
             UpdateWeapon();
-            if (!teleporting && !inIceBlock)
+            CheckAbilityUse();
+
+            if (teleporting)
+            {
+                teleportOutAnimation.Update();
+
+                if (teleportOutAnimation.XIndex >= 4)
+                {
+                    ExitTeleport(true);
+                    CheckRegularAnimation();
+                }
+                UpdateEffects();
+            }
+            else if (inIceBlock)
+            {
+                iceBlockAnimation.Update();
+                if ((iceBlockCooldown <= 9.7f && MouseKeyboardManager.Clicked(Keys.LeftShift)) || iceBlockAnimation.XIndex >= 4)
+                {
+                    ExitIceBlock();
+                    CheckRegularAnimation();
+                }
+                UpdateEffects();
+            }
+            else
+            {
+                if (!Stunned)
+                {
+                    CheckRegularAnimation();
+                }
+                UpdateMiddleOfSprite();
+                base.Update();
+            }
+            currentHandAnimation.SpriteFX = currentAnimation.SpriteFX;
+            shadow.Update(Position);
+        }
+
+        protected override void UpdateMiddleOfSprite()
+        {
+            middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
+        }
+
+        private void CheckAbilityUse()
+        {
+            if (!teleporting && !inIceBlock & !Stunned)
             {
                 if (Keyboard.GetState().IsKeyDown(Keys.E) && teleportCooldown <= 0)
                 {
@@ -81,41 +132,23 @@ namespace Arcade_Arena.Classes
                     IceBlockAbility();
                 }
             }
-
-            if (teleporting)
-            {
-                teleportOutAnimation.Update();
-
-                if (teleportOutAnimation.XIndex >= 4)
-                {
-                    ExitTeleport();
-                }
-            }
-            else if (inIceBlock)
-            {
-                iceBlockAnimation.Update();
-                if ((iceBlockCooldown <= 9.7f && MouseKeyboardManager.Clicked(Keys.LeftShift)) || iceBlockAnimation.XIndex >= 4)
-                {
-                    ExitIceBlock();
-                }
-            }
-            else
-            {
-                CheckRegularAnimation();
-                middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
-            }
-            base.Update();
-            currentHandAnimation.SpriteFX = currentAnimation.SpriteFX;
-            shadow.Update(Position);
         }
 
-        private void ExitTeleport()
+        private void ExitTeleport(bool finished)
         {
             teleporting = false;
-            position = newPosition;
+            if (finished)
+            {
+                position = newPosition;
+            }
             middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
             aimDirection = UpdateAimDirection();
-            CheckRegularAnimation();
+        }
+
+        public void CancelTeleportStart()
+        {
+            ExitTeleport(false);
+            teleportCooldown = 0;
         }
 
         private void ExitIceBlock()
@@ -123,8 +156,7 @@ namespace Arcade_Arena.Classes
             inIceBlock = false;
             middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
             aimDirection = UpdateAimDirection();
-            CheckRegularAnimation();
-            invincible = false;
+            RemoveInvincibleEffect();
         }
 
         private void CheckRegularAnimation()
@@ -159,6 +191,21 @@ namespace Arcade_Arena.Classes
         {
             base.Die();
             ChangeAnimation(ref currentAnimation, deadAnimation);
+        }
+
+        protected override void ExitAnimationOnHit()
+        {
+            if (teleporting)
+            {
+                ExitTeleport(false);
+            }
+        }
+
+        public override void StartKnockback()
+        {
+            base.StartKnockback();
+            ChangeAnimation(ref currentAnimation, knockBackAnimation);
+            ChangeAnimation(ref currentHandAnimation, handKnockBackAnimation);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -197,17 +244,18 @@ namespace Arcade_Arena.Classes
             teleportCooldown = teleportMaxCooldown;
             ChangeAnimation(ref currentAnimation, teleportInAnimation);
             ChangeAnimation(ref currentHandAnimation, handTeleportInAnimation);
+            UpdateSpriteEffect();
             teleportOutAnimation.XIndex = 0;
             teleportInAnimation.XIndex = 0;
             teleportCooldown = 6;
 
             Vector2 teleportVelocity;
-            teleportVelocity.Y = (float)(Math.Sin(MathHelper.ToRadians((float)aimDirection)) * speed);
-            teleportVelocity.X = (float)(Math.Cos(MathHelper.ToRadians((float)aimDirection)) * speed);
+            teleportVelocity.Y = (float)(Math.Sin(aimDirection) * speed);
+            teleportVelocity.X = (float)(Math.Cos(aimDirection) * speed);
 
             newPosition = Position + (teleportVelocity * 100);
 
-            Ability ability = new TeleportAbility(this, newPosition);
+            Ability ability = new TeleportAbility(this, newPosition, speed, direction);
             abilityBuffer.Add(ability);
         }
 
@@ -217,12 +265,13 @@ namespace Arcade_Arena.Classes
             iceBlockCooldown = iceBlockMaxCooldown;
             ChangeAnimation(ref currentAnimation, iceBlockWizardAnimation);
             ChangeAnimation(ref currentHandAnimation, handIceBlockAnimation);
+            UpdateSpriteEffect();
             iceBlockAnimation.XIndex = 0;
             iceBlockCooldown = 10;
-            invincible = true;
+            AddInvincibleEffect();
 
 
-            Ability ability = new IceblockAbility(this);
+            Ability ability = new IceblockAbility(this, Position, speed, direction);
             abilityBuffer.Add(ability);
         }
     }

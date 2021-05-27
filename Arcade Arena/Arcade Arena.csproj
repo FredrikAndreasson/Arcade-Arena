@@ -42,12 +42,14 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Abilites\Boar.cs" />
     <Compile Include="Abilites\GroundSlamAbility.cs" />
     <Compile Include="Abilites\IceblockAbility.cs" />
     <Compile Include="Abilites\TeleportAbility.cs" />
     <Compile Include="Ability.cs" />
     <Compile Include="Abilites\BearTrap.cs" />
     <Compile Include="Classes\Huntress.cs" />
+    <Compile Include="Classes\Knight.cs" />
     <Compile Include="Effects\BearTrapEffect.cs" />
     <Compile Include="Effects\BurningEffect.cs" />
     <Compile Include="Effects\CharacterExclusiveEffect.cs" />
