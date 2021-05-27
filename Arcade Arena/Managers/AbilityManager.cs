@@ -54,9 +54,9 @@ namespace Arcade_Arena.Managers
             // Rect to check collision between player and projectile, will be moved to Character or removed all together 2 be replaced with pixel perfect
 
 
-            for (int i = 0; i < networkManager.ServerAbilities.Count; i++)
+            for (int i = 0; i < networkManager.ServerAbilities.Count-1; i++)
             {
-                for (int j = 0; j < networkManager.Players.Count; j++)
+                for (int j = 0; j < networkManager.Players.Count-1; j++)
                 {
                     if (networkManager.ServerAbilities[i].Username != networkManager.Username)
                     {
