@@ -190,7 +190,7 @@ namespace Arcade_Arena
         public void Update()
         {
             player.Update();
-
+            
             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
                 obstacles.Clear();
@@ -200,6 +200,9 @@ namespace Arcade_Arena
 
         public void Draw(SpriteBatch spriteBatch, NetworkManager networkManager)
         {
+            spriteBatch.Draw(AssetManager.stoneTiles, Vector2.Zero, Color.White);
+            lava.Draw(spriteBatch);
+
             foreach (Obstacle obstacle in obstacles)
             {
                 obstacle.Draw(spriteBatch);
