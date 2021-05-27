@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Arcade_Arena.Effects
 {
-    class BearTrapEffect : CharacterExclusiveEffect
+    class AlterSpeedEffect : CharacterExclusiveEffect
     {
-        double amount;
+        float amount;
 
-        public BearTrapEffect(double amount, DynamicObject owner, double timer) : base(owner, timer)
+        public AlterSpeedEffect(float amount, double timer, DynamicObject owner) : base(owner, timer)
         {
             this.amount = amount;
             isStackable = true;
@@ -19,14 +20,16 @@ namespace Arcade_Arena.Effects
 
         public override void OnGetEffect(DynamicObject dynamicObject, double timer)
         {
+            Debug.Print("added");
             base.OnGetEffect(dynamicObject, timer);
-            ownerCharacter.AddCanWalkStoppingEffect();
+            ownerCharacter.ChangeSpeed(amount);
         }
 
         public override void OnLossEffect()
         {
+            Debug.Print("Lossed");
+            ownerCharacter.ChangeSpeed(-amount);
             base.OnLossEffect();
-            ownerCharacter.RemoveCanWalkStoppingEffect();
         }
     }
 }

@@ -16,6 +16,7 @@ namespace Arcade_Arena.Effects
         {
             this.damage = damage;
             burnDamageTimer = burnDamageTimerMax;
+            TryToAddEffect();
         }
 
         public override void Update()

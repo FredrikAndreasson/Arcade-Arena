@@ -15,6 +15,7 @@ namespace Arcade_Arena.Effects
         {
             this.direction = direction;
             this.speed = speed;
+            TryToAddEffect();
         }
         public override void OnGetEffect(DynamicObject dynamicObject, double timer)
         {
@@ -42,12 +43,6 @@ namespace Arcade_Arena.Effects
             ownerCharacter.EndKnockback();
             ownerCharacter.RemoveStunEffect();
             base.OnLossEffect();
-        }
-
-        protected override bool CheckIfEffectAdded()
-        {
-            isStackable = true;
-            return base.CheckIfEffectAdded();
         }
     }
 }

@@ -51,6 +51,7 @@
     <Compile Include="Classes\HoTEffect.cs" />
     <Compile Include="Classes\Huntress.cs" />
     <Compile Include="Classes\Knight.cs" />
+    <Compile Include="Effects\AlterSpeedEffect.cs" />
     <Compile Include="Effects\BearTrapEffect.cs" />
     <Compile Include="Effects\BurningEffect.cs" />
     <Compile Include="Effects\CharacterExclusiveEffect.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="Effects\AlterTimeEffect.cs" />
     <Compile Include="SpriteAnimation.cs" />
     <Compile Include="Abilites\TimeZone.cs" />
+    <Compile Include="TimeTravelPosition.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Lidgren.Network, Version=2012.1.7.0, Culture=neutral, processorArchitecture=MSIL">

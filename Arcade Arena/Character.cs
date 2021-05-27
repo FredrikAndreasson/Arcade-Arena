@@ -71,6 +71,8 @@ namespace Arcade_Arena
 
         protected sbyte maxHealth;
 
+        protected float baseSpeed;
+
         protected bool isDead = false;
 
         protected double aimDirection;
@@ -90,6 +92,7 @@ namespace Arcade_Arena
             abilityBuffer = new List<Ability>();
             IntersectingLava = false;
             health = 100;
+            speed = 1;
             CanWalk = true;
         }
 
@@ -223,6 +226,11 @@ namespace Arcade_Arena
             walking = true;
         }
 
+        public void ChangeSpeed(float value)
+        {
+            speed += value;
+        }
+
         //returnerar angle i grader
         protected double UpdateMovementDirection()
         {
@@ -296,9 +304,9 @@ namespace Arcade_Arena
             }
         }
 
-        protected virtual void UpdateMiddleOfSprite()
+        protected void UpdateMiddleOfSprite()
         {
-
+            middleOfSprite = new Vector2(Position.X + (currentAnimation.FrameSize.X *  Game1.SCALE / 2), Position.Y + (currentAnimation.FrameSize.Y * Game1.SCALE / 2));
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)

@@ -26,6 +26,8 @@ namespace Arcade_Arena.Classes
 
         SpriteAnimation currentHandAnimation;
 
+        SpriteAnimation projectileAnim;
+
         bool doingBearTrap;
         double bearTrapCooldown;
         double bearTrapMaxCooldown = 10;
@@ -38,6 +40,9 @@ namespace Arcade_Arena.Classes
         List<Boar> boars = new List<Boar>();
 
         Rectangle clientBounds;
+
+        int weaponDmg = 10;
+        float shootingSpeed = 15;
 
         public Huntress(Vector2 position, float speed, double direction, Rectangle clientBounds) : base(position, speed, direction)
         {
@@ -55,6 +60,8 @@ namespace Arcade_Arena.Classes
             handBoarAnimation = new SpriteAnimation(AssetManager.HuntressHandSpriteSheet, new Vector2(0, 2), new Vector2(0, 2), new Vector2(14, 20), new Vector2(7, 2), 5000);
             deadAnimation = new SpriteAnimation(AssetManager.HuntressSpriteSheet, new Vector2(1, 2), new Vector2(1, 2), new Vector2(14, 20), new Vector2(7, 2), 5000);
             handDeadAnimation = new SpriteAnimation(AssetManager.HuntressHandSpriteSheet, new Vector2(1, 2), new Vector2(1, 2), new Vector2(14, 20), new Vector2(7, 2), 5000);
+            projectileAnim = new SpriteAnimation(AssetManager.HuntressArrow, Vector2.Zero, Vector2.Zero,
+                new Vector2(6, 3), new Vector2(1, 1), 5000);
 
             ChangeAnimation(ref currentAnimation, idleAnimation);
             ChangeAnimation(ref currentHandAnimation, handIdleAnimation);
@@ -63,10 +70,23 @@ namespace Arcade_Arena.Classes
 
             shadow = new Shadow(position, AssetManager.WizardShadow, speed, direction);
 
-            speed = 1.3f;
+            baseSpeed = 1.3f;
+            speed = baseSpeed;
 
             maxHealth = 100;
             health = maxHealth;
+        }
+
+        protected override void PrepareWeaponAnim()
+        {
+            weaponOffsetX = 2;
+            weaponOffsetY = 5;
+            weaponAnim = new SpriteAnimation(AssetManager.HuntressLongBow, new Vector2(0, 0), new Vector2(0, 0), new Vector2(5, 7), new Vector2(3, 1), 5000);
+            weaponShootAnim = new SpriteAnimation(AssetManager.HuntressLongBow, new Vector2(1, 0), new Vector2(2, 0), new Vector2(5, 7), new Vector2(3, 1), 400);
+            shootingDelayMaxTimer = 0.5f;
+            shootingCooldown = 2;
+            weaponOrigin = new Vector2(0.5f * Game1.SCALE, 0.65f * Game1.SCALE);
+            base.PrepareWeaponAnim();
         }
 
         public override void Update()
@@ -74,7 +94,7 @@ namespace Arcade_Arena.Classes
             currentAnimation.Update();
             currentHandAnimation.Update();
             UpdateCooldowns();
-            UpdateWeapon();
+            UpdateWeapon(currentAnimation.SpriteFX);
             CheckAbilityUse();
             if (doingBearTrap)
             {
@@ -106,11 +126,6 @@ namespace Arcade_Arena.Classes
             shadow.Update(Position);
         }
 
-        protected override void UpdateMiddleOfSprite()
-        {
-            middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
-        }
-
         private void CheckAbilityUse()
         {
             if (!doingBearTrap && !doingBoar && !Stunned)
@@ -126,6 +141,13 @@ namespace Arcade_Arena.Classes
             }
         }
 
+        public override void Shoot()
+        {
+            Projectile projectile = new Projectile(projectileAnim, weaponDmg, 3, Position, shootingSpeed, (double)orbiterRotation);
+            projectile.SetPosition(weaponPosition + projectile.velocity * 15 / shootingSpeed);
+            abilityBuffer.Add(projectile);
+        }
+
         private void UpdateCooldowns()
         {
             bearTrapCooldown -= Game1.elapsedGameTimeSeconds;
@@ -134,6 +156,7 @@ namespace Arcade_Arena.Classes
 
         private void BearTrapAbility()
         {
+            CancelShooting();
             doingBearTrap = true;
             ChangeAnimation(ref currentAnimation, bearTrapAnimation);
             ChangeAnimation(ref currentHandAnimation, handBearTrapAnimation);
@@ -145,6 +168,7 @@ namespace Arcade_Arena.Classes
 
         private void BoarAbility()
         {
+            CancelShooting();
             doingBoar = true;
             ChangeAnimation(ref currentAnimation, boarAnimation);
             ChangeAnimation(ref currentHandAnimation, handBoarAnimation);

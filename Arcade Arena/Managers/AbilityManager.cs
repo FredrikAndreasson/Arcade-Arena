@@ -240,8 +240,8 @@ namespace Arcade_Arena.Managers
                 case Player.ClassType.Wizard:
                     if (ability.Type == AbilityOutline.AbilityType.Projectile)
                     {
-                        spriteBatch.Draw(AssetManager.WizardWandProjectile, new Vector2(ability.XPosition, ability.YPosition), source, Color.White, 0.0f,
-                            Vector2.Zero, 6.0f, SpriteEffects.None, 1.0f);
+                        spriteBatch.Draw(AssetManager.WizardWandProjectile, new Vector2(ability.XPosition, ability.YPosition), source, Color.White, (float)ability.Direction,
+                            Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1.0f);
                         spriteBatch.DrawString(AssetManager.CooldownFont, $"{ability.Username} - {ability.ID}", new Vector2(ability.XPosition, ability.YPosition + 5), Color.White);
                     }
                     else if (ability.Type == AbilityOutline.AbilityType.AbilityOne)
@@ -267,6 +267,11 @@ namespace Arcade_Arena.Managers
                     }
                     break;
                 case Player.ClassType.Huntress:
+                    if (ability.Type == AbilityOutline.AbilityType.Projectile)
+                    {
+                        spriteBatch.Draw(AssetManager.HuntressArrow, new Vector2(ability.XPosition, ability.YPosition), source, Color.White, (float)ability.Direction,
+                            Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1.0f);
+                    }
                     if (ability.Type == AbilityOutline.AbilityType.AbilityOne)
                     {
                         spriteBatch.Draw(AssetManager.HuntressBoar, new Vector2(ability.XPosition, ability.YPosition), source, Color.White, 0.0f,
@@ -279,6 +284,11 @@ namespace Arcade_Arena.Managers
                     }
                     break;
                 case Player.ClassType.TimeTraveler:
+                    if (ability.Type == AbilityOutline.AbilityType.Projectile)
+                    {
+                        spriteBatch.Draw(AssetManager.TimeTravelerRayGunLaser, new Vector2(ability.XPosition, ability.YPosition), source, Color.White, (float)ability.Direction,
+                            Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1.0f);
+                    }
                     if (ability.Type == AbilityOutline.AbilityType.AbilityOne)
                     {
 
