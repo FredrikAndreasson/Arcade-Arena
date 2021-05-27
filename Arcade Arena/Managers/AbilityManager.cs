@@ -50,9 +50,7 @@ namespace Arcade_Arena.Managers
                 CheckAbilityConditions(i);
                 playerManager.clientPlayer.abilityBuffer.RemoveAt(i);
                 i--;
-            }
-            AbilityDeletionCheck();
-            // Rect to check collision between player and projectile, will be moved to Character or removed all together 2 be replaced with pixel perfect
+            }            // Rect to check collision between player and projectile, will be moved to Character or removed all together 2 be replaced with pixel perfect
 
 
             for (int i = networkManager.ServerAbilities.Count - 1; i > -1; i--)
@@ -168,7 +166,8 @@ namespace Arcade_Arena.Managers
             }
 
             AbilityObstacleCollision();
-            
+            AbilityDeletionCheck();
+
         }
 
         private void CheckAbilityConditions(int i)
