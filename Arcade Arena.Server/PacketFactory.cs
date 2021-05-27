@@ -27,6 +27,10 @@ namespace Arcade_Arena.Server
                     return new AbilityDeletionCommand();
                 case PacketType.Score:
                     return new ScoreCommand();
+                case PacketType.ClassChange:
+                    return new ClassChangeCommand();
+                case PacketType.ReadyCheck:
+                    return new ReadyCheckCommand();
                     //case PacketType.Kick:
                     //    return new KickPlayerCommand();
             }

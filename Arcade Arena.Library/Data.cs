@@ -9,5 +9,8 @@
     AbilityCreate,
     AbilityUpdate,
     AbilityDelete,
-    Score
+    Score, 
+    ClassChange,
+    ReadyCheck,
+    Seed
 }

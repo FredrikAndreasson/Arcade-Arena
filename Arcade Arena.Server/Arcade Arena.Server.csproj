@@ -54,10 +54,13 @@
     <Compile Include="Commands\AbilityUpdateCommand.cs" />
     <Compile Include="Commands\AbilityDeletionCommand.cs" />
     <Compile Include="Commands\AllPlayersCommand.cs" />
+    <Compile Include="Commands\ClassChangeCommand.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\InputCommand.cs" />
     <Compile Include="Commands\LoginCommand.cs" />
     <Compile Include="Commands\PlayerPositionCommand.cs" />
+    <Compile Include="Commands\RandomSeedCommand.cs" />
+    <Compile Include="Commands\ReadyCheckCommand.cs" />
     <Compile Include="Commands\ScoreCommand.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

@@ -5,7 +5,7 @@ namespace Arcade_Arena
 {
     static class AssetManager
     {
-
+        public static Texture2D px { get; private set; }
         public static Texture2D Ball { get; private set; }
         public static Texture2D TargetDummy { get; private set; }
         public static Texture2D Lava { get; private set; }
@@ -70,6 +70,8 @@ namespace Arcade_Arena
 
         public static void LoadTextures(ContentManager Content)
         {
+            px = Content.Load<Texture2D>("px");
+
             Arena = Content.Load<Texture2D>("Arena");
             Ball = Content.Load<Texture2D>("Class\\Ball");
             TargetDummy = Content.Load<Texture2D>("TargetDummy");

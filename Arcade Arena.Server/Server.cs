@@ -21,6 +21,7 @@ namespace Arcade_Arena.Server
         public DateTime lavaTimer = DateTime.Now;
         public int lavaRadius = 400;
 
+        public static Random random;
 
         public Server(ManagerLogger managerLogger)
         {
@@ -30,6 +31,8 @@ namespace Arcade_Arena.Server
             config = new NetPeerConfiguration("networkGame") { Port = 14241 };
             config.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
             NetServer = new NetServer(config);
+
+            random = new Random();
         }
 
         public void Run()

@@ -8,7 +8,7 @@ using Arcade_Arena.Classes;
 
 namespace Arcade_Arena.Managers
 {
-    class NetworkManager
+    public class NetworkManager
     {
         private int timer = 100;
         private bool isRetrieved = false;
@@ -25,35 +25,12 @@ namespace Arcade_Arena.Managers
 
         private Player.ClassType classType;
 
-        public NetworkManager(Character playerCharacter)
+        public NetworkManager(Player playerCharacter)
         {
             Players = new List<Player>();
             ServerAbilities = new List<AbilityOutline>();
 
-            if(playerCharacter is Wizard)
-            {
-                classType = Player.ClassType.Wizard;
-            }
-            else if(playerCharacter is Ogre)
-            {
-                classType = Player.ClassType.Ogre;
-            }
-            else if(playerCharacter is Huntress)
-            {
-                classType = Player.ClassType.Huntress;
-            }
-            else if(playerCharacter is TimeTraveler)
-            {
-                classType = Player.ClassType.TimeTraveler;
-            }
-            else if (playerCharacter is Knight)
-            {
-                classType = Player.ClassType.Knight;
-            }
-            //else if (playerCharacter is Assassin)
-            //{
-            //    classType = Player.ClassType.Assassin;
-            //}
+            classType = playerCharacter.Type;
 
         }
        public NetConnectionStatus Status => client.ConnectionStatus;
@@ -71,17 +48,21 @@ namespace Arcade_Arena.Managers
             outmsg.Write((byte)PacketType.Login);
             outmsg.Write(Username);
             outmsg.Write((byte)classType);
+          
+            Player player = new Player()
+            {
+                Username = Username,
+                Type = classType
+            };
+            Players.Add(player);
+
             //client.Connect("85.228.136.154", 14241, outmsg);
             client.Connect("localhost", 14241, outmsg);
             return EstablishInfo();
 
-            //var outmsg1 = client.CreateMessage();
-            //outmsg1.Write(PacketType.ability);
-            //outmsg1.Write(hitplayer);
-            //outmsg1.Write(Ability);
-            //outmsg1.Write(ability.UserName);
-
         }
+
+
 
         private bool EstablishInfo()
         {
@@ -204,7 +185,12 @@ namespace Arcade_Arena.Managers
                 case PacketType.Login:
                     RecieveLogin(inc);
                     break;
-
+                case PacketType.ReadyCheck:
+                    RecieveReadyCheck(inc);
+                    break;
+                case PacketType.Seed:
+                    RecieveSeed(inc);
+                    break;
                     
 
 
@@ -213,10 +199,21 @@ namespace Arcade_Arena.Managers
             }
         }
 
+        private void RecieveSeed(NetIncomingMessage inc)
+        {
+            Game1.seed = inc.ReadInt32();
+        }
 
         private void RecieveLogin(NetIncomingMessage inc)
         {
-            
+            inc.ReadByte();
+            int count = inc.ReadInt32();
+            for (int i = 0; i < count; i++)
+            {
+                Player player = new Player();
+                inc.ReadAllProperties(player);
+                Players.Add(player);
+            }
         }
 
         private void RecieveScore(NetIncomingMessage inc)
@@ -226,6 +223,24 @@ namespace Arcade_Arena.Managers
 
             var player = Players.FirstOrDefault(p => p.Username == name);
             if (player != null) player.Score = score;
+        }
+
+        private void RecieveReadyCheck(NetIncomingMessage inc)
+        {
+            string name = inc.ReadString();
+            bool ready = inc.ReadBoolean();
+
+            var player = Players.FirstOrDefault(p => p.Username == name);
+            player.Ready = ready;
+        }
+
+        public void SendReadyTag(bool ready)
+        {
+            var outmsg = client.CreateMessage();
+            outmsg.Write((byte)PacketType.ReadyCheck);
+            outmsg.Write(Username);
+            outmsg.Write(ready);
+            client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
         }
 
         public void SendPlayerScore(string Username)
@@ -332,7 +347,7 @@ namespace Arcade_Arena.Managers
             }
         }
 
-        public void RecieveAbilityUpdate(NetIncomingMessage inc)
+        private void RecieveAbilityUpdate(NetIncomingMessage inc)
         {
 
             var name = inc.ReadString();
@@ -365,6 +380,7 @@ namespace Arcade_Arena.Managers
 
         private void UpdateLava(NetIncomingMessage inc)
         {
+            if (Level.lava == null) return;
             Level.lava.ShrinkPlatform(inc.ReadInt16());
         }
         
