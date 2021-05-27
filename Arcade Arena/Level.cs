@@ -13,6 +13,7 @@ namespace Arcade_Arena
     class Level
     {
         private List<Obstacle> obstacles;
+        private List<Vector2> spawnPoints;
 
         private Character player;
         public static Lava lava;
@@ -24,6 +25,7 @@ namespace Arcade_Arena
         public Level(GameWindow Window, SpriteBatch spriteBatch, Character player)
         {
             obstacles = new List<Obstacle>();
+            spawnPoints = new List<Vector2>();
 
             lava = new Lava(Game1.graphics.GraphicsDevice, Window);
             lava.DrawRenderTarget(spriteBatch);
@@ -34,6 +36,8 @@ namespace Arcade_Arena
             this.window = Window;
 
             InitiateLevel();
+
+            
         }
 
         public List<Obstacle> Obstacles => obstacles;
@@ -71,10 +75,13 @@ namespace Arcade_Arena
                     {
                         obstacle.UpdateOrientation(RelativePositionCalc(ref isFilled, x, y));
                     }
-                    
+                    if (!isFilled[x,y])
+                    {
+                        spawnPoints.Add(new Vector2(x * 64 + (window.ClientBounds.Width / 6) + 32, y * 64 + (window.ClientBounds.Height / 6)));
+                    }
                 }
             }
-            System.Diagnostics.Debug.WriteLine(max);
+            player.SpawnLocation(spawnPoints[Game1.random.Next(spawnPoints.Count)]);
         }
 
         private void Tiling(double value, double x, double y, ref bool[,] isFilled)
@@ -91,10 +98,10 @@ namespace Arcade_Arena
                 {
                     isFilled[xNormalized, yNormalized] = true;
                     obstacles.Add(new Obstacle(new Vector2(xNormalized * 64 + (window.ClientBounds.Width / 6),
-                        yNormalized * 64 +(window.ClientBounds.Height / 6)), RelativePosition.single, xNormalized, yNormalized));
-                    
+                        yNormalized * 64 + (window.ClientBounds.Height / 6)), RelativePosition.single, xNormalized, yNormalized));
                 }
             }
+
         }
 
         private RelativePosition RelativePositionCalc(ref bool[,] isFilled, int x, int y)

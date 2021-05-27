@@ -99,6 +99,12 @@ namespace Arcade_Arena
             isDead = true;
         }
 
+        public void SpawnLocation(Vector2 position)
+        {
+            this.position = position;
+            lastPosition = position;
+        }
+
         public void AddCanWalkStoppingEffect()
         {
             nCanWalkStoppingEffects++;
