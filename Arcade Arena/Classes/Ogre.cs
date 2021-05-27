@@ -17,7 +17,7 @@ namespace Arcade_Arena.Classes
         SpriteAnimation groundSmashOgreAnimation;
         SpriteAnimation groundSmashAnimation;
         SpriteAnimation bodySlamAnimation;
-
+        SpriteAnimation idleAnimation;
 
         private bool inGroundSmash;
         private double groundSmashCooldown = 0;
@@ -25,14 +25,17 @@ namespace Arcade_Arena.Classes
         private bool inBodySlam;
         private double bodySlamCooldown = 0;
 
+        private Vector2 frameSize = new Vector2(23, 33);
+        private Vector2 spriteDimensions = new Vector2(7, 3);
+
 
         public Ogre(Vector2 position, float speed, double direction) : base(position, speed, direction)
         {
-            walkingAnimation = new SpriteAnimation(AssetManager.ogreSpriteSheet, new Vector2(2, 0), new Vector2(5, 0), new Vector2(23, 33), new Vector2(7, 3), 300);
-            backwardsAnimation = new SpriteAnimation(AssetManager.ogreSpriteSheet, new Vector2(0, 1), new Vector2(4, 1), new Vector2(23, 33), new Vector2(7, 3), 150);
-            groundSmashOgreAnimation = new SpriteAnimation(AssetManager.ogreSpriteSheet, new Vector2(0, 2), new Vector2(3, 2), new Vector2(23, 33), new Vector2(7, 3), 125);
-            bodySlamAnimation = new SpriteAnimation(AssetManager.ogreSpriteSheet, new Vector2(0, 3), new Vector2(2, 3), new Vector2(23, 33), new Vector2(7, 3), 300);
-
+            walkingAnimation = new SpriteAnimation(AssetManager.ogreSpriteSheet, new Vector2(2, 0), new Vector2(5, 0), frameSize, spriteDimensions, 300);
+            backwardsAnimation = new SpriteAnimation(AssetManager.ogreSpriteSheet, new Vector2(0, 1), new Vector2(4, 1), frameSize, spriteDimensions, 150);
+            groundSmashOgreAnimation = new SpriteAnimation(AssetManager.ogreSpriteSheet, new Vector2(0, 2), new Vector2(3, 2), frameSize, spriteDimensions, 125);
+            bodySlamAnimation = new SpriteAnimation(AssetManager.ogreSpriteSheet, new Vector2(0, 3), new Vector2(2, 3), frameSize, spriteDimensions, 300);
+            idleAnimation = new SpriteAnimation(AssetManager.ogreSpriteSheet, new Vector2(0, 0), new Vector2(1, 0), frameSize, spriteDimensions, 300);
 
             groundSmashAnimation = new SpriteAnimation(AssetManager.groundSmashCrackle, new Vector2(0, 0), new Vector2(4, 0), new Vector2(71, 71), new Vector2(4, 0), 500);
             currentAnimation = backwardsAnimation;
@@ -46,6 +49,7 @@ namespace Arcade_Arena.Classes
         {
             currentAnimation.Update();
             UpdateCooldowns();
+
             //kanske ändra till "actionable" debuffs sen istället för att kolla om man är i varje ability
             if (!inGroundSmash && !inBodySlam)
             {
@@ -70,6 +74,7 @@ namespace Arcade_Arena.Classes
                 {
                     inGroundSmash = false;
                     middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
+                    CheckRegularAnimation();
                     aimDirection = UpdateAimDirection();
                 }
             }
@@ -81,16 +86,44 @@ namespace Arcade_Arena.Classes
                     inBodySlam = false;
                     middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
                     aimDirection = UpdateAimDirection();
+                    CheckRegularAnimation();
                 }
             }
             else
             {
+                if (!Stunned)
+                {
+                    CheckRegularAnimation();
+                }
+
                 middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
+                base.Update();
             }
 
-            base.Update();
             shadow.Update(Position);
         }
+
+        private void CheckRegularAnimation()
+        {
+            if (walking)
+            {
+                if (WalkingBackwards())
+                {
+                    ChangeAnimation(ref currentAnimation, backwardsAnimation);
+                }
+                else
+                {
+                    ChangeAnimation(ref currentAnimation, walkingAnimation);
+
+                }
+            }
+            else
+            {
+                ChangeAnimation(ref currentAnimation, idleAnimation);
+
+            }
+        }
+
 
         private void UpdateCooldowns( )
         {
