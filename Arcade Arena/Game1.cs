@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using Arcade_Arena.Library;
 
 namespace Arcade_Arena
 {
@@ -76,7 +77,7 @@ namespace Arcade_Arena
 
             
             mainMenu = new MainMenuState(Window);
-            characterSelection = new CharacterSelectionState(Window);
+            characterSelection = new CharacterSelectionState(Window, networkManager);
             lobby = new LobbyState(Window, networkManager, ref player);
 
         }

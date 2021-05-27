@@ -25,6 +25,12 @@ namespace Arcade_Arena.Server.Commands
             }
             player.Player.Type = (ClassType)inc.ReadByte();
             managerLogger.AddLogMessage("Class Change", "Class type succesfully changed");
+
+            var outmsg = server.NetServer.CreateMessage();
+            outmsg.Write((byte)PacketType.ClassChange);
+            outmsg.Write(name);
+            outmsg.Write((byte)player.Player.Type);
+            server.NetServer.SendToAll(outmsg, NetDeliveryMethod.ReliableOrdered);
         }
     }
 }

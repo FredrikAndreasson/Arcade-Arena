@@ -169,7 +169,7 @@ namespace Arcade_Arena.Managers
                     break;
 
                 case PacketType.AbilityCreate:
-                    RecieveAbilityCreate(inc);
+                    ReceiveAbilityCreate(inc);
                     break;
 
                 case PacketType.AbilityDelete:
@@ -177,19 +177,22 @@ namespace Arcade_Arena.Managers
                     break;
                 
                 case PacketType.AbilityUpdate:
-                    RecieveAbilityUpdate(inc);
+                    ReceiveAbilityUpdate(inc);
                     break;
                 case PacketType.Score:
-                    RecieveScore(inc);
+                    ReceiveScore(inc);
                     break;
                 case PacketType.Login:
-                    RecieveLogin(inc);
+                    ReceiveLogin(inc);
                     break;
                 case PacketType.ReadyCheck:
-                    RecieveReadyCheck(inc);
+                    ReceiveReadyCheck(inc);
                     break;
                 case PacketType.Seed:
-                    RecieveSeed(inc);
+                    ReceiveSeed(inc);
+                    break;
+                case PacketType.ClassChange:
+                    ReceiveClassChange(inc);
                     break;
                     
 
@@ -199,12 +202,24 @@ namespace Arcade_Arena.Managers
             }
         }
 
-        private void RecieveSeed(NetIncomingMessage inc)
+        private void ReceiveClassChange(NetIncomingMessage inc)
+        {
+            string name = inc.ReadString();
+            Player.ClassType type = (Player.ClassType)inc.ReadByte();
+            var player = Players.FirstOrDefault(p => p.Username == name);
+            if (player == null)
+            {
+                return;
+            }
+            player.Type = type;
+        }
+
+        private void ReceiveSeed(NetIncomingMessage inc)
         {
             Game1.seed = inc.ReadInt32();
         }
 
-        private void RecieveLogin(NetIncomingMessage inc)
+        private void ReceiveLogin(NetIncomingMessage inc)
         {
             inc.ReadByte();
             int count = inc.ReadInt32();
@@ -216,7 +231,7 @@ namespace Arcade_Arena.Managers
             }
         }
 
-        private void RecieveScore(NetIncomingMessage inc)
+        private void ReceiveScore(NetIncomingMessage inc)
         {
             string name = inc.ReadString();
             sbyte score = inc.ReadSByte();
@@ -225,7 +240,7 @@ namespace Arcade_Arena.Managers
             if (player != null) player.Score = score;
         }
 
-        private void RecieveReadyCheck(NetIncomingMessage inc)
+        private void ReceiveReadyCheck(NetIncomingMessage inc)
         {
             string name = inc.ReadString();
             bool ready = inc.ReadBoolean();
@@ -240,6 +255,15 @@ namespace Arcade_Arena.Managers
             outmsg.Write((byte)PacketType.ReadyCheck);
             outmsg.Write(Username);
             outmsg.Write(ready);
+            client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
+        }
+
+        public void SendClassChange(Player.ClassType type)
+        {
+            var outmsg = client.CreateMessage();
+            outmsg.Write((byte)PacketType.ClassChange);
+            outmsg.Write(Username);
+            outmsg.Write((byte)type);
             client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
         }
 
@@ -329,7 +353,7 @@ namespace Arcade_Arena.Managers
             DeleteAbility(ID, username);
         }
 
-        private void RecieveAbilityCreate(NetIncomingMessage inc)
+        private void ReceiveAbilityCreate(NetIncomingMessage inc)
         {
             var name = inc.ReadString();
             byte ID = inc.ReadByte();
@@ -347,7 +371,7 @@ namespace Arcade_Arena.Managers
             }
         }
 
-        private void RecieveAbilityUpdate(NetIncomingMessage inc)
+        private void ReceiveAbilityUpdate(NetIncomingMessage inc)
         {
 
             var name = inc.ReadString();
