@@ -144,8 +144,8 @@ namespace Arcade_Arena.Managers
                 }
             }
 
-            AbilityDeletionCheck();
             AbilityObstacleCollision();
+            AbilityDeletionCheck();
         }
 
         private void CheckAbilityConditions(int i)
