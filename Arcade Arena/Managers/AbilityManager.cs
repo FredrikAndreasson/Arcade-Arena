@@ -56,7 +56,7 @@ namespace Arcade_Arena.Managers
 
             for (int i = networkManager.ServerAbilities.Count - 1; i >= 0; i--)
             {
-                for (int j = networkManager.ServerAbilities.Count - 1; j >= 0; j--)
+                for (int j = networkManager.Players.Count - 1; j > 0 ; j--)
                 {
                     if (networkManager.ServerAbilities[i].Username != networkManager.Username)
                     {
