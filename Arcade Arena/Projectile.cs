@@ -11,20 +11,19 @@ namespace Arcade_Arena
 {
     class Projectile : Ability
     {
-        public bool projectileIsActive;
         public Vector2 velocity;
         public int damage;
         private double activeTimer;
 
 
-        public Projectile(int damage, double timer, Vector2 position, float speed, double direction) : base(position, speed, direction)
+        public Projectile(SpriteAnimation spriteAnim, int damage, double timer, Vector2 position, float speed, double direction) : base(position, speed, direction)
         {
             Type = Library.AbilityOutline.AbilityType.Projectile;
             this.damage = damage;
             activeTimer = timer;
             this.direction = direction;
-            currentAnimation = new SpriteAnimation(AssetManager.WizardWandProjectile, Vector2.Zero, Vector2.Zero,
-                new Vector2(2, 1), new Vector2(2, 1));
+            velocity = new Vector2((float)Math.Cos(direction) * speed, (float)Math.Sin(direction) * speed);
+            currentAnimation = spriteAnim;
         }
 
         public void SetPosition(Vector2 pos)
@@ -34,6 +33,7 @@ namespace Arcade_Arena
 
         public override void Update()
         {
+            currentAnimation.Update();
             position += velocity;
             activeTimer -= Game1.elapsedGameTimeSeconds;
             if (activeTimer <= 0)
@@ -41,9 +41,10 @@ namespace Arcade_Arena
                 isDead = true;
             }
         }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
-            currentAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, Game1.SCALE);
+            currentAnimation.Draw(spriteBatch, Position, (float)direction, Vector2.Zero, Game1.SCALE);
         }
     }
 }

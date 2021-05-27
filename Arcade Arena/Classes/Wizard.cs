@@ -1,4 +1,5 @@
 ﻿using Arcade_Arena.Abilites;
+using Arcade_Arena.Effects;
 using Arcade_Arena.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -29,6 +30,8 @@ namespace Arcade_Arena.Classes
 
         SpriteAnimation currentHandAnimation;
 
+        SpriteAnimation projectileAnim;
+
         private bool teleporting;
         private double teleportCooldown = 0;
         private double teleportMaxCooldown = 6;
@@ -37,8 +40,12 @@ namespace Arcade_Arena.Classes
         private double iceBlockCooldown = 0;
         private double iceBlockMaxCooldown = 10;
 
+        private int iceBlockHealAmount = 3;
+
         private Vector2 newPosition;
-        
+
+        private int weaponDmg = 3;
+        private float shootingSpeed = 7;
 
         public Wizard(Vector2 position, float speed, double direction) : base(position, speed, direction)
         {
@@ -58,6 +65,8 @@ namespace Arcade_Arena.Classes
             handKnockBackAnimation = new SpriteAnimation(AssetManager.WizardHandSpriteSheet, new Vector2(6, 1), new Vector2(6, 1), new Vector2(14, 20), new Vector2(7, 3), 5000);
             deadAnimation = new SpriteAnimation(AssetManager.WizardSpriteSheet, new Vector2(5, 4), new Vector2(5, 4), new Vector2(14, 20), new Vector2(7, 3), 5000);
             iceBlockAnimation = new SpriteAnimation(AssetManager.WizardIceBlock, new Vector2(0, 0), new Vector2(4, 0), new Vector2(14, 20), new Vector2(4, 0), 1000);
+            projectileAnim = new SpriteAnimation(AssetManager.WizardWandProjectile, Vector2.Zero, Vector2.Zero,
+                new Vector2(2, 1), new Vector2(1, 1), 5000);
 
             shadow = new Shadow(position, AssetManager.WizardShadow, speed, direction);
 
@@ -67,7 +76,18 @@ namespace Arcade_Arena.Classes
             maxHealth = 80;
             health = maxHealth;
 
-            speed = 1;
+            baseSpeed = 1;
+            speed = baseSpeed;
+        }
+
+        protected override void PrepareWeaponAnim()
+        {
+            weaponAnim = new SpriteAnimation(AssetManager.WizardWand, new Vector2(0, 0), new Vector2(0, 0), new Vector2(6, 1), new Vector2(1, 1), 5000);
+            weaponShootAnim = weaponAnim;
+            shootingCooldown = 1;
+            weaponOffsetX = -6;
+            weaponOffsetY = 23;
+            base.PrepareWeaponAnim();
         }
 
         public bool Teleporting => teleporting;
@@ -77,7 +97,7 @@ namespace Arcade_Arena.Classes
             currentAnimation.Update();
             currentHandAnimation.Update();
             UpdateCooldowns();
-            UpdateWeapon();
+            UpdateWeapon(currentAnimation.SpriteFX);
             CheckAbilityUse();
 
             if (teleporting)
@@ -112,11 +132,6 @@ namespace Arcade_Arena.Classes
             }
             currentHandAnimation.SpriteFX = currentAnimation.SpriteFX;
             shadow.Update(Position);
-        }
-
-        protected override void UpdateMiddleOfSprite()
-        {
-            middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
         }
 
         private void CheckAbilityUse()
@@ -181,6 +196,13 @@ namespace Arcade_Arena.Classes
             }
         }
 
+        public override void Shoot()
+        {
+            Projectile projectile = new Projectile(projectileAnim, weaponDmg, 3, Position, shootingSpeed, (double)orbiterRotation);
+            projectile.SetPosition(weaponPosition + projectile.velocity * 20 / shootingSpeed);
+            abilityBuffer.Add(projectile);
+        }
+
         private void UpdateCooldowns()
         {
             teleportCooldown -= Game1.elapsedGameTimeSeconds;
@@ -212,7 +234,7 @@ namespace Arcade_Arena.Classes
         {
             if (isDead)
             {
-                DrawAnimations(spriteBatch);
+                currentAnimation.Draw(spriteBatch, lastPosition, 0.0f, Vector2.Zero, Game1.SCALE);
                 currentHandAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, Game1.SCALE);
                 return;
             }
@@ -240,6 +262,7 @@ namespace Arcade_Arena.Classes
 
         private void TeleportAbility()
         {
+            CancelShooting();
             teleporting = true;
             teleportCooldown = teleportMaxCooldown;
             ChangeAnimation(ref currentAnimation, teleportInAnimation);
@@ -248,6 +271,8 @@ namespace Arcade_Arena.Classes
             teleportOutAnimation.XIndex = 0;
             teleportInAnimation.XIndex = 0;
             teleportCooldown = 6;
+
+            HoTEffect hoTEffect = new HoTEffect(iceBlockHealAmount, 4, this);
 
             Vector2 teleportVelocity;
             teleportVelocity.Y = (float)(Math.Sin(aimDirection) * speed);
@@ -261,7 +286,9 @@ namespace Arcade_Arena.Classes
 
         private void IceBlockAbility()
         {
+            CancelShooting();
             inIceBlock = true;
+            
             iceBlockCooldown = iceBlockMaxCooldown;
             ChangeAnimation(ref currentAnimation, iceBlockWizardAnimation);
             ChangeAnimation(ref currentHandAnimation, handIceBlockAnimation);

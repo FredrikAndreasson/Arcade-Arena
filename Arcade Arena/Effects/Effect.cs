@@ -11,12 +11,17 @@ namespace Arcade_Arena
         public double timer;
         protected DynamicObject owner;
         protected bool isStackable;
+        bool shouldAffEffect = false;
 
         public Effect(DynamicObject owner, double timer)
         {
+            this.timer = timer;
             this.owner = owner;
+        }
 
-            if (CheckIfEffectAdded())
+        protected void TryToAddEffect()
+        {
+            if (owner.AddEffect(this, isStackable))
             {
                 OnGetEffect(owner, timer);
             }
@@ -31,19 +36,9 @@ namespace Arcade_Arena
             }
         }
 
-        protected virtual bool CheckIfEffectAdded()
-        {
-            if (owner.AddEffect(this, isStackable))
-            {
-                return true;
-            }
-            return false;
-        }
-
         public virtual void OnGetEffect(DynamicObject owner, double timer)
         {
-            this.owner = owner;
-            this.timer = timer;
+            
         }
 
         public virtual void OnLossEffect()
