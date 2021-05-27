@@ -73,7 +73,7 @@ namespace Arcade_Arena.Managers
                                             KnockbackEffect knockback = new KnockbackEffect(networkManager.ServerAbilities[i].Direction, 20.0f, player, 1);
                                             player.AddEffect(knockback, true);
                                             player.TakeDamage(10, networkManager.ServerAbilities[i].Username, 5);
-                                            //networkManager.DeleteProjectile(networkManager.ServerAbilities[i].ID, networkManager.ServerAbilities[i].Username);
+                                            networkManager.DeleteProjectile(networkManager.ServerAbilities[i].ID, networkManager.ServerAbilities[i].Username);
                                         }
                                     }
                                     else if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.AbilityOne)
@@ -104,7 +104,7 @@ namespace Arcade_Arena.Managers
                                             KnockbackEffect knockback = new KnockbackEffect(networkManager.ServerAbilities[i].Direction, 20.0f, player, 1);
                                             player.AddEffect(knockback, true);
                                             player.TakeDamage(10, networkManager.ServerAbilities[i].Username, 5);
-                                            //networkManager.DeleteProjectile(networkManager.ServerAbilities[i].ID, networkManager.ServerAbilities[i].Username);
+                                            networkManager.DeleteProjectile(networkManager.ServerAbilities[i].ID, networkManager.ServerAbilities[i].Username);
                                         }
                                     }
                                     if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.AbilityOne)
@@ -127,7 +127,7 @@ namespace Arcade_Arena.Managers
                                             KnockbackEffect knockback = new KnockbackEffect(networkManager.ServerAbilities[i].Direction, 20.0f, player, 1);
                                             player.AddEffect(knockback, true);
                                             player.TakeDamage(10, networkManager.ServerAbilities[i].Username, 5);
-                                            //networkManager.DeleteProjectile(networkManager.ServerAbilities[i].ID, networkManager.ServerAbilities[i].Username);
+                                            networkManager.DeleteProjectile(networkManager.ServerAbilities[i].ID, networkManager.ServerAbilities[i].Username);
                                         }
                                     }
                                     if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.AbilityOne)
