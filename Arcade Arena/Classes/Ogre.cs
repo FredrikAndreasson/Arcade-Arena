@@ -142,7 +142,7 @@ namespace Arcade_Arena.Classes
             }
 
             shadow.Draw(spriteBatch);
-            currentAnimation.Draw(spriteBatch, lastPosition, 0.0f, Vector2.Zero, Game1.SCALE);
+            currentAnimation.Draw(spriteBatch, LastPosition, 0.0f, Vector2.Zero, Game1.SCALE);
             base.Draw(spriteBatch);
         }
 

@@ -234,7 +234,7 @@ namespace Arcade_Arena.Classes
         {
             if (isDead)
             {
-                currentAnimation.Draw(spriteBatch, lastPosition, 0.0f, Vector2.Zero, Game1.SCALE);
+                currentAnimation.Draw(spriteBatch, LastPosition, 0.0f, Vector2.Zero, Game1.SCALE);
                 currentHandAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, Game1.SCALE);
                 return;
             }

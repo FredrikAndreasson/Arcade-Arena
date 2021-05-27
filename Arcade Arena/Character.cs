@@ -107,7 +107,7 @@ namespace Arcade_Arena
         public void SpawnLocation(Vector2 position)
         {
             this.position = position;
-            lastPosition = position;
+            LastPosition = position;
         }
 
         public void AddCanWalkStoppingEffect()
