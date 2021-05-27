@@ -179,11 +179,11 @@ namespace Arcade_Arena
         {
             if (Blocked)
             {
-                position = lastPosition;
+                position = LastPosition;
             }
             else
             {
-                lastPosition = position;
+                LastPosition = position;
             }
             
         }

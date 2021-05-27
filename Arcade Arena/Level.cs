@@ -190,7 +190,8 @@ namespace Arcade_Arena
         public void Update()
         {
             player.Update();
-            
+            player.CheckLavaCollision(lava);
+
             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
                 obstacles.Clear();
