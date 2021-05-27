@@ -18,6 +18,8 @@ namespace Arcade_Arena
             speedAlteration = 1;
             this.speed = speed;
             this.direction = direction;
+
+            lastPosition = position;
         }
 
         public bool Blocked { get; set; }

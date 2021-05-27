@@ -18,54 +18,15 @@ namespace Arcade_Arena
 
         public bool CanWalk { get; private set; }
         private int nCanWalkStoppingEffects;
-        public void AddCanWalkStoppingEffect()
-        {
-            nCanWalkStoppingEffects++;
-            CanWalk = true;
-        }
-        public void RemoveCanWalkStoppingEffect()
-        {
-            nCanWalkStoppingEffects--;
-            if (nCanWalkStoppingEffects <= 0)
-            {
-                CanWalk = false;
-                nCanWalkStoppingEffects = 0;
-            }
-        }
+       
 
         public bool Stunned { get; private set; }
         private int nStunEffects;
-        public void AddStunEffect()
-        {
-            nStunEffects++;
-            Stunned = true;
-        }
-        public void RemoveStunEffect()
-        {
-            nStunEffects--;
-            if (nStunEffects <= 0)
-            {
-                Stunned = false;
-                nStunEffects = 0;
-            }
-        }
+        
 
         public bool Invincible { get; private set; }
         private int nInvincibleEffects;
-        public void AddInvincibleEffect()
-        {
-            nInvincibleEffects++;
-            Invincible = true;
-        }
-        public void RemoveInvincibleEffect()
-        {
-            nInvincibleEffects--;
-            if (nInvincibleEffects <= 0)
-            {
-                Invincible = false;
-                nInvincibleEffects = 0;
-            }
-        }
+       
 
         protected int mana;
 
@@ -136,6 +97,51 @@ namespace Arcade_Arena
         protected virtual void Die()
         {
             isDead = true;
+        }
+
+        public void AddCanWalkStoppingEffect()
+        {
+            nCanWalkStoppingEffects++;
+            CanWalk = true;
+        }
+        public void RemoveCanWalkStoppingEffect()
+        {
+            nCanWalkStoppingEffects--;
+            if (nCanWalkStoppingEffects <= 0)
+            {
+                CanWalk = false;
+                nCanWalkStoppingEffects = 0;
+            }
+        }
+
+        public void AddInvincibleEffect()
+        {
+            nInvincibleEffects++;
+            Invincible = true;
+        }
+        public void RemoveInvincibleEffect()
+        {
+            nInvincibleEffects--;
+            if (nInvincibleEffects <= 0)
+            {
+                Invincible = false;
+                nInvincibleEffects = 0;
+            }
+        }
+
+        public void AddStunEffect()
+        {
+            nStunEffects++;
+            Stunned = true;
+        }
+        public void RemoveStunEffect()
+        {
+            nStunEffects--;
+            if (nStunEffects <= 0)
+            {
+                Stunned = false;
+                nStunEffects = 0;
+            }
         }
 
         protected void UpdateSpriteEffect()
