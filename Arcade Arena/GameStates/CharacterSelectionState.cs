@@ -1,4 +1,6 @@
 ﻿using Arcade_Arena.Classes;
+using Arcade_Arena.Library;
+using Arcade_Arena.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -24,8 +26,12 @@ namespace Arcade_Arena.GameStates
         private Rectangle travelerRect;
         private Rectangle knightRect;
 
-        public CharacterSelectionState(GameWindow Window) : base(Window)
+        private NetworkManager networkManager;
+
+        public CharacterSelectionState(GameWindow Window, NetworkManager networkManager) : base(Window)
         {
+            this.networkManager = networkManager;
+
             wizardPos = SetAlignedXPos(AssetManager.selectWizard, (int)(Window.ClientBounds.Width * 0.03));
             ogrePos = SetAlignedXPos(AssetManager.selectOgre, (int)(Window.ClientBounds.Width * 0.23));
             huntressPos = SetAlignedXPos(AssetManager.selectHuntress, (int)(Window.ClientBounds.Width * 0.43));
@@ -66,30 +72,34 @@ namespace Arcade_Arena.GameStates
                 if (wizardRect.Contains(MouseKeyboardManager.MousePosition.ToPoint()))
                 {
                     player = new Wizard(new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2), 3f, 0.0);
-                    state = States.FFA;
+                    state = States.Lobby;
+                    networkManager.SendClassChange(Player.ClassType.Wizard);
                 }
                 else if (ogreRect.Contains(MouseKeyboardManager.MousePosition.ToPoint()))
                 {
                     player = new Ogre(new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2), 3f, 0.0);
-                    state = States.FFA;
-                    
+                    state = States.Lobby;
+                    networkManager.SendClassChange(Player.ClassType.Ogre);
                 }
                 else if (huntressRect.Contains(MouseKeyboardManager.MousePosition.ToPoint()))
                 {
                     player = new Huntress(new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2), 3f, 0.0, Window.ClientBounds);
                     state = States.FFA;
+                    networkManager.SendClassChange(Player.ClassType.Huntress);
                 }
 
                 else if (knightRect.Contains(MouseKeyboardManager.MousePosition.ToPoint()))
                 {
                     player = new Knight(new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2), 3f, 0.0);
                     state = States.FFA;
+                    networkManager.SendClassChange(Player.ClassType.Knight);
                 }
 
                 else if (travelerRect.Contains(MouseKeyboardManager.MousePosition.ToPoint()))
                 {
                     player = new TimeTraveler(new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2), 3f, 0.0);
                     state = States.FFA;
+                    networkManager.SendClassChange(Player.ClassType.TimeTraveler);
                 }
 
             }

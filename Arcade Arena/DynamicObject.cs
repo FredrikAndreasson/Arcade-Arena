@@ -9,7 +9,7 @@ namespace Arcade_Arena
         protected float speed;
         protected double direction;
         protected Vector2 velocity;
-        protected Vector2 lastPosition; // used for collision handling
+        
         public double speedAlteration { get; set; } //för time zone
         protected List<Effect> EffectList = new List<Effect>();
 
@@ -18,8 +18,11 @@ namespace Arcade_Arena
             speedAlteration = 1;
             this.speed = speed;
             this.direction = direction;
+
+            LastPosition = position;
         }
 
+        public Vector2 LastPosition { get; set; }// used for collision handling
         public bool Blocked { get; set; }
 
         public bool AddEffect(Effect newEffect, bool stackableEffect)

@@ -39,7 +39,8 @@ namespace Arcade_Arena.Managers
                 player.Health = clientPlayer.Health;
                 player.IntersectingLava = clientPlayer.IntersectingLava;
                 //
-                
+
+                player.OrbiterRotation = clientPlayer.OrbiterRotation;
 
                 //add more code for updating player later...
             }

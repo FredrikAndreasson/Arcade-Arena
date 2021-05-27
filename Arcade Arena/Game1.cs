@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using Arcade_Arena.Library;
 
 namespace Arcade_Arena
 {
@@ -19,6 +20,7 @@ namespace Arcade_Arena
         CharacterSelection,
         Pause,
         Settings,
+        Lobby,
         Quit,
     }
 
@@ -29,9 +31,12 @@ namespace Arcade_Arena
         SpriteBatch spriteBatch;
 
         public static Random random = new Random();
+        public static int seed = 0;
 
         public const float SCALE = 5.0f;
 
+
+        private NetworkManager networkManager;
 
 
         public static double elapsedGameTimeSeconds { get; private set; }
@@ -46,6 +51,7 @@ namespace Arcade_Arena
         PlayState ffaArena;
         MainMenuState mainMenu;
         CharacterSelectionState characterSelection;
+        LobbyState lobby;
 
         public Game1()
         {
@@ -61,12 +67,18 @@ namespace Arcade_Arena
    
         protected override void LoadContent()
         {
+            //initiating networkmanager in game1 so that the lobby can have access to it aswell
+            Library.Player tempPlayer = new Library.Player
+            {Type = Library.Player.ClassType.Wizard};
+            networkManager = new NetworkManager(tempPlayer);
+
             spriteBatch = new SpriteBatch(GraphicsDevice);
             AssetManager.LoadTextures(Content);
 
             
             mainMenu = new MainMenuState(Window);
-            characterSelection = new CharacterSelectionState(Window);
+            characterSelection = new CharacterSelectionState(Window, networkManager);
+            lobby = new LobbyState(Window, networkManager, ref player);
 
         }
 
@@ -102,13 +114,16 @@ namespace Arcade_Arena
                     break;
                 case States.CharacterSelection:
                     characterSelection.Update(gameTime, ref state, ref player);
-                    if(state == States.FFA)
-                    {
-                        ffaArena = new PlayState(Window, spriteBatch, player);
-                    }
                     break;
                 case States.Pause:
                     mainMenu.Update(gameTime, ref state, ref player);
+                    break;
+                case States.Lobby: 
+                    lobby.Update(gameTime, ref state, ref player);
+                    if (state == States.FFA)
+                    {
+                        ffaArena = new PlayState(Window, spriteBatch, player, networkManager);
+                    }
                     break;
 
                 default:
@@ -139,6 +154,9 @@ namespace Arcade_Arena
                 case States.Pause:
                     ffaArena.Draw(spriteBatch, state);
                     mainMenu.Draw(spriteBatch, state);
+                    break;
+                case States.Lobby:
+                    lobby.Draw(spriteBatch, state);
                     break;
                 default:
                     break;

@@ -18,54 +18,15 @@ namespace Arcade_Arena
 
         public bool CanWalk { get; private set; }
         private int nCanWalkStoppingEffects;
-        public void AddCanWalkStoppingEffect()
-        {
-            nCanWalkStoppingEffects++;
-            CanWalk = true;
-        }
-        public void RemoveCanWalkStoppingEffect()
-        {
-            nCanWalkStoppingEffects--;
-            if (nCanWalkStoppingEffects <= 0)
-            {
-                CanWalk = false;
-                nCanWalkStoppingEffects = 0;
-            }
-        }
+       
 
         public bool Stunned { get; private set; }
         private int nStunEffects;
-        public void AddStunEffect()
-        {
-            nStunEffects++;
-            Stunned = true;
-        }
-        public void RemoveStunEffect()
-        {
-            nStunEffects--;
-            if (nStunEffects <= 0)
-            {
-                Stunned = false;
-                nStunEffects = 0;
-            }
-        }
+        
 
         public bool Invincible { get; private set; }
         private int nInvincibleEffects;
-        public void AddInvincibleEffect()
-        {
-            nInvincibleEffects++;
-            Invincible = true;
-        }
-        public void RemoveInvincibleEffect()
-        {
-            nInvincibleEffects--;
-            if (nInvincibleEffects <= 0)
-            {
-                Invincible = false;
-                nInvincibleEffects = 0;
-            }
-        }
+       
 
         protected int mana;
 
@@ -99,6 +60,8 @@ namespace Arcade_Arena
         public SpriteAnimation CurrentAnimation => currentAnimation;
 
         public sbyte Health { get { return health; } private set { health = value; } }
+
+        public float OrbiterRotation { get { return orbiterRotation; } private set { orbiterRotation = value; } }
 
         public bool IsDead => isDead;
 
@@ -141,6 +104,57 @@ namespace Arcade_Arena
             isDead = true;
         }
 
+        public void SpawnLocation(Vector2 position)
+        {
+            this.position = position;
+            lastPosition = position;
+        }
+
+        public void AddCanWalkStoppingEffect()
+        {
+            nCanWalkStoppingEffects++;
+            CanWalk = true;
+        }
+        public void RemoveCanWalkStoppingEffect()
+        {
+            nCanWalkStoppingEffects--;
+            if (nCanWalkStoppingEffects <= 0)
+            {
+                CanWalk = false;
+                nCanWalkStoppingEffects = 0;
+            }
+        }
+
+        public void AddInvincibleEffect()
+        {
+            nInvincibleEffects++;
+            Invincible = true;
+        }
+        public void RemoveInvincibleEffect()
+        {
+            nInvincibleEffects--;
+            if (nInvincibleEffects <= 0)
+            {
+                Invincible = false;
+                nInvincibleEffects = 0;
+            }
+        }
+
+        public void AddStunEffect()
+        {
+            nStunEffects++;
+            Stunned = true;
+        }
+        public void RemoveStunEffect()
+        {
+            nStunEffects--;
+            if (nStunEffects <= 0)
+            {
+                Stunned = false;
+                nStunEffects = 0;
+            }
+        }
+
         protected void UpdateSpriteEffect()
         {
             if (aimDirection >= 1.53269 || aimDirection <= -1.547545)
@@ -176,11 +190,11 @@ namespace Arcade_Arena
         {
             if (Blocked)
             {
-                position = lastPosition;
+                position = LastPosition;
             }
             else
             {
-                lastPosition = position;
+                LastPosition = position;
             }
             
         }

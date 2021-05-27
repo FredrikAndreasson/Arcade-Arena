@@ -8,7 +8,7 @@ using Arcade_Arena.Classes;
 
 namespace Arcade_Arena.Managers
 {
-    class NetworkManager
+    public class NetworkManager
     {
         private int timer = 100;
         private bool isRetrieved = false;
@@ -25,35 +25,12 @@ namespace Arcade_Arena.Managers
 
         private Player.ClassType classType;
 
-        public NetworkManager(Character playerCharacter)
+        public NetworkManager(Player playerCharacter)
         {
             Players = new List<Player>();
             ServerAbilities = new List<AbilityOutline>();
 
-            if(playerCharacter is Wizard)
-            {
-                classType = Player.ClassType.Wizard;
-            }
-            else if(playerCharacter is Ogre)
-            {
-                classType = Player.ClassType.Ogre;
-            }
-            else if(playerCharacter is Huntress)
-            {
-                classType = Player.ClassType.Huntress;
-            }
-            else if(playerCharacter is TimeTraveler)
-            {
-                classType = Player.ClassType.TimeTraveler;
-            }
-            else if (playerCharacter is Knight)
-            {
-                classType = Player.ClassType.Knight;
-            }
-            //else if (playerCharacter is Assassin)
-            //{
-            //    classType = Player.ClassType.Assassin;
-            //}
+            classType = playerCharacter.Type;
 
         }
        public NetConnectionStatus Status => client.ConnectionStatus;
@@ -71,17 +48,21 @@ namespace Arcade_Arena.Managers
             outmsg.Write((byte)PacketType.Login);
             outmsg.Write(Username);
             outmsg.Write((byte)classType);
+          
+            Player player = new Player()
+            {
+                Username = Username,
+                Type = classType
+            };
+            Players.Add(player);
+
             //client.Connect("85.228.136.154", 14241, outmsg);
             client.Connect("localhost", 14241, outmsg);
             return EstablishInfo();
 
-            //var outmsg1 = client.CreateMessage();
-            //outmsg1.Write(PacketType.ability);
-            //outmsg1.Write(hitplayer);
-            //outmsg1.Write(Ability);
-            //outmsg1.Write(ability.UserName);
-
         }
+
+
 
         private bool EstablishInfo()
         {
@@ -136,6 +117,7 @@ namespace Arcade_Arena.Managers
                 outmsg.Write(player.Animation.Width);
                 outmsg.Write(player.Health);
                 outmsg.Write(player.IntersectingLava);
+                outmsg.Write(player.OrbiterRotation);
                 client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
             }
 
@@ -188,7 +170,7 @@ namespace Arcade_Arena.Managers
                     break;
 
                 case PacketType.AbilityCreate:
-                    RecieveAbilityCreate(inc);
+                    ReceiveAbilityCreate(inc);
                     break;
 
                 case PacketType.AbilityDelete:
@@ -196,15 +178,23 @@ namespace Arcade_Arena.Managers
                     break;
                 
                 case PacketType.AbilityUpdate:
-                    RecieveAbilityUpdate(inc);
+                    ReceiveAbilityUpdate(inc);
                     break;
                 case PacketType.Score:
-                    RecieveScore(inc);
+                    ReceiveScore(inc);
                     break;
                 case PacketType.Login:
-                    RecieveLogin(inc);
+                    ReceiveLogin(inc);
                     break;
-
+                case PacketType.ReadyCheck:
+                    ReceiveReadyCheck(inc);
+                    break;
+                case PacketType.Seed:
+                    ReceiveSeed(inc);
+                    break;
+                case PacketType.ClassChange:
+                    ReceiveClassChange(inc);
+                    break;
                     
 
 
@@ -213,19 +203,69 @@ namespace Arcade_Arena.Managers
             }
         }
 
-
-        private void RecieveLogin(NetIncomingMessage inc)
+        private void ReceiveClassChange(NetIncomingMessage inc)
         {
-            
+            string name = inc.ReadString();
+            Player.ClassType type = (Player.ClassType)inc.ReadByte();
+            var player = Players.FirstOrDefault(p => p.Username == name);
+            if (player == null)
+            {
+                return;
+            }
+            player.Type = type;
         }
 
-        private void RecieveScore(NetIncomingMessage inc)
+        private void ReceiveSeed(NetIncomingMessage inc)
+        {
+            Game1.seed = inc.ReadInt32();
+        }
+
+        private void ReceiveLogin(NetIncomingMessage inc)
+        {
+            inc.ReadByte();
+            int count = inc.ReadInt32();
+            for (int i = 0; i < count; i++)
+            {
+                Player player = new Player();
+                inc.ReadAllProperties(player);
+                Players.Add(player);
+            }
+        }
+
+        private void ReceiveScore(NetIncomingMessage inc)
         {
             string name = inc.ReadString();
             sbyte score = inc.ReadSByte();
 
             var player = Players.FirstOrDefault(p => p.Username == name);
             if (player != null) player.Score = score;
+        }
+
+        private void ReceiveReadyCheck(NetIncomingMessage inc)
+        {
+            string name = inc.ReadString();
+            bool ready = inc.ReadBoolean();
+
+            var player = Players.FirstOrDefault(p => p.Username == name);
+            player.Ready = ready;
+        }
+
+        public void SendReadyTag(bool ready)
+        {
+            var outmsg = client.CreateMessage();
+            outmsg.Write((byte)PacketType.ReadyCheck);
+            outmsg.Write(Username);
+            outmsg.Write(ready);
+            client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
+        }
+
+        public void SendClassChange(Player.ClassType type)
+        {
+            var outmsg = client.CreateMessage();
+            outmsg.Write((byte)PacketType.ClassChange);
+            outmsg.Write(Username);
+            outmsg.Write((byte)type);
+            client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
         }
 
         public void SendPlayerScore(string Username)
@@ -314,7 +354,7 @@ namespace Arcade_Arena.Managers
             DeleteAbility(ID, username);
         }
 
-        private void RecieveAbilityCreate(NetIncomingMessage inc)
+        private void ReceiveAbilityCreate(NetIncomingMessage inc)
         {
             var name = inc.ReadString();
             byte ID = inc.ReadByte();
@@ -332,7 +372,7 @@ namespace Arcade_Arena.Managers
             }
         }
 
-        public void RecieveAbilityUpdate(NetIncomingMessage inc)
+        private void ReceiveAbilityUpdate(NetIncomingMessage inc)
         {
 
             var name = inc.ReadString();
@@ -365,6 +405,7 @@ namespace Arcade_Arena.Managers
 
         private void UpdateLava(NetIncomingMessage inc)
         {
+            if (Level.lava == null) return;
             Level.lava.ShrinkPlatform(inc.ReadInt16());
         }
         
@@ -385,6 +426,7 @@ namespace Arcade_Arena.Managers
                 oldPlayer.Health = inc.ReadSByte();
                 oldPlayer.IntersectingLava = inc.ReadBoolean();
                 oldPlayer.Type = (Player.ClassType)inc.ReadByte();
+                oldPlayer.OrbiterRotation = inc.ReadDouble();
             }
             else
             {
@@ -399,6 +441,7 @@ namespace Arcade_Arena.Managers
                 player.Health = inc.ReadSByte();
                 player.IntersectingLava = inc.ReadBoolean();
                 player.Type = (Player.ClassType)inc.ReadByte();
+                player.OrbiterRotation = inc.ReadFloat();
                 Players.Add(player);
             }
         }

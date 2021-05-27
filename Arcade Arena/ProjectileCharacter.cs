@@ -53,6 +53,7 @@ namespace Arcade_Arena
                 currentAnimation.SpriteFX = SpriteEffects.None;
             }
             weaponPosition.Y = middleOfSprite.Y + weaponOffsetY;
+            
             MouseState mousePosition = Mouse.GetState();
             orbiterRotation = UpdateOrbiterRotation();
 

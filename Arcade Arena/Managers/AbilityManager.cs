@@ -145,7 +145,7 @@ namespace Arcade_Arena.Managers
             }
 
             AbilityDeletionCheck();
-            //AbilityObstacleCollision();
+            AbilityObstacleCollision();
         }
 
         private void CheckAbilityConditions(int i)
@@ -179,16 +179,8 @@ namespace Arcade_Arena.Managers
                 {
                     if (tempHitbox.Intersects(obstacle.HitBox()) && networkManager.ServerAbilities.Count > 0)
                     {
-                        int index = abilities.FindIndex(a => a.ID == networkManager.ServerAbilities[i].ID &&
-                        a.Username == networkManager.ServerAbilities[i].Username);
-
-                        if (abilities.Any(a => a.ID == networkManager.ServerAbilities[i].ID &&
-                        a.Username == networkManager.ServerAbilities[i].Username))
-                        { abilities.RemoveAt(index); }
 
                         networkManager.DeleteLocalAbility(networkManager.ServerAbilities[i].ID);
-
-                        i--;
                     }
                 }
             }

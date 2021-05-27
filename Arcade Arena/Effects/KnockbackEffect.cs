@@ -30,6 +30,7 @@ namespace Arcade_Arena.Effects
         public override void Update()
         {
             ownerCharacter.UpdateVelocity(direction, speed);
+            ownerCharacter.LastPosition = ownerCharacter.Position;
             speed = speed / 2 + (float)timer / 4; //idk
             base.Update();
             if (speed < 0.1f)

@@ -26,6 +26,7 @@ namespace Arcade_Arena.Server.Commands
                 outmsg.Write(p.Player.Health);
                 outmsg.Write(p.Player.IntersectingLava);
                 outmsg.Write((byte)p.Player.Type);
+                outmsg.Write(p.Player.OrbiterRotation);
             }
             server.NetServer.SendToAll(outmsg, NetDeliveryMethod.ReliableOrdered);
         }

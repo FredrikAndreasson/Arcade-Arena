@@ -19,8 +19,8 @@ namespace Arcade_Arena
             this.graphicsDevice = graphicsDevice;
             renderTarget = new RenderTarget2D(graphicsDevice, window.ClientBounds.Width, window.ClientBounds.Height);
             originalLava = new Color[renderTarget.Width * renderTarget.Height];
-            middleHeight = AssetManager.Lava.Height / 2;
-            middleWidth = AssetManager.Lava.Width / 2;
+            middleHeight = window.ClientBounds.Height / 2;
+            middleWidth = window.ClientBounds.Width / 2;
         }
 
 
@@ -42,9 +42,9 @@ namespace Arcade_Arena
 
         public void ShrinkPlatform(int radius)
         {
-            /*
+
             List<Rectangle> testRects = new List<Rectangle>();
-            
+
             int j = -1;
 
             for (int i = 90; i < 270; i++)
@@ -81,7 +81,7 @@ namespace Arcade_Arena
             {
                 renderTarget.SetData(0, lavaRects, transparentField, 0, lavaRects.Width * lavaRects.Height);
             }
-            */
+
         }
     }
 }
