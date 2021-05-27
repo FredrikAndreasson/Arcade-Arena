@@ -1,4 +1,5 @@
 ﻿using Arcade_Arena.Abilites;
+using Arcade_Arena.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -62,6 +63,9 @@ namespace Arcade_Arena.Classes
 
             ChangeAnimation(ref currentAnimation, idleAnimation);
             ChangeAnimation(ref currentHandAnimation, handIdleAnimation);
+
+            maxHealth = 80;
+            health = maxHealth;
 
             speed = 1;
         }
@@ -141,6 +145,12 @@ namespace Arcade_Arena.Classes
             aimDirection = UpdateAimDirection();
         }
 
+        public void CancelTeleportStart()
+        {
+            ExitTeleport(false);
+            teleportCooldown = 0;
+        }
+
         private void ExitIceBlock()
         {
             inIceBlock = false;
@@ -210,9 +220,9 @@ namespace Arcade_Arena.Classes
             shadow.Draw(spriteBatch);
             spriteBatch.Draw(AssetManager.WizardShadow, new Vector2(Position.X + AssetManager.WizardShadow.Width / 4, Position.Y + 85), Color.Red);
             DrawAnimations(spriteBatch);
-            currentAnimation.Draw(spriteBatch, lastPosition, 0.0f, Vector2.Zero, Game1.SCALE);
+            currentAnimation.Draw(spriteBatch, LastPosition, 0.0f, Vector2.Zero, Game1.SCALE);
             base.Draw(spriteBatch);
-            currentHandAnimation.Draw(spriteBatch, lastPosition, 0.0f, Vector2.Zero, Game1.SCALE);
+            currentHandAnimation.Draw(spriteBatch, LastPosition, 0.0f, Vector2.Zero, Game1.SCALE);
         }
 
         private void DrawAnimations(SpriteBatch spriteBatch)
@@ -234,17 +244,18 @@ namespace Arcade_Arena.Classes
             teleportCooldown = teleportMaxCooldown;
             ChangeAnimation(ref currentAnimation, teleportInAnimation);
             ChangeAnimation(ref currentHandAnimation, handTeleportInAnimation);
+            UpdateSpriteEffect();
             teleportOutAnimation.XIndex = 0;
             teleportInAnimation.XIndex = 0;
             teleportCooldown = 6;
 
             Vector2 teleportVelocity;
-            teleportVelocity.Y = (float)(Math.Sin(MathHelper.ToRadians((float)aimDirection)) * speed);
-            teleportVelocity.X = (float)(Math.Cos(MathHelper.ToRadians((float)aimDirection)) * speed);
+            teleportVelocity.Y = (float)(Math.Sin(aimDirection) * speed);
+            teleportVelocity.X = (float)(Math.Cos(aimDirection) * speed);
 
             newPosition = Position + (teleportVelocity * 100);
 
-            Ability ability = new TeleportAbility(this, newPosition);
+            Ability ability = new TeleportAbility(this, newPosition, speed, direction);
             abilityBuffer.Add(ability);
         }
 
@@ -254,12 +265,13 @@ namespace Arcade_Arena.Classes
             iceBlockCooldown = iceBlockMaxCooldown;
             ChangeAnimation(ref currentAnimation, iceBlockWizardAnimation);
             ChangeAnimation(ref currentHandAnimation, handIceBlockAnimation);
+            UpdateSpriteEffect();
             iceBlockAnimation.XIndex = 0;
             iceBlockCooldown = 10;
             AddInvincibleEffect();
 
 
-            Ability ability = new IceblockAbility(this);
+            Ability ability = new IceblockAbility(this, Position, speed, direction);
             abilityBuffer.Add(ability);
         }
     }

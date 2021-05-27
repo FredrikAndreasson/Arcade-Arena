@@ -30,7 +30,7 @@ namespace Arcade_Arena
         private Character player;
 
 
-        public PlayState(GameWindow Window, SpriteBatch spriteBatch, Character player) : base (Window)
+        public PlayState(GameWindow Window, SpriteBatch spriteBatch, Character player, NetworkManager networkManager) : base (Window)
         {
             this.spriteBatch = spriteBatch;
             if(player is Wizard)
@@ -56,15 +56,15 @@ namespace Arcade_Arena
             }
             currentLevel = CreateNewLevel();
 
-            networkManager = new NetworkManager(player);
+            this.networkManager = networkManager;
             
 
             playerManager = new PlayerManager(networkManager, player, currentLevel);
             abilityManager = new AbilityManager(networkManager, playerManager);
 
-            userInterfaceManager = new UserInterfaceManager(networkManager, Window);
+            userInterfaceManager = new UserInterfaceManager(Window);
 
-            networkManager.Start();
+            
         }
 
         private Level CreateNewLevel()
@@ -89,7 +89,7 @@ namespace Arcade_Arena
             networkManager.Update();
             playerManager.UpdatePlayer();
             abilityManager.Update(player);
-            userInterfaceManager.Update(gameTime);
+            userInterfaceManager.UpdateGameplayLoop();
             MouseKeyboardManager.Update();
 
             currentLevel.Update();
@@ -105,11 +105,11 @@ namespace Arcade_Arena
             if (networkManager.Active)
             {
                 //lava.Draw(spriteBatch);
-                userInterfaceManager.Draw(spriteBatch);
 
                 currentLevel.Draw(spriteBatch, networkManager);
 
                 abilityManager.Draw(spriteBatch);
+                userInterfaceManager.DrawGameplayLoop(spriteBatch, networkManager);
             }
             // spriteBatch.Draw(AssetManager.lava, new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2), null, Color.White, 0.0f, new Vector2(AssetManager.lava.Width / 2, AssetManager.lava.Height / 2), 1.0f, SpriteEffects.None, 1.0f);
 

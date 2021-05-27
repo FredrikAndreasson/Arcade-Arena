@@ -28,7 +28,12 @@ namespace Arcade_Arena.Library
 
         public bool isHit { get; set; }
 
+
         public double OrbiterRotation { get; set; }
+
+        public bool Ready { get; set; }
+
+
         public bool IntersectingLava { get; set; }
 
 

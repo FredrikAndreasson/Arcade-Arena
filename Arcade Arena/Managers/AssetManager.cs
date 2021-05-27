@@ -5,7 +5,7 @@ namespace Arcade_Arena
 {
     static class AssetManager
     {
-
+        public static Texture2D px { get; private set; }
         public static Texture2D Ball { get; private set; }
         public static Texture2D TargetDummy { get; private set; }
         public static Texture2D Lava { get; private set; }
@@ -68,8 +68,12 @@ namespace Arcade_Arena
 
         public static Texture2D selectTimeTraveler { get; private set; }
 
+        public static Texture2D stoneTiles { get; private set; }
+
         public static void LoadTextures(ContentManager Content)
         {
+            px = Content.Load<Texture2D>("px");
+
             Arena = Content.Load<Texture2D>("Arena");
             Ball = Content.Load<Texture2D>("Class\\Ball");
             TargetDummy = Content.Load<Texture2D>("TargetDummy");
@@ -120,6 +124,7 @@ namespace Arcade_Arena
             selectKnight = Content.Load<Texture2D>("MainMenu\\selectKnight");
             selectTimeTraveler = Content.Load<Texture2D>("MainMenu\\selectTimeTraveler");
 
+            stoneTiles = Content.Load<Texture2D>("stoneTiles");
 
 
             CooldownFont = Content.Load<SpriteFont>("Fonts\\CooldownFont");

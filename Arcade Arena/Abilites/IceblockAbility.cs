@@ -13,7 +13,7 @@ namespace Arcade_Arena.Abilites
     class IceblockAbility : Ability
     {
         Wizard player;
-        public IceblockAbility(Wizard player)
+        public IceblockAbility(Wizard player, Vector2 position, float speed, double direction) : base(position, speed, direction)
         {
             this.player = player;
 
@@ -21,7 +21,7 @@ namespace Arcade_Arena.Abilites
             currentAnimation = new SpriteAnimation(AssetManager.WizardIceBlock, new Vector2(0, 0), new Vector2(4, 0), 
                 new Vector2(14, 20), new Vector2(4, 0), 1000);
 
-            this.position = player.Position;
+            this.position = position;
         }
 
         public override void Draw(SpriteBatch spriteBatch)

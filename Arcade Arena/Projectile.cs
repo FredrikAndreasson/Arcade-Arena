@@ -17,7 +17,7 @@ namespace Arcade_Arena
         private double activeTimer;
 
 
-        public Projectile(int damage, double timer, Vector2 position, float speed, double direction)
+        public Projectile(int damage, double timer, Vector2 position, float speed, double direction) : base(position, speed, direction)
         {
             Type = Library.AbilityOutline.AbilityType.Projectile;
             this.damage = damage;
@@ -43,7 +43,7 @@ namespace Arcade_Arena
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            currentAnimation.Draw(spriteBatch, position, 0.0f, Vector2.Zero, Game1.SCALE);
+            currentAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, Game1.SCALE);
         }
     }
 }

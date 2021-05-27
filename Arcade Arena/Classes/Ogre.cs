@@ -42,6 +42,9 @@ namespace Arcade_Arena.Classes
 
             shadow = new Shadow(Position, AssetManager.OgreShadow, speed, direction);
 
+            maxHealth = 120;
+            health = maxHealth;
+
             speed = 1;
         }
 
@@ -149,7 +152,7 @@ namespace Arcade_Arena.Classes
             currentAnimation = groundSmashOgreAnimation;
             groundSmashAnimation.XIndex = 0;
 
-            Ability ability = new GroundSlamAbility(this);
+            Ability ability = new GroundSlamAbility(this, Position, speed, direction);
             abilityBuffer.Add(ability);
 
         }

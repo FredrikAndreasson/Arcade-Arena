@@ -18,56 +18,19 @@ namespace Arcade_Arena
 
         public bool CanWalk { get; private set; }
         private int nCanWalkStoppingEffects;
-        public void AddCanWalkStoppingEffect()
-        {
-            nCanWalkStoppingEffects++;
-            CanWalk = true;
-        }
-        public void RemoveCanWalkStoppingEffect()
-        {
-            nCanWalkStoppingEffects--;
-            if (nCanWalkStoppingEffects <= 0)
-            {
-                CanWalk = false;
-                nCanWalkStoppingEffects = 0;
-            }
-        }
+       
 
         public bool Stunned { get; private set; }
         private int nStunEffects;
-        public void AddStunEffect()
-        {
-            nStunEffects++;
-            Stunned = true;
-        }
-        public void RemoveStunEffect()
-        {
-            nStunEffects--;
-            if (nStunEffects <= 0)
-            {
-                Stunned = false;
-                nStunEffects = 0;
-            }
-        }
+        
 
         public bool Invincible { get; private set; }
         private int nInvincibleEffects;
-        public void AddInvincibleEffect()
-        {
-            nInvincibleEffects++;
-            Invincible = true;
-        }
-        public void RemoveInvincibleEffect()
-        {
-            nInvincibleEffects--;
-            if (nInvincibleEffects <= 0)
-            {
-                Invincible = false;
-                nInvincibleEffects = 0;
-            }
-        }
+       
 
         protected int mana;
+
+        protected sbyte maxHealth;
 
         protected bool isDead = false;
 
@@ -138,9 +101,60 @@ namespace Arcade_Arena
             isDead = true;
         }
 
-        private void UpdateSpriteEffect()
+        public void SpawnLocation(Vector2 position)
         {
-            if (orbiterRotation >= 1.53269 || orbiterRotation <= -1.547545)
+            this.position = position;
+            lastPosition = position;
+        }
+
+        public void AddCanWalkStoppingEffect()
+        {
+            nCanWalkStoppingEffects++;
+            CanWalk = true;
+        }
+        public void RemoveCanWalkStoppingEffect()
+        {
+            nCanWalkStoppingEffects--;
+            if (nCanWalkStoppingEffects <= 0)
+            {
+                CanWalk = false;
+                nCanWalkStoppingEffects = 0;
+            }
+        }
+
+        public void AddInvincibleEffect()
+        {
+            nInvincibleEffects++;
+            Invincible = true;
+        }
+        public void RemoveInvincibleEffect()
+        {
+            nInvincibleEffects--;
+            if (nInvincibleEffects <= 0)
+            {
+                Invincible = false;
+                nInvincibleEffects = 0;
+            }
+        }
+
+        public void AddStunEffect()
+        {
+            nStunEffects++;
+            Stunned = true;
+        }
+        public void RemoveStunEffect()
+        {
+            nStunEffects--;
+            if (nStunEffects <= 0)
+            {
+                Stunned = false;
+                nStunEffects = 0;
+            }
+        }
+
+        protected void UpdateSpriteEffect()
+        {
+            if (aimDirection >= 1.53269 || aimDirection <= -1.547545)
             {
                 currentAnimation.SpriteFX = SpriteEffects.FlipHorizontally;
             }
@@ -152,11 +166,11 @@ namespace Arcade_Arena
 
         protected bool WalkingBackwards()
         {
-            if ((direction > Math.PI * 0.5 && direction < Math.PI * 1.5) && !(orbiterRotation >= 1.53269 || orbiterRotation <= -1.547545))
+            if ((direction > Math.PI * 0.5 && direction < Math.PI * 1.5) && !(aimDirection >= 1.53269 || aimDirection <= -1.547545))
             {
                 return true;
             }
-            if (!(direction > Math.PI * 0.5 && direction < Math.PI * 1.5) && (orbiterRotation >= 1.53269 || orbiterRotation <= -1.547545))
+            if (!(direction > Math.PI * 0.5 && direction < Math.PI * 1.5) && (aimDirection >= 1.53269 || aimDirection <= -1.547545))
             {
                 return true;
             }
@@ -173,11 +187,11 @@ namespace Arcade_Arena
         {
             if (Blocked)
             {
-                position = lastPosition;
+                position = LastPosition;
             }
             else
             {
-                lastPosition = position;
+                LastPosition = position;
             }
             
         }
@@ -194,6 +208,15 @@ namespace Arcade_Arena
                 {
                     Die();
                 }
+            }
+        }
+
+        public void Heal(sbyte amount)
+        {
+            health += amount;
+            if (health > maxHealth || health < 0)
+            {
+                health = maxHealth;
             }
         }
 
@@ -274,7 +297,7 @@ namespace Arcade_Arena
         protected double UpdateAimDirection()
         {
             UpdateMiddleOfSprite();
-            double newDirection = MathHelper.ToDegrees((float)Math.Atan2(MouseKeyboardManager.MousePosition.Y - middleOfSprite.Y, MouseKeyboardManager.MousePosition.X - middleOfSprite.X));
+            double newDirection = Math.Atan2(MouseKeyboardManager.MousePosition.Y - middleOfSprite.Y, MouseKeyboardManager.MousePosition.X - middleOfSprite.X);
             return newDirection;
         }
 

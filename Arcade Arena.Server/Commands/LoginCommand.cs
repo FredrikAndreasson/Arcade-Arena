@@ -22,7 +22,7 @@ namespace Arcade_Arena.Server.Commands
                 outmsg.Write((byte)PacketType.Login);
                 outmsg.Write(true);                
                 outmsg.Write(players.Count);
-                for (int n = 0; n < players.Count - 1; n++)
+                for (int n = 0; n < players.Count; n++)
                 {
                     outmsg.WriteAllProperties(players[n].Player);
 

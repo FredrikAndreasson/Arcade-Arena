@@ -48,6 +48,9 @@ namespace Arcade_Arena.Classes
             ChangeAnimation(ref currentAnimation, idleAnimation);
 
             speed = 1;
+            maxHealth = 100;
+
+            health = maxHealth;
         }
         public override void Update()
         {

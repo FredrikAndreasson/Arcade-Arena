@@ -3,10 +3,11 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System;
+using System.Diagnostics;
 
 namespace Arcade_Arena.Classes
 {
-    public class TimeTraveler : Character
+    public class TimeTraveler : ProjectileCharacter
     {
         SpriteAnimation idleAnimation;
         SpriteAnimation handIdleAnimation;
@@ -37,7 +38,7 @@ namespace Arcade_Arena.Classes
         {
             idleAnimation = new SpriteAnimation(AssetManager.TimeTravelerSpriteSheet, new Vector2(0, 0), new Vector2(0, 0), new Vector2(14, 20), new Vector2(5, 0), 5000);
             handIdleAnimation = new SpriteAnimation(AssetManager.TimeTravelerHandSpriteSheet, new Vector2(0, 0), new Vector2(0, 0), new Vector2(14, 20), new Vector2(5, 0), 5000);
-            timeTravelAnimation = new SpriteAnimation(AssetManager.TimeTravelerSpriteSheet, new Vector2(2, 0), new Vector2(3, 0), new Vector2(14, 20), new Vector2(5, 0), 600);
+            timeTravelAnimation = new SpriteAnimation(AssetManager.TimeTravelerSpriteSheet, new Vector2(2, 0), new Vector2(3, 0), new Vector2(14, 20), new Vector2(5, 0), 200);
             handTimeTravelAnimation = new SpriteAnimation(AssetManager.TimeTravelerHandSpriteSheet, new Vector2(2, 0), new Vector2(3, 0), new Vector2(14, 20), new Vector2(5, 0), 600);
             timeZoneAnimation = new SpriteAnimation(AssetManager.TimeTravelerSpriteSheet, new Vector2(4, 0), new Vector2(4, 0), new Vector2(14, 20), new Vector2(5, 0), 5000);
             handTimeZoneAnimation = new SpriteAnimation(AssetManager.TimeTravelerHandSpriteSheet, new Vector2(4, 0), new Vector2(4, 0), new Vector2(14, 20), new Vector2(5, 0), 5000);
@@ -50,53 +51,65 @@ namespace Arcade_Arena.Classes
 
             shadow = new Shadow(position, AssetManager.WizardShadow, speed, direction);
 
+            maxHealth = 110;
+            health = maxHealth;
+
             speed = 1;
         }
 
         public override void Update()
         {
-            if (!doingTimeTravel)
-            {
-                previousPositions.Add(new Vector2(Position.X, Position.Y));
-            }
             UpdateTimeZones();
             currentAnimation.Update();
             currentHandAnimation.Update();
             UpdateCooldowns();
             CheckAbilityUse();
 
-            if (doingTimeTravel)
+            if (!doingTimeTravel)
             {
-                if (previousPositions.Count > 1)
+                previousPositions.Add(new Vector2(Position.X, Position.Y));
+                if (previousPositions.Count > 400)
                 {
-                    position = previousPositions[previousPositions.Count - 1];
+                    previousPositions.RemoveAt(0);
+                }
+
+                if (doingTimeZone)
+                {
+                    if (timeZoneCooldown <= timeZoneMaxCooldown - 0.7f)//slut på ability
+                    {
+                        ExitTimeZone();
+                        ChangeAnimation(ref currentAnimation, idleAnimation);
+                        ChangeAnimation(ref currentHandAnimation, handIdleAnimation);
+                        Debug.WriteLine("yo");
+                    }
+                    UpdateEffects();
+                }
+                else
+                {
+                    ChangeAnimation(ref currentAnimation, idleAnimation);
+                    ChangeAnimation(ref currentHandAnimation, handIdleAnimation);
+                    UpdateMiddleOfSprite();
+                    base.Update();
+                }
+                currentHandAnimation.SpriteFX = currentAnimation.SpriteFX;
+                shadow.Update(Position);
+            }
+            else
+            {
+                if (previousPositions.Count > 2)
+                {
+                    position = previousPositions[previousPositions.Count - 3];
+                    previousPositions.Remove(previousPositions[previousPositions.Count - 1]);
+                    previousPositions.Remove(previousPositions[previousPositions.Count - 1]);
                     previousPositions.Remove(previousPositions[previousPositions.Count - 1]);
                 }
-                if (timeTravelCooldown <= timeTravelMaxCooldown - 1.5f)// slut på ability
+                if (timeTravelCooldown <= timeTravelMaxCooldown - 1.4f)// slut på ability
                 {
                     ExitTimeTravel();
                     ChangeAnimation(ref currentAnimation, idleAnimation);
                     ChangeAnimation(ref currentHandAnimation, handIdleAnimation);
                 }
             }
-            else if (doingTimeZone)
-            {
-                if (timeZoneCooldown <= timeZoneMaxCooldown - 0.7f)//slut på ability
-                {
-                    ExitTimeZone();
-                    ChangeAnimation(ref currentAnimation, idleAnimation);
-                    ChangeAnimation(ref currentHandAnimation, handIdleAnimation);
-                }
-                UpdateEffects();
-            }
-            else
-            {
-                ChangeAnimation(ref currentAnimation, idleAnimation);
-                ChangeAnimation(ref currentHandAnimation, handIdleAnimation);
-                base.Update();
-            }
-            currentHandAnimation.SpriteFX = currentAnimation.SpriteFX;
-            shadow.Update(Position);
         }
 
         private void CheckAbilityUse()
@@ -105,18 +118,18 @@ namespace Arcade_Arena.Classes
             {
                 if (!doingTimeTravel)
                 {
-                    if (Keyboard.GetState().IsKeyDown(Keys.E) && timeTravelCooldown <= 0)
+                    if (Keyboard.GetState().IsKeyDown(Keys.LeftShift) && timeTravelCooldown <= 0)
                     {
                         TimeTravelAbility();
                     }
-                    return;
-                }
-                else if (!doingTimeZone)
-                {
-                    if (Keyboard.GetState().IsKeyDown(Keys.LeftShift) && timeZoneCooldown <= 0)
+                    else if (!doingTimeZone)
                     {
-                        TimeZoneAbility();
+                        if (Keyboard.GetState().IsKeyDown(Keys.E) && timeZoneCooldown <= 0)
+                        {
+                            TimeZoneAbility();
+                        }
                     }
+                    return;
                 }
             }
         }
@@ -175,16 +188,20 @@ namespace Arcade_Arena.Classes
             timeTravelCooldown = timeTravelMaxCooldown;
             ChangeAnimation(ref currentAnimation, timeTravelAnimation);
             ChangeAnimation(ref currentHandAnimation, handTimeTravelAnimation);
+            UpdateSpriteEffect();
         }
 
         void TimeZoneAbility()
         {
             doingTimeZone = true;
             timeZoneCooldown = timeZoneMaxCooldown;
-            TimeZone newTimeZone = new TimeZone(timeZoneTimer, this, Position, AssetManager.TimeTravelerTimeZone);
+            int timeZonePositionX = (int)(middleOfSprite.X - (AssetManager.TimeTravelerTimeZone.Width / 2) * Game1.SCALE);
+            int timeZonePositionY = (int)(middleOfSprite.Y - (AssetManager.TimeTravelerTimeZone.Height / 2) * Game1.SCALE);
+            TimeZone newTimeZone = new TimeZone(timeZoneTimer, this, new Vector2(timeZonePositionX, timeZonePositionY), AssetManager.TimeTravelerTimeZone, speed, direction);
             timeZones.Add(newTimeZone);
             ChangeAnimation(ref currentAnimation, timeZoneAnimation);
             ChangeAnimation(ref currentHandAnimation, handTimeZoneAnimation);
+            UpdateSpriteEffect();
         }
 
         protected override void ExitAnimationOnHit()

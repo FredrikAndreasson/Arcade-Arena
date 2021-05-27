@@ -9,17 +9,14 @@ using System.Threading.Tasks;
 
 namespace Arcade_Arena
 {
-    public abstract class Ability
+    public abstract class Ability : DynamicObject
     {
-
-        public Vector2 position;
         public byte ID;
 
         protected bool isDead;
         protected SpriteAnimation currentAnimation;
-        protected double direction;
 
-        public Ability()
+        public Ability(Vector2 position, float speed, double direction) : base(position, speed, direction)
         {
             isDead = false;
         }
