@@ -55,9 +55,9 @@ namespace Arcade_Arena.Managers
             // Rect to check collision between player and projectile, will be moved to Character or removed all together 2 be replaced with pixel perfect
 
 
-            for (int i = networkManager.ServerAbilities.Count - 1; i >= 0; i--)
+            for (int i = networkManager.ServerAbilities.Count - 1; i > -1; i--)
             {
-                for (int j = networkManager.Players.Count - 1; j > 0 ; j--)
+                for (int j = networkManager.Players.Count - 1; j > -1 ; j--)
                 {
                     if (networkManager.ServerAbilities[i].Username != networkManager.Username)
                     {
@@ -163,7 +163,7 @@ namespace Arcade_Arena.Managers
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            for (int i = networkManager.ServerAbilities.Count - 1; i >= 0; i--)
+            for (int i = networkManager.ServerAbilities.Count - 1; i > -1; i--)
             {
                 Player player = networkManager.Players.FirstOrDefault(p => p.Username == networkManager.ServerAbilities[i].Username);
                 DrawAbility(spriteBatch, networkManager.ServerAbilities[i], player.Type);
@@ -172,7 +172,7 @@ namespace Arcade_Arena.Managers
 
         private void AbilityObstacleCollision()
         {
-            for (int i = networkManager.ServerAbilities.Count-1; i >=  0 ; i--)
+            for (int i = networkManager.ServerAbilities.Count-1; i > -1 ; i--)
             {
                 Rectangle tempHitbox = new Rectangle(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition,
                     networkManager.ServerAbilities[i].Animation.Width, networkManager.ServerAbilities[i].Animation.Height);

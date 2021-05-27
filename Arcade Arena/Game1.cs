@@ -114,6 +114,10 @@ namespace Arcade_Arena
                     break;
                 case States.CharacterSelection:
                     characterSelection.Update(gameTime, ref state, ref player);
+                    if (state == States.FFA)
+                    {
+                        ffaArena = new PlayState(Window, spriteBatch, player, networkManager);
+                    }
                     break;
                 case States.Pause:
                     mainMenu.Update(gameTime, ref state, ref player);
