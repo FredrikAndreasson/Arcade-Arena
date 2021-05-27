@@ -105,11 +105,11 @@ namespace Arcade_Arena
             if (networkManager.Active)
             {
                 //lava.Draw(spriteBatch);
-                userInterfaceManager.DrawGameplayLoop(spriteBatch, networkManager);
 
                 currentLevel.Draw(spriteBatch, networkManager);
 
                 abilityManager.Draw(spriteBatch);
+                userInterfaceManager.DrawGameplayLoop(spriteBatch, networkManager);
             }
             // spriteBatch.Draw(AssetManager.lava, new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2), null, Color.White, 0.0f, new Vector2(AssetManager.lava.Width / 2, AssetManager.lava.Height / 2), 1.0f, SpriteEffects.None, 1.0f);
 
