@@ -98,6 +98,17 @@ namespace Arcade_Arena.Managers
                                     }
                                     break;
                                 case Player.ClassType.Huntress:
+                                    if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.Projectile)
+                                    {
+                                        if (playerRect.Intersects(new Rectangle(new Point(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition),
+                                    new Point(networkManager.ServerAbilities[i].Animation.Width * 5, networkManager.ServerAbilities[i].Animation.Height * 5))))
+                                        {
+                                            KnockbackEffect knockback = new KnockbackEffect(networkManager.ServerAbilities[i].Direction, 20.0f, player, 1);
+                                            player.AddEffect(knockback, true);
+                                            player.TakeDamage(10, networkManager.ServerAbilities[i].Username, 5);
+                                            networkManager.DeleteProjectile(networkManager.ServerAbilities[i].ID, networkManager.ServerAbilities[i].Username);
+                                        }
+                                    }
                                     if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.AbilityOne)
                                     {
                                     
@@ -110,6 +121,17 @@ namespace Arcade_Arena.Managers
                                     }
                                     break;
                                 case Player.ClassType.TimeTraveler:
+                                    if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.Projectile)
+                                    {
+                                        if (playerRect.Intersects(new Rectangle(new Point(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition),
+                                    new Point(networkManager.ServerAbilities[i].Animation.Width * 5, networkManager.ServerAbilities[i].Animation.Height * 5))))
+                                        {
+                                            KnockbackEffect knockback = new KnockbackEffect(networkManager.ServerAbilities[i].Direction, 20.0f, player, 1);
+                                            player.AddEffect(knockback, true);
+                                            player.TakeDamage(10, networkManager.ServerAbilities[i].Username, 5);
+                                            networkManager.DeleteProjectile(networkManager.ServerAbilities[i].ID, networkManager.ServerAbilities[i].Username);
+                                        }
+                                    }
                                     if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.AbilityOne)
                                     {
 
