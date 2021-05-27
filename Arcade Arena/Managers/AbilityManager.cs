@@ -35,6 +35,7 @@ namespace Arcade_Arena.Managers
 
         public void Update(Character player)
         {
+            
             Rectangle playerRect = new Rectangle(player.Position.ToPoint(), new Point((int)player.CurrentAnimation.FrameSize.X * 5, (int)player.CurrentAnimation.FrameSize.Y * 5));
 
             foreach (Ability ability in abilities)
@@ -50,7 +51,7 @@ namespace Arcade_Arena.Managers
                 playerManager.clientPlayer.abilityBuffer.RemoveAt(i);
                 i--;
             }
-
+            AbilityDeletionCheck();
             // Rect to check collision between player and projectile, will be moved to Character or removed all together 2 be replaced with pixel perfect
 
 
@@ -145,7 +146,7 @@ namespace Arcade_Arena.Managers
             }
 
             AbilityObstacleCollision();
-            AbilityDeletionCheck();
+            
         }
 
         private void CheckAbilityConditions(int i)
