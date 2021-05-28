@@ -71,7 +71,8 @@ namespace Arcade_Arena.Managers
                                     new Point(networkManager.ServerAbilities[i].Animation.Width * (int)Game1.SCALE, networkManager.ServerAbilities[i].Animation.Height * (int)Game1.SCALE))))
                                         {
                                             //player.AddEffect(knockback, true);
-                                            player.TakeDamage(networkManager.ServerAbilities[i].Damage, networkManager.ServerAbilities[i].Username, 5);
+                                            playerManager.IsFirstPlayerHit = true;
+                                            player.TakeDamage(networkManager.ServerAbilities[i].Damage);
                                             KnockbackEffect knockback = new KnockbackEffect(networkManager.ServerAbilities[i].Direction, 20.0f, player, 1);
                                             networkManager.DeleteProjectile(networkManager.ServerAbilities[i].ID, networkManager.ServerAbilities[i].Username);
                                         }
@@ -93,7 +94,8 @@ namespace Arcade_Arena.Managers
                                         if (playerRect.Intersects(new Rectangle(new Point(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition),
                                     new Point(networkManager.ServerAbilities[i].Animation.Width * (int)Game1.SCALE, networkManager.ServerAbilities[i].Animation.Height * (int)Game1.SCALE))))
                                         {
-                                            player.TakeDamage(networkManager.ServerAbilities[i].Damage, networkManager.ServerAbilities[i].Username, 5);
+                                            playerManager.IsFirstPlayerHit = true;
+                                            player.TakeDamage(networkManager.ServerAbilities[i].Damage);
                                             KnockbackEffect knockback = new KnockbackEffect(networkManager.ServerAbilities[i].Direction, 30.0f, player, 1.2f);
                                             networkManager.DeleteProjectile(networkManager.ServerAbilities[i].ID, networkManager.ServerAbilities[i].Username);
                                         }
@@ -103,9 +105,10 @@ namespace Arcade_Arena.Managers
                                         if (playerRect.Intersects(new Rectangle(new Point(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition),
                                                 new Point(networkManager.ServerAbilities[i].Animation.Width * (int)Game1.SCALE, networkManager.ServerAbilities[i].Animation.Height * (int)Game1.SCALE))))
                                         {
+                                            playerManager.IsFirstPlayerHit = true;
                                             if (!player.AbilitesHitBy.Contains(networkManager.ServerAbilities[i]))
                                             {
-                                                player.TakeDamage(networkManager.ServerAbilities[i].Damage, networkManager.ServerAbilities[i].Username, 5);
+                                                player.TakeDamage(networkManager.ServerAbilities[i].Damage);
                                                 KnockbackEffect knockback = new KnockbackEffect(networkManager.ServerAbilities[i].Direction, 50.0f, player, 2);
                                                 player.AbilitesHitBy.Add(networkManager.ServerAbilities[i]);
                                             }
@@ -116,9 +119,10 @@ namespace Arcade_Arena.Managers
                                         if (playerRect.Intersects(new Rectangle(new Point(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition),
                                                 new Point(networkManager.ServerAbilities[i].Animation.Width * (int)Game1.SCALE, networkManager.ServerAbilities[i].Animation.Height * (int)Game1.SCALE))))
                                         {
+                                            playerManager.IsFirstPlayerHit = true;
                                             if (!player.AbilitesHitBy.Contains(networkManager.ServerAbilities[i]))
                                             {
-                                                player.TakeDamage(networkManager.ServerAbilities[i].Damage, networkManager.ServerAbilities[i].Username, 5);
+                                                player.TakeDamage(networkManager.ServerAbilities[i].Damage);
                                                 player.AbilitesHitBy.Add(networkManager.ServerAbilities[i]);
                                                 BearTrapEffect bearTrapEffect = new BearTrapEffect(player, 3);
                                             }
@@ -133,7 +137,8 @@ namespace Arcade_Arena.Managers
                                         {
                                             if (!player.AbilitesHitBy.Contains(networkManager.ServerAbilities[i]))
                                             {
-                                                player.TakeDamage(networkManager.ServerAbilities[i].Damage, networkManager.ServerAbilities[i].Username, 5);
+                                                playerManager.IsFirstPlayerHit = true;
+                                                player.TakeDamage(networkManager.ServerAbilities[i].Damage);
                                                 KnockbackEffect knockback = new KnockbackEffect(networkManager.ServerAbilities[i].Direction, 50.0f, player, 2);
                                                 player.AbilitesHitBy.Add(networkManager.ServerAbilities[i]);
                                             }
@@ -149,6 +154,7 @@ namespace Arcade_Arena.Managers
                                             networkManager.ServerAbilities[i].YPosition + AssetManager.TimeTravelerTimeZone.Height * Game1.SCALE / 2);
                                         if (HitBoxIntersectsCircle(playerRect, circleCenter, AssetManager.TimeTravelerTimeZone.Width * Game1.SCALE / 2))
                                         {
+                                            playerManager.IsFirstPlayerHit = true;
                                             AlterTimeEffect timeZoneEffect = new AlterTimeEffect(-0.15f, player, 0.2f);
                                         }
                                     }

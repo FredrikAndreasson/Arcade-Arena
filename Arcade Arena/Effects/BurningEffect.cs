@@ -25,7 +25,7 @@ namespace Arcade_Arena.Effects
             burnDamageTimer -= Game1.elapsedGameTimeSeconds;
             if  (burnDamageTimer <= 0)
             {
-                ownerCharacter.TakeDamage((sbyte)damage, "",0);
+                ownerCharacter.TakeDamage((sbyte)damage);
                 burnDamageTimer = burnDamageTimerMax;
             }
         }

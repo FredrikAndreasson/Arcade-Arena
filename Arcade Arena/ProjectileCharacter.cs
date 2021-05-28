@@ -108,7 +108,7 @@ namespace Arcade_Arena
         {
             SpriteAnimation tempProjectile = new SpriteAnimation(AssetManager.WizardWandProjectile, Vector2.Zero, Vector2.Zero,
                 new Vector2(2, 1), new Vector2(1, 1), 5000);
-            Projectile projectile = new Projectile(tempProjectile, 1, 1, weaponPosition, 1, (double)orbiterRotation);
+            Projectile projectile = new Projectile(tempProjectile, 10, 1, weaponPosition, 1, (double)orbiterRotation);
             projectile.SetPosition(weaponPosition + projectile.Velocity);
             abilityBuffer.Add(projectile);
         }

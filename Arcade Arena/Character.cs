@@ -67,9 +67,6 @@ namespace Arcade_Arena
 
         public bool IntersectingLava { get; set; }
 
-        public string LastToDamage { get; set; } //This is used to keep track of which player last did damage to you.
-        public float LastToDamageTimer { get; set; }//The player gets the kill if the damage has been within the span of this timer.
-
         public virtual void Update()
         {
             UpdateEffects();
@@ -88,14 +85,6 @@ namespace Arcade_Arena
                 }
             }
 
-            if (LastToDamageTimer < 0)
-            {
-                LastToDamage = "";
-            }
-            else
-            {
-                LastToDamageTimer -= (float)Game1.elapsedGameTimeSeconds;
-            }
             UpdateSpriteEffect();
         }
 
@@ -108,6 +97,8 @@ namespace Arcade_Arena
         {
             this.position = position;
             LastPosition = position;
+            health = maxHealth;
+            isDead = false;
         }
 
         public void AddCanWalkStoppingEffect()
@@ -199,13 +190,11 @@ namespace Arcade_Arena
             
         }
 
-        public virtual void TakeDamage(sbyte damage, string username, float timerSeconds)
+        public virtual void TakeDamage(sbyte damage)
         {
             if (!Invincible)
             {
                 health -= damage;
-                LastToDamage = username;
-                LastToDamageTimer = timerSeconds;
                 ExitAnimationOnHit();
                 if (health <= 0)
                 {

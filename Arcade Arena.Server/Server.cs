@@ -18,7 +18,7 @@ namespace Arcade_Arena.Server
         private NetPeerConfiguration config;
         public NetServer NetServer { get; private set; }
 
-        public DateTime lavaTimer = DateTime.Now;
+        public DateTime lavaTimer = DateTime.Now.Subtract(TimeSpan.FromSeconds(2));
         public int lavaRadius = 400;
 
         public static Random random;
@@ -65,17 +65,18 @@ namespace Arcade_Arena.Server
         private void SendLavaRadius()
         {
             lavaTimer = DateTime.Now;
-            NetOutgoingMessage om = NetServer.CreateMessage();
+            NetOutgoingMessage outmsg = NetServer.CreateMessage();
             lavaRadius -= 5;
-            om.Write((byte)PacketType.ShrinkLava);
-            om.Write(lavaRadius);
-            NetServer.SendToAll(om, NetDeliveryMethod.Unreliable);
+            outmsg.Write((byte)PacketType.ShrinkLava);
+            outmsg.Write(lavaRadius);
+            NetServer.SendToAll(outmsg, NetDeliveryMethod.Unreliable);
             managerLogger.AddLogMessage("Server", $"LAVA UPDATED {lavaTimer}  {DateTime.Now}");
         }
 
         private void Data(NetIncomingMessage inc)
         {
             var packetType = (PacketType)inc.ReadByte();
+            if (packetType == PacketType.Score) lavaRadius = 400;
             var command = PacketFactory.GetCommand(packetType);
             command.Run(managerLogger, this, inc, null, players, abilities);
         }
