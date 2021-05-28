@@ -325,7 +325,7 @@ namespace Arcade_Arena
             shadow.texture.GetData<Color>(pixels2);
             try{
                 lava.renderTarget.GetData(0, new Rectangle(shadow.Position.ToPoint(), new Point(shadow.texture.Width, shadow.texture.Height)), pixels, 0, pixels.Length);
-            }  catch (IndexOutOfRangeException e)
+            }  catch (ArgumentException e)
             {
                 IntersectingLava = true;
                 return;

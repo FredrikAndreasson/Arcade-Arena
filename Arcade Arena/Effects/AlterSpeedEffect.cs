@@ -20,14 +20,12 @@ namespace Arcade_Arena.Effects
 
         public override void OnGetEffect(DynamicObject dynamicObject, double timer)
         {
-            Debug.Print("added");
             base.OnGetEffect(dynamicObject, timer);
             ownerCharacter.ChangeSpeed(amount);
         }
 
         public override void OnLossEffect()
         {
-            Debug.Print("Lossed");
             ownerCharacter.ChangeSpeed(-amount);
             base.OnLossEffect();
         }

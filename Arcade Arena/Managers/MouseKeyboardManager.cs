@@ -48,7 +48,6 @@ namespace Arcade_Arena
                 if (MouseKeyboardManager.previousMouseState.LeftButton != ButtonState.Pressed)
                 {
                     LeftClick = true;
-                    Debug.Print("yo2");
                 }
                 else
                 {
