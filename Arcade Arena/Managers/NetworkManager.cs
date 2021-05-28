@@ -56,8 +56,8 @@ namespace Arcade_Arena.Managers
             };
             Players.Add(player);
 
-            client.Connect("85.228.136.154", 14241, outmsg);
-            //client.Connect("localhost", 14241, outmsg);
+            //client.Connect("85.228.136.154", 14241, outmsg);
+            client.Connect("localhost", 14241, outmsg);
             return EstablishInfo();
 
         }
@@ -285,6 +285,7 @@ namespace Arcade_Arena.Managers
             outmsg.Write((short)ability.Position.X);
             outmsg.Write((short)ability.Position.Y);
             outmsg.Write(ability.Direction);
+            outmsg.Write(ability.Damage);
 
             client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
         }

@@ -84,21 +84,21 @@ namespace Arcade_Arena.GameStates
                 else if (huntressRect.Contains(MouseKeyboardManager.MousePosition.ToPoint()))
                 {
                     player = new Huntress(new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2), 3f, 0.0, Window.ClientBounds);
-                    state = States.FFA;
+                    state = States.Lobby;
                     networkManager.SendClassChange(Player.ClassType.Huntress);
                 }
 
                 else if (knightRect.Contains(MouseKeyboardManager.MousePosition.ToPoint()))
                 {
                     player = new Knight(new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2), 3f, 0.0);
-                    state = States.FFA;
+                    state = States.Lobby;
                     networkManager.SendClassChange(Player.ClassType.Knight);
                 }
 
                 else if (travelerRect.Contains(MouseKeyboardManager.MousePosition.ToPoint()))
                 {
                     player = new TimeTraveler(new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2), 3f, 0.0);
-                    state = States.FFA;
+                    state = States.Lobby;
                     networkManager.SendClassChange(Player.ClassType.TimeTraveler);
                 }
 

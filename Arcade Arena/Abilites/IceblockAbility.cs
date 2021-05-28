@@ -13,7 +13,7 @@ namespace Arcade_Arena.Abilites
     class IceblockAbility : Ability
     {
         Wizard player;
-        public IceblockAbility(Wizard player, Vector2 position, float speed, double direction) : base(position, speed, direction)
+        public IceblockAbility(Wizard player, Vector2 position, float speed, double direction) : base(position, speed, direction, 0)
         {
             this.player = player;
 

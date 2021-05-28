@@ -19,7 +19,7 @@ namespace Arcade_Arena
         Huntress owner;
         Texture2D texture;
 
-        public BearTrap(Huntress owner, Vector2 position, float speed, double direction) : base(position, speed, direction)
+        public BearTrap(Huntress owner, sbyte damage, Vector2 position, float speed, double direction) : base(position, speed, direction, damage)
         {
             Type = Library.AbilityOutline.AbilityType.AbilityTwo;
 
