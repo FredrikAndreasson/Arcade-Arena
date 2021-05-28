@@ -262,9 +262,10 @@ namespace Arcade_Arena.Managers
             {
                 if (abilities[i].IsDead)
                 {
+                    RemoveAbilityFromHitList(i);
                     networkManager.DeleteLocalAbility(abilities[i].ID);
                     abilities.RemoveAt(i);
-                    RemoveAbilityFromHitList(i);
+                    
                 }
             }
         }
