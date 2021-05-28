@@ -323,7 +323,13 @@ namespace Arcade_Arena
             Color[] pixels2 = new Color[shadow.texture.Width * shadow.texture.Height];
             //shadow.texture.GetData<Color>(0, new Rectangle(shadow.position.ToPoint(), new Point(shadow.texture.Width, shadow.texture.Height)), pixels2, 0, pixels2.Length);
             shadow.texture.GetData<Color>(pixels2);
-            lava.renderTarget.GetData(0, new Rectangle(shadow.Position.ToPoint(), new Point(shadow.texture.Width, shadow.texture.Height)), pixels, 0, pixels.Length);
+            try{
+                lava.renderTarget.GetData(0, new Rectangle(shadow.Position.ToPoint(), new Point(shadow.texture.Width, shadow.texture.Height)), pixels, 0, pixels.Length);
+            }  catch (IndexOutOfRangeException e)
+            {
+                IntersectingLava = true;
+                return;
+            }
             for (int i = 0; i < pixels.Length; ++i)
             {
                 if (pixels[i].A > 0.0f && pixels2[i].A > 0.0f)

@@ -13,7 +13,6 @@ namespace Arcade_Arena
     public class TimeZone : Ability
     {
         double timer;
-        double timeSlowEffectSeverity = -0.30;
         TimeTraveler owner;
         private Texture2D texture;
 
