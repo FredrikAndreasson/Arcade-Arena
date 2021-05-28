@@ -27,6 +27,10 @@ namespace Arcade_Arena.Server.Commands
             outmsg.Write(playerAndConnection.Player.Username);
             outmsg.Write(playerAndConnection.Player.Score);
             server.NetServer.SendToAll(outmsg, NetDeliveryMethod.ReliableOrdered);
+
+            //whenver a player gets score it is a new round meaning that now a new seed should be sent!!!
+            RandomSeedCommand command = new RandomSeedCommand();
+            command.Run(managerLogger, server, inc, playerAndConnection, players, abilities);
         }
     }
 }

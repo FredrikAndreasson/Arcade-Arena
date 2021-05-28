@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Arcade_Arena.Library;
+using Microsoft.Xna.Framework;
 using System;
 using System.Linq;
 
@@ -7,7 +8,7 @@ namespace Arcade_Arena.Managers
     class PlayerManager
     {
         private NetworkManager networkManager;
-        private Level level;
+        private Level level; 
         public Character clientPlayer;
 
 
@@ -18,6 +19,8 @@ namespace Arcade_Arena.Managers
            
             this.clientPlayer = Player;
         }
+
+        public bool IsFirstPlayerHit { get; set; }
 
         public Level Level => level;
 
@@ -45,14 +48,34 @@ namespace Arcade_Arena.Managers
                 //add more code for updating player later...
             }
 
-            if (clientPlayer.IsDead && clientPlayer.LastToDamage != "")
-            {
-                networkManager.SendPlayerScore(clientPlayer.LastToDamage);
-                clientPlayer.LastToDamage = "";
-            }
-
 
             PlayerCollision();
+
+            if (IsFirstPlayerHit)
+            {
+                LocalPlayerWin();
+            }
+            
+        }
+
+        public void LocalPlayerWin()
+        {
+            if (networkManager.Players.Count == 0)
+            {
+                return;
+            }
+            foreach (Player player in networkManager.Players)
+            {
+                if (player.Username != networkManager.Username)
+                {
+                    if (player.Health > 0)
+                    {
+                        return;
+                    }
+                }
+            }
+            networkManager.SendPlayerScore(networkManager.Username);
+            IsFirstPlayerHit = false;
         }
 
         private void PlayerCollision()

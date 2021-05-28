@@ -53,6 +53,7 @@ namespace Arcade_Arena
             bool[,] isFilled = new bool[twoThirdsWidth / 64, twoThirdsHeight / 64];
 
             perlin.Seed = Game1.seed;
+            obstacles.Clear();
 
             for (double x = 0; x < twoThirdsWidth; x++)
             {
@@ -202,6 +203,11 @@ namespace Arcade_Arena
             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
                 obstacles.Clear();
+                InitiateLevel();
+            }
+
+            if (perlin.Seed != Game1.seed)
+            {
                 InitiateLevel();
             }
         }
