@@ -7,6 +7,7 @@ using SharpNoise;
 using SharpNoise.Modules;
 using Microsoft.Xna.Framework.Input;
 using static Arcade_Arena.Obstacle;
+using Arcade_Arena.Effects;
 
 namespace Arcade_Arena
 {
@@ -198,6 +199,10 @@ namespace Arcade_Arena
         {
             player.Update();
             player.CheckLavaCollision(lava);
+            if (player.IntersectingLava)
+            {
+                BurningEffect lavaEffect = new BurningEffect(20, 2, player);
+            }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
