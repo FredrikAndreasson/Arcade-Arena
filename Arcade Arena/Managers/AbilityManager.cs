@@ -153,8 +153,9 @@ namespace Arcade_Arena.Managers
                                     }
                                     else if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.AbilityTwo)
                                     {
-                                        if (playerRect.Intersects(new Rectangle(new Point(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition),
-                                        new Point(networkManager.ServerAbilities[i].Animation.Width * (int)Game1.SCALE, networkManager.ServerAbilities[i].Animation.Height * (int)Game1.SCALE))))
+                                        Vector2 circleCenter = new Vector2(networkManager.ServerAbilities[i].XPosition + AssetManager.TimeTravelerTimeZone.Width * Game1.SCALE / 2,
+                                            networkManager.ServerAbilities[i].YPosition + AssetManager.TimeTravelerTimeZone.Height * Game1.SCALE / 2);
+                                        if (HitBoxIntersectsCircle(playerRect, circleCenter, AssetManager.TimeTravelerTimeZone.Width * Game1.SCALE / 2))
                                         {
                                             AlterTimeEffect timeZoneEffect = new AlterTimeEffect(-0.15f, player, 0.2f);
                                         }
@@ -189,6 +190,33 @@ namespace Arcade_Arena.Managers
             AbilityObstacleCollision();
             AbilityDeletionCheck();
 
+        }
+
+        private bool HitBoxIntersectsCircle(Rectangle hitBox, Vector2 circleCenter, float circleRadius)
+        {
+            float rW = (hitBox.Width) / 2;
+            float rH = (hitBox.Height) / 2;
+
+            float distX = Math.Abs(circleCenter.X - (hitBox.Left + rW));
+            float distY = Math.Abs(circleCenter.Y - (hitBox.Top + rH));
+
+            if (distX >= circleRadius + rW || distY >= circleRadius + rH)
+            {
+                return false;
+            }
+            if (distX < rW || distY < rH)
+            {
+                return true;
+            }
+
+            distX -= rW;
+            distY -= rH;
+
+            if (distX * distX + distY * distY < circleRadius * circleRadius)
+            {
+                return true;
+            }
+            return false;
         }
 
         private void CheckAbilityConditions(int i)
