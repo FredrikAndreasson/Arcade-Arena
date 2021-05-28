@@ -21,6 +21,8 @@ namespace Arcade_Arena
             originalLava = new Color[renderTarget.Width * renderTarget.Height];
             middleHeight = window.ClientBounds.Height / 2;
             middleWidth = window.ClientBounds.Width / 2;
+
+            ShrinkPlatform(400);
         }
 
 
