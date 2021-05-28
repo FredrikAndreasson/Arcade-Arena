@@ -367,6 +367,7 @@ namespace Arcade_Arena.Managers
                 newAbility.XPosition = inc.ReadInt16();
                 newAbility.YPosition = inc.ReadInt16();
                 newAbility.Direction = inc.ReadDouble();
+                newAbility.Damage = inc.ReadSByte();
 
                 ServerAbilities.Add(newAbility);
             }

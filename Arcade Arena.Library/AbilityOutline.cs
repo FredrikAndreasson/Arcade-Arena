@@ -20,6 +20,7 @@ namespace Arcade_Arena.Library
         public short XPosition { get; set; }
         public short YPosition { get; set; }
         public double Direction { get; set; }
+        public sbyte Damage { get; set; }
 
         public Animation Animation { get; set; }
 

@@ -32,6 +32,7 @@ namespace Arcade_Arena.Server.Commands
             outmsg.Write(ability.XPosition);
             outmsg.Write(ability.YPosition);
             outmsg.Write(ability.Direction);
+            outmsg.Write(ability.Damage);
 
             managerLogger.AddLogMessage("Create", " sending ability to all clients");
 
@@ -48,6 +49,7 @@ namespace Arcade_Arena.Server.Commands
             ability.XPosition = inc.ReadInt16();
             ability.YPosition = inc.ReadInt16();
             ability.Direction = inc.ReadDouble();
+            ability.Damage = inc.ReadSByte();
 
             return ability;
         }
