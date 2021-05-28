@@ -44,7 +44,7 @@ namespace Arcade_Arena.Classes
 
         private Vector2 newPosition;
 
-        private sbyte weaponDmg = 10;
+        private sbyte weaponDmg = 3;
         private float shootingSpeed = 7;
 
         public Wizard(Vector2 position, float speed, double direction) : base(position, speed, direction)
