@@ -53,9 +53,9 @@ namespace Arcade_Arena.Managers
             }            // Rect to check collision between player and projectile, will be moved to Character or removed all together 2 be replaced with pixel perfect
 
 
-            for (int i = networkManager.ServerAbilities.Count - 1; i > -1; i--)
+            for (int j = 0; j < networkManager.Players.Count; j++)
             {
-                for (int j = networkManager.Players.Count - 1; j > -1 ; j--)
+                for (int i = 0; i < networkManager.ServerAbilities.Count; i++)
                 {
                     if (networkManager.ServerAbilities[i].Username != networkManager.Username)
                     {
@@ -75,14 +75,6 @@ namespace Arcade_Arena.Managers
                                             KnockbackEffect knockback = new KnockbackEffect(networkManager.ServerAbilities[i].Direction, 20.0f, player, 1);
                                             networkManager.DeleteProjectile(networkManager.ServerAbilities[i].ID, networkManager.ServerAbilities[i].Username);
                                         }
-                                    }
-                                    else if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.AbilityOne)
-                                    {
-   
-                                    }
-                                    else if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.AbilityTwo)
-                                    {
-
                                     }
                                     break;
                                 case Player.ClassType.Ogre:
@@ -106,7 +98,7 @@ namespace Arcade_Arena.Managers
                                             networkManager.DeleteProjectile(networkManager.ServerAbilities[i].ID, networkManager.ServerAbilities[i].Username);
                                         }
                                     }
-                                    if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.AbilityOne)
+                                    else if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.AbilityOne)
                                     {
                                         if (playerRect.Intersects(new Rectangle(new Point(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition),
                                                 new Point(networkManager.ServerAbilities[i].Animation.Width * (int)Game1.SCALE, networkManager.ServerAbilities[i].Animation.Height * (int)Game1.SCALE))))
@@ -147,7 +139,7 @@ namespace Arcade_Arena.Managers
                                             }
                                         }
                                     }
-                                    if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.AbilityOne)
+                                    else if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.AbilityOne)
                                     {
 
                                     }
@@ -159,16 +151,6 @@ namespace Arcade_Arena.Managers
                                         {
                                             AlterTimeEffect timeZoneEffect = new AlterTimeEffect(-0.15f, player, 0.2f);
                                         }
-                                    }
-                                    break;
-                                case Player.ClassType.Assassin:
-                                    if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.AbilityOne)
-                                    {
-
-                                    }
-                                    else if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.AbilityTwo)
-                                    {
-
                                     }
                                     break;
                                 case Player.ClassType.Knight:
@@ -189,7 +171,6 @@ namespace Arcade_Arena.Managers
 
             AbilityObstacleCollision();
             AbilityDeletionCheck();
-
         }
 
         private bool HitBoxIntersectsCircle(Rectangle hitBox, Vector2 circleCenter, float circleRadius)
@@ -233,7 +214,7 @@ namespace Arcade_Arena.Managers
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            for (int i = networkManager.ServerAbilities.Count - 1; i > -1; i--)
+            for (int i = 0; i < networkManager.ServerAbilities.Count; i++)
             {
                 Player player = networkManager.Players.FirstOrDefault(p => p.Username == networkManager.ServerAbilities[i].Username);
                 DrawAbility(spriteBatch, networkManager.ServerAbilities[i], player.Type);
@@ -242,7 +223,7 @@ namespace Arcade_Arena.Managers
 
         private void AbilityObstacleCollision()
         {
-            for (int i = networkManager.ServerAbilities.Count-1; i > -1 ; i--)
+            for (int i = 0; i < networkManager.ServerAbilities.Count; i++)
             {
                 Rectangle tempHitbox = new Rectangle(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition,
                     networkManager.ServerAbilities[i].Animation.Width, networkManager.ServerAbilities[i].Animation.Height);

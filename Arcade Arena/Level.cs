@@ -77,7 +77,7 @@ namespace Arcade_Arena
                     }
                     if (!isFilled[x,y])
                     {
-                        spawnPoints.Add(new Vector2(x * 64 + (window.ClientBounds.Width / 6) + 32, y * 64 + (window.ClientBounds.Height / 6)));
+                        spawnPoints.Add(new Vector2(x * 64 + (window.ClientBounds.Width / 6) + 32, y * 64 + (window.ClientBounds.Height / 6)+64));
                     }
                 }
             }

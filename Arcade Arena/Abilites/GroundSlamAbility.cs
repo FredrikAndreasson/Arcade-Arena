@@ -16,7 +16,7 @@ namespace Arcade_Arena.Abilites
     {
         Ogre player;
 
-        public GroundSlamAbility(Ogre player, Vector2 position, float speed, double direction) : base(position, speed, direction)
+        public GroundSlamAbility(Ogre player, Vector2 position, float speed, double direction) : base(position, speed, direction, 10)
         {
             this.player = player;
 
