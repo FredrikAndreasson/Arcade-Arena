@@ -28,7 +28,6 @@ namespace Arcade_Arena
         public double Direction => direction;
         public SpriteAnimation CurrentAnimation => currentAnimation;
         public sbyte Damage;
-        public List<string> usersHit = new List<string>();
 
 
         public void Kill()
