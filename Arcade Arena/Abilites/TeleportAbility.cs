@@ -14,7 +14,7 @@ namespace Arcade_Arena.Abilites
     {
         Wizard player;
         public Rectangle HitBox { get; set; }
-        public TeleportAbility(Wizard player, Vector2 position, float speed, double direction) : base(position, speed, direction)
+        public TeleportAbility(Wizard player, Vector2 position, float speed, double direction) : base(position, speed, direction, 0)
         {
             this.player = player;
 

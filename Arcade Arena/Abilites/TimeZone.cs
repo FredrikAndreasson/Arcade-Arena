@@ -17,7 +17,7 @@ namespace Arcade_Arena
         TimeTraveler owner;
         private Texture2D texture;
 
-        public TimeZone(double timer, TimeTraveler owner, Vector2 position, Texture2D texture, float speed, double direction) : base(position, speed, direction)
+        public TimeZone(double timer, TimeTraveler owner, Vector2 position, Texture2D texture, float speed, double direction) : base(position, speed, direction, 0)
         {
             Type = AbilityOutline.AbilityType.AbilityTwo;
             this.timer = timer;

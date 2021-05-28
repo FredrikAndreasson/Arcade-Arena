@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Arcade_Arena.Library;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
@@ -18,12 +19,13 @@ namespace Arcade_Arena
             speedAlteration = 1;
             this.speed = speed;
             this.direction = direction;
-
+            AbilitesHitBy = new List<AbilityOutline>();
             LastPosition = position;
         }
 
         public Vector2 LastPosition { get; set; }// used for collision handling
         public bool Blocked { get; set; }
+        public List<AbilityOutline> AbilitesHitBy { get; set; }
 
         public bool AddEffect(Effect newEffect, bool stackableEffect)
         {

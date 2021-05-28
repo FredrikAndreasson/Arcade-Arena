@@ -44,7 +44,7 @@ namespace Arcade_Arena.Classes
 
         private Vector2 newPosition;
 
-        private int weaponDmg = 3;
+        private sbyte weaponDmg = 3;
         private float shootingSpeed = 7;
 
         public Wizard(Vector2 position, float speed, double direction) : base(position, speed, direction)
@@ -199,7 +199,7 @@ namespace Arcade_Arena.Classes
         public override void Shoot()
         {
             Projectile projectile = new Projectile(projectileAnim, weaponDmg, 3, Position, shootingSpeed, (double)orbiterRotation);
-            projectile.SetPosition(weaponPosition + projectile.velocity * 20 / shootingSpeed);
+            projectile.SetPosition(weaponPosition + projectile.Velocity * 20 / shootingSpeed);
             abilityBuffer.Add(projectile);
         }
 

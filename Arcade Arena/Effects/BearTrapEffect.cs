@@ -8,11 +8,8 @@ namespace Arcade_Arena.Effects
 {
     class BearTrapEffect : CharacterExclusiveEffect
     {
-        double amount;
-
-        public BearTrapEffect(double amount, DynamicObject owner, double timer) : base(owner, timer)
+        public BearTrapEffect(DynamicObject owner, double timer) : base(owner, timer)
         {
-            this.amount = amount;
             isStackable = true;
             TryToAddEffect();
         }

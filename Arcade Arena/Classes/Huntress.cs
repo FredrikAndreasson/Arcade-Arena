@@ -41,7 +41,9 @@ namespace Arcade_Arena.Classes
 
         Rectangle clientBounds;
 
-        int weaponDmg = 10;
+        sbyte weaponDmg = 10;
+        sbyte boarDmg = 15;
+        sbyte bearTrapDmg = 2;
         float shootingSpeed = 15;
 
         public Huntress(Vector2 position, float speed, double direction, Rectangle clientBounds) : base(position, speed, direction)
@@ -144,7 +146,7 @@ namespace Arcade_Arena.Classes
         public override void Shoot()
         {
             Projectile projectile = new Projectile(projectileAnim, weaponDmg, 3, Position, shootingSpeed, (double)orbiterRotation);
-            projectile.SetPosition(weaponPosition + projectile.velocity * 15 / shootingSpeed);
+            projectile.SetPosition(weaponPosition + projectile.Velocity * 15 / shootingSpeed);
             abilityBuffer.Add(projectile);
         }
 
@@ -162,7 +164,7 @@ namespace Arcade_Arena.Classes
             ChangeAnimation(ref currentHandAnimation, handBearTrapAnimation);
             bearTrapCooldown = bearTrapMaxCooldown;
             UpdateSpriteEffect();
-            BearTrap bearTrap = new BearTrap(this, shadow.Position, speed, direction);
+            BearTrap bearTrap = new BearTrap(this, bearTrapDmg, shadow.Position, speed, direction);
             abilityBuffer.Add(bearTrap);
         }
 
@@ -174,7 +176,7 @@ namespace Arcade_Arena.Classes
             ChangeAnimation(ref currentHandAnimation, handBoarAnimation);
             boarCooldown = boarMaxCooldown;
             UpdateSpriteEffect();
-            Boar boar = new Boar(this, aimDirection, shadow.Position, 8, clientBounds);
+            Boar boar = new Boar(this, boarDmg, aimDirection, shadow.Position, 8, clientBounds);
             abilityBuffer.Add(boar);
         }
 

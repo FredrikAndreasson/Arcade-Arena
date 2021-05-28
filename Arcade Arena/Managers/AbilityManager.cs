@@ -68,11 +68,11 @@ namespace Arcade_Arena.Managers
                                     if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.Projectile)
                                     {
                                         if (playerRect.Intersects(new Rectangle(new Point(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition),
-                                    new Point(networkManager.ServerAbilities[i].Animation.Width * 5, networkManager.ServerAbilities[i].Animation.Height * 5))))
+                                    new Point(networkManager.ServerAbilities[i].Animation.Width * (int)Game1.SCALE, networkManager.ServerAbilities[i].Animation.Height * (int)Game1.SCALE))))
                                         {
+                                            //player.AddEffect(knockback, true);
+                                            player.TakeDamage(networkManager.ServerAbilities[i].Damage, networkManager.ServerAbilities[i].Username, 5);
                                             KnockbackEffect knockback = new KnockbackEffect(networkManager.ServerAbilities[i].Direction, 20.0f, player, 1);
-                                            player.AddEffect(knockback, true);
-                                            player.TakeDamage(10, networkManager.ServerAbilities[i].Username, 5);
                                             networkManager.DeleteProjectile(networkManager.ServerAbilities[i].ID, networkManager.ServerAbilities[i].Username);
                                         }
                                     }
@@ -99,35 +99,52 @@ namespace Arcade_Arena.Managers
                                     if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.Projectile)
                                     {
                                         if (playerRect.Intersects(new Rectangle(new Point(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition),
-                                    new Point(networkManager.ServerAbilities[i].Animation.Width * 5, networkManager.ServerAbilities[i].Animation.Height * 5))))
+                                    new Point(networkManager.ServerAbilities[i].Animation.Width * (int)Game1.SCALE, networkManager.ServerAbilities[i].Animation.Height * (int)Game1.SCALE))))
                                         {
-                                            KnockbackEffect knockback = new KnockbackEffect(networkManager.ServerAbilities[i].Direction, 20.0f, player, 1);
-                                            player.AddEffect(knockback, true);
-                                            player.TakeDamage(10, networkManager.ServerAbilities[i].Username, 5);
+                                            player.TakeDamage(networkManager.ServerAbilities[i].Damage, networkManager.ServerAbilities[i].Username, 5);
+                                            KnockbackEffect knockback = new KnockbackEffect(networkManager.ServerAbilities[i].Direction, 30.0f, player, 1.2f);
                                             networkManager.DeleteProjectile(networkManager.ServerAbilities[i].ID, networkManager.ServerAbilities[i].Username);
                                         }
                                     }
                                     if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.AbilityOne)
                                     {
-                                    
-
+                                        if (playerRect.Intersects(new Rectangle(new Point(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition),
+                                                new Point(networkManager.ServerAbilities[i].Animation.Width * (int)Game1.SCALE, networkManager.ServerAbilities[i].Animation.Height * (int)Game1.SCALE))))
+                                        {
+                                            if (!player.AbilitesHitBy.Contains(networkManager.ServerAbilities[i]))
+                                            {
+                                                player.TakeDamage(networkManager.ServerAbilities[i].Damage, networkManager.ServerAbilities[i].Username, 5);
+                                                KnockbackEffect knockback = new KnockbackEffect(networkManager.ServerAbilities[i].Direction, 50.0f, player, 2);
+                                                player.AbilitesHitBy.Add(networkManager.ServerAbilities[i]);
+                                            }
+                                        }
                                     }
                                     else if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.AbilityTwo)
                                     {
-                                 
-
+                                        if (playerRect.Intersects(new Rectangle(new Point(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition),
+                                                new Point(networkManager.ServerAbilities[i].Animation.Width * (int)Game1.SCALE, networkManager.ServerAbilities[i].Animation.Height * (int)Game1.SCALE))))
+                                        {
+                                            if (!player.AbilitesHitBy.Contains(networkManager.ServerAbilities[i]))
+                                            {
+                                                player.TakeDamage(networkManager.ServerAbilities[i].Damage, networkManager.ServerAbilities[i].Username, 5);
+                                                player.AbilitesHitBy.Add(networkManager.ServerAbilities[i]);
+                                                BearTrapEffect bearTrapEffect = new BearTrapEffect(player, 3);
+                                            }
+                                        }
                                     }
                                     break;
                                 case Player.ClassType.TimeTraveler:
                                     if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.Projectile)
                                     {
                                         if (playerRect.Intersects(new Rectangle(new Point(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition),
-                                    new Point(networkManager.ServerAbilities[i].Animation.Width * 5, networkManager.ServerAbilities[i].Animation.Height * 5))))
+                                        new Point(networkManager.ServerAbilities[i].Animation.Width * (int)Game1.SCALE, networkManager.ServerAbilities[i].Animation.Height * (int)Game1.SCALE))))
                                         {
-                                            KnockbackEffect knockback = new KnockbackEffect(networkManager.ServerAbilities[i].Direction, 20.0f, player, 1);
-                                            player.AddEffect(knockback, true);
-                                            player.TakeDamage(10, networkManager.ServerAbilities[i].Username, 5);
-                                            networkManager.DeleteProjectile(networkManager.ServerAbilities[i].ID, networkManager.ServerAbilities[i].Username);
+                                            if (!player.AbilitesHitBy.Contains(networkManager.ServerAbilities[i]))
+                                            {
+                                                player.TakeDamage(networkManager.ServerAbilities[i].Damage, networkManager.ServerAbilities[i].Username, 5);
+                                                KnockbackEffect knockback = new KnockbackEffect(networkManager.ServerAbilities[i].Direction, 50.0f, player, 2);
+                                                player.AbilitesHitBy.Add(networkManager.ServerAbilities[i]);
+                                            }
                                         }
                                     }
                                     if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.AbilityOne)
@@ -136,7 +153,11 @@ namespace Arcade_Arena.Managers
                                     }
                                     else if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.AbilityTwo)
                                     {
-
+                                        if (playerRect.Intersects(new Rectangle(new Point(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition),
+                                        new Point(networkManager.ServerAbilities[i].Animation.Width * (int)Game1.SCALE, networkManager.ServerAbilities[i].Animation.Height * (int)Game1.SCALE))))
+                                        {
+                                            AlterTimeEffect timeZoneEffect = new AlterTimeEffect(-0.15f, player, 0.2f);
+                                        }
                                     }
                                     break;
                                 case Player.ClassType.Assassin:
@@ -228,9 +249,23 @@ namespace Arcade_Arena.Managers
                 {
                     networkManager.DeleteLocalAbility(abilities[i].ID);
                     abilities.RemoveAt(i);
+                    RemoveAbilityFromHitList(i);
                 }
             }
         }
+
+        private void RemoveAbilityFromHitList(int i)
+        {
+            for (int j = playerManager.clientPlayer.AbilitesHitBy.Count; j > 0; j--)
+            {
+                if (playerManager.clientPlayer.AbilitesHitBy[j].Username == abilities[i].Username
+                    && playerManager.clientPlayer.AbilitesHitBy[j].ID == abilities[i].ID)
+                {
+                    playerManager.clientPlayer.AbilitesHitBy.RemoveAt(j);
+                }
+            }
+        }
+
         public void CreateAbility(Ability ability)
         {
             ability.Username = networkManager.Username;
@@ -261,19 +296,19 @@ namespace Arcade_Arena.Managers
                     else if (ability.Type == AbilityOutline.AbilityType.AbilityOne)
                     {
                         spriteBatch.Draw(AssetManager.WizardIceBlock, new Vector2(ability.XPosition, ability.YPosition), source, Color.White, 0.0f,
-                            Vector2.Zero, 5.0f, SpriteEffects.None, 1.0f);
+                            Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1.0f);
                     }
                     else if (ability.Type == AbilityOutline.AbilityType.AbilityTwo)
                     {
                         spriteBatch.Draw(AssetManager.WizardSpriteSheet, new Vector2(ability.XPosition, ability.YPosition), source, Color.White, 0.0f,
-                            Vector2.Zero, 5.0f, SpriteEffects.None, 1.0f);
+                            Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1.0f);
                     }
                     break;
                 case Player.ClassType.Ogre:
                     if (ability.Type == AbilityOutline.AbilityType.AbilityOne)
                     {
                         spriteBatch.Draw(AssetManager.groundSmashCrackle, new Vector2(ability.XPosition, ability.YPosition), source, Color.White, 0.0f,
-                            Vector2.Zero, 5.0f, SpriteEffects.None, 1.0f);
+                            Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1.0f);
                     }
                     else if (ability.Type == AbilityOutline.AbilityType.AbilityTwo)
                     {
@@ -289,12 +324,12 @@ namespace Arcade_Arena.Managers
                     if (ability.Type == AbilityOutline.AbilityType.AbilityOne)
                     {
                         spriteBatch.Draw(AssetManager.HuntressBoar, new Vector2(ability.XPosition, ability.YPosition), source, Color.White, 0.0f,
-                            Vector2.Zero, 5.0f, SpriteEffects.None, 1.0f);
+                            Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1.0f);
                     }
                     else if (ability.Type == AbilityOutline.AbilityType.AbilityTwo)
                     {
                         spriteBatch.Draw(AssetManager.HuntressBearTrap, new Vector2(ability.XPosition, ability.YPosition), source, Color.White, 0.0f,
-                            Vector2.Zero, 5.0f, SpriteEffects.None, 1.0f);
+                            Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1.0f);
                     }
                     break;
                 case Player.ClassType.TimeTraveler:
@@ -309,7 +344,8 @@ namespace Arcade_Arena.Managers
                     }
                     else if (ability.Type == AbilityOutline.AbilityType.AbilityTwo)
                     {
-
+                        spriteBatch.Draw(AssetManager.TimeTravelerTimeZone, new Vector2(ability.XPosition, ability.YPosition), source, Color.White, 0.0f,
+                            Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1.0f);
                     }
                     break;
                 case Player.ClassType.Assassin:

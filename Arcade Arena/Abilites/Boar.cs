@@ -13,10 +13,9 @@ namespace Arcade_Arena.Abilites
 
         double timer;
         Huntress owner;
-        double damage = 1;
         int offset = 0;
         
-        public Boar(Huntress owner, double direction, Vector2 position, float speed, Rectangle clientBounds) : base(position, speed, direction)
+        public Boar(Huntress owner, sbyte damage, double direction, Vector2 position, float speed, Rectangle clientBounds) : base(position, speed, direction, damage)
         {
             Type = Library.AbilityOutline.AbilityType.AbilityOne;
 

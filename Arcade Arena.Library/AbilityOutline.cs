@@ -21,6 +21,7 @@ namespace Arcade_Arena.Library
         public short YPosition { get; set; }
         public double Direction { get; set; }
         public sbyte Damage { get; set; }
+        public List<string> usersHit = new List<string>();
 
         public Animation Animation { get; set; }
 

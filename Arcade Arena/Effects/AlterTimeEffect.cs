@@ -13,7 +13,6 @@ namespace Arcade_Arena.Effects
         public AlterTimeEffect(double amount, DynamicObject owner, double timer) : base (owner, timer)
         {
             this.amount = amount;
-            isStackable = true;
             TryToAddEffect();
         }
 

@@ -16,9 +16,10 @@ namespace Arcade_Arena
         protected bool isDead;
         protected SpriteAnimation currentAnimation;
 
-        public Ability(Vector2 position, float speed, double direction) : base(position, speed, direction)
+        public Ability(Vector2 position, float speed, double direction, sbyte damage) : base(position, speed, direction)
         {
             isDead = false;
+            this.Damage = damage;
         }
 
         public string Username { get; set; }
@@ -26,6 +27,8 @@ namespace Arcade_Arena
         public bool IsDead => isDead;
         public double Direction => direction;
         public SpriteAnimation CurrentAnimation => currentAnimation;
+        public sbyte Damage;
+        public List<string> usersHit = new List<string>();
 
 
         public void Kill()

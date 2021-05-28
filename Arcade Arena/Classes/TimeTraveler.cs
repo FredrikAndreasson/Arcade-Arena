@@ -37,7 +37,7 @@ namespace Arcade_Arena.Classes
         List<TimeZone> timeZones = new List<TimeZone>();
         List<TimeTravelPosition> previousPositions = new List<TimeTravelPosition>(); //för time travel
 
-        int weaponDmg = 15;
+        sbyte weaponDmg = 15;
         float shootingSpeed = 0.2f;
 
         public TimeTraveler(Vector2 position, float speed, double direction) : base(position, speed, direction)
@@ -199,7 +199,7 @@ namespace Arcade_Arena.Classes
         public override void Shoot()
         {
             Projectile projectile = new Projectile(projectileAnim, weaponDmg, 3, Position, shootingSpeed, (double)orbiterRotation);
-            projectile.SetPosition(weaponPosition + projectile.velocity * 100);
+            projectile.SetPosition(weaponPosition + projectile.Velocity * 100);
             abilityBuffer.Add(projectile);
         }
 
