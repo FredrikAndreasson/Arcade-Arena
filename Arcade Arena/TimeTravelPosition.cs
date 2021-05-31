@@ -11,8 +11,8 @@ namespace Arcade_Arena
 {
     public class TimeTravelPosition
     {
-        public sbyte Health { get; private set; }
-        public Vector2 Position { get; private set; }
+        public sbyte Health { get; set; }
+        public Vector2 Position { get; set; }
 
         public TimeTravelPosition(sbyte health, Vector2 position)
         {

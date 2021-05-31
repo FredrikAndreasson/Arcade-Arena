@@ -25,6 +25,8 @@ namespace Arcade_Arena.Classes
         SpriteAnimation projectileAnim;
 
         private double timeZoneCooldown = 0;
+        private int timeTravelPositionsSkipped = 0;
+        private int timeTravelPosSkip = 3;
         private bool doingTimeZone = false;
         private double timeZoneMaxCooldown = 10;
 
@@ -90,9 +92,14 @@ namespace Arcade_Arena.Classes
 
             if (!doingTimeTravel)
             {
-                TimeTravelPosition previousPosition = new TimeTravelPosition(health, position);
-                previousPositions.Add(previousPosition);
-                if (previousPositions.Count > 400)
+                timeTravelPositionsSkipped++;
+                if (timeTravelPositionsSkipped >= timeTravelPosSkip)
+                {
+                    previousPositions[previousPositions.Count - 1].Health = (sbyte)MathHelper.Max(previousPositions[previousPositions.Count - 1].Health, health);
+                    TimeTravelPosition previousPosition = new TimeTravelPosition(health, position);
+                    previousPositions.Add(previousPosition);
+                }
+                if (previousPositions.Count > 150)
                 {
                     previousPositions.RemoveAt(0);
                 }
@@ -137,11 +144,9 @@ namespace Arcade_Arena.Classes
         {
             if (previousPositions.Count > 2)
             {
-                position = previousPositions[previousPositions.Count - 3].Position;
-                health = (sbyte)MathHelper.Max(previousPositions[previousPositions.Count - 3].Health, health);
+                position = previousPositions[previousPositions.Count - 1].Position;
+                health = (sbyte)MathHelper.Max(previousPositions[previousPositions.Count - 1].Health, health);
 
-                previousPositions.Remove(previousPositions[previousPositions.Count - 1]);
-                previousPositions.Remove(previousPositions[previousPositions.Count - 1]);
                 previousPositions.Remove(previousPositions[previousPositions.Count - 1]);
             }
         }
