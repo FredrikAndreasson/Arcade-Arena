@@ -21,7 +21,7 @@ namespace Arcade_Arena
         private PlayerManager playerManager;
         private AbilityManager abilityManager;
 
-        private UserInterfaceManager userInterfaceManager;
+        private UserInterfaceManagerHealth userInterfaceManagerHealth;
 
 
         private Level currentLevel;
@@ -62,7 +62,7 @@ namespace Arcade_Arena
             playerManager = new PlayerManager(networkManager, player, currentLevel);
             abilityManager = new AbilityManager(networkManager, playerManager);
 
-            userInterfaceManager = new UserInterfaceManager(Window, playerManager);
+            userInterfaceManagerHealth = new UserInterfaceManagerHealth(Window, playerManager);
 
             
         }
@@ -89,7 +89,7 @@ namespace Arcade_Arena
             networkManager.Update();
             playerManager.UpdatePlayer();
             abilityManager.Update(player);
-            userInterfaceManager.UpdateGameplayLoop();
+            userInterfaceManagerHealth.UpdateGameplayLoop();
             MouseKeyboardManager.Update();
 
             currentLevel.Update();
@@ -107,10 +107,10 @@ namespace Arcade_Arena
                 //lava.Draw(spriteBatch);
 
                 currentLevel.Draw(spriteBatch, networkManager);
-                userInterfaceManager.DrawHealth(spriteBatch);
+                userInterfaceManagerHealth.DrawHealth(spriteBatch);
 
                 abilityManager.Draw(spriteBatch);
-                userInterfaceManager.DrawGameplayLoop(spriteBatch, networkManager);
+                userInterfaceManagerHealth.DrawGameplayLoop(spriteBatch, networkManager);
             }
             // spriteBatch.Draw(AssetManager.lava, new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2), null, Color.White, 0.0f, new Vector2(AssetManager.lava.Width / 2, AssetManager.lava.Height / 2), 1.0f, SpriteEffects.None, 1.0f);
 
