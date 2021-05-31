@@ -12,6 +12,7 @@ namespace Arcade_Arena.Managers
     {
         private SpriteFont cooldownFont;
         private Texture2D wizardAbilites;
+        public static Rectangle healthBarRectangle;
         private Texture2D pixel;
 
         private Rectangle readyCheckRect;
@@ -19,19 +20,23 @@ namespace Arcade_Arena.Managers
 
         private List<Vector2> abilityPositions;
         private GameWindow window;
+        private PlayerManager playerManager;
 
         private int cooldown = 1000;
         private bool ready = false;
 
-        public UserInterfaceManager(GameWindow window)
+        public UserInterfaceManager(GameWindow window, PlayerManager playerManager)
         {
             this.window = window;
+            this.playerManager = playerManager;
 
             cooldownFont = AssetManager.CooldownFont;
             wizardAbilites = AssetManager.WizardAbilityIconSheet;
             pixel = AssetManager.px;
 
             abilityPositions = new List<Vector2>();
+
+            healthBarRectangle = new Rectangle(0, 0, AssetManager.HealthBarOverlay.Width, AssetManager.HealthBarOverlay.Height);
 
             abilityPositions.Add(new Vector2(window.ClientBounds.Width / 2 - 32, window.ClientBounds.Height - 32));
             abilityPositions.Add(new Vector2(window.ClientBounds.Width / 2 + 32, window.ClientBounds.Height - 32));
@@ -104,5 +109,23 @@ namespace Arcade_Arena.Managers
             spriteBatch.DrawString(cooldownFont, username, position + new Vector2(20, 5), Color.White);
             
         }
+
+        public void DrawHealth(SpriteBatch spriteBatch)
+        {
+            if (this.playerManager.clientPlayer.isHit == true)
+            {
+                healthBarRectangle.Width -= 1;
+            }
+
+            if (this.playerManager.clientPlayer.Health > 0)
+            {
+                spriteBatch.Draw(AssetManager.HealthBar, new Vector2(this.playerManager.clientPlayer.Position.X, this.playerManager.clientPlayer.Position.Y - 40), null, Color.White, 0, Vector2.Zero, 2, SpriteEffects.None, 0);
+                spriteBatch.Draw(AssetManager.HealthBarOverlay, new Vector2(this.playerManager.clientPlayer.Position.X, this.playerManager.clientPlayer.Position.Y - 40), healthBarRectangle, Color.White, 0, Vector2.Zero, 2, SpriteEffects.None, 0);
+            }
+
+            this.playerManager.clientPlayer.isHit = false;
+        }
+
+
     }
 }

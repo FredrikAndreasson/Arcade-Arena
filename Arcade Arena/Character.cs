@@ -44,6 +44,8 @@ namespace Arcade_Arena
 
         public sbyte health;
 
+        public bool isHit;
+
         public Shadow shadow;
 
         public List<Ability> abilityBuffer;
@@ -55,6 +57,7 @@ namespace Arcade_Arena
             health = 100;
             speed = 1;
             CanWalk = true;
+            isHit = false;
         }
 
         public SpriteAnimation CurrentAnimation => currentAnimation;
@@ -195,6 +198,7 @@ namespace Arcade_Arena
             if (!Invincible)
             {
                 health -= damage;
+                isHit = true;
                 ExitAnimationOnHit();
                 if (health <= 0)
                 {
