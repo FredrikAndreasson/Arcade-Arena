@@ -12,10 +12,14 @@ namespace Arcade_Arena.Managers
     {
         public static Rectangle healthBarRectangle;
         private PlayerManager playerManager;
+        private int currentLife;
+        private int maxLife;
 
         public UserInterfaceManagerHealth(GameWindow window, PlayerManager playerManager) : base(window)
         {
             this.playerManager = playerManager;
+            maxLife = 10;
+            currentLife = maxLife;
             healthBarRectangle = new Rectangle(0, 0, AssetManager.HealthBarOverlay.Width, AssetManager.HealthBarOverlay.Height);
         }
 
@@ -24,7 +28,8 @@ namespace Arcade_Arena.Managers
         {
             if (this.playerManager.clientPlayer.isHit == true)
             {
-                healthBarRectangle.Width -= 1;
+                currentLife -= 1;
+                healthBarRectangle.Width = (int)(AssetManager.HealthBarOverlay.Width * currentLife / maxLife);
             }
 
             if (this.playerManager.clientPlayer.Health > 0)
