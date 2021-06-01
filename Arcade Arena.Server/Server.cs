@@ -94,11 +94,9 @@ namespace Arcade_Arena.Server
                     outmsg.Write(playerAndConnection.Player.Username);
                     NetServer.SendToAll(outmsg, NetDeliveryMethod.ReliableOrdered);
 
-                    playerAndConnection.Connection.Disconnect("Bye bye, you're kicked.");
                     players.Remove(playerAndConnection);
                     break;
             }
-            //NetServer.FlushSendQueue();
         }
 
         private void Data(NetIncomingMessage inc)
