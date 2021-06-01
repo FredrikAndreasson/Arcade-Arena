@@ -45,6 +45,7 @@
     <Compile Include="Abilites\Boar.cs" />
     <Compile Include="Abilites\GroundSlamAbility.cs" />
     <Compile Include="Abilites\IceblockAbility.cs" />
+    <Compile Include="Abilites\MeeleAttack.cs" />
     <Compile Include="Abilites\TeleportAbility.cs" />
     <Compile Include="Ability.cs" />
     <Compile Include="Abilites\BearTrap.cs" />

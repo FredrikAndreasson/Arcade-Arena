@@ -79,7 +79,11 @@ namespace Arcade_Arena.Managers
                                     }
                                     break;
                                 case Player.ClassType.Ogre:
-                                    if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.AbilityOne)
+                                    if(networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.MeeleAttack)
+                                    {
+                                        if(playerRect.Intersects(networkManager.ServerAbilities[i])
+                                    }
+                                    else if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.AbilityOne)
                                     {
 
                                     }

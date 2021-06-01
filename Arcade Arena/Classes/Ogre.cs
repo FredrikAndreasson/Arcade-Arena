@@ -23,6 +23,9 @@ namespace Arcade_Arena.Classes
         private bool inGroundSmash;
         private double groundSmashCooldown = 0;
 
+        private bool inMeeleAttack;
+        private double meeleAttackCooldown = 0;
+
         private bool inBodySlam;
         private double bodySlamCooldown = 0;
 
@@ -58,6 +61,12 @@ namespace Arcade_Arena.Classes
             //kanske ändra till "actionable" debuffs sen istället för att kolla om man är i varje ability
             if (!inGroundSmash && !inBodySlam)
             {
+                if (MouseKeyboardManager.LeftClick && meeleAttackCooldown <= 0)
+                {
+                    
+                    meeleAttackCooldown = 1;
+                }
+
                 if (Keyboard.GetState().IsKeyDown(Keys.E) && groundSmashCooldown <= 0)
                 {
                     GroundSmash();
@@ -70,7 +79,18 @@ namespace Arcade_Arena.Classes
                 }
             }
 
-            if (inGroundSmash)
+            if (inMeeleAttack)
+            {
+                punchAnimation.Update();
+                if(punchAnimation.XIndex >= 3)
+                {
+                    inMeeleAttack = false;
+                    middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
+                    CheckRegularAnimation();
+                    aimDirection = UpdateAimDirection();
+                }
+            }
+            else if (inGroundSmash)
             {
 
                 groundSmashAnimation.Update();
@@ -165,6 +185,16 @@ namespace Arcade_Arena.Classes
             currentAnimation = bodySlamAnimation;
             currentAnimation.XIndex = 0;
 
+        }
+
+        private void MeeleAttack()
+        {
+            inMeeleAttack = true;
+            currentAnimation = punchAnimation;
+            currentAnimation.XIndex = 0;
+
+            Ability ability = new MeeleAttack(this, Position, speed, direction);
+            abilityBuffer.Add(ability);
         }
     }
 }
