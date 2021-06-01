@@ -18,6 +18,7 @@ namespace Arcade_Arena.Classes
         SpriteAnimation groundSmashAnimation;
         SpriteAnimation bodySlamAnimation;
         SpriteAnimation idleAnimation;
+        SpriteAnimation punchAnimation;
 
         private bool inGroundSmash;
         private double groundSmashCooldown = 0;
@@ -36,6 +37,7 @@ namespace Arcade_Arena.Classes
             groundSmashOgreAnimation = new SpriteAnimation(AssetManager.ogreSpriteSheet, new Vector2(0, 2), new Vector2(3, 2), frameSize, spriteDimensions, 125);
             bodySlamAnimation = new SpriteAnimation(AssetManager.ogreSpriteSheet, new Vector2(0, 3), new Vector2(2, 3), frameSize, spriteDimensions, 300);
             idleAnimation = new SpriteAnimation(AssetManager.ogreSpriteSheet, new Vector2(0, 0), new Vector2(1, 0), frameSize, spriteDimensions, 1000);
+            punchAnimation = new SpriteAnimation(AssetManager.ogreSpriteSheet, new Vector2(3, 3), new Vector2(5, 3), frameSize, spriteDimensions, 300);
 
             groundSmashAnimation = new SpriteAnimation(AssetManager.groundSmashCrackle, new Vector2(0, 0), new Vector2(4, 0), new Vector2(71, 71), new Vector2(4, 0), 500);
             currentAnimation = backwardsAnimation;
