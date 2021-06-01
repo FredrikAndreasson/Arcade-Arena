@@ -460,7 +460,7 @@ namespace Arcade_Arena.Managers
             var username = inc.ReadString();
             var player = Players.FirstOrDefault(p => p.Username == username);
             //if (player != null)
-                Players.Remove(player);
+            Players.Remove(player);
         }
     }
 }
