@@ -104,5 +104,7 @@ namespace Arcade_Arena.Managers
             spriteBatch.DrawString(cooldownFont, username, position + new Vector2(20, 5), Color.White);
             
         }
+
+
     }
 }

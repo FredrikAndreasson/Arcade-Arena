@@ -30,7 +30,7 @@ namespace Arcade_Arena
 
         protected int mana;
 
-        protected sbyte maxHealth;
+        public sbyte maxHealth { get; protected set; }
 
         protected float baseSpeed;
 
