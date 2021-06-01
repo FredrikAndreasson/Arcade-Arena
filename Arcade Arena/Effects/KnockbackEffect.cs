@@ -19,9 +19,9 @@ namespace Arcade_Arena.Effects
         }
         public override void OnGetEffect(DynamicObject dynamicObject, double timer)
         {
+            base.OnGetEffect(dynamicObject, timer);
             if (ownerCharacter != null)
             {
-                base.OnGetEffect(dynamicObject, timer);
                 if (!ownerCharacter.Invincible)
                 {
                     ownerCharacter.StartKnockback();
