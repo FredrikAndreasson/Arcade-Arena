@@ -79,19 +79,26 @@ namespace Arcade_Arena.Server
         private void UserDisconnected(NetIncomingMessage inc)
         {
             NetConnectionStatus status = inc.SenderConnection.Status;
-            if (status == NetConnectionStatus.Disconnected)
+            switch (status)
             {
-                managerLogger.AddLogMessage("Disconnection", "Removing player");
-                NetConnection playerConnection = inc.SenderConnection;
-                PlayerAndConnection playerAndConnection = players.Find(p => p.Connection == playerConnection);
+                case NetConnectionStatus.Disconnecting:
+                    managerLogger.AddLogMessage("Disconnecting", "Player is disconnecting");
+                    break;
+                case NetConnectionStatus.Disconnected:
+                    managerLogger.AddLogMessage("Disconnection", "Removing player");
+                    NetConnection playerConnection = inc.SenderConnection;
+                    PlayerAndConnection playerAndConnection = players.Find(p => p.Connection == playerConnection);
 
-                var outmsg = NetServer.CreateMessage();
-                outmsg.Write((byte)PacketType.Kick);
-                outmsg.Write(playerAndConnection.Player.Username);
-                NetServer.SendToAll(outmsg, NetDeliveryMethod.ReliableOrdered);
+                    var outmsg = NetServer.CreateMessage();
+                    outmsg.Write((byte)PacketType.Kick);
+                    outmsg.Write(playerAndConnection.Player.Username);
+                    NetServer.SendToAll(outmsg, NetDeliveryMethod.ReliableOrdered);
 
-                players.Remove(playerAndConnection);
+                    playerAndConnection.Connection.Disconnect("Bye bye, you're kicked.");
+                    players.Remove(playerAndConnection);
+                    break;
             }
+            //NetServer.FlushSendQueue();
         }
 
         private void Data(NetIncomingMessage inc)
