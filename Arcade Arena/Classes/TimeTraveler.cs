@@ -95,6 +95,7 @@ namespace Arcade_Arena.Classes
                 timeTravelPositionsSkipped++;
                 if (timeTravelPositionsSkipped >= timeTravelPosSkip)
                 {
+                    timeTravelPositionsSkipped = 0;
                     if (previousPositions.Count != 0)
                     {
                         previousPositions[previousPositions.Count - 1].Health = (sbyte)MathHelper.Max(previousPositions[previousPositions.Count - 1].Health, health);
@@ -141,6 +142,7 @@ namespace Arcade_Arena.Classes
                     ChangeAnimation(ref currentHandAnimation, handIdleAnimation);
                 }
             }
+            shadow.Update(Position);
         }
 
         private void UpdateTimeTravelPosition()
