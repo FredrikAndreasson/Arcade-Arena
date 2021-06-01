@@ -42,7 +42,7 @@ namespace Arcade_Arena.Managers
             client = new NetClient(new NetPeerConfiguration("networkGame"));
             client.Start();
 
-            Username = "name_" + 69;//random.Next(0, 100);
+            Username = "name_" + random.Next(0, 100);
 
             var outmsg = client.CreateMessage();
             outmsg.Write((byte)PacketType.Login);

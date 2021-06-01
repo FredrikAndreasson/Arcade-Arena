@@ -22,7 +22,7 @@ namespace Arcade_Arena
             middleHeight = window.ClientBounds.Height / 2;
             middleWidth = window.ClientBounds.Width / 2;
 
-            ShrinkPlatform(400);
+            
         }
 
 

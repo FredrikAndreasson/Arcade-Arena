@@ -38,6 +38,7 @@ namespace Arcade_Arena
 
             InitiateLevel();
 
+
             
         }
 
@@ -84,6 +85,7 @@ namespace Arcade_Arena
                 }
             }
             player.SpawnLocation(spawnPoints[Game1.random.Next(spawnPoints.Count)]);
+            lava.ShrinkPlatform(400);
         }
 
         private void Tiling(double value, double x, double y, ref bool[,] isFilled)
