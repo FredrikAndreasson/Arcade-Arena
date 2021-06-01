@@ -265,14 +265,13 @@ namespace Arcade_Arena.Managers
                     RemoveAbilityFromHitList(i);
                     networkManager.DeleteLocalAbility(abilities[i].ID);
                     abilities.RemoveAt(i);
-                    
                 }
             }
         }
 
         private void RemoveAbilityFromHitList(int i)
         {
-            for (int j = playerManager.clientPlayer.AbilitesHitBy.Count; j > 0; j--)
+            for (int j = playerManager.clientPlayer.AbilitesHitBy.Count - 1; j > 0; j--)
             {
                 if (playerManager.clientPlayer.AbilitesHitBy[j].Username == abilities[i].Username
                     && playerManager.clientPlayer.AbilitesHitBy[j].ID == abilities[i].ID)
