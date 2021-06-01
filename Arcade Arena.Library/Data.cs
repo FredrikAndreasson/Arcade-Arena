@@ -12,5 +12,6 @@
     Score, 
     ClassChange,
     ReadyCheck,
-    Seed
+    Seed,
+    Kick
 }

@@ -161,9 +161,9 @@ namespace Arcade_Arena.Managers
                     ReceiveAllPlayers(inc);
                     break;
 
-                //case PacketType.Kick:
-                //    ReceiveKick(inc);
-                //    break;
+                case PacketType.Kick:
+                    ReceiveKick(inc);
+                    break;
 
                 case PacketType.ShrinkLava:
                     UpdateLava(inc);
@@ -180,18 +180,23 @@ namespace Arcade_Arena.Managers
                 case PacketType.AbilityUpdate:
                     ReceiveAbilityUpdate(inc);
                     break;
+
                 case PacketType.Score:
                     ReceiveScore(inc);
                     break;
+
                 case PacketType.Login:
                     ReceiveLogin(inc);
                     break;
+
                 case PacketType.ReadyCheck:
                     ReceiveReadyCheck(inc);
                     break;
+
                 case PacketType.Seed:
                     ReceiveSeed(inc);
                     break;
+
                 case PacketType.ClassChange:
                     ReceiveClassChange(inc);
                     break;
@@ -288,6 +293,8 @@ namespace Arcade_Arena.Managers
             outmsg.Write(ability.Damage);
 
             client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
+
+            client.FlushSendQueue();
         }
         public void SendAbilityUpdate(Ability ability)
         {
@@ -452,7 +459,7 @@ namespace Arcade_Arena.Managers
         {
             var username = inc.ReadString();
             var player = Players.FirstOrDefault(p => p.Username == username);
-            if (player != null)
+            //if (player != null)
                 Players.Remove(player);
         }
     }
