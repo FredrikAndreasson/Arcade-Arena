@@ -55,9 +55,9 @@ namespace Arcade_Arena
         protected void UpdateEffects()
         {
             List<Effect> tempEffectList = new List<Effect>(EffectList);
-            foreach (Effect effect in tempEffectList)
+            for (int i = EffectList.Count - 1; i > 0; i--)
             {
-                effect.Update();
+                EffectList[i].Update();
             }
         }
 
