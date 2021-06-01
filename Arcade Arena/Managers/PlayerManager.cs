@@ -49,7 +49,7 @@ namespace Arcade_Arena.Managers
             }
 
 
-            PlayerCollision();
+            CheckPlayerCollision();
 
             if (IsFirstPlayerHit)
             {
@@ -78,7 +78,7 @@ namespace Arcade_Arena.Managers
             IsFirstPlayerHit = false;
         }
 
-        private void PlayerCollision()
+        private void CheckPlayerCollision()
         {
             foreach (Obstacle obstacle in level.Obstacles)
             {

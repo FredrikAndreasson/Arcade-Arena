@@ -95,7 +95,10 @@ namespace Arcade_Arena.Classes
                 timeTravelPositionsSkipped++;
                 if (timeTravelPositionsSkipped >= timeTravelPosSkip)
                 {
-                    previousPositions[previousPositions.Count - 1].Health = (sbyte)MathHelper.Max(previousPositions[previousPositions.Count - 1].Health, health);
+                    if (previousPositions.Count != 0)
+                    {
+                        previousPositions[previousPositions.Count - 1].Health = (sbyte)MathHelper.Max(previousPositions[previousPositions.Count - 1].Health, health);
+                    }
                     TimeTravelPosition previousPosition = new TimeTravelPosition(health, position);
                     previousPositions.Add(previousPosition);
                 }

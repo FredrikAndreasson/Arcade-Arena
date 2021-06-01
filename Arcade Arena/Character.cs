@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Arcade_Arena.Classes;
+using Arcade_Arena.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -172,13 +173,14 @@ namespace Arcade_Arena
         
         public void UpdateVelocity(double newDirection, float newSpeed)
         {
+            UpdatePosition();
             velocity.Y = (float)(Math.Sin((float)newDirection) * newSpeed * speedAlteration);
             velocity.X = (float)(Math.Cos((float)newDirection) * newSpeed * speedAlteration);
             position += velocity;
-            UpdatePosition();
         }
         public void UpdatePosition()
         {
+            
             if (Blocked)
             {
                 position = LastPosition;
