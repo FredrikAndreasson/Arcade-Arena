@@ -56,7 +56,11 @@ namespace Arcade_Arena.Managers
             };
             Players.Add(player);
 
+<<<<<<< Updated upstream
             // client.Connect("85.228.136.154", 14241, outmsg);
+=======
+            //client.Connect("85.228.136.154", 14241, outmsg);
+>>>>>>> Stashed changes
             client.Connect("localhost", 14241, outmsg);
             return EstablishInfo();
 

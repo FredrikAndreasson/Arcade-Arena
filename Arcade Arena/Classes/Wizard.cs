@@ -155,6 +155,7 @@ namespace Arcade_Arena.Classes
             if (finished)
             {
                 position = newPosition;
+                LastPosition = newPosition;
             }
             middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
             aimDirection = UpdateAimDirection();

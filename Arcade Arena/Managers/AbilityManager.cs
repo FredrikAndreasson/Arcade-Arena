@@ -359,11 +359,22 @@ namespace Arcade_Arena.Managers
                 {
                     if (tempHitbox.Intersects(obstacle.HitBox()) && networkManager.ServerAbilities.Count > 0)
                     {
-                        RemoveAbilityFromHitList(i);
-                        networkManager.DeleteLocalAbility(networkManager.ServerAbilities[i].ID);
-                        abilities.RemoveAt(i);
+                        AbilityObstacleCollisionHandling(i);
                     }
                 }
+            }
+        }
+
+        private void AbilityObstacleCollisionHandling(int index)
+        {
+            switch (networkManager.ServerAbilities[index].Type)
+            {
+                case AbilityOutline.AbilityType.Projectile:
+                    RemoveAbilityFromHitList(index);
+                    networkManager.DeleteLocalAbility(networkManager.ServerAbilities[index].ID);
+                    break;
+                default:
+                    break;
             }
         }
 
