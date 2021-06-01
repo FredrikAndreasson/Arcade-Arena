@@ -399,7 +399,13 @@ namespace Arcade_Arena.Managers
                 if (playerManager.clientPlayer.AbilitesHitBy[j].Username == abilities[i].Username
                     && playerManager.clientPlayer.AbilitesHitBy[j].ID == abilities[i].ID)
                 {
-                    playerManager.clientPlayer.AbilitesHitBy.RemoveAt(j);
+                    try
+                    {
+                        playerManager.clientPlayer.AbilitesHitBy.RemoveAt(j);
+                    } catch(IndexOutOfRangeException e)
+                    {
+                        Debug.Print(e.Message);
+                    }
                 }
             }
         }
