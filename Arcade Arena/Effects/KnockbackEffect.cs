@@ -19,13 +19,17 @@ namespace Arcade_Arena.Effects
         }
         public override void OnGetEffect(DynamicObject dynamicObject, double timer)
         {
-            if (!ownerCharacter.Invincible)
+            if (ownerCharacter != null)
             {
                 base.OnGetEffect(dynamicObject, timer);
-                if (ownerCharacter != null)
+                if (!ownerCharacter.Invincible)
                 {
                     ownerCharacter.StartKnockback();
                     ownerCharacter.AddStunEffect();
+                }
+                else
+                {
+                    ownerCharacter.RemoveEffect(this);
                 }
             }
             else
