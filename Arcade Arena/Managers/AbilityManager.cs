@@ -143,6 +143,7 @@ namespace Arcade_Arena.Managers
                                         {
                                             if (!player.AbilitesHitBy.Contains(networkManager.ServerAbilities[i]))
                                             {
+                                                Debug.Print("hit by time traveler");
                                                 playerManager.IsFirstPlayerHit = true;
                                                 player.TakeDamage(networkManager.ServerAbilities[i].Damage);
                                                 KnockbackEffect knockback = new KnockbackEffect(networkManager.ServerAbilities[i].Direction, 50.0f, player, 2);
@@ -410,7 +411,7 @@ namespace Arcade_Arena.Managers
 
         private void RemoveAbilityFromHitList(int i)
         {
-            for (int j = playerManager.clientPlayer.AbilitesHitBy.Count - 1; j > 0; j--)
+            for (int j = playerManager.clientPlayer.AbilitesHitBy.Count - 1; j >= 0; j--)
             {
                 try
                 {
@@ -502,6 +503,7 @@ namespace Arcade_Arena.Managers
                 case Player.ClassType.TimeTraveler:
                     if (ability.Type == AbilityOutline.AbilityType.Projectile)
                     {
+                        Debug.Print("draw time traveler projectile");
                         spriteBatch.Draw(AssetManager.TimeTravelerRayGunLaser, new Vector2(ability.XPosition, ability.YPosition), source, Color.White, (float)ability.Direction,
                             Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1.0f);
                     }
