@@ -53,6 +53,9 @@ namespace Arcade_Arena.Server
                     case NetIncomingMessageType.Data:
                         Data(inc);
                         break;
+                    case NetIncomingMessageType.StatusChanged:
+                        UserDisconnected(inc);
+                        break;
                 }
 
                 if (DateTime.Now.Subtract(lavaTimer).Seconds > 3)
@@ -71,6 +74,29 @@ namespace Arcade_Arena.Server
             outmsg.Write(lavaRadius);
             NetServer.SendToAll(outmsg, NetDeliveryMethod.Unreliable);
             managerLogger.AddLogMessage("Server", $"LAVA UPDATED {lavaTimer}  {DateTime.Now}");
+        }
+
+        private void UserDisconnected(NetIncomingMessage inc)
+        {
+            NetConnectionStatus status = inc.SenderConnection.Status;
+            switch (status)
+            {
+                case NetConnectionStatus.Disconnecting:
+                    managerLogger.AddLogMessage("Disconnecting", "Player is disconnecting");
+                    break;
+                case NetConnectionStatus.Disconnected:
+                    managerLogger.AddLogMessage("Disconnection", "Removing player");
+                    NetConnection playerConnection = inc.SenderConnection;
+                    PlayerAndConnection playerAndConnection = players.Find(p => p.Connection == playerConnection);
+
+                    var outmsg = NetServer.CreateMessage();
+                    outmsg.Write((byte)PacketType.Kick);
+                    outmsg.Write(playerAndConnection.Player.Username);
+                    NetServer.SendToAll(outmsg, NetDeliveryMethod.ReliableOrdered);
+
+                    players.Remove(playerAndConnection);
+                    break;
+            }
         }
 
         private void Data(NetIncomingMessage inc)
