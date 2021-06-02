@@ -139,6 +139,7 @@ namespace Arcade_Arena.Managers
                                     {
                                         Rectangle rectangle = new Rectangle(new Point(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition),
                                         new Point(networkManager.ServerAbilities[i].Animation.Width * (int)Game1.SCALE, networkManager.ServerAbilities[i].Animation.Height * (int)Game1.SCALE));
+                                        Debug.Print(networkManager.ServerAbilities[i].Direction.ToString());
                                         if (HitBoxIntersectsRotatedRectangle(rectangle, (float)networkManager.ServerAbilities[i].Direction, Vector2.Zero, playerRect))
                                         {
                                             if (!player.AbilitesHitBy.Contains(networkManager.ServerAbilities[i]))
@@ -199,6 +200,8 @@ namespace Arcade_Arena.Managers
 
         private bool HitBoxIntersectsRotatedRectangle(Rectangle rectangle, float rotation, Vector2 origin, Rectangle nonRotatedRectangle)
         {
+            rotation = NormalizeAngle(rotation);
+
             List<Vector2> aRectangleAxis = new List<Vector2>();
             aRectangleAxis.Add(UpperRightCorner(rectangle, origin, rotation) - UpperLeftCorner(rectangle, origin, rotation));
             aRectangleAxis.Add(UpperRightCorner(rectangle, origin, rotation) - LowerRightCorner(rectangle, origin, rotation));
@@ -217,32 +220,40 @@ namespace Arcade_Arena.Managers
             return true;
         }
 
+        private static float NormalizeAngle(float rotation)
+        {
+            while (rotation < 0)
+            {
+                rotation += (float)Math.PI * 2;
+            }
+            while (rotation > (float)Math.PI * 2)
+            {
+                rotation -= (float)Math.PI * 2;
+            }
+
+            return rotation;
+        }
+
         private bool IsAxisCollision(Rectangle rectangle, float rotation, Vector2 origin, Vector2 aAxis, Rectangle otherRectangle)
         {
-            //Project the corners of the Rectangle we are checking on to the Axis and
-            //get a scalar value of that project we can then use for comparison
             List<int> aRectangleAScalars = new List<int>();
-            aRectangleAScalars.Add(GenerateScalar(UpperLeftCorner(rectangle, origin, rotation), aAxis));
-            aRectangleAScalars.Add(GenerateScalar(UpperRightCorner(rectangle, origin, rotation), aAxis));
-            aRectangleAScalars.Add(GenerateScalar(LowerLeftCorner(rectangle, origin, rotation), aAxis));
-            aRectangleAScalars.Add(GenerateScalar(LowerRightCorner(rectangle, origin, rotation), aAxis));
+            aRectangleAScalars.Add(GenerateScalar(new Vector2(otherRectangle.Left, otherRectangle.Top), aAxis));
+            aRectangleAScalars.Add(GenerateScalar(new Vector2(otherRectangle.Right, otherRectangle.Top), aAxis));
+            aRectangleAScalars.Add(GenerateScalar(new Vector2(otherRectangle.Left, otherRectangle.Bottom), aAxis));
+            aRectangleAScalars.Add(GenerateScalar(new Vector2(otherRectangle.Right, otherRectangle.Bottom), aAxis));
+            
 
-            //Project the corners of the current Rectangle on to the Axis and
-            //get a scalar value of that project we can then use for comparison
             List<int> aRectangleBScalars = new List<int>();
-            aRectangleBScalars.Add(GenerateScalar(new Vector2(otherRectangle.Left, otherRectangle.Top), aAxis));
-            aRectangleBScalars.Add(GenerateScalar(new Vector2(otherRectangle.Right, otherRectangle.Top), aAxis));
-            aRectangleBScalars.Add(GenerateScalar(new Vector2(otherRectangle.Left, otherRectangle.Bottom), aAxis));
-            aRectangleBScalars.Add(GenerateScalar(new Vector2(otherRectangle.Right, otherRectangle.Bottom), aAxis));
+            aRectangleBScalars.Add(GenerateScalar(UpperLeftCorner(rectangle, origin, rotation), aAxis));
+            aRectangleBScalars.Add(GenerateScalar(UpperRightCorner(rectangle, origin, rotation), aAxis));
+            aRectangleBScalars.Add(GenerateScalar(LowerLeftCorner(rectangle, origin, rotation), aAxis));
+            aRectangleBScalars.Add(GenerateScalar(LowerRightCorner(rectangle, origin, rotation), aAxis));
 
-            //Get the Maximum and Minium Scalar values for each of the Rectangles
             int aRectangleAMinimum = aRectangleAScalars.Min();
             int aRectangleAMaximum = aRectangleAScalars.Max();
             int aRectangleBMinimum = aRectangleBScalars.Min();
             int aRectangleBMaximum = aRectangleBScalars.Max();
 
-            //If we have overlaps between the Rectangles (i.e. Min of B is less than Max of A)
-            //then we are detecting a collision between the rectangles on this Axis
             if (aRectangleBMinimum <= aRectangleAMaximum && aRectangleBMaximum >= aRectangleAMaximum)
             {
                 return true;
@@ -357,7 +368,7 @@ namespace Arcade_Arena.Managers
 
         private void AbilityObstacleCollision()
         {
-            for (int i = 0; i < networkManager.ServerAbilities.Count; i++)
+            for (int i = networkManager.ServerAbilities.Count - 1; i >= 0; i--)
             {
                 Rectangle tempHitbox = new Rectangle(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition,
                     networkManager.ServerAbilities[i].Animation.Width, networkManager.ServerAbilities[i].Animation.Height);
@@ -376,8 +387,15 @@ namespace Arcade_Arena.Managers
             switch (networkManager.ServerAbilities[index].Type)
             {
                 case AbilityOutline.AbilityType.Projectile:
-                    RemoveAbilityFromHitList(index);
-                    networkManager.DeleteLocalAbility(networkManager.ServerAbilities[index].ID);
+                    if (networkManager.Players.FirstOrDefault(p => p.Username == networkManager.ServerAbilities[index].Username).Type == Player.ClassType.TimeTraveler)
+                    {
+
+                    }
+                    else
+                    {
+                        RemoveAbilityFromHitList(index);
+                        networkManager.DeleteLocalAbility(networkManager.ServerAbilities[index].ID);
+                    }
                     break;
                 default:
                     break;
@@ -503,7 +521,7 @@ namespace Arcade_Arena.Managers
                 case Player.ClassType.TimeTraveler:
                     if (ability.Type == AbilityOutline.AbilityType.Projectile)
                     {
-                        Debug.Print("draw time traveler projectile");
+                        Debug.Print("draw time traveler projectile " + ability.Direction.ToString());
                         spriteBatch.Draw(AssetManager.TimeTravelerRayGunLaser, new Vector2(ability.XPosition, ability.YPosition), source, Color.White, (float)ability.Direction,
                             Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1.0f);
                     }
