@@ -262,6 +262,8 @@ namespace Arcade_Arena.Managers
             outmsg.Write(Username);
             outmsg.Write(ready);
             client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
+
+            client.FlushSendQueue();
         }
 
         public void SendClassChange(Player.ClassType type)
