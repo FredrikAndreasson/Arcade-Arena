@@ -34,7 +34,7 @@ namespace Arcade_Arena
             {
                 foreach (Effect effect in EffectList)
                 {
-                    if (effect.GetType() == effect.GetType())
+                    if (effect.GetType() == newEffect.GetType())
                     {
                         alreadyHasEffect = true;
                         effect.timer = newEffect.timer;
@@ -54,7 +54,7 @@ namespace Arcade_Arena
 
         protected void UpdateEffects()
         {
-            List<Effect> tempEffectList = new List<Effect>(EffectList);
+            //List<Effect> tempEffectList = new List<Effect>(EffectList);
             for (int i = EffectList.Count - 1; i > 0; i--)
             {
                 EffectList[i].Update();
