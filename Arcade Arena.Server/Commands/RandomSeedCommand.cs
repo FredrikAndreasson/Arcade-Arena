@@ -20,6 +20,8 @@ namespace Arcade_Arena.Server.Commands
             outmsg.Write((byte)PacketType.Seed);
             outmsg.Write(seed);
             server.NetServer.SendToAll(outmsg, NetDeliveryMethod.ReliableOrdered);
+
+            server.NetServer.FlushSendQueue();
         }
     }
 }

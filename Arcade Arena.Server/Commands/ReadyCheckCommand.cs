@@ -28,6 +28,8 @@ namespace Arcade_Arena.Server.Commands
             outmsg.Write(ready);
             server.NetServer.SendToAll(outmsg, NetDeliveryMethod.ReliableOrdered);
 
+            server.NetServer.FlushSendQueue();
+
             bool allReady =  true;
             for (int i = 0; i < players.Count; i++)
             {
