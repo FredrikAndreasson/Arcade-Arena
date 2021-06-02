@@ -395,6 +395,7 @@ namespace Arcade_Arena.Managers
                     {
                         RemoveAbilityFromHitList(index);
                         networkManager.DeleteLocalAbility(networkManager.ServerAbilities[index].ID);
+                        abilities.RemoveAt(index);
                     }
                     break;
                 default:
