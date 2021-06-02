@@ -67,8 +67,9 @@ namespace Arcade_Arena.Managers
                                 case Player.ClassType.Wizard:
                                     if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.Projectile)
                                     {
-                                        if (playerRect.Intersects(new Rectangle(new Point(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition),
-                                    new Point(networkManager.ServerAbilities[i].Animation.Width * (int)Game1.SCALE, networkManager.ServerAbilities[i].Animation.Height * (int)Game1.SCALE))))
+                                        Rectangle rectangle = new Rectangle(new Point(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition),
+                                        new Point(networkManager.ServerAbilities[i].Animation.Width * (int)Game1.SCALE, networkManager.ServerAbilities[i].Animation.Height * (int)Game1.SCALE));
+                                        if (HitBoxIntersectsRotatedRectangle(rectangle, (float)networkManager.ServerAbilities[i].Direction, Vector2.Zero, playerRect))
                                         {
                                             //player.AddEffect(knockback, true);
                                             playerManager.IsFirstPlayerHit = true;
@@ -91,13 +92,17 @@ namespace Arcade_Arena.Managers
                                 case Player.ClassType.Huntress:
                                     if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.Projectile)
                                     {
-                                        if (playerRect.Intersects(new Rectangle(new Point(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition),
-                                    new Point(networkManager.ServerAbilities[i].Animation.Width * (int)Game1.SCALE, networkManager.ServerAbilities[i].Animation.Height * (int)Game1.SCALE))))
+                                        Rectangle rectangle = new Rectangle(new Point(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition),
+                                        new Point(networkManager.ServerAbilities[i].Animation.Width * (int)Game1.SCALE, networkManager.ServerAbilities[i].Animation.Height * (int)Game1.SCALE));
+                                        if (HitBoxIntersectsRotatedRectangle(rectangle, (float)networkManager.ServerAbilities[i].Direction, Vector2.Zero, playerRect))
                                         {
-                                            playerManager.IsFirstPlayerHit = true;
-                                            player.TakeDamage(networkManager.ServerAbilities[i].Damage);
-                                            KnockbackEffect knockback = new KnockbackEffect(networkManager.ServerAbilities[i].Direction, 30.0f, player, 1.2f);
-                                            networkManager.DeleteProjectile(networkManager.ServerAbilities[i].ID, networkManager.ServerAbilities[i].Username);
+                                            if (!player.AbilitesHitBy.Contains(networkManager.ServerAbilities[i]))
+                                            {
+                                                playerManager.IsFirstPlayerHit = true;
+                                                player.TakeDamage(networkManager.ServerAbilities[i].Damage);
+                                                KnockbackEffect knockback = new KnockbackEffect(networkManager.ServerAbilities[i].Direction, 30.0f, player, 1.2f);
+                                                networkManager.DeleteProjectile(networkManager.ServerAbilities[i].ID, networkManager.ServerAbilities[i].Username);
+                                            }
                                         }
                                     }
                                     else if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.AbilityOne)
@@ -191,7 +196,7 @@ namespace Arcade_Arena.Managers
             AbilityDeletionCheck();
         }
 
-        public bool HitBoxIntersectsRotatedRectangle(Rectangle rectangle, float rotation, Vector2 origin, Rectangle nonRotatedRectangle)
+        private bool HitBoxIntersectsRotatedRectangle(Rectangle rectangle, float rotation, Vector2 origin, Rectangle nonRotatedRectangle)
         {
             List<Vector2> aRectangleAxis = new List<Vector2>();
             aRectangleAxis.Add(UpperRightCorner(rectangle, origin, rotation) - UpperLeftCorner(rectangle, origin, rotation));
