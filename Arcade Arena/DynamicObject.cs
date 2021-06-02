@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Arcade_Arena
 {
@@ -44,6 +45,7 @@ namespace Arcade_Arena
             if (!alreadyHasEffect)
             {
                 EffectList.Add(newEffect);
+                Debug.Print("added effect");
                 return true;
             }
             else
@@ -55,7 +57,7 @@ namespace Arcade_Arena
         protected void UpdateEffects()
         {
             //List<Effect> tempEffectList = new List<Effect>(EffectList);
-            for (int i = EffectList.Count - 1; i > 0; i--)
+            for (int i = EffectList.Count - 1; i >= 0; i--)
             {
                 EffectList[i].Update();
             }

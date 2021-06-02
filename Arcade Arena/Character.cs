@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Arcade_Arena.Classes;
 using Arcade_Arena.Managers;
 using Microsoft.Xna.Framework;
@@ -138,6 +139,7 @@ namespace Arcade_Arena
         {
             nStunEffects++;
             Stunned = true;
+            Debug.Print("added stun effect" + nStunEffects);
         }
         public void RemoveStunEffect()
         {
@@ -147,6 +149,7 @@ namespace Arcade_Arena
                 Stunned = false;
                 nStunEffects = 0;
             }
+            Debug.Print("removed stun effect" + nStunEffects);
         }
 
         protected void UpdateSpriteEffect()

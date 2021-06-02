@@ -412,16 +412,23 @@ namespace Arcade_Arena.Managers
         {
             for (int j = playerManager.clientPlayer.AbilitesHitBy.Count - 1; j > 0; j--)
             {
-                if (playerManager.clientPlayer.AbilitesHitBy[j].Username == abilities[i].Username
-                    && playerManager.clientPlayer.AbilitesHitBy[j].ID == abilities[i].ID)
+                try
                 {
-                    try
+                    if (playerManager.clientPlayer.AbilitesHitBy[j].Username == abilities[i].Username
+                    && playerManager.clientPlayer.AbilitesHitBy[j].ID == abilities[i].ID)
                     {
-                        playerManager.clientPlayer.AbilitesHitBy.RemoveAt(j);
-                    } catch(IndexOutOfRangeException e)
-                    {
-                        Debug.Print(e.Message);
+                        try
+                        {
+                            playerManager.clientPlayer.AbilitesHitBy.RemoveAt(j);
+                        }
+                        catch (IndexOutOfRangeException e)
+                        {
+                            Debug.Print(e.Message);
+                        }
                     }
+                } catch (ArgumentOutOfRangeException a)
+                {
+                    Debug.Print(a.Message);
                 }
             }
         }

@@ -187,6 +187,7 @@ namespace Arcade_Arena.Classes
         private void ExitTimeTravel()
         {
             doingTimeTravel = false;
+            LastPosition = position;
             RemoveInvincibleEffect();
             aimDirection = UpdateAimDirection();
         }

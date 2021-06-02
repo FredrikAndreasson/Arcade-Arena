@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ namespace Arcade_Arena.Effects
         {
             this.direction = direction;
             this.speed = speed;
+            isStackable = true;
             TryToAddEffect();
         }
         public override void OnGetEffect(DynamicObject dynamicObject, double timer)
@@ -43,17 +45,22 @@ namespace Arcade_Arena.Effects
             ownerCharacter.UpdateVelocity(direction, speed);
             //ownerCharacter.LastPosition = ownerCharacter.Position;
             speed = speed / 2 + (float)timer / 4; //idk
-            base.Update();
             if (speed < 0.2f)
             {
                 OnLossEffect();
             }
+            else
+            {
+                base.Update();
+            }
+            Debug.Print("updates");
         }
 
         public override void OnLossEffect()
         {
             ownerCharacter.EndKnockback();
             ownerCharacter.RemoveStunEffect();
+            Debug.Print("lost kb effect");
             base.OnLossEffect();
         }
     }
