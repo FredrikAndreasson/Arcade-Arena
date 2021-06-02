@@ -12,12 +12,12 @@ namespace Arcade_Arena.Abilites
     class MeeleAttack : Ability
     {
 
-        public Rectangle damageRect;
+      
    
         public MeeleAttack(Character player, Vector2 position, float speed, double direction) : base(position, speed, direction, 10)
         {
             Type = Library.AbilityOutline.AbilityType.MeeleAttack;
-            damageRect = new Rectangle(player.Position.ToPoint(), new Point((int)currentAnimation.FrameSize.X, (int)currentAnimation.FrameSize.Y));
+            currentAnimation = new SpriteAnimation(AssetManager.ogreSpriteSheet, new Vector2(3, 3), new Vector2(5, 3), new Vector2(23, 33), new Vector2(7, 3), 300);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -27,7 +27,7 @@ namespace Arcade_Arena.Abilites
 
         public override void Update()
         {
-            damageRect = new Rectangle(player.Position.ToPoint(), new Point((int)currentAnimation.FrameSize.X, (int)currentAnimation.FrameSize.Y));
+            //
         }
 
     }

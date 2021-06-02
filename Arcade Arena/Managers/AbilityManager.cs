@@ -81,7 +81,12 @@ namespace Arcade_Arena.Managers
                                 case Player.ClassType.Ogre:
                                     if(networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.MeeleAttack)
                                     {
-                                        if(playerRect.Intersects(networkManager.ServerAbilities[i])
+                                        if (playerRect.Intersects(new Rectangle((int)networkManager.Players[j].XPosition, (int)networkManager.Players[j].YPosition, (int)networkManager.Players[j].Animation.Width, (int)networkManager.Players[j].Animation.Height)))
+                                        {
+                                            player.TakeDamage(networkManager.ServerAbilities[i].Damage);
+                                            KnockbackEffect knockback = new KnockbackEffect(networkManager.ServerAbilities[i].Direction, 20.0f, player, 1);
+                                        }
+
                                     }
                                     else if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.AbilityOne)
                                     {

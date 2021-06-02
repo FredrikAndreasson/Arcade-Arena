@@ -47,28 +47,31 @@ namespace Arcade_Arena.Classes
         private sbyte weaponDmg = 3;
         private float shootingSpeed = 7;
 
+        Vector2 frameSize = new Vector2(14, 20);
+
         public Wizard(Vector2 position, float speed, double direction) : base(position, speed, direction)
         {
-            idleAnimation = new SpriteAnimation(AssetManager.WizardSpriteSheet, new Vector2(0, 0), new Vector2(1, 0), new Vector2(14, 20), new Vector2(7, 3), 1000);
-            handIdleAnimation = new SpriteAnimation(AssetManager.WizardHandSpriteSheet, new Vector2(0, 0), new Vector2(1, 0), new Vector2(14, 20), new Vector2(7, 3), 1000);
-            walkingAnimation = new SpriteAnimation(AssetManager.WizardSpriteSheet, new Vector2(2, 0), new Vector2(7, 0), new Vector2(14, 20), new Vector2(7, 3), 150);
-            handWalkingAnimation = new SpriteAnimation(AssetManager.WizardHandSpriteSheet, new Vector2(2, 0), new Vector2(7, 0), new Vector2(14, 20), new Vector2(7, 3), 150);
-            teleportInAnimation = new SpriteAnimation(AssetManager.WizardSpriteSheet, new Vector2(0, 2), new Vector2(5, 2), new Vector2(14, 20), new Vector2(7, 3), 150);
-            handTeleportInAnimation = new SpriteAnimation(AssetManager.WizardHandSpriteSheet, new Vector2(0, 2), new Vector2(5, 2), new Vector2(14, 20), new Vector2(7, 3), 150);
-            teleportOutAnimation = new SpriteAnimation(AssetManager.WizardSpriteSheet, new Vector2(0, 3), new Vector2(5, 3), new Vector2(14, 20), new Vector2(7, 3), 150);
-            handTeleportOutAnimation = new SpriteAnimation(AssetManager.WizardHandSpriteSheet, new Vector2(0, 3), new Vector2(5, 3), new Vector2(14, 20), new Vector2(7, 3), 150);
-            backwardsAnimation = new SpriteAnimation(AssetManager.WizardSpriteSheet, new Vector2(0, 1), new Vector2(5, 1), new Vector2(14, 20), new Vector2(7, 3), 150);
-            handBackwardsAnimation = new SpriteAnimation(AssetManager.WizardHandSpriteSheet, new Vector2(0, 1), new Vector2(5, 1), new Vector2(14, 20), new Vector2(7, 3), 150);
-            iceBlockWizardAnimation = new SpriteAnimation(AssetManager.WizardSpriteSheet, new Vector2(1, 2), new Vector2(1, 2), new Vector2(14, 20), new Vector2(7, 3), 1000);
-            handIceBlockAnimation = new SpriteAnimation(AssetManager.WizardHandSpriteSheet, new Vector2(1, 2), new Vector2(1, 2), new Vector2(14, 20), new Vector2(7, 3), 1000);
-            knockBackAnimation = new SpriteAnimation(AssetManager.WizardSpriteSheet, new Vector2(6, 1), new Vector2(6, 1), new Vector2(14, 20), new Vector2(7, 3), 5000);
-            handKnockBackAnimation = new SpriteAnimation(AssetManager.WizardHandSpriteSheet, new Vector2(6, 1), new Vector2(6, 1), new Vector2(14, 20), new Vector2(7, 3), 5000);
-            deadAnimation = new SpriteAnimation(AssetManager.WizardSpriteSheet, new Vector2(5, 4), new Vector2(5, 4), new Vector2(14, 20), new Vector2(7, 3), 5000);
-            iceBlockAnimation = new SpriteAnimation(AssetManager.WizardIceBlock, new Vector2(0, 0), new Vector2(4, 0), new Vector2(14, 20), new Vector2(4, 0), 1000);
+            
+            idleAnimation = new SpriteAnimation(AssetManager.WizardSpriteSheet, new Vector2(0, 0), new Vector2(1, 0), frameSize, new Vector2(7, 3), 1000);
+            handIdleAnimation = new SpriteAnimation(AssetManager.WizardHandSpriteSheet, new Vector2(0, 0), new Vector2(1, 0), frameSize, new Vector2(7, 3), 1000);
+            walkingAnimation = new SpriteAnimation(AssetManager.WizardSpriteSheet, new Vector2(2, 0), new Vector2(7, 0), frameSize, new Vector2(7, 3), 150);
+            handWalkingAnimation = new SpriteAnimation(AssetManager.WizardHandSpriteSheet, new Vector2(2, 0), new Vector2(7, 0), frameSize, new Vector2(7, 3), 150);
+            teleportInAnimation = new SpriteAnimation(AssetManager.WizardSpriteSheet, new Vector2(0, 2), new Vector2(5, 2), frameSize, new Vector2(7, 3), 150);
+            handTeleportInAnimation = new SpriteAnimation(AssetManager.WizardHandSpriteSheet, new Vector2(0, 2), new Vector2(5, 2), frameSize, new Vector2(7, 3), 150);
+            teleportOutAnimation = new SpriteAnimation(AssetManager.WizardSpriteSheet, new Vector2(0, 3), new Vector2(5, 3), frameSize, new Vector2(7, 3), 150);
+            handTeleportOutAnimation = new SpriteAnimation(AssetManager.WizardHandSpriteSheet, new Vector2(0, 3), new Vector2(5, 3), frameSize, new Vector2(7, 3), 150);
+            backwardsAnimation = new SpriteAnimation(AssetManager.WizardSpriteSheet, new Vector2(0, 1), new Vector2(5, 1), frameSize, new Vector2(7, 3), 150);
+            handBackwardsAnimation = new SpriteAnimation(AssetManager.WizardHandSpriteSheet, new Vector2(0, 1), new Vector2(5, 1), frameSize, new Vector2(7, 3), 150);
+            iceBlockWizardAnimation = new SpriteAnimation(AssetManager.WizardSpriteSheet, new Vector2(1, 2), new Vector2(1, 2), frameSize, new Vector2(7, 3), 1000);
+            handIceBlockAnimation = new SpriteAnimation(AssetManager.WizardHandSpriteSheet, new Vector2(1, 2), new Vector2(1, 2), frameSize, new Vector2(7, 3), 1000);
+            knockBackAnimation = new SpriteAnimation(AssetManager.WizardSpriteSheet, new Vector2(6, 1), new Vector2(6, 1), frameSize, new Vector2(7, 3), 5000);
+            handKnockBackAnimation = new SpriteAnimation(AssetManager.WizardHandSpriteSheet, new Vector2(6, 1), new Vector2(6, 1), frameSize, new Vector2(7, 3), 5000);
+            deadAnimation = new SpriteAnimation(AssetManager.WizardSpriteSheet, new Vector2(5, 4), new Vector2(5, 4), frameSize, new Vector2(7, 3), 5000);
+            iceBlockAnimation = new SpriteAnimation(AssetManager.WizardIceBlock, new Vector2(0, 0), new Vector2(4, 0), frameSize, new Vector2(4, 0), 1000);
             projectileAnim = new SpriteAnimation(AssetManager.WizardWandProjectile, Vector2.Zero, Vector2.Zero,
                 new Vector2(2, 1), new Vector2(1, 1), 5000);
 
-            shadow = new Shadow(position, AssetManager.WizardShadow, speed, direction);
+            shadow = new Shadow(position, AssetManager.WizardShadow, speed, direction, frameSize);
 
             ChangeAnimation(ref currentAnimation, idleAnimation);
             ChangeAnimation(ref currentHandAnimation, handIdleAnimation);
@@ -240,7 +243,6 @@ namespace Arcade_Arena.Classes
             }
 
             shadow.Draw(spriteBatch);
-            spriteBatch.Draw(AssetManager.WizardShadow, new Vector2(Position.X + AssetManager.WizardShadow.Width / 4, Position.Y + 85), Color.Red);
             DrawAnimations(spriteBatch);
             currentAnimation.Draw(spriteBatch, LastPosition, 0.0f, Vector2.Zero, Game1.SCALE);
             base.Draw(spriteBatch);

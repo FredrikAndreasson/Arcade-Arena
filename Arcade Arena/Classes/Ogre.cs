@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,12 +41,12 @@ namespace Arcade_Arena.Classes
             groundSmashOgreAnimation = new SpriteAnimation(AssetManager.ogreSpriteSheet, new Vector2(0, 2), new Vector2(3, 2), frameSize, spriteDimensions, 125);
             bodySlamAnimation = new SpriteAnimation(AssetManager.ogreSpriteSheet, new Vector2(0, 3), new Vector2(2, 3), frameSize, spriteDimensions, 300);
             idleAnimation = new SpriteAnimation(AssetManager.ogreSpriteSheet, new Vector2(0, 0), new Vector2(1, 0), frameSize, spriteDimensions, 1000);
-            punchAnimation = new SpriteAnimation(AssetManager.ogreSpriteSheet, new Vector2(3, 3), new Vector2(5, 3), frameSize, spriteDimensions, 300);
+            punchAnimation = new SpriteAnimation(AssetManager.ogreSpriteSheet, new Vector2(3, 3), new Vector2(5, 3), frameSize, spriteDimensions, 125);
 
             groundSmashAnimation = new SpriteAnimation(AssetManager.groundSmashCrackle, new Vector2(0, 0), new Vector2(4, 0), new Vector2(71, 71), new Vector2(4, 0), 500);
             currentAnimation = backwardsAnimation;
 
-            shadow = new Shadow(Position, AssetManager.OgreShadow, speed, direction);
+            shadow = new Shadow(Position, AssetManager.OgreShadow, speed, direction, frameSize);
 
             maxHealth = 120;
             health = maxHealth;
@@ -59,11 +60,12 @@ namespace Arcade_Arena.Classes
             UpdateCooldowns();
 
             //kanske ändra till "actionable" debuffs sen istället för att kolla om man är i varje ability
-            if (!inGroundSmash && !inBodySlam)
+            if (!inGroundSmash && !inBodySlam && !inMeeleAttack)
             {
-                if (MouseKeyboardManager.LeftClick && meeleAttackCooldown <= 0)
+                if (MouseKeyboardManager.LeftHold && meeleAttackCooldown <= 0)
                 {
-                    
+                    Debug.WriteLine("bruh");
+                    MeeleAttack();
                     meeleAttackCooldown = 1;
                 }
 
@@ -85,7 +87,7 @@ namespace Arcade_Arena.Classes
                 if(punchAnimation.XIndex >= 3)
                 {
                     inMeeleAttack = false;
-                    middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
+                    UpdateMiddleOfSprite();
                     CheckRegularAnimation();
                     aimDirection = UpdateAimDirection();
                 }
@@ -98,7 +100,7 @@ namespace Arcade_Arena.Classes
                 if (groundSmashAnimation.XIndex >= 4)
                 {
                     inGroundSmash = false;
-                    middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
+                    UpdateMiddleOfSprite();
                     CheckRegularAnimation();
                     aimDirection = UpdateAimDirection();
                 }
@@ -109,7 +111,7 @@ namespace Arcade_Arena.Classes
                 if ((bodySlamCooldown <= 2f))
                 {
                     inBodySlam = false;
-                    middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
+                    UpdateMiddleOfSprite();
                     aimDirection = UpdateAimDirection();
                     CheckRegularAnimation();
                 }
@@ -121,12 +123,13 @@ namespace Arcade_Arena.Classes
                     CheckRegularAnimation();
                 }
 
-                middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
+                UpdateMiddleOfSprite();
                 base.Update();
             }
 
             shadow.Update(position);
         }
+
 
         private void CheckRegularAnimation()
         {
@@ -145,7 +148,8 @@ namespace Arcade_Arena.Classes
             else
             {
                 ChangeAnimation(ref currentAnimation, idleAnimation);
-
+                UpdateMiddleOfSprite();
+                
             }
         }
 
@@ -154,6 +158,7 @@ namespace Arcade_Arena.Classes
         {
             groundSmashCooldown -= Game1.elapsedGameTimeSeconds;
             bodySlamCooldown -= Game1.elapsedGameTimeSeconds;
+            meeleAttackCooldown -= Game1.elapsedGameTimeSeconds;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
