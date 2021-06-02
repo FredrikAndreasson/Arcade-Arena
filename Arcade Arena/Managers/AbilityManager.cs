@@ -71,6 +71,9 @@ namespace Arcade_Arena.Managers
                                         new Point(networkManager.ServerAbilities[i].Animation.Width * (int)Game1.SCALE, networkManager.ServerAbilities[i].Animation.Height * (int)Game1.SCALE));
                                         if (HitBoxIntersectsRotatedRectangle(rectangle, (float)networkManager.ServerAbilities[i].Direction, Vector2.Zero, playerRect))
                                         {
+                                            Ability ability = abilities.FirstOrDefault(a => a.Username == networkManager.ServerAbilities[i].Username &&
+                                                a.ID == networkManager.ServerAbilities[i].ID);
+                                            if (ability != null) ability.Kill();
                                             //player.AddEffect(knockback, true);
                                             playerManager.IsFirstPlayerHit = true;
                                             player.TakeDamage(networkManager.ServerAbilities[i].Damage);
@@ -98,6 +101,10 @@ namespace Arcade_Arena.Managers
                                         {
                                             if (!player.AbilitesHitBy.Contains(networkManager.ServerAbilities[i]))
                                             {
+
+                                                Ability ability = abilities.FirstOrDefault(a => a.Username == networkManager.ServerAbilities[i].Username &&
+                                                a.ID == networkManager.ServerAbilities[i].ID);
+                                                if (ability != null) ability.Kill();
                                                 playerManager.IsFirstPlayerHit = true;
                                                 player.TakeDamage(networkManager.ServerAbilities[i].Damage);
                                                 KnockbackEffect knockback = new KnockbackEffect(networkManager.ServerAbilities[i].Direction, 30.0f, player, 1.2f);
@@ -110,6 +117,9 @@ namespace Arcade_Arena.Managers
                                         if (playerRect.Intersects(new Rectangle(new Point(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition),
                                                 new Point(networkManager.ServerAbilities[i].Animation.Width * (int)Game1.SCALE, networkManager.ServerAbilities[i].Animation.Height * (int)Game1.SCALE))))
                                         {
+                                            Ability ability = abilities.FirstOrDefault(a => a.Username == networkManager.ServerAbilities[i].Username &&
+                                                a.ID == networkManager.ServerAbilities[i].ID);
+                                            if (ability != null) ability.Kill();
                                             playerManager.IsFirstPlayerHit = true;
                                             if (!player.AbilitesHitBy.Contains(networkManager.ServerAbilities[i]))
                                             {
@@ -124,6 +134,9 @@ namespace Arcade_Arena.Managers
                                         if (playerRect.Intersects(new Rectangle(new Point(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition),
                                                 new Point(networkManager.ServerAbilities[i].Animation.Width * (int)Game1.SCALE, networkManager.ServerAbilities[i].Animation.Height * (int)Game1.SCALE))))
                                         {
+                                            Ability ability = abilities.FirstOrDefault(a => a.Username == networkManager.ServerAbilities[i].Username &&
+                                                a.ID == networkManager.ServerAbilities[i].ID);
+                                            if (ability != null) ability.Kill();
                                             playerManager.IsFirstPlayerHit = true;
                                             if (!player.AbilitesHitBy.Contains(networkManager.ServerAbilities[i]))
                                             {
@@ -144,7 +157,6 @@ namespace Arcade_Arena.Managers
                                         {
                                             if (!player.AbilitesHitBy.Contains(networkManager.ServerAbilities[i]))
                                             {
-                                                Debug.Print("hit by time traveler");
                                                 playerManager.IsFirstPlayerHit = true;
                                                 player.TakeDamage(networkManager.ServerAbilities[i].Damage);
                                                 KnockbackEffect knockback = new KnockbackEffect(networkManager.ServerAbilities[i].Direction, 50.0f, player, 2);
@@ -393,9 +405,7 @@ namespace Arcade_Arena.Managers
                     }
                     else
                     {
-                        RemoveAbilityFromHitList(index);
                         networkManager.DeleteLocalAbility(networkManager.ServerAbilities[index].ID);
-                        abilities.RemoveAt(index);
                     }
                     break;
                 default:
