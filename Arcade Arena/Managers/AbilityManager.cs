@@ -131,6 +131,7 @@ namespace Arcade_Arena.Managers
                                     }
                                     else if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.AbilityTwo)
                                     {
+                                        
                                         if (playerRect.Intersects(new Rectangle(new Point(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition),
                                                 new Point(networkManager.ServerAbilities[i].Animation.Width * (int)Game1.SCALE, networkManager.ServerAbilities[i].Animation.Height * (int)Game1.SCALE))))
                                         {
@@ -140,6 +141,10 @@ namespace Arcade_Arena.Managers
                                             playerManager.IsFirstPlayerHit = true;
                                             if (!player.AbilitesHitBy.Contains(networkManager.ServerAbilities[i]))
                                             {
+                                                if (ability is BearTrap b)
+                                                {
+                                                    b.Activate();
+                                                }
                                                 player.TakeDamage(networkManager.ServerAbilities[i].Damage);
                                                 player.AbilitesHitBy.Add(networkManager.ServerAbilities[i]);
                                                 BearTrapEffect bearTrapEffect = new BearTrapEffect(player, 3);

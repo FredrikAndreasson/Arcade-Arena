@@ -79,7 +79,10 @@ namespace Arcade_Arena
         
         public void RemoveAllEffects()
         {
-            EffectList.Clear();
+            for (int i = EffectList.Count - 1; i >= 0; i--)
+            {
+                EffectList[i].OnLossEffect();
+            }
         }
     }
 }

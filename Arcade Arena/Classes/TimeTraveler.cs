@@ -253,7 +253,7 @@ namespace Arcade_Arena.Classes
             int timeZonePositionX = (int)(middleOfSprite.X - (AssetManager.TimeTravelerTimeZone.Width / 2) * Game1.SCALE);
             int timeZonePositionY = (int)(middleOfSprite.Y - (AssetManager.TimeTravelerTimeZone.Height / 2) * Game1.SCALE);
             TimeZone newTimeZone = new TimeZone(timeZoneTimer, this, new Vector2(timeZonePositionX, timeZonePositionY), AssetManager.TimeTravelerTimeZone, speed, direction);
-            timeZones.Add(newTimeZone);
+            abilityBuffer.Add(newTimeZone);
             ChangeAnimation(ref currentAnimation, timeZoneAnimation);
             ChangeAnimation(ref currentHandAnimation, handTimeZoneAnimation);
             UpdateSpriteEffect();
