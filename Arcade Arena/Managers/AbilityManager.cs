@@ -252,6 +252,7 @@ namespace Arcade_Arena.Managers
             return rotation;
         }
 
+        //funkar inte, fungerar likadant som vanlig rectangle.intesects
         private bool IsAxisCollision(Rectangle rectangle, float rotation, Vector2 origin, Vector2 aAxis, Rectangle otherRectangle)
         {
             List<int> aRectangleAScalars = new List<int>();

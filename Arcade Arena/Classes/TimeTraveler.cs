@@ -221,7 +221,7 @@ namespace Arcade_Arena.Classes
             shooting = true;
             Debug.Print("shooting");
             Projectile projectile = new Projectile(projectileAnim, weaponDmg, 3, Position, shootingSpeed, (double)orbiterRotation);
-            //projectile.SetPosition(weaponPosition + projectile.Velocity * 1);
+            projectile.SetPosition(weaponPosition + projectile.Velocity * 15 / shootingSpeed);
             abilityBuffer.Add(projectile);
         }
 
