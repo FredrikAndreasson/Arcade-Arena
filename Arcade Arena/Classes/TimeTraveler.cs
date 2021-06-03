@@ -204,19 +204,22 @@ namespace Arcade_Arena.Classes
 
         public override void PrepareShooting()
         {
-            base.PrepareShooting();
-            if (shooting == true)
+            if (shooting != true)
             {
-
+                AlterSpeedEffect speedEffect = new AlterSpeedEffect(-1.5f, shootingDelayMaxTimer, this);
             }
-            AlterSpeedEffect speedEffect = new AlterSpeedEffect(-1.5f, shootingDelayMaxTimer, this);
+            else
+            {
+                shootingDelayTimer = 0;
+            }
+            base.PrepareShooting();
         }
 
         public override void Shoot()
         {
             shooting = true;
             Projectile projectile = new Projectile(projectileAnim, weaponDmg, 3, Position, shootingSpeed, (double)orbiterRotation);
-            projectile.SetPosition(weaponPosition + projectile.Velocity * 100);
+            projectile.SetPosition(weaponPosition + projectile.Velocity * 1);
             abilityBuffer.Add(projectile);
         }
 

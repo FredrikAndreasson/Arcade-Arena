@@ -538,7 +538,7 @@ namespace Arcade_Arena.Managers
                     if (ability.Type == AbilityOutline.AbilityType.Projectile)
                     {
                         Debug.Print("draw time traveler projectile " + ability.Direction.ToString());
-                        spriteBatch.Draw(AssetManager.TimeTravelerRayGunLaser, new Vector2(ability.XPosition, ability.YPosition), source, Color.White, (float)ability.Direction,
+                        spriteBatch.Draw(AssetManager.WizardWandProjectile, new Vector2(ability.XPosition, ability.YPosition), source, Color.White, (float)ability.Direction,
                             Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1.0f);
                     }
                     if (ability.Type == AbilityOutline.AbilityType.AbilityOne)

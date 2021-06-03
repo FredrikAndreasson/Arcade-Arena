@@ -23,7 +23,7 @@ namespace Arcade_Arena
         protected float shootingCooldown = 1;
         float cooldownTimer;
 
-        double shootingDelayTimer = 0;
+        protected double shootingDelayTimer = 0;
         protected double shootingDelayMaxTimer = 0;
 
         protected bool shooting = false;
@@ -70,10 +70,10 @@ namespace Arcade_Arena
             cooldownTimer += (float)Game1.elapsedGameTimeSeconds;
             if (cooldownTimer >= shootingCooldown && !Stunned && ((MouseKeyboardManager.LeftHold) || MouseKeyboardManager.Pressed(Buttons.RightTrigger)))
             {
-                shooting = true;
                 PrepareShooting();
-                cooldownTimer = 0;
                 shootingDelayTimer = shootingDelayMaxTimer;
+                shooting = true;
+                cooldownTimer = 0;
             }
             if (shooting)
             {
