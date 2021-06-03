@@ -57,6 +57,7 @@ namespace Arcade_Arena
 
             perlin.Seed = Game1.seed;
             obstacles.Clear();
+            lava.ShrinkPlatform(400);
 
             for (double x = 0; x < twoThirdsWidth; x++)
             {
@@ -81,13 +82,18 @@ namespace Arcade_Arena
                     }
                     if (!isFilled[x,y])
                     {
-                        spawnPoints.Add(new Vector2(x * 64 + (window.ClientBounds.Width / 6) - 32, y * 64 + (window.ClientBounds.Height / 6) - 80));
+                        if(!lava.CheckLavaAtPos(new Vector2(x * 64 + (window.ClientBounds.Width / 6) - 32, y * 64 + (window.ClientBounds.Height / 6) - 80)))
+                        {
+                            spawnPoints.Add(new Vector2(x * 64 + (window.ClientBounds.Width / 6) - 32, y * 64 + (window.ClientBounds.Height / 6) - 80));
+                        }
+                        
                     }
                 }
             }
+
             selectedSpawnPoint = spawnPoints[Game1.random.Next(spawnPoints.Count)];
             player.SpawnLocation(selectedSpawnPoint);
-            lava.ShrinkPlatform(400);
+
         }
 
         private void Tiling(double value, double x, double y, ref bool[,] isFilled)
@@ -107,7 +113,6 @@ namespace Arcade_Arena
                         yNormalized * 64 + (window.ClientBounds.Height / 6)), RelativePosition.single, xNormalized, yNormalized));
                 }
             }
-
         }
 
         private RelativePosition RelativePositionCalc(ref bool[,] isFilled, int x, int y)
@@ -200,6 +205,8 @@ namespace Arcade_Arena
             return RelativePosition.single;
         }
 
+        
+
         public void Update()
         {
             player.Update();
@@ -235,8 +242,7 @@ namespace Arcade_Arena
                 if (player.Username != networkManager.Username && player != null)
                 {
                     Rectangle source = new Rectangle(player.Animation.XRecPos, player.Animation.YRecPos, player.Animation.Width, player.Animation.Height);
-                    if (!player.IntersectingLava)
-                    {
+
 
                         if (player.Health > 0)
                         {
@@ -284,13 +290,13 @@ namespace Arcade_Arena
 
 
                         }
-                    }
+                    
 
                     //spriteBatch.DrawString(font, player.Username, new Vector2(player.XPosition - 10, player.YPosition - 10), Color.Black);
                 }
                 else
                 {
-                    if (!this.player.IntersectingLava || player.Health > 0)
+                    if (player.Health > 0)
                     {
                         if (this.player is Wizard)
                         {
