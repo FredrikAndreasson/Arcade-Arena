@@ -19,6 +19,7 @@ namespace Arcade_Arena
         public TimeZone(double timer, TimeTraveler owner, Vector2 position, Texture2D texture, float speed, double direction) : base(position, speed, direction, 0)
         {
             Type = AbilityOutline.AbilityType.AbilityTwo;
+            currentAnimation = new SpriteAnimation(AssetManager.TimeTravelerTimeZone, new Vector2(0, 0), new Vector2(0, 0), new Vector2(50, 50), new Vector2(1, 1), 50000);
             this.timer = timer;
             this.owner = owner;
             this.texture = texture;
