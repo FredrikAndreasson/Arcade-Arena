@@ -67,7 +67,7 @@ namespace Arcade_Arena.Managers
             }
             foreach (Player player in networkManager.Players)
             {
-                if (player.Score >= 1)
+                if (player.Score >= 3)
                 {
                     return true;
                 }

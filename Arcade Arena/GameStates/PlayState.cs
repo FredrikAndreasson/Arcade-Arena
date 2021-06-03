@@ -85,7 +85,7 @@ namespace Arcade_Arena
             }
             if (playerManager.GameOverCheck())
             {
-                if (networkManager.Players.FirstOrDefault(p => p.Username == networkManager.Username).Score >= 1)
+                if (networkManager.Players.FirstOrDefault(p => p.Username == networkManager.Username).Score >= 3)
                 {
                     state = States.Win;
                     Game1.LocalWin = true;
