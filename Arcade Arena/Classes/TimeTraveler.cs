@@ -38,8 +38,8 @@ namespace Arcade_Arena.Classes
 
         List<TimeTravelPosition> previousPositions = new List<TimeTravelPosition>(); //för time travel
 
-        sbyte weaponDmg = 15;
-        float shootingSpeed = 0.2f;
+        sbyte weaponDmg = 2;
+        float shootingSpeed = 5f;
 
         public TimeTraveler(Vector2 position, float speed, double direction) : base(position, speed, direction)
         {
@@ -53,8 +53,8 @@ namespace Arcade_Arena.Classes
             handKnockBackAnimation = new SpriteAnimation(AssetManager.TimeTravelerHandSpriteSheet, new Vector2(1, 0), new Vector2(1, 0), new Vector2(14, 20), new Vector2(5, 0), 5000);
             deadAnimation = new SpriteAnimation(AssetManager.TimeTravelerSpriteSheet, new Vector2(5, 0), new Vector2(5, 0), new Vector2(14, 20), new Vector2(5, 0), 5000);
 
-            projectileAnim = new SpriteAnimation(AssetManager.TimeTravelerRayGunLaser, Vector2.Zero, Vector2.Zero,
-                new Vector2(100, 1), new Vector2(1, 1), 5000);
+            projectileAnim = new SpriteAnimation(AssetManager.TimeTravelerRayGunLaser, new Vector2(50, 0), new Vector2(50, 0),
+                new Vector2(2, 1), new Vector2(1, 1), 5000);
 
             ChangeAnimation(ref currentAnimation, idleAnimation);
             ChangeAnimation(ref currentHandAnimation, handIdleAnimation);
@@ -74,8 +74,8 @@ namespace Arcade_Arena.Classes
             weaponOffsetY = 7;
             weaponAnim = new SpriteAnimation(AssetManager.TimeTravelerRayGun, new Vector2(0, 0), new Vector2(0, 0), new Vector2(6, 4), new Vector2(2, 1), 5000);
             weaponShootAnim = new SpriteAnimation(AssetManager.TimeTravelerRayGun, new Vector2(1, 0), new Vector2(1, 0), new Vector2(6, 4), new Vector2(2, 1), 5000);
-            shootingCooldown = 2;
-            shootingDelayMaxTimer = 0.8;
+            shootingCooldown = 0;
+            shootingDelayMaxTimer = 1f;
             weaponOrigin = new Vector2(0.4f * Game1.SCALE, 0.45f * Game1.SCALE);
             base.PrepareWeaponAnim();
         }
@@ -87,6 +87,7 @@ namespace Arcade_Arena.Classes
             UpdateWeapon(currentAnimation.SpriteFX);
             UpdateCooldowns();
             CheckAbilityUse();
+            CheckShooting();
 
             if (!doingTimeTravel)
             {
@@ -143,6 +144,17 @@ namespace Arcade_Arena.Classes
             shadow.Update(Position);
         }
 
+        private void CheckShooting()
+        {
+            if (shooting)
+            {
+                if (Stunned || !MouseKeyboardManager.LeftHold)
+                {
+                    shooting = false;
+                }
+            }
+        }
+
         private void UpdateTimeTravelPosition()
         {
             if (previousPositions.Count > 2)
@@ -193,11 +205,16 @@ namespace Arcade_Arena.Classes
         public override void PrepareShooting()
         {
             base.PrepareShooting();
+            if (shooting == true)
+            {
+
+            }
             AlterSpeedEffect speedEffect = new AlterSpeedEffect(-1.5f, shootingDelayMaxTimer, this);
         }
 
         public override void Shoot()
         {
+            shooting = true;
             Projectile projectile = new Projectile(projectileAnim, weaponDmg, 3, Position, shootingSpeed, (double)orbiterRotation);
             projectile.SetPosition(weaponPosition + projectile.Velocity * 100);
             abilityBuffer.Add(projectile);
@@ -212,6 +229,7 @@ namespace Arcade_Arena.Classes
         public override void StartKnockback()
         {
             base.StartKnockback();
+            shooting = false;
             ChangeAnimation(ref currentAnimation, knockBackAnimation);
             ChangeAnimation(ref currentHandAnimation, handKnockBackAnimation);
         }

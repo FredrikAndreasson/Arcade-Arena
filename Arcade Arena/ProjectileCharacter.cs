@@ -26,7 +26,7 @@ namespace Arcade_Arena
         double shootingDelayTimer = 0;
         protected double shootingDelayMaxTimer = 0;
 
-        bool shooting = false;
+        protected bool shooting = false;
 
         protected int weaponOffsetX = 0;
         protected int weaponOffsetY = 0;

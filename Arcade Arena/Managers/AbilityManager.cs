@@ -164,7 +164,7 @@ namespace Arcade_Arena.Managers
                                             {
                                                 playerManager.IsFirstPlayerHit = true;
                                                 player.TakeDamage(networkManager.ServerAbilities[i].Damage);
-                                                KnockbackEffect knockback = new KnockbackEffect(networkManager.ServerAbilities[i].Direction, 50.0f, player, 2);
+                                                //KnockbackEffect knockback = new KnockbackEffect(networkManager.ServerAbilities[i].Direction, 50.0f, player, 2);
                                                 player.AbilitesHitBy.Add(networkManager.ServerAbilities[i]);
                                             }
                                         }
