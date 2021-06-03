@@ -36,7 +36,6 @@ namespace Arcade_Arena.Classes
 
         private double timeZoneTimer = 10;
 
-        List<TimeZone> timeZones = new List<TimeZone>();
         List<TimeTravelPosition> previousPositions = new List<TimeTravelPosition>(); //för time travel
 
         sbyte weaponDmg = 15;
@@ -83,7 +82,6 @@ namespace Arcade_Arena.Classes
 
         public override void Update()
         {
-            UpdateTimeZones();
             currentAnimation.Update();
             currentHandAnimation.Update();
             UpdateWeapon(currentAnimation.SpriteFX);
@@ -192,15 +190,6 @@ namespace Arcade_Arena.Classes
             aimDirection = UpdateAimDirection();
         }
 
-        private void UpdateTimeZones()
-        {
-            List<TimeZone> tempList = new List<TimeZone>(timeZones);
-            foreach (TimeZone timeZone in tempList)
-            {
-                timeZone.Update();
-            }
-        }
-
         public override void PrepareShooting()
         {
             base.PrepareShooting();
@@ -267,17 +256,8 @@ namespace Arcade_Arena.Classes
             }
         }
 
-        public void RemoveTimeZoneFromList(TimeZone timeZone)
-        {
-            timeZones.Remove(timeZone);
-        }
-
         public override void Draw(SpriteBatch spriteBatch)
         {
-            foreach (TimeZone timeZone in timeZones)
-            {
-                timeZone.Draw(spriteBatch);
-            }
             if (isDead)
             {
                 currentAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, Game1.SCALE);
