@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using Arcade_Arena.Classes;
+using Arcade_Arena.Effects;
 using Arcade_Arena.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -99,10 +100,12 @@ namespace Arcade_Arena
 
         public void SpawnLocation(Vector2 position)
         {
+            RemoveAllEffects();
             this.position = position;
             LastPosition = position;
             health = maxHealth;
             isDead = false;
+            InvincibilityEffect invincibilityEffect = new InvincibilityEffect(this, 1);
         }
 
         public void AddCanWalkStoppingEffect()
