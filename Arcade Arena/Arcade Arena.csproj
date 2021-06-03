@@ -57,6 +57,7 @@
     <Compile Include="Effects\CharacterExclusiveEffect.cs" />
     <Compile Include="Effects\InvincibilityEffect.cs" />
     <Compile Include="GameStates\LobbyState.cs" />
+    <Compile Include="GameStates\WinState.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="GameStates\CharacterSelectionState.cs" />
     <Compile Include="Managers\AssetManager.cs" />
@@ -78,7 +79,6 @@
     <Compile Include="Lava.cs" />
     <Compile Include="Managers\AbilityManager.cs" />
     <Compile Include="Managers\NetworkManager.cs" />
-    <Compile Include="Managers\ObstacleManager.cs" />
     <Compile Include="Managers\PlayerManager.cs" />
     <Compile Include="Managers\UserInterfaceManager.cs" />
     <Compile Include="Managers\MouseKeyboardManager.cs" />

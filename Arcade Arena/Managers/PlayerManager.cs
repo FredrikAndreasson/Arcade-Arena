@@ -59,6 +59,22 @@ namespace Arcade_Arena.Managers
             
         }
 
+        public bool GameOverCheck()
+        {
+            if (networkManager.Players.Count == 0)
+            {
+                return false;
+            }
+            foreach (Player player in networkManager.Players)
+            {
+                if (player.Score >= 1)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public void LocalPlayerWin()
         {
             if (networkManager.Players.Count == 0)

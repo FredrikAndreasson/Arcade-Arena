@@ -83,6 +83,19 @@ namespace Arcade_Arena
                     state = States.Pause;
 
             }
+            if (playerManager.GameOverCheck())
+            {
+                if (networkManager.Players.FirstOrDefault(p => p.Username == networkManager.Username).Score >= 1)
+                {
+                    state = States.Win;
+                    Game1.LocalWin = true;
+                }
+                else
+                {
+                    state = States.Win;
+                    Game1.LocalWin = false;
+                }
+            }
 
             networkManager.Active = networkManager.Status == NetConnectionStatus.Connected;
             
