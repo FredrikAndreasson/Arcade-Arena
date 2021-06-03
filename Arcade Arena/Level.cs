@@ -15,6 +15,7 @@ namespace Arcade_Arena
     {
         private List<Obstacle> obstacles;
         private List<Vector2> spawnPoints;
+        private Vector2 selectedSpawnPoint;
 
         private Character player;
         public static Lava lava;
@@ -80,11 +81,12 @@ namespace Arcade_Arena
                     }
                     if (!isFilled[x,y])
                     {
-                        spawnPoints.Add(new Vector2(x * 64 + (window.ClientBounds.Width / 6) + 32, y * 64 + (window.ClientBounds.Height / 6)+64));
+                        spawnPoints.Add(new Vector2(x * 64 + (window.ClientBounds.Width / 6) - 32, y * 64 + (window.ClientBounds.Height / 6) - 80));
                     }
                 }
             }
-            player.SpawnLocation(spawnPoints[Game1.random.Next(spawnPoints.Count)]);
+            selectedSpawnPoint = spawnPoints[Game1.random.Next(spawnPoints.Count)];
+            player.SpawnLocation(selectedSpawnPoint);
             lava.ShrinkPlatform(400);
         }
 
