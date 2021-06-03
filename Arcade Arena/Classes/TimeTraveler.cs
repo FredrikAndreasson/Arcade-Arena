@@ -151,6 +151,7 @@ namespace Arcade_Arena.Classes
                 if (Stunned || !MouseKeyboardManager.LeftHold)
                 {
                     CancelShooting();
+                    Debug.Print("canceld shooting from time traveler");
                 }
             }
         }
@@ -210,7 +211,7 @@ namespace Arcade_Arena.Classes
             }
             else
             {
-                shootingDelayTimer = 0;
+                shootingDelayTimer = 0.08f;
             }
             base.PrepareShooting();
         }
@@ -218,6 +219,7 @@ namespace Arcade_Arena.Classes
         public override void Shoot()
         {
             shooting = true;
+            Debug.Print("shooting");
             Projectile projectile = new Projectile(projectileAnim, weaponDmg, 3, Position, shootingSpeed, (double)orbiterRotation);
             //projectile.SetPosition(weaponPosition + projectile.Velocity * 1);
             abilityBuffer.Add(projectile);

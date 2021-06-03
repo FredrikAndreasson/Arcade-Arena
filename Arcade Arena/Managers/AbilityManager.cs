@@ -190,6 +190,7 @@ namespace Arcade_Arena.Managers
                                             networkManager.ServerAbilities[i].YPosition + AssetManager.TimeTravelerTimeZone.Height * Game1.SCALE / 2);
                                         if (HitBoxIntersectsCircle(playerRect, circleCenter, AssetManager.TimeTravelerTimeZone.Width * Game1.SCALE / 2))
                                         {
+                                            Debug.Print("collision with time zone");
                                             playerManager.IsFirstPlayerHit = true;
                                             AlterTimeEffect timeZoneEffect = new AlterTimeEffect(-0.15f, player, 0.2f);
                                         }
