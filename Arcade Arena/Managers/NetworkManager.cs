@@ -42,7 +42,7 @@ namespace Arcade_Arena.Managers
             client = new NetClient(new NetPeerConfiguration("networkGame"));
             client.Start();
 
-            Username = "name_" + random.Next(0, 100);
+            Username = "Any throwers?";// + random.Next(0, 100);
 
             var outmsg = client.CreateMessage();
             outmsg.Write((byte)PacketType.Login);
@@ -56,8 +56,8 @@ namespace Arcade_Arena.Managers
             };
             Players.Add(player);
 
-            client.Connect("85.228.136.154", 14241, outmsg);
-            //client.Connect("localhost", 14241, outmsg);
+            //client.Connect("85.228.136.154", 14241, outmsg);
+            client.Connect("localhost", 14241, outmsg);
             return EstablishInfo();
 
         }

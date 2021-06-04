@@ -68,11 +68,9 @@ namespace Arcade_Arena
             //}
 
             cooldownTimer += (float)Game1.elapsedGameTimeSeconds;
-            if (cooldownTimer >= shootingCooldown && !Stunned && ((MouseKeyboardManager.LeftHold) || MouseKeyboardManager.Pressed(Buttons.RightTrigger)))
+            if (!shooting && cooldownTimer >= shootingCooldown && !Stunned && ((MouseKeyboardManager.LeftHold) || MouseKeyboardManager.Pressed(Buttons.RightTrigger)))
             {
-                shootingDelayTimer = shootingDelayMaxTimer;
                 PrepareShooting();
-                shooting = true;
                 cooldownTimer = 0.0f;
             }
             if (shooting)
@@ -101,6 +99,8 @@ namespace Arcade_Arena
 
         public virtual void PrepareShooting()
         {
+            shootingDelayTimer = shootingDelayMaxTimer;
+            shooting = true;
             ChangeAnimation(ref currentAnimation, weaponShootAnim);
         }
 

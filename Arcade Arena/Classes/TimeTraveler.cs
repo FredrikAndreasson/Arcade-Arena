@@ -36,6 +36,9 @@ namespace Arcade_Arena.Classes
 
         private double timeZoneTimer = 10;
 
+        bool shootingFrenzy = false;
+        float shootingDelayInFrenzy = 0.1f;
+
         List<TimeTravelPosition> previousPositions = new List<TimeTravelPosition>(); //för time travel
 
         sbyte weaponDmg = 2;
@@ -74,7 +77,7 @@ namespace Arcade_Arena.Classes
             weaponOffsetY = 7;
             weaponAnim = new SpriteAnimation(AssetManager.TimeTravelerRayGun, new Vector2(0, 0), new Vector2(0, 0), new Vector2(6, 4), new Vector2(2, 1), 5000);
             weaponShootAnim = new SpriteAnimation(AssetManager.TimeTravelerRayGun, new Vector2(1, 0), new Vector2(1, 0), new Vector2(6, 4), new Vector2(2, 1), 5000);
-            shootingCooldown = 0;
+            shootingCooldown = 0f;
             shootingDelayMaxTimer = 1f;
             weaponOrigin = new Vector2(0.4f * Game1.SCALE, 0.45f * Game1.SCALE);
             base.PrepareWeaponAnim();
@@ -146,11 +149,11 @@ namespace Arcade_Arena.Classes
 
         private void CheckShooting()
         {
-            if (shooting)
+            if (shootingFrenzy)
             {
                 if (Stunned || !MouseKeyboardManager.LeftHold)
                 {
-                    CancelShooting();
+                    shootingFrenzy = false;
                     Debug.Print("canceld shooting from time traveler");
                 }
             }
@@ -205,24 +208,25 @@ namespace Arcade_Arena.Classes
 
         public override void PrepareShooting()
         {
-            if (shooting != true)
+            base.PrepareShooting();
+            if (shootingFrenzy != true)
             {
                 AlterSpeedEffect speedEffect = new AlterSpeedEffect(-1.5f, shootingDelayMaxTimer, this);
             }
             else
             {
-                shootingDelayTimer = 0.08f;
+                shootingDelayTimer = shootingDelayInFrenzy;
             }
-            base.PrepareShooting();
         }
 
         public override void Shoot()
         {
-            shooting = true;
+            shootingFrenzy = true;
             Debug.Print("shooting");
             Projectile projectile = new Projectile(projectileAnim, weaponDmg, 3, Position, shootingSpeed, (double)orbiterRotation);
             projectile.SetPosition(weaponPosition + projectile.Velocity * 15 / shootingSpeed);
             abilityBuffer.Add(projectile);
+            shootingDelayTimer = 0.08f;
         }
 
         protected override void Die()
@@ -248,6 +252,7 @@ namespace Arcade_Arena.Classes
         void TimeTravelAbility()
         {
             CancelShooting();
+            RemoveAllEffects();
             doingTimeZone = false;
             doingTimeTravel = true;
             AddInvincibleEffect();
