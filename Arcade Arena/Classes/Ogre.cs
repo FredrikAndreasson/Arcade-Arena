@@ -120,7 +120,7 @@ namespace Arcade_Arena.Classes
                 bodySlamAnimation.Update();
                 UpdatePosition();
 
-                if ((abilityTwoCooldown <= 2f))
+                if ((abilityTwoCooldown <= 4f))
                 {
                     inBodySlam = false;
                     UpdateMiddleOfSprite();
@@ -169,7 +169,6 @@ namespace Arcade_Arena.Classes
         private void UpdateCooldowns( )
         {
             groundSmashCooldown -= Game1.elapsedGameTimeSeconds;
-            bodySlamCooldown -= Game1.elapsedGameTimeSeconds;
             meeleAttackCooldown -= Game1.elapsedGameTimeSeconds;
 
             abilityOneCooldown -= Game1.elapsedGameTimeSeconds;
