@@ -20,14 +20,10 @@ namespace Arcade_Arena.Classes
         SpriteAnimation idleAnimation;
 
         private bool inGroundSmash;
-        private double groundSmashCooldown = 0;
-
         private bool inBodySlam;
-        private double bodySlamCooldown = 0;
 
         private Vector2 frameSize = new Vector2(23, 33);
         private Vector2 spriteDimensions = new Vector2(7, 3);
-
 
         public Ogre(Vector2 position, float speed, double direction) : base(position, speed, direction)
         {
@@ -46,6 +42,9 @@ namespace Arcade_Arena.Classes
             health = maxHealth;
 
             speed = 1;
+
+            abilityOneMaxCooldown = 1;
+            abilityTwoMaxCooldown = 5;
         }
 
         public override void Update( )
@@ -56,15 +55,15 @@ namespace Arcade_Arena.Classes
             //kanske ändra till "actionable" debuffs sen istället för att kolla om man är i varje ability
             if (!inGroundSmash && !inBodySlam)
             {
-                if (Keyboard.GetState().IsKeyDown(Keys.E) && groundSmashCooldown <= 0)
+                if (Keyboard.GetState().IsKeyDown(Keys.E) && abilityOneCooldown <= 0)
                 {
                     GroundSmash();
-                    groundSmashCooldown = 1;
+                    abilityOneCooldown = 1;
                 }
-                else if (Keyboard.GetState().IsKeyDown(Keys.LeftShift) && bodySlamCooldown <= 0)
+                else if (Keyboard.GetState().IsKeyDown(Keys.LeftShift) && abilityTwoCooldown <= 0)
                 {
                     BodySlam();
-                    bodySlamCooldown = 5;
+                    abilityTwoCooldown = 5;
                 }
             }
 
@@ -84,7 +83,7 @@ namespace Arcade_Arena.Classes
             else if (inBodySlam)
             {
                 bodySlamAnimation.Update();
-                if ((bodySlamCooldown <= 2f))
+                if ((abilityTwoCooldown <= 2f))
                 {
                     inBodySlam = false;
                     middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
@@ -130,8 +129,8 @@ namespace Arcade_Arena.Classes
 
         private void UpdateCooldowns( )
         {
-            groundSmashCooldown -= Game1.elapsedGameTimeSeconds;
-            bodySlamCooldown -= Game1.elapsedGameTimeSeconds;
+            abilityOneCooldown -= Game1.elapsedGameTimeSeconds;
+            abilityTwoCooldown -= Game1.elapsedGameTimeSeconds;
         }
 
         public override void Draw(SpriteBatch spriteBatch)

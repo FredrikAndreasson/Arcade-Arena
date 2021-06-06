@@ -13,7 +13,7 @@ namespace Arcade_Arena.Managers
         public static Rectangle healthBarRectangle;
         private PlayerManager playerManager;
 
-        public UserInterfaceManagerHealth(GameWindow window, PlayerManager playerManager) : base(window)
+        public UserInterfaceManagerHealth(GameWindow window, PlayerManager playerManager) : base(window, playerManager)
         {
             this.playerManager = playerManager;
             healthBarRectangle = new Rectangle(0, 0, AssetManager.HealthBarOverlay.Width, AssetManager.HealthBarOverlay.Height);

@@ -21,7 +21,12 @@ namespace Arcade_Arena
 
         public bool CanWalk { get; private set; }
         private int nCanWalkStoppingEffects;
-       
+
+        protected double abilityOneCooldown = 0;
+        protected double abilityOneMaxCooldown = 10;
+        protected double abilityTwoCooldown = 0;
+        protected double abilityTwoMaxCooldown = 6;
+
 
         public bool Stunned { get; private set; }
         private int nStunEffects;
@@ -62,6 +67,11 @@ namespace Arcade_Arena
             CanWalk = true;
             isHit = false;
         }
+
+        public double AbilityOneCooldown => abilityOneCooldown;
+        public double AbilityOneMaxCooldown => abilityOneMaxCooldown;
+        public double AbilityTwoCooldown => abilityTwoCooldown;
+        public double AbilityTwoMaxCooldown => abilityTwoMaxCooldown;
 
         public SpriteAnimation CurrentAnimation => currentAnimation;
 

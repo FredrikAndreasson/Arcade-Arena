@@ -33,12 +33,8 @@ namespace Arcade_Arena.Classes
         SpriteAnimation projectileAnim;
 
         private bool teleporting;
-        private double teleportCooldown = 0;
-        private double teleportMaxCooldown = 6;
 
         private bool inIceBlock;
-        private double iceBlockCooldown = 0;
-        private double iceBlockMaxCooldown = 10;
 
         private int iceBlockHealAmount = 3;
 
@@ -78,6 +74,9 @@ namespace Arcade_Arena.Classes
 
             baseSpeed = 1;
             speed = baseSpeed;
+
+            abilityOneMaxCooldown = 10;
+            abilityTwoMaxCooldown = 6;
         }
 
         protected override void PrepareWeaponAnim()
@@ -89,6 +88,8 @@ namespace Arcade_Arena.Classes
             weaponOffsetY = 23;
             base.PrepareWeaponAnim();
         }
+
+        
 
         public bool Teleporting => teleporting;
 
@@ -114,7 +115,7 @@ namespace Arcade_Arena.Classes
             else if (inIceBlock)
             {
                 iceBlockAnimation.Update();
-                if ((iceBlockCooldown <= 9.7f && MouseKeyboardManager.Clicked(Keys.LeftShift)) || iceBlockAnimation.XIndex >= 4)
+                if ((abilityOneCooldown <= 9.7f && MouseKeyboardManager.Clicked(Keys.LeftShift)) || iceBlockAnimation.XIndex >= 4)
                 {
                     ExitIceBlock();
                     CheckRegularAnimation();
@@ -138,11 +139,11 @@ namespace Arcade_Arena.Classes
         {
             if (!teleporting && !inIceBlock & !Stunned)
             {
-                if (Keyboard.GetState().IsKeyDown(Keys.E) && teleportCooldown <= 0)
+                if (Keyboard.GetState().IsKeyDown(Keys.E) && abilityTwoCooldown <= 0)
                 {
                     TeleportAbility();
                 }
-                else if (Keyboard.GetState().IsKeyDown(Keys.LeftShift) && iceBlockCooldown <= 0)
+                else if (Keyboard.GetState().IsKeyDown(Keys.LeftShift) && abilityOneCooldown <= 0)
                 {
                     IceBlockAbility();
                 }
@@ -164,7 +165,7 @@ namespace Arcade_Arena.Classes
         public void CancelTeleportStart()
         {
             ExitTeleport(false);
-            teleportCooldown = 0;
+            abilityTwoCooldown = 0;
         }
 
         private void ExitIceBlock()
@@ -206,8 +207,8 @@ namespace Arcade_Arena.Classes
 
         private void UpdateCooldowns()
         {
-            teleportCooldown -= Game1.elapsedGameTimeSeconds;
-            iceBlockCooldown -= Game1.elapsedGameTimeSeconds;
+            abilityTwoCooldown -= Game1.elapsedGameTimeSeconds;
+            abilityOneCooldown -= Game1.elapsedGameTimeSeconds;
         }
 
         protected override void Die()
@@ -265,13 +266,13 @@ namespace Arcade_Arena.Classes
         {
             CancelShooting();
             teleporting = true;
-            teleportCooldown = teleportMaxCooldown;
+            abilityTwoCooldown = abilityTwoMaxCooldown;
             ChangeAnimation(ref currentAnimation, teleportInAnimation);
             ChangeAnimation(ref currentHandAnimation, handTeleportInAnimation);
             UpdateSpriteEffect();
             teleportOutAnimation.XIndex = 0;
             teleportInAnimation.XIndex = 0;
-            teleportCooldown = 6;
+            abilityTwoCooldown = 6;
 
             HoTEffect hoTEffect = new HoTEffect(iceBlockHealAmount, 4, this);
 
@@ -290,12 +291,12 @@ namespace Arcade_Arena.Classes
             CancelShooting();
             inIceBlock = true;
             
-            iceBlockCooldown = iceBlockMaxCooldown;
+            abilityOneCooldown = abilityOneMaxCooldown;
             ChangeAnimation(ref currentAnimation, iceBlockWizardAnimation);
             ChangeAnimation(ref currentHandAnimation, handIceBlockAnimation);
             UpdateSpriteEffect();
             iceBlockAnimation.XIndex = 0;
-            iceBlockCooldown = 10;
+            abilityOneCooldown = 10;
             AddInvincibleEffect();
 
 

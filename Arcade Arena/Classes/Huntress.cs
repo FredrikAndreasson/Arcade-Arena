@@ -29,12 +29,8 @@ namespace Arcade_Arena.Classes
         SpriteAnimation projectileAnim;
 
         bool doingBearTrap;
-        double bearTrapCooldown;
-        double bearTrapMaxCooldown = 10;
 
         bool doingBoar;
-        double boarCooldown;
-        double boarMaxCooldown = 8;
 
         List<BearTrap> bearTraps = new List<BearTrap>();
         List<Boar> boars = new List<Boar>();
@@ -77,6 +73,9 @@ namespace Arcade_Arena.Classes
 
             maxHealth = 100;
             health = maxHealth;
+
+            abilityOneMaxCooldown = 10;
+            abilityTwoMaxCooldown = 8;
         }
 
         protected override void PrepareWeaponAnim()
@@ -100,7 +99,7 @@ namespace Arcade_Arena.Classes
             CheckAbilityUse();
             if (doingBearTrap)
             {
-                if (bearTrapCooldown <= bearTrapMaxCooldown - 1)
+                if (abilityOneCooldown <= abilityOneMaxCooldown - 1)
                 {
                     ExitBearTrap();
                     CheckRegularAnimation();
@@ -109,7 +108,7 @@ namespace Arcade_Arena.Classes
             }
             else if (doingBoar)
             {
-                if (boarCooldown <= boarMaxCooldown - 1)
+                if (abilityTwoCooldown <= abilityTwoMaxCooldown - 1)
                 {
                     ExitBoar();
                     CheckRegularAnimation();
@@ -132,11 +131,11 @@ namespace Arcade_Arena.Classes
         {
             if (!doingBearTrap && !doingBoar && !Stunned)
             {
-                if (Keyboard.GetState().IsKeyDown(Keys.E) && bearTrapCooldown <= 0)
+                if (Keyboard.GetState().IsKeyDown(Keys.E) && abilityOneCooldown <= 0)
                 {
                     BearTrapAbility();
                 }
-                else if (Keyboard.GetState().IsKeyDown(Keys.LeftShift) && boarCooldown <= 0)
+                else if (Keyboard.GetState().IsKeyDown(Keys.LeftShift) && abilityTwoCooldown <= 0)
                 {
                     BoarAbility();
                 }
@@ -152,8 +151,8 @@ namespace Arcade_Arena.Classes
 
         private void UpdateCooldowns()
         {
-            bearTrapCooldown -= Game1.elapsedGameTimeSeconds;
-            boarCooldown -= Game1.elapsedGameTimeSeconds;
+            abilityOneCooldown -= Game1.elapsedGameTimeSeconds;
+            abilityTwoCooldown -= Game1.elapsedGameTimeSeconds;
         }
 
         private void BearTrapAbility()
@@ -162,7 +161,7 @@ namespace Arcade_Arena.Classes
             doingBearTrap = true;
             ChangeAnimation(ref currentAnimation, bearTrapAnimation);
             ChangeAnimation(ref currentHandAnimation, handBearTrapAnimation);
-            bearTrapCooldown = bearTrapMaxCooldown;
+            abilityOneCooldown = abilityOneMaxCooldown;
             UpdateSpriteEffect();
             BearTrap bearTrap = new BearTrap(this, bearTrapDmg, shadow.Position, speed, direction);
             abilityBuffer.Add(bearTrap);
@@ -174,7 +173,7 @@ namespace Arcade_Arena.Classes
             doingBoar = true;
             ChangeAnimation(ref currentAnimation, boarAnimation);
             ChangeAnimation(ref currentHandAnimation, handBoarAnimation);
-            boarCooldown = boarMaxCooldown;
+            abilityTwoCooldown = abilityTwoMaxCooldown;
             UpdateSpriteEffect();
             Boar boar = new Boar(this, boarDmg, aimDirection, shadow.Position, 8, clientBounds);
             abilityBuffer.Add(boar);

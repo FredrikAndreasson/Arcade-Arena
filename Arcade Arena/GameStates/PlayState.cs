@@ -30,7 +30,7 @@ namespace Arcade_Arena
         private Character player;
 
 
-        public PlayState(GameWindow Window, SpriteBatch spriteBatch, Character player, NetworkManager networkManager) : base (Window)
+        public PlayState(GameWindow Window, SpriteBatch spriteBatch, Character player, NetworkManager networkManager, PlayerManager playerManager) : base (Window)
         {
             this.spriteBatch = spriteBatch;
             if(player is Wizard)
@@ -57,9 +57,11 @@ namespace Arcade_Arena
             currentLevel = CreateNewLevel();
 
             this.networkManager = networkManager;
-            
 
-            playerManager = new PlayerManager(networkManager, player, currentLevel);
+
+            this.playerManager = playerManager;
+            playerManager.ClientPlayer = player;
+            playerManager.Level = currentLevel;
             abilityManager = new AbilityManager(networkManager, playerManager);
 
             userInterfaceManagerHealth = new UserInterfaceManagerHealth(Window, playerManager);

@@ -39,6 +39,7 @@ namespace Arcade_Arena
 
 
         private NetworkManager networkManager;
+        private PlayerManager playerManager;
 
 
         public static double elapsedGameTimeSeconds { get; private set; }
@@ -72,6 +73,7 @@ namespace Arcade_Arena
             Library.Player tempPlayer = new Library.Player
             {Type = Library.Player.ClassType.Wizard};
             networkManager = new NetworkManager(tempPlayer);
+            playerManager = new PlayerManager(networkManager);
 
             spriteBatch = new SpriteBatch(GraphicsDevice);
             AssetManager.LoadTextures(Content);
@@ -79,7 +81,7 @@ namespace Arcade_Arena
             
             mainMenu = new MainMenuState(Window);
             characterSelection = new CharacterSelectionState(Window, networkManager);
-            lobby = new LobbyState(Window, networkManager, ref player);
+            lobby = new LobbyState(Window, networkManager, ref player, playerManager);
             gameOver = new WinState(Window);
 
         }
@@ -118,7 +120,7 @@ namespace Arcade_Arena
                     characterSelection.Update(gameTime, ref state, ref player);
                     if (state == States.FFA)
                     {
-                        ffaArena = new PlayState(Window, spriteBatch, player, networkManager);
+                        ffaArena = new PlayState(Window, spriteBatch, player, networkManager, playerManager);
                     }
                     break;
                 case States.Pause:
@@ -128,7 +130,7 @@ namespace Arcade_Arena
                     lobby.Update(gameTime, ref state, ref player);
                     if (state == States.FFA)
                     {
-                        ffaArena = new PlayState(Window, spriteBatch, player, networkManager);
+                        ffaArena = new PlayState(Window, spriteBatch, player, networkManager, playerManager);
                     }
                     break;
                 case States.Win:

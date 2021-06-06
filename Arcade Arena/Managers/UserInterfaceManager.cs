@@ -20,10 +20,11 @@ namespace Arcade_Arena.Managers
         private List<Vector2> abilityPositions;
         private GameWindow window;
 
-        private int cooldown = 1000;
         private bool ready = false;
 
-        public UserInterfaceManager(GameWindow window)
+        private PlayerManager playerManager;
+
+        public UserInterfaceManager(GameWindow window, PlayerManager playerManager)
         {
             this.window = window;
 
@@ -38,6 +39,8 @@ namespace Arcade_Arena.Managers
 
             readyCheckRect = new Rectangle(window.ClientBounds.Width / 2 - 50, window.ClientBounds.Height / 2 - 100, 200, 50);
             characterChangeRect = new Rectangle(window.ClientBounds.Width / 2 - 50, window.ClientBounds.Height / 2 + 100, 200, 50);
+
+            this.playerManager = playerManager;
         }
 
         public Rectangle ReadyCheckRect => readyCheckRect;
@@ -76,16 +79,27 @@ namespace Arcade_Arena.Managers
 
         public void UpdateGameplayLoop()
         {
-            cooldown--;
+            //
         }
 
         public void DrawGameplayLoop(SpriteBatch spriteBatch, NetworkManager networkManager)
         {
+            Rectangle sourceOneRectangle = new Rectangle((int)abilityPositions[0].X, (int)abilityPositions[0].Y,
+                64, (int)(32 * playerManager.clientPlayer.AbilityOneCooldown / playerManager.clientPlayer.AbilityOneMaxCooldown));
+            Rectangle sourceTwoRectangle = new Rectangle((int)abilityPositions[1].X, (int)abilityPositions[1].Y,
+                64, (int)(32 * playerManager.clientPlayer.AbilityTwoCooldown / playerManager.clientPlayer.AbilityTwoMaxCooldown));
             for (int i = 0; i < abilityPositions.Count; i++)
             {
-                spriteBatch.DrawString(cooldownFont, cooldown.ToString(), abilityPositions[i]+ new Vector2(0, -16), Color.White);
-                spriteBatch.Draw(wizardAbilites, abilityPositions[i], new Rectangle(i * 32, 0, 32, 32), Color.White, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 1.0f);
+                Rectangle destRectangle = new Rectangle((int)abilityPositions[i].X, (int)abilityPositions[i].Y, 64, 32);
+                spriteBatch.Draw(pixel, destRectangle, Color.Black);
+                if (i == 0)
+                {spriteBatch.Draw(pixel, sourceOneRectangle, Color.White);}
+                else
+                {spriteBatch.Draw(pixel, sourceTwoRectangle, Color.White);}
+                spriteBatch.DrawString(cooldownFont, string.Format("Ability {0}", i), abilityPositions[i], Color.Green);
             }
+            
+
             for (int i = 0; i < networkManager.Players.Count; i++)
             {
                 DrawScore(spriteBatch, new Vector2(i*(window.ClientBounds.Width/networkManager.Players.Count)+

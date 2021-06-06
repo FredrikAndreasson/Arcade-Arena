@@ -24,15 +24,11 @@ namespace Arcade_Arena.Classes
 
         SpriteAnimation projectileAnim;
 
-        private double timeZoneCooldown = 0;
         private int timeTravelPositionsSkipped = 0;
         private int timeTravelPosSkip = 3;
         private bool doingTimeZone = false;
-        private double timeZoneMaxCooldown = 10;
 
-        private double timeTravelCooldown = 0;
         private bool doingTimeTravel = false;
-        private double timeTravelMaxCooldown = 10;
 
         private double timeZoneTimer = 10;
 
@@ -69,7 +65,12 @@ namespace Arcade_Arena.Classes
 
             baseSpeed = 0.9f;
             speed = baseSpeed;
+
+            abilityOneMaxCooldown = 10;
+            abilityTwoMaxCooldown = 6;
         }
+
+        
 
         protected override void PrepareWeaponAnim()
         {
@@ -112,7 +113,7 @@ namespace Arcade_Arena.Classes
 
                 if (doingTimeZone)
                 {
-                    if (timeZoneCooldown <= timeZoneMaxCooldown - 0.7f)//slut på ability
+                    if (abilityTwoCooldown <= abilityTwoMaxCooldown - 0.7f)//slut på ability
                     {
                         ExitTimeZone();
                         ChangeAnimation(ref currentAnimation, idleAnimation);
@@ -137,7 +138,7 @@ namespace Arcade_Arena.Classes
             else
             {
                 UpdateTimeTravelPosition();
-                if (timeTravelCooldown <= timeTravelMaxCooldown - 1.4f)// slut på ability
+                if (abilityOneCooldown <= abilityOneMaxCooldown - 1.4f)// slut på ability
                 {
                     ExitTimeTravel();
                     ChangeAnimation(ref currentAnimation, idleAnimation);
@@ -176,13 +177,13 @@ namespace Arcade_Arena.Classes
             {
                 if (!doingTimeTravel)
                 {
-                    if (Keyboard.GetState().IsKeyDown(Keys.LeftShift) && timeTravelCooldown <= 0)
+                    if (Keyboard.GetState().IsKeyDown(Keys.LeftShift) && abilityOneCooldown <= 0)
                     {
                         TimeTravelAbility();
                     }
                     else if (!doingTimeZone)
                     {
-                        if (Keyboard.GetState().IsKeyDown(Keys.E) && timeZoneCooldown <= 0)
+                        if (Keyboard.GetState().IsKeyDown(Keys.E) && abilityTwoCooldown <= 0)
                         {
                             TimeZoneAbility();
                         }
@@ -245,8 +246,8 @@ namespace Arcade_Arena.Classes
 
         private void UpdateCooldowns()
         {
-            timeTravelCooldown -= Game1.elapsedGameTimeSeconds;
-            timeZoneCooldown -= Game1.elapsedGameTimeSeconds;
+            abilityOneCooldown -= Game1.elapsedGameTimeSeconds;
+            abilityTwoCooldown -= Game1.elapsedGameTimeSeconds;
         }
 
         void TimeTravelAbility()
@@ -256,7 +257,7 @@ namespace Arcade_Arena.Classes
             doingTimeZone = false;
             doingTimeTravel = true;
             AddInvincibleEffect();
-            timeTravelCooldown = timeTravelMaxCooldown;
+            abilityOneCooldown = abilityOneMaxCooldown;
             ChangeAnimation(ref currentAnimation, timeTravelAnimation);
             ChangeAnimation(ref currentHandAnimation, handTimeTravelAnimation);
             UpdateSpriteEffect();
@@ -266,7 +267,7 @@ namespace Arcade_Arena.Classes
         {
             CancelShooting();
             doingTimeZone = true;
-            timeZoneCooldown = timeZoneMaxCooldown;
+            abilityTwoCooldown = abilityTwoMaxCooldown;
             int timeZonePositionX = (int)(middleOfSprite.X - (AssetManager.TimeTravelerTimeZone.Width / 2) * Game1.SCALE);
             int timeZonePositionY = (int)(middleOfSprite.Y - (AssetManager.TimeTravelerTimeZone.Height / 2) * Game1.SCALE);
             TimeZone newTimeZone = new TimeZone(timeZoneTimer, this, new Vector2(timeZonePositionX, timeZonePositionY), AssetManager.TimeTravelerTimeZone, speed, direction);

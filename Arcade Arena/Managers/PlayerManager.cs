@@ -12,17 +12,15 @@ namespace Arcade_Arena.Managers
         public Character clientPlayer;
 
 
-        public PlayerManager(NetworkManager networkManager, Character Player, Level level)
+        public PlayerManager(NetworkManager networkManager)
         {
             this.networkManager = networkManager;
-            this.level = level;
-           
-            this.clientPlayer = Player;
         }
 
         public bool IsFirstPlayerHit { get; set; }
 
-        public Level Level => level;
+        public Level Level { get { return level; } set { level = value; } }
+        public Character ClientPlayer { get { return clientPlayer; } set { clientPlayer = value; } }
 
         public void UpdatePlayer()
         {
