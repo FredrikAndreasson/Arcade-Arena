@@ -41,7 +41,7 @@ namespace Arcade_Arena.Classes
             groundSmashAnimation = new SpriteAnimation(AssetManager.groundSmashCrackle, new Vector2(0, 0), new Vector2(4, 0), new Vector2(71, 71), new Vector2(4, 0), 500);
             currentAnimation = backwardsAnimation;
 
-            shadow = new Shadow(position, AssetManager.WizardShadow, speed, direction);
+            shadow = new Shadow(position, AssetManager.WizardShadow, speed, direction, frameSize);
 
             ChangeAnimation(ref currentAnimation, idleAnimation);
 
@@ -67,7 +67,7 @@ namespace Arcade_Arena.Classes
                 if (groundSmashAnimation.XIndex >= 4)
                 {
                     inGroundSmash = false;
-                    middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
+                    UpdateMiddleOfSprite();
                     aimDirection = UpdateAimDirection();
                     CheckRegularAnimation();
                 }
@@ -78,7 +78,7 @@ namespace Arcade_Arena.Classes
                 if ((abilityTwoCooldown <= 2f))
                 {
                     inBodySlam = false;
-                    middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
+                    UpdateMiddleOfSprite();
                     aimDirection = UpdateAimDirection();
                     CheckRegularAnimation();
                 }
@@ -89,7 +89,7 @@ namespace Arcade_Arena.Classes
                 {
                     CheckRegularAnimation();
                 }
-                middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
+                UpdateMiddleOfSprite();
                 base.Update();
             }
 

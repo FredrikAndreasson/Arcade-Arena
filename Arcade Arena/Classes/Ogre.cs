@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,12 +19,23 @@ namespace Arcade_Arena.Classes
         SpriteAnimation groundSmashAnimation;
         SpriteAnimation bodySlamAnimation;
         SpriteAnimation idleAnimation;
+        SpriteAnimation meleeAttackAnimation;
 
         private bool inGroundSmash;
+        private double groundSmashCooldown = 0;
+
+        private bool inMeeleAttack;
+        private double meeleAttackCooldown = 0;
+
+
         private bool inBodySlam;
 
         private Vector2 frameSize = new Vector2(23, 33);
         private Vector2 spriteDimensions = new Vector2(7, 3);
+
+
+        double dashDirection;
+
 
         public Ogre(Vector2 position, float speed, double direction) : base(position, speed, direction)
         {
@@ -32,11 +44,12 @@ namespace Arcade_Arena.Classes
             groundSmashOgreAnimation = new SpriteAnimation(AssetManager.ogreSpriteSheet, new Vector2(0, 2), new Vector2(3, 2), frameSize, spriteDimensions, 125);
             bodySlamAnimation = new SpriteAnimation(AssetManager.ogreSpriteSheet, new Vector2(0, 3), new Vector2(2, 3), frameSize, spriteDimensions, 300);
             idleAnimation = new SpriteAnimation(AssetManager.ogreSpriteSheet, new Vector2(0, 0), new Vector2(1, 0), frameSize, spriteDimensions, 1000);
+            meleeAttackAnimation = new SpriteAnimation(AssetManager.ogreSpriteSheet, new Vector2(3, 3), new Vector2(5, 3), frameSize, spriteDimensions, 125);
 
             groundSmashAnimation = new SpriteAnimation(AssetManager.groundSmashCrackle, new Vector2(0, 0), new Vector2(4, 0), new Vector2(71, 71), new Vector2(4, 0), 500);
             currentAnimation = backwardsAnimation;
 
-            shadow = new Shadow(Position, AssetManager.OgreShadow, speed, direction);
+            shadow = new Shadow(Position, AssetManager.OgreShadow, speed, direction, frameSize);
 
             maxHealth = 120;
             health = maxHealth;
@@ -52,9 +65,17 @@ namespace Arcade_Arena.Classes
             currentAnimation.Update();
             UpdateCooldowns();
 
-            if (!inGroundSmash && !inBodySlam)
+
+            //kanske ändra till "actionable" debuffs sen istället för att kolla om man är i varje ability
+            if (!inGroundSmash && !inBodySlam && !inMeeleAttack)
             {
-                if (Keyboard.GetState().IsKeyDown(Keys.E) && abilityOneCooldown <= 0)
+                if (MouseKeyboardManager.LeftHold && meeleAttackCooldown <= 0)
+                {
+                    Debug.WriteLine("bruh");
+                    MeeleAttack();
+                    meeleAttackCooldown = 1;
+                }
+                else if (Keyboard.GetState().IsKeyDown(Keys.E) && groundSmashCooldown <= 0)
                 {
                     GroundSmash();
                     abilityOneCooldown = 1;
@@ -66,26 +87,43 @@ namespace Arcade_Arena.Classes
                 }
             }
 
-            if (inGroundSmash)
+            if (inMeeleAttack)
             {
-
+                UpdateSpriteEffect();
+                base.Update();
+                meleeAttackAnimation.Update();
+                if(meleeAttackAnimation.XIndex >= 3)
+                {
+                    inMeeleAttack = false;
+                    UpdateMiddleOfSprite();
+                    CheckRegularAnimation();
+                    aimDirection = UpdateAimDirection();                  
+                }
+            }
+            else if (inGroundSmash)
+            {
+                UpdateSpriteEffect();
                 groundSmashAnimation.Update();
 
                 if (groundSmashAnimation.XIndex >= 4)
                 {
                     inGroundSmash = false;
-                    middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
+                    UpdateMiddleOfSprite();
                     CheckRegularAnimation();
                     aimDirection = UpdateAimDirection();
                 }
             }
             else if (inBodySlam)
             {
+                UpdateSpriteEffect();
+                UpdateVelocity(dashDirection, speed * 1.5f);
                 bodySlamAnimation.Update();
+                UpdatePosition();
+
                 if ((abilityTwoCooldown <= 2f))
                 {
                     inBodySlam = false;
-                    middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
+                    UpdateMiddleOfSprite();
                     aimDirection = UpdateAimDirection();
                     CheckRegularAnimation();
                 }
@@ -97,12 +135,13 @@ namespace Arcade_Arena.Classes
                     CheckRegularAnimation();
                 }
 
-                middleOfSprite = new Vector2(Position.X + 35, Position.Y + 60);
+                UpdateMiddleOfSprite();
                 base.Update();
             }
 
             shadow.Update(position);
         }
+
 
         private void CheckRegularAnimation()
         {
@@ -121,13 +160,18 @@ namespace Arcade_Arena.Classes
             else
             {
                 ChangeAnimation(ref currentAnimation, idleAnimation);
-
+                UpdateMiddleOfSprite();
+                
             }
         }
 
 
         private void UpdateCooldowns( )
         {
+            groundSmashCooldown -= Game1.elapsedGameTimeSeconds;
+            bodySlamCooldown -= Game1.elapsedGameTimeSeconds;
+            meeleAttackCooldown -= Game1.elapsedGameTimeSeconds;
+
             abilityOneCooldown -= Game1.elapsedGameTimeSeconds;
             abilityTwoCooldown -= Game1.elapsedGameTimeSeconds;
         }
@@ -161,6 +205,22 @@ namespace Arcade_Arena.Classes
             currentAnimation = bodySlamAnimation;
             currentAnimation.XIndex = 0;
 
+            dashDirection = UpdateAimDirection();
+
+            Ability ability = new BodySlam(this, Position, speed, direction);
+            abilityBuffer.Add(ability);
+
+            
+        }
+
+        private void MeeleAttack()
+        {
+            inMeeleAttack = true;
+            currentAnimation = meleeAttackAnimation;
+            currentAnimation.XIndex = 0;
+
+            Ability ability = new MeeleAttack(this, Position, speed, direction);
+            abilityBuffer.Add(ability);
         }
     }
 }

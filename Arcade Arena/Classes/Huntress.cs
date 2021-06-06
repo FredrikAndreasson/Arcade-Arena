@@ -42,22 +42,25 @@ namespace Arcade_Arena.Classes
         sbyte bearTrapDmg = 2;
         float shootingSpeed = 15;
 
+        private Vector2 frameSize = new Vector2(14, 20);
+
         public Huntress(Vector2 position, float speed, double direction, Rectangle clientBounds) : base(position, speed, direction)
         {
-            idleAnimation = new SpriteAnimation(AssetManager.HuntressSpriteSheet, new Vector2(0, 0), new Vector2(1, 0), new Vector2(14, 20), new Vector2(7, 2), 900);
-            handIdleAnimation = new SpriteAnimation(AssetManager.HuntressHandSpriteSheet, new Vector2(0, 0), new Vector2(1, 0), new Vector2(14, 20), new Vector2(7, 2), 900);
-            walkingAnimation = new SpriteAnimation(AssetManager.HuntressSpriteSheet, new Vector2(2, 0), new Vector2(7, 0), new Vector2(14, 20), new Vector2(7, 2), 130);
-            handWalkingAnimation = new SpriteAnimation(AssetManager.HuntressHandSpriteSheet, new Vector2(2, 0), new Vector2(7, 0), new Vector2(14, 20), new Vector2(7, 2), 130);
-            backwardsAnimation = new SpriteAnimation(AssetManager.HuntressSpriteSheet, new Vector2(0, 1), new Vector2(5, 1), new Vector2(14, 20), new Vector2(7, 2), 135);
-            handBackwardsAnimation = new SpriteAnimation(AssetManager.HuntressHandSpriteSheet, new Vector2(0, 1), new Vector2(5, 1), new Vector2(14, 20), new Vector2(7, 2), 135);
-            knockbackAnimation = new SpriteAnimation(AssetManager.HuntressSpriteSheet, new Vector2(6, 1), new Vector2(6, 1), new Vector2(14, 20), new Vector2(7, 2), 5000);
-            handKnockbackAnimation = new SpriteAnimation(AssetManager.HuntressHandSpriteSheet, new Vector2(6, 1), new Vector2(6, 1), new Vector2(14, 20), new Vector2(7, 2), 5000);
-            bearTrapAnimation = new SpriteAnimation(AssetManager.HuntressSpriteSheet, new Vector2(7, 1), new Vector2(7, 1), new Vector2(14, 20), new Vector2(7, 2), 5000);
-            handBearTrapAnimation = new SpriteAnimation(AssetManager.HuntressHandSpriteSheet, new Vector2(7, 1), new Vector2(7, 1), new Vector2(14, 20), new Vector2(7, 2), 5000);
-            boarAnimation = new SpriteAnimation(AssetManager.HuntressSpriteSheet, new Vector2(0, 2), new Vector2(0, 2), new Vector2(14, 20), new Vector2(7, 2), 5000);
-            handBoarAnimation = new SpriteAnimation(AssetManager.HuntressHandSpriteSheet, new Vector2(0, 2), new Vector2(0, 2), new Vector2(14, 20), new Vector2(7, 2), 5000);
-            deadAnimation = new SpriteAnimation(AssetManager.HuntressSpriteSheet, new Vector2(1, 2), new Vector2(1, 2), new Vector2(14, 20), new Vector2(7, 2), 5000);
-            handDeadAnimation = new SpriteAnimation(AssetManager.HuntressHandSpriteSheet, new Vector2(1, 2), new Vector2(1, 2), new Vector2(14, 20), new Vector2(7, 2), 5000);
+            
+            idleAnimation = new SpriteAnimation(AssetManager.HuntressSpriteSheet, new Vector2(0, 0), new Vector2(1, 0), frameSize, new Vector2(7, 2), 900);
+            handIdleAnimation = new SpriteAnimation(AssetManager.HuntressHandSpriteSheet, new Vector2(0, 0), new Vector2(1, 0), frameSize, new Vector2(7, 2), 900);
+            walkingAnimation = new SpriteAnimation(AssetManager.HuntressSpriteSheet, new Vector2(2, 0), new Vector2(7, 0), frameSize, new Vector2(7, 2), 130);
+            handWalkingAnimation = new SpriteAnimation(AssetManager.HuntressHandSpriteSheet, new Vector2(2, 0), new Vector2(7, 0), frameSize, new Vector2(7, 2), 130);
+            backwardsAnimation = new SpriteAnimation(AssetManager.HuntressSpriteSheet, new Vector2(0, 1), new Vector2(5, 1), frameSize, new Vector2(7, 2), 135);
+            handBackwardsAnimation = new SpriteAnimation(AssetManager.HuntressHandSpriteSheet, new Vector2(0, 1), new Vector2(5, 1), frameSize, new Vector2(7, 2), 135);
+            knockbackAnimation = new SpriteAnimation(AssetManager.HuntressSpriteSheet, new Vector2(6, 1), new Vector2(6, 1), frameSize, new Vector2(7, 2), 5000);
+            handKnockbackAnimation = new SpriteAnimation(AssetManager.HuntressHandSpriteSheet, new Vector2(6, 1), new Vector2(6, 1), frameSize, new Vector2(7, 2), 5000);
+            bearTrapAnimation = new SpriteAnimation(AssetManager.HuntressSpriteSheet, new Vector2(7, 1), new Vector2(7, 1), frameSize, new Vector2(7, 2), 5000);
+            handBearTrapAnimation = new SpriteAnimation(AssetManager.HuntressHandSpriteSheet, new Vector2(7, 1), new Vector2(7, 1), frameSize, new Vector2(7, 2), 5000);
+            boarAnimation = new SpriteAnimation(AssetManager.HuntressSpriteSheet, new Vector2(0, 2), new Vector2(0, 2), frameSize, new Vector2(7, 2), 5000);
+            handBoarAnimation = new SpriteAnimation(AssetManager.HuntressHandSpriteSheet, new Vector2(0, 2), new Vector2(0, 2), frameSize, new Vector2(7, 2), 5000);
+            deadAnimation = new SpriteAnimation(AssetManager.HuntressSpriteSheet, new Vector2(1, 2), new Vector2(1, 2), frameSize, new Vector2(7, 2), 5000);
+            handDeadAnimation = new SpriteAnimation(AssetManager.HuntressHandSpriteSheet, new Vector2(1, 2), new Vector2(1, 2), frameSize, new Vector2(7, 2), 5000);
             projectileAnim = new SpriteAnimation(AssetManager.HuntressArrow, Vector2.Zero, Vector2.Zero,
                 new Vector2(6, 3), new Vector2(1, 1), 5000);
 
@@ -66,7 +69,7 @@ namespace Arcade_Arena.Classes
 
             this.clientBounds = clientBounds;
 
-            shadow = new Shadow(position, AssetManager.WizardShadow, speed, direction);
+            shadow = new Shadow(position, AssetManager.WizardShadow, speed, direction, frameSize);
 
             baseSpeed = 1.3f;
             speed = baseSpeed;

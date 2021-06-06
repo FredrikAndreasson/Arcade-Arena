@@ -11,8 +11,10 @@ namespace Arcade_Arena.Library
         public enum AbilityType
         {
             Projectile,
+            MeeleAttack,
             AbilityOne,
             AbilityTwo
+
         }
         public AbilityType Type { get; set; }
         public Byte ID { get; set; }
