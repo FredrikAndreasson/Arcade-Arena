@@ -41,9 +41,3 @@ The knight is skilled with the sword and is participating in the tournament to s
 Abilities:
 1. The knight lunges forward and swings his sword in a cone shape infront of him.
 2. The knight puts up his shield blocking any damage from infront of him. The shiled will need to recharge after use.
-
-#Assassin
-The assassin has lived a life of crime and by doing so learnt to move really fast.
--Abilities:
-1. Roll in any direction.
-2. Shoot a poison dart in any direction and if enemies get hit they take damage over a short time period.
