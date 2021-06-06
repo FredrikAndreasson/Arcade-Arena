@@ -2,7 +2,7 @@
 A four man project that is based around multiplayer combat. It's top-down and based in an arena that has lava enclosing on the middle...
 
 ##Starting the game
-To start the game you need to first launc visual studio then right click on the solution and go into "Set Startup Projects". 
+To start the game you need to first launch visual studio then right click on the solution and go into "Set Startup Projects". 
 Set it to multiple startup projects, select Arcade Arena and Arcade Arena.Server to start.
 
 Click start and then "Start Server" when the server opens. The client should now connect.
