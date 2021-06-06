@@ -69,7 +69,6 @@ namespace Arcade_Arena
    
         protected override void LoadContent()
         {
-            //initiating networkmanager in game1 so that the lobby can have access to it aswell
             Library.Player tempPlayer = new Library.Player
             {Type = Library.Player.ClassType.Wizard};
             networkManager = new NetworkManager(tempPlayer);

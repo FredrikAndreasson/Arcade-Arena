@@ -157,7 +157,6 @@ namespace Arcade_Arena.Managers
                                     {
                                         Rectangle rectangle = new Rectangle(new Point(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition),
                                         new Point(networkManager.ServerAbilities[i].Animation.Width * (int)Game1.SCALE, networkManager.ServerAbilities[i].Animation.Height * (int)Game1.SCALE));
-                                        Debug.Print(networkManager.ServerAbilities[i].Direction.ToString());
                                         if (HitBoxIntersectsRotatedRectangle(rectangle, (float)networkManager.ServerAbilities[i].Direction, Vector2.Zero, playerRect))
                                         {
                                             if (!player.AbilitesHitBy.Contains(networkManager.ServerAbilities[i]))
@@ -168,17 +167,6 @@ namespace Arcade_Arena.Managers
                                                 player.AbilitesHitBy.Add(networkManager.ServerAbilities[i]);
                                             }
                                         }
-                                        /*if (playerRect.Intersects(new Rectangle(new Point(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition),
-                                        new Point(networkManager.ServerAbilities[i].Animation.Width * (int)Game1.SCALE, networkManager.ServerAbilities[i].Animation.Height * (int)Game1.SCALE))))
-                                        {
-                                            if (!player.AbilitesHitBy.Contains(networkManager.ServerAbilities[i]))
-                                            {
-                                                playerManager.IsFirstPlayerHit = true;
-                                                player.TakeDamage(networkManager.ServerAbilities[i].Damage);
-                                                KnockbackEffect knockback = new KnockbackEffect(networkManager.ServerAbilities[i].Direction, 50.0f, player, 2);
-                                                player.AbilitesHitBy.Add(networkManager.ServerAbilities[i]);
-                                            }
-                                        }*/
                                     }
                                     else if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.AbilityOne)
                                     {
@@ -190,7 +178,6 @@ namespace Arcade_Arena.Managers
                                             networkManager.ServerAbilities[i].YPosition + AssetManager.TimeTravelerTimeZone.Height * Game1.SCALE / 2);
                                         if (HitBoxIntersectsCircle(playerRect, circleCenter, AssetManager.TimeTravelerTimeZone.Width * Game1.SCALE / 2))
                                         {
-                                            Debug.Print("collision with time zone");
                                             playerManager.IsFirstPlayerHit = true;
                                             AlterTimeEffect timeZoneEffect = new AlterTimeEffect(-0.15f, player, 0.2f);
                                         }
@@ -539,7 +526,6 @@ namespace Arcade_Arena.Managers
                 case Player.ClassType.TimeTraveler:
                     if (ability.Type == AbilityOutline.AbilityType.Projectile)
                     {
-                        Debug.Print("draw time traveler projectile " + ability.Direction.ToString());
                         spriteBatch.Draw(AssetManager.WizardWandProjectile, new Vector2(ability.XPosition, ability.YPosition), source, Color.White, (float)ability.Direction,
                             Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1.0f);
                     }

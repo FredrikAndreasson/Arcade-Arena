@@ -50,16 +50,6 @@ namespace Arcade_Arena.Abilites
 
         private void CalculateStartingPosition(Vector2 ownerPosition, Rectangle clientBounds)
         {
-            /*bool ready = false;
-            while (!ready)
-            {
-                UpdateVelocity(direction, -10);
-                if (position.X < 0 || position.X > clientBounds.Width
-                    || position.Y < 0 || position.Y > clientBounds.Height)
-                {
-                    ready = true;
-                }
-            }*/
 
             double tempDirection = direction - Math.PI;
             if (tempDirection < 0)
@@ -145,7 +135,6 @@ namespace Arcade_Arena.Abilites
         public override void Draw(SpriteBatch spriteBatch)
         {
             currentAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, Game1.SCALE);
-            //spriteBatch.DrawString(AssetManager.CooldownFont, (direction / Math.PI).ToString(), new Vector2(200, 200), Color.Black);
         }
     }
 }

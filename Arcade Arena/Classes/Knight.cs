@@ -156,12 +156,11 @@ namespace Arcade_Arena.Classes
         {
             if (inGroundSmash)
             {
-              //  teleportOutAnimation.Draw(spriteBatch, newPosition, 0.0f, Vector2.Zero, Game1.SCALE);
-               // handTeleportOutAnimation.Draw(spriteBatch, newPosition, 0.0f, Vector2.Zero, Game1.SCALE);
+
             }
             else if (inBodySlam)
             {
-               // iceBlockAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, Game1.SCALE);
+               
             }
         }
 
@@ -171,9 +170,6 @@ namespace Arcade_Arena.Classes
             inGroundSmash = true;
             currentAnimation = groundSmashOgreAnimation;
             groundSmashAnimation.XIndex = 0;
-
-            //Ability ability = new GroundSlamAbility(this);
-            //abilityBuffer.Add(ability);
 
         }
 

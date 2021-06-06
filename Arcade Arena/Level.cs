@@ -275,10 +275,6 @@ namespace Arcade_Arena
                                     spriteBatch.Draw(AssetManager.TimeTravelerSpriteSheet, new Vector2(player.XPosition, player.YPosition), source,
                                         Color.White, 0f, Vector2.Zero, Game1.SCALE, spritEffect, 1.0f);
                                     break;
-                                case Library.Player.ClassType.Assassin:
-                                    //spriteBatch.Draw(AssetManager., new Vector2(player.XPosition, player.YPosition), source,
-                                    //    Color.White, 0f, Vector2.Zero, Game1.SCALE, spritEffect, 1.0f);
-                                    break;
                                 case Library.Player.ClassType.Knight:
                                     spriteBatch.Draw(AssetManager.KnightSpriteSheet, new Vector2(player.XPosition, player.YPosition), source,
                                         Color.White, 0f, Vector2.Zero, Game1.SCALE, spritEffect, 1.0f);

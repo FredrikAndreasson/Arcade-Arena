@@ -47,7 +47,6 @@ namespace Arcade_Arena
 
             Color[] pixels = new Color[AssetManager.WizardShadow.Width * AssetManager.WizardShadow.Height];
             Color[] pixels2 = new Color[AssetManager.WizardShadow.Width * AssetManager.WizardShadow.Height];
-            //shadow.texture.GetData<Color>(0, new Rectangle(shadow.position.ToPoint(), new Point(shadow.texture.Width, shadow.texture.Height)), pixels2, 0, pixels2.Length);
            AssetManager.WizardShadow.GetData<Color>(pixels2);
             try
             {

@@ -57,16 +57,6 @@ namespace Arcade_Arena
             MouseState mousePosition = Mouse.GetState();
             orbiterRotation = UpdateOrbiterRotation();
 
-           // Console.WriteLine(orbiterRotation);
-            //if (Keyboard.GetState().IsKeyDown(Keys.O))
-            //{
-            //    orbiterRotation += 0.1f;
-            //}
-            //if (Keyboard.GetState().IsKeyDown(Keys.P))
-            //{
-            //    orbiterRotation -= 0.1f;
-            //}
-
             cooldownTimer += (float)Game1.elapsedGameTimeSeconds;
             if (!shooting && cooldownTimer >= shootingCooldown && !Stunned && ((MouseKeyboardManager.LeftHold) || MouseKeyboardManager.Pressed(Buttons.RightTrigger)))
             {
@@ -128,8 +118,6 @@ namespace Arcade_Arena
         public virtual void Draw (SpriteBatch spriteBatch)
         {
             currentAnimation.Draw(spriteBatch, new Vector2(weaponPosition.X, weaponPosition.Y), (float)orbiterRotation, weaponOrigin, Game1.SCALE);
-            /*spriteBatch.Draw(AssetManager.WizardWand, new Vector2(weaponPosition.X, weaponPosition.Y), null, Color.White, orbiterRotation,
-                weaponOrigin, 6, SpriteEffects.None, 0);*/
 
         }
     }

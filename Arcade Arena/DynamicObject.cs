@@ -12,7 +12,7 @@ namespace Arcade_Arena
         protected double direction;
         protected Vector2 velocity;
         
-        public double speedAlteration { get; set; } //för time zone
+        public double speedAlteration { get; set; }
         protected List<Effect> EffectList = new List<Effect>();
 
         public DynamicObject(Vector2 position, float speed, double direction) : base(position)
@@ -56,7 +56,6 @@ namespace Arcade_Arena
 
         protected void UpdateEffects()
         {
-            //List<Effect> tempEffectList = new List<Effect>(EffectList);
             for (int i = EffectList.Count - 1; i >= 0; i--)
             {
                 EffectList[i].Update();

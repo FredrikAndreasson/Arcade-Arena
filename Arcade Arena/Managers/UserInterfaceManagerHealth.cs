@@ -22,11 +22,6 @@ namespace Arcade_Arena.Managers
 
         public void DrawHealth(SpriteBatch spriteBatch)
         {
-            //if (this.playerManager.clientPlayer.isHit == true)
-            //{
-            //    currentLife -= 1;
-            //    healthBarRectangle.Width = (int)(AssetManager.HealthBarOverlay.Width * playerManager.clientPlayer.health / playerManager.clientPlayer.maxHealth);
-            //}
 
             healthBarRectangle.Width = (int)(AssetManager.HealthBarOverlay.Width * playerManager.clientPlayer.health / playerManager.clientPlayer.maxHealth);
 

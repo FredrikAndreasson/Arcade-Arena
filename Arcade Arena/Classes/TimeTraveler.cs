@@ -118,7 +118,6 @@ namespace Arcade_Arena.Classes
                         ExitTimeZone();
                         ChangeAnimation(ref currentAnimation, idleAnimation);
                         ChangeAnimation(ref currentHandAnimation, handIdleAnimation);
-                        Debug.WriteLine("yo");
                     }
                     UpdateEffects();
                 }
@@ -155,7 +154,6 @@ namespace Arcade_Arena.Classes
                 if (Stunned || !MouseKeyboardManager.LeftHold)
                 {
                     shootingFrenzy = false;
-                    Debug.Print("canceld shooting from time traveler");
                 }
             }
         }
@@ -223,7 +221,6 @@ namespace Arcade_Arena.Classes
         public override void Shoot()
         {
             shootingFrenzy = true;
-            Debug.Print("shooting");
             Projectile projectile = new Projectile(projectileAnim, weaponDmg, 3, Position, shootingSpeed, (double)orbiterRotation);
             projectile.SetPosition(weaponPosition + projectile.Velocity * 15 / shootingSpeed);
             abilityBuffer.Add(projectile);
@@ -295,7 +292,6 @@ namespace Arcade_Arena.Classes
             }
 
             shadow.Draw(spriteBatch);
-            //spriteBatch.Draw(AssetManager.WizardShadow, new Vector2(Position.X + AssetManager.WizardShadow.Width / 4, Position.Y + 85), Color.Red);
             currentAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, Game1.SCALE);
             base.Draw(spriteBatch);
             currentHandAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, Game1.SCALE);

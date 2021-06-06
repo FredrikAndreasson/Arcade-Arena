@@ -52,7 +52,6 @@ namespace Arcade_Arena.Classes
             currentAnimation.Update();
             UpdateCooldowns();
 
-            //kanske ändra till "actionable" debuffs sen istället för att kolla om man är i varje ability
             if (!inGroundSmash && !inBodySlam)
             {
                 if (Keyboard.GetState().IsKeyDown(Keys.E) && abilityOneCooldown <= 0)

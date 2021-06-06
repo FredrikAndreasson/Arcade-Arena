@@ -28,7 +28,6 @@ namespace Arcade_Arena.Managers
             {
                 var player = networkManager.Players.FirstOrDefault(p => p.Username == networkManager.Username);
 
-                //position
                 player.XPosition = (short)clientPlayer.Position.X;
                 player.YPosition = (short)clientPlayer.Position.Y;
 
@@ -40,11 +39,8 @@ namespace Arcade_Arena.Managers
                 player.Health = clientPlayer.Health;
                 player.IntersectingLava = clientPlayer.IntersectingLava;
                 player.isHit = clientPlayer.isHit;
-                //
 
                 player.OrbiterRotation = clientPlayer.OrbiterRotation;
-
-                //add more code for updating player later...
             }
 
 
