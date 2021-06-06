@@ -10,6 +10,7 @@ Click start and then "Start Server" when the server opens. The client should now
 To add more clients open the containing folder of the solution and go 
 Arcade Arena -> bin -> Windows -> x86 -> Debug -> Arcade Arena.exe
 
+https://github.com/FredrikAndreasson/Arcade-Arena
 
 ## Classes
 #Time Traveler
