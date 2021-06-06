@@ -13,11 +13,12 @@ namespace Arcade_Arena.GameStates
     {
         private NetworkManager networkManager;
         private UserInterfaceManager userInterfaceManager;
+        private PlayerManager playerManager;
 
-        public LobbyState(GameWindow Window, NetworkManager networkManager, ref Character player) : base(Window)
+        public LobbyState(GameWindow Window, NetworkManager networkManager, ref Character player, PlayerManager playerManager) : base(Window)
         {
             this.networkManager = networkManager;
-            userInterfaceManager = new UserInterfaceManager(Window);
+            userInterfaceManager = new UserInterfaceManager(Window, playerManager);
 
             networkManager.Start();
         }

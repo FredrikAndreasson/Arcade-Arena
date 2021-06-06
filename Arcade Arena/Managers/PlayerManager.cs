@@ -12,17 +12,15 @@ namespace Arcade_Arena.Managers
         public Character clientPlayer;
 
 
-        public PlayerManager(NetworkManager networkManager, Character Player, Level level)
+        public PlayerManager(NetworkManager networkManager)
         {
             this.networkManager = networkManager;
-            this.level = level;
-           
-            this.clientPlayer = Player;
         }
 
         public bool IsFirstPlayerHit { get; set; }
 
-        public Level Level => level;
+        public Level Level { get { return level; } set { level = value; } }
+        public Character ClientPlayer { get { return clientPlayer; } set { clientPlayer = value; } }
 
         public void UpdatePlayer()
         {
@@ -30,7 +28,6 @@ namespace Arcade_Arena.Managers
             {
                 var player = networkManager.Players.FirstOrDefault(p => p.Username == networkManager.Username);
 
-                //position
                 player.XPosition = (short)clientPlayer.Position.X;
                 player.YPosition = (short)clientPlayer.Position.Y;
 
@@ -41,21 +38,35 @@ namespace Arcade_Arena.Managers
                 player.Animation.Width = (short)clientPlayer.CurrentAnimation.Source.Width;
                 player.Health = clientPlayer.Health;
                 player.IntersectingLava = clientPlayer.IntersectingLava;
-                //
+                player.isHit = clientPlayer.isHit;
 
                 player.OrbiterRotation = clientPlayer.OrbiterRotation;
-
-                //add more code for updating player later...
             }
 
 
-            PlayerCollision();
+            CheckPlayerCollision();
 
             if (IsFirstPlayerHit)
             {
                 LocalPlayerWin();
             }
             
+        }
+
+        public bool GameOverCheck()
+        {
+            if (networkManager.Players.Count == 0)
+            {
+                return false;
+            }
+            foreach (Player player in networkManager.Players)
+            {
+                if (player.Score >= 3)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public void LocalPlayerWin()
@@ -78,7 +89,7 @@ namespace Arcade_Arena.Managers
             IsFirstPlayerHit = false;
         }
 
-        private void PlayerCollision()
+        private void CheckPlayerCollision()
         {
             foreach (Obstacle obstacle in level.Obstacles)
             {

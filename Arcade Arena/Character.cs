@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Arcade_Arena.Classes;
+using Arcade_Arena.Effects;
+using Arcade_Arena.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -18,7 +21,12 @@ namespace Arcade_Arena
 
         public bool CanWalk { get; private set; }
         private int nCanWalkStoppingEffects;
-       
+
+        protected double abilityOneCooldown = 0;
+        protected double abilityOneMaxCooldown = 10;
+        protected double abilityTwoCooldown = 0;
+        protected double abilityTwoMaxCooldown = 6;
+
 
         public bool Stunned { get; private set; }
         private int nStunEffects;
@@ -30,7 +38,7 @@ namespace Arcade_Arena
 
         protected int mana;
 
-        protected sbyte maxHealth;
+        public sbyte maxHealth { get; protected set; }
 
         protected float baseSpeed;
 
@@ -44,6 +52,8 @@ namespace Arcade_Arena
 
         public sbyte health;
 
+        public bool isHit;
+
         public Shadow shadow;
 
         public List<Ability> abilityBuffer;
@@ -55,7 +65,13 @@ namespace Arcade_Arena
             health = 100;
             speed = 1;
             CanWalk = true;
+            isHit = false;
         }
+
+        public double AbilityOneCooldown => abilityOneCooldown;
+        public double AbilityOneMaxCooldown => abilityOneMaxCooldown;
+        public double AbilityTwoCooldown => abilityTwoCooldown;
+        public double AbilityTwoMaxCooldown => abilityTwoMaxCooldown;
 
         public SpriteAnimation CurrentAnimation => currentAnimation;
 
@@ -80,7 +96,6 @@ namespace Arcade_Arena
                 aimDirection = UpdateAimDirection();
                 if (walking && CanWalk)
                 {
-                    UpdatePosition();
                     UpdateVelocity(direction, speed);
                 }
             }
@@ -95,10 +110,12 @@ namespace Arcade_Arena
 
         public void SpawnLocation(Vector2 position)
         {
+            RemoveAllEffects();
             this.position = position;
             LastPosition = position;
             health = maxHealth;
             isDead = false;
+            InvincibilityEffect invincibilityEffect = new InvincibilityEffect(this, 1);
         }
 
         public void AddCanWalkStoppingEffect()
@@ -135,6 +152,7 @@ namespace Arcade_Arena
         {
             nStunEffects++;
             Stunned = true;
+            Debug.Print("added stun effect" + nStunEffects);
         }
         public void RemoveStunEffect()
         {
@@ -144,6 +162,7 @@ namespace Arcade_Arena
                 Stunned = false;
                 nStunEffects = 0;
             }
+            Debug.Print("removed stun effect" + nStunEffects);
         }
 
         protected void UpdateSpriteEffect()
@@ -173,12 +192,14 @@ namespace Arcade_Arena
         
         public void UpdateVelocity(double newDirection, float newSpeed)
         {
+            UpdatePosition();
             velocity.Y = (float)(Math.Sin((float)newDirection) * newSpeed * speedAlteration);
             velocity.X = (float)(Math.Cos((float)newDirection) * newSpeed * speedAlteration);
             position += velocity;
         }
         public void UpdatePosition()
         {
+            
             if (Blocked)
             {
                 position = LastPosition;
@@ -195,6 +216,7 @@ namespace Arcade_Arena
             if (!Invincible)
             {
                 health -= damage;
+                isHit = true;
                 ExitAnimationOnHit();
                 if (health <= 0)
                 {

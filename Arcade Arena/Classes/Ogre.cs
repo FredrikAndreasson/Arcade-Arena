@@ -27,11 +27,12 @@ namespace Arcade_Arena.Classes
         private bool inMeeleAttack;
         private double meeleAttackCooldown = 0;
 
+
         private bool inBodySlam;
-        private double bodySlamCooldown = 0;
 
         private Vector2 frameSize = new Vector2(23, 33);
         private Vector2 spriteDimensions = new Vector2(7, 3);
+
 
         double dashDirection;
 
@@ -54,12 +55,16 @@ namespace Arcade_Arena.Classes
             health = maxHealth;
 
             speed = 1;
+
+            abilityOneMaxCooldown = 1;
+            abilityTwoMaxCooldown = 5;
         }
 
         public override void Update( )
         {
             currentAnimation.Update();
             UpdateCooldowns();
+
 
             //kanske ändra till "actionable" debuffs sen istället för att kolla om man är i varje ability
             if (!inGroundSmash && !inBodySlam && !inMeeleAttack)
@@ -70,16 +75,15 @@ namespace Arcade_Arena.Classes
                     MeeleAttack();
                     meeleAttackCooldown = 1;
                 }
-
-                if (Keyboard.GetState().IsKeyDown(Keys.E) && groundSmashCooldown <= 0)
+                else if (Keyboard.GetState().IsKeyDown(Keys.E) && groundSmashCooldown <= 0)
                 {
                     GroundSmash();
-                    groundSmashCooldown = 1;
+                    abilityOneCooldown = 1;
                 }
-                else if (Keyboard.GetState().IsKeyDown(Keys.LeftShift) && bodySlamCooldown <= 0)
+                else if (Keyboard.GetState().IsKeyDown(Keys.LeftShift) && abilityTwoCooldown <= 0)
                 {
                     BodySlam();
-                    bodySlamCooldown = 5;
+                    abilityTwoCooldown = 5;
                 }
             }
 
@@ -115,7 +119,8 @@ namespace Arcade_Arena.Classes
                 UpdateVelocity(dashDirection, speed * 1.5f);
                 bodySlamAnimation.Update();
                 UpdatePosition();
-                if ((bodySlamCooldown <= 4f))
+
+                if ((abilityTwoCooldown <= 2f))
                 {
                     inBodySlam = false;
                     UpdateMiddleOfSprite();
@@ -166,6 +171,9 @@ namespace Arcade_Arena.Classes
             groundSmashCooldown -= Game1.elapsedGameTimeSeconds;
             bodySlamCooldown -= Game1.elapsedGameTimeSeconds;
             meeleAttackCooldown -= Game1.elapsedGameTimeSeconds;
+
+            abilityOneCooldown -= Game1.elapsedGameTimeSeconds;
+            abilityTwoCooldown -= Game1.elapsedGameTimeSeconds;
         }
 
         public override void Draw(SpriteBatch spriteBatch)

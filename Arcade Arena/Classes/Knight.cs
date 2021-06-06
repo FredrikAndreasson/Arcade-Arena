@@ -20,10 +20,8 @@ namespace Arcade_Arena.Classes
 
 
         private bool inGroundSmash;
-        private double groundSmashCooldown = 0;
 
         private bool inBodySlam;
-        private double bodySlamCooldown = 0;
 
         private Vector2 sheetSize = new Vector2(6, 3);
         private Vector2 frameSize = new Vector2(24, 20);
@@ -51,6 +49,9 @@ namespace Arcade_Arena.Classes
             maxHealth = 100;
 
             health = maxHealth;
+
+            abilityOneMaxCooldown = 1;
+            abilityTwoMaxCooldown = 5;
         }
         public override void Update()
         {
@@ -74,7 +75,7 @@ namespace Arcade_Arena.Classes
             else if (inBodySlam)
             {
                 bodySlamAnimation.Update();
-                if ((bodySlamCooldown <= 2f))
+                if ((abilityTwoCooldown <= 2f))
                 {
                     inBodySlam = false;
                     UpdateMiddleOfSprite();
@@ -99,15 +100,15 @@ namespace Arcade_Arena.Classes
         {
             if (!inGroundSmash && !inBodySlam && !Stunned)
             {
-                if (Keyboard.GetState().IsKeyDown(Keys.E) && groundSmashCooldown <= 0)
+                if (Keyboard.GetState().IsKeyDown(Keys.E) && abilityOneCooldown <= 0)
                 {
                     GroundSmash();
-                    groundSmashCooldown = 1;
+                    abilityOneCooldown = 1;
                 }
-                else if (Keyboard.GetState().IsKeyDown(Keys.LeftShift) && bodySlamCooldown <= 0)
+                else if (Keyboard.GetState().IsKeyDown(Keys.LeftShift) && abilityTwoCooldown <= 0)
                 {
                     BodySlam();
-                    bodySlamCooldown = 5;
+                    abilityTwoCooldown = 5;
                 }
             }
         }
@@ -133,8 +134,8 @@ namespace Arcade_Arena.Classes
 
         private void UpdateCooldowns()
         {
-            groundSmashCooldown -= Game1.elapsedGameTimeSeconds;
-            bodySlamCooldown -= Game1.elapsedGameTimeSeconds;
+            abilityOneCooldown -= Game1.elapsedGameTimeSeconds;
+            abilityTwoCooldown -= Game1.elapsedGameTimeSeconds;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -155,12 +156,11 @@ namespace Arcade_Arena.Classes
         {
             if (inGroundSmash)
             {
-              //  teleportOutAnimation.Draw(spriteBatch, newPosition, 0.0f, Vector2.Zero, Game1.SCALE);
-               // handTeleportOutAnimation.Draw(spriteBatch, newPosition, 0.0f, Vector2.Zero, Game1.SCALE);
+
             }
             else if (inBodySlam)
             {
-               // iceBlockAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, Game1.SCALE);
+               
             }
         }
 
@@ -170,9 +170,6 @@ namespace Arcade_Arena.Classes
             inGroundSmash = true;
             currentAnimation = groundSmashOgreAnimation;
             groundSmashAnimation.XIndex = 0;
-
-            //Ability ability = new GroundSlamAbility(this);
-            //abilityBuffer.Add(ability);
 
         }
 

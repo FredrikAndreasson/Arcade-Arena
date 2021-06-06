@@ -67,9 +67,13 @@ namespace Arcade_Arena.Managers
                                 case Player.ClassType.Wizard:
                                     if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.Projectile)
                                     {
-                                        if (playerRect.Intersects(new Rectangle(new Point(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition),
-                                    new Point(networkManager.ServerAbilities[i].Animation.Width * (int)Game1.SCALE, networkManager.ServerAbilities[i].Animation.Height * (int)Game1.SCALE))))
+                                        Rectangle rectangle = new Rectangle(new Point(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition),
+                                        new Point(networkManager.ServerAbilities[i].Animation.Width * (int)Game1.SCALE, networkManager.ServerAbilities[i].Animation.Height * (int)Game1.SCALE));
+                                        if (HitBoxIntersectsRotatedRectangle(rectangle, (float)networkManager.ServerAbilities[i].Direction, Vector2.Zero, playerRect))
                                         {
+                                            Ability ability = abilities.FirstOrDefault(a => a.Username == networkManager.ServerAbilities[i].Username &&
+                                                a.ID == networkManager.ServerAbilities[i].ID);
+                                            if (ability != null) ability.Kill();
                                             //player.AddEffect(knockback, true);
                                             playerManager.IsFirstPlayerHit = true;
                                             player.TakeDamage(networkManager.ServerAbilities[i].Damage);
@@ -108,13 +112,21 @@ namespace Arcade_Arena.Managers
                                 case Player.ClassType.Huntress:
                                     if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.Projectile)
                                     {
-                                        if (playerRect.Intersects(new Rectangle(new Point(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition),
-                                    new Point(networkManager.ServerAbilities[i].Animation.Width * (int)Game1.SCALE, networkManager.ServerAbilities[i].Animation.Height * (int)Game1.SCALE))))
+                                        Rectangle rectangle = new Rectangle(new Point(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition),
+                                        new Point(networkManager.ServerAbilities[i].Animation.Width * (int)Game1.SCALE, networkManager.ServerAbilities[i].Animation.Height * (int)Game1.SCALE));
+                                        if (HitBoxIntersectsRotatedRectangle(rectangle, (float)networkManager.ServerAbilities[i].Direction, Vector2.Zero, playerRect))
                                         {
-                                            playerManager.IsFirstPlayerHit = true;
-                                            player.TakeDamage(networkManager.ServerAbilities[i].Damage);
-                                            KnockbackEffect knockback = new KnockbackEffect(networkManager.ServerAbilities[i].Direction, 30.0f, player, 1.2f);
-                                            networkManager.DeleteProjectile(networkManager.ServerAbilities[i].ID, networkManager.ServerAbilities[i].Username);
+                                            if (!player.AbilitesHitBy.Contains(networkManager.ServerAbilities[i]))
+                                            {
+
+                                                Ability ability = abilities.FirstOrDefault(a => a.Username == networkManager.ServerAbilities[i].Username &&
+                                                a.ID == networkManager.ServerAbilities[i].ID);
+                                                if (ability != null) ability.Kill();
+                                                playerManager.IsFirstPlayerHit = true;
+                                                player.TakeDamage(networkManager.ServerAbilities[i].Damage);
+                                                KnockbackEffect knockback = new KnockbackEffect(networkManager.ServerAbilities[i].Direction, 30.0f, player, 1.2f);
+                                                networkManager.DeleteProjectile(networkManager.ServerAbilities[i].ID, networkManager.ServerAbilities[i].Username);
+                                            }
                                         }
                                     }
                                     else if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.AbilityOne)
@@ -122,6 +134,9 @@ namespace Arcade_Arena.Managers
                                         if (playerRect.Intersects(new Rectangle(new Point(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition),
                                                 new Point(networkManager.ServerAbilities[i].Animation.Width * (int)Game1.SCALE, networkManager.ServerAbilities[i].Animation.Height * (int)Game1.SCALE))))
                                         {
+                                            Ability ability = abilities.FirstOrDefault(a => a.Username == networkManager.ServerAbilities[i].Username &&
+                                                a.ID == networkManager.ServerAbilities[i].ID);
+                                            if (ability != null) ability.Kill();
                                             playerManager.IsFirstPlayerHit = true;
                                             if (!player.AbilitesHitBy.Contains(networkManager.ServerAbilities[i]))
                                             {
@@ -133,12 +148,20 @@ namespace Arcade_Arena.Managers
                                     }
                                     else if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.AbilityTwo)
                                     {
+                                        
                                         if (playerRect.Intersects(new Rectangle(new Point(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition),
                                                 new Point(networkManager.ServerAbilities[i].Animation.Width * (int)Game1.SCALE, networkManager.ServerAbilities[i].Animation.Height * (int)Game1.SCALE))))
                                         {
+                                            Ability ability = abilities.FirstOrDefault(a => a.Username == networkManager.ServerAbilities[i].Username &&
+                                                a.ID == networkManager.ServerAbilities[i].ID);
+                                            if (ability != null) ability.Kill();
                                             playerManager.IsFirstPlayerHit = true;
                                             if (!player.AbilitesHitBy.Contains(networkManager.ServerAbilities[i]))
                                             {
+                                                if (ability is BearTrap b)
+                                                {
+                                                    b.Activate();
+                                                }
                                                 player.TakeDamage(networkManager.ServerAbilities[i].Damage);
                                                 player.AbilitesHitBy.Add(networkManager.ServerAbilities[i]);
                                                 BearTrapEffect bearTrapEffect = new BearTrapEffect(player, 3);
@@ -149,14 +172,15 @@ namespace Arcade_Arena.Managers
                                 case Player.ClassType.TimeTraveler:
                                     if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.Projectile)
                                     {
-                                        if (playerRect.Intersects(new Rectangle(new Point(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition),
-                                        new Point(networkManager.ServerAbilities[i].Animation.Width * (int)Game1.SCALE, networkManager.ServerAbilities[i].Animation.Height * (int)Game1.SCALE))))
+                                        Rectangle rectangle = new Rectangle(new Point(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition),
+                                        new Point(networkManager.ServerAbilities[i].Animation.Width * (int)Game1.SCALE, networkManager.ServerAbilities[i].Animation.Height * (int)Game1.SCALE));
+                                        if (HitBoxIntersectsRotatedRectangle(rectangle, (float)networkManager.ServerAbilities[i].Direction, Vector2.Zero, playerRect))
                                         {
                                             if (!player.AbilitesHitBy.Contains(networkManager.ServerAbilities[i]))
                                             {
                                                 playerManager.IsFirstPlayerHit = true;
                                                 player.TakeDamage(networkManager.ServerAbilities[i].Damage);
-                                                KnockbackEffect knockback = new KnockbackEffect(networkManager.ServerAbilities[i].Direction, 50.0f, player, 2);
+                                                //KnockbackEffect knockback = new KnockbackEffect(networkManager.ServerAbilities[i].Direction, 50.0f, player, 2);
                                                 player.AbilitesHitBy.Add(networkManager.ServerAbilities[i]);
                                             }
                                         }
@@ -205,6 +229,127 @@ namespace Arcade_Arena.Managers
 
             AbilityObstacleCollision();
             AbilityDeletionCheck();
+        }
+
+        private bool HitBoxIntersectsRotatedRectangle(Rectangle rectangle, float rotation, Vector2 origin, Rectangle nonRotatedRectangle)
+        {
+            rotation = NormalizeAngle(rotation);
+
+            List<Vector2> aRectangleAxis = new List<Vector2>();
+            aRectangleAxis.Add(UpperRightCorner(rectangle, origin, rotation) - UpperLeftCorner(rectangle, origin, rotation));
+            aRectangleAxis.Add(UpperRightCorner(rectangle, origin, rotation) - LowerRightCorner(rectangle, origin, rotation));
+            aRectangleAxis.Add(new Vector2(nonRotatedRectangle.Left, nonRotatedRectangle.Top) - new Vector2(nonRotatedRectangle.Left, nonRotatedRectangle.Bottom));
+            aRectangleAxis.Add(new Vector2(nonRotatedRectangle.Left, nonRotatedRectangle.Top) - new Vector2(nonRotatedRectangle.Right, nonRotatedRectangle.Top));
+
+            //check for each axis if a collision occurs
+            foreach (Vector2 aAxis in aRectangleAxis)
+            {
+                if (!IsAxisCollision(rectangle, rotation, origin, aAxis, nonRotatedRectangle))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private static float NormalizeAngle(float rotation)
+        {
+            while (rotation < 0)
+            {
+                rotation += (float)Math.PI * 2;
+            }
+            while (rotation > (float)Math.PI * 2)
+            {
+                rotation -= (float)Math.PI * 2;
+            }
+
+            return rotation;
+        }
+
+        //funkar inte, fungerar likadant som vanlig rectangle.intesects
+        private bool IsAxisCollision(Rectangle rectangle, float rotation, Vector2 origin, Vector2 aAxis, Rectangle otherRectangle)
+        {
+            List<int> aRectangleAScalars = new List<int>();
+            aRectangleAScalars.Add(GenerateScalar(new Vector2(otherRectangle.Left, otherRectangle.Top), aAxis));
+            aRectangleAScalars.Add(GenerateScalar(new Vector2(otherRectangle.Right, otherRectangle.Top), aAxis));
+            aRectangleAScalars.Add(GenerateScalar(new Vector2(otherRectangle.Left, otherRectangle.Bottom), aAxis));
+            aRectangleAScalars.Add(GenerateScalar(new Vector2(otherRectangle.Right, otherRectangle.Bottom), aAxis));
+            
+
+            List<int> aRectangleBScalars = new List<int>();
+            aRectangleBScalars.Add(GenerateScalar(UpperLeftCorner(rectangle, origin, rotation), aAxis));
+            aRectangleBScalars.Add(GenerateScalar(UpperRightCorner(rectangle, origin, rotation), aAxis));
+            aRectangleBScalars.Add(GenerateScalar(LowerLeftCorner(rectangle, origin, rotation), aAxis));
+            aRectangleBScalars.Add(GenerateScalar(LowerRightCorner(rectangle, origin, rotation), aAxis));
+
+            int aRectangleAMinimum = aRectangleAScalars.Min();
+            int aRectangleAMaximum = aRectangleAScalars.Max();
+            int aRectangleBMinimum = aRectangleBScalars.Min();
+            int aRectangleBMaximum = aRectangleBScalars.Max();
+
+            if (aRectangleBMinimum <= aRectangleAMaximum && aRectangleBMaximum >= aRectangleAMaximum)
+            {
+                return true;
+            }
+            else if (aRectangleAMinimum <= aRectangleBMaximum && aRectangleAMaximum >= aRectangleBMaximum)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private int GenerateScalar(Vector2 rectangleCorner, Vector2 axis)
+        {
+            //projection
+            float aNumerator = (rectangleCorner.X * axis.X) + (rectangleCorner.Y * axis.Y);
+            float aDenominator = (axis.X * axis.X) + (axis.Y * axis.Y);
+            float aDivisionResult = aNumerator / aDenominator;
+            Vector2 aCornerProjected = new Vector2(aDivisionResult * axis.X, aDivisionResult * axis.Y);
+
+            float aScalar = (axis.X * aCornerProjected.X) + (axis.Y * aCornerProjected.Y);
+            return (int)aScalar;
+        }
+
+        //ger en vector2 av en punkt inlkusive rotation
+        private Vector2 RotatePoint(Vector2 point, Vector2 origin, float rotation)
+        {
+            Vector2 aTranslatedPoint = new Vector2();
+            aTranslatedPoint.X = (float)(origin.X + (point.X - origin.X) * Math.Cos(rotation)
+                - (point.Y - origin.Y) * Math.Sin(rotation));
+            aTranslatedPoint.Y = (float)(origin.Y + (point.Y - origin.Y) * Math.Cos(rotation)
+                + (point.X - origin.X) * Math.Sin(rotation));
+            return aTranslatedPoint;
+        }
+
+        //får vector2 av hörnen
+        public Vector2 UpperLeftCorner(Rectangle rectangle, Vector2 origin, float rotation)
+        {
+            Vector2 aUpperLeft = new Vector2(rectangle.Left, rectangle.Top);
+            aUpperLeft = RotatePoint(aUpperLeft, aUpperLeft + origin, rotation);
+            return aUpperLeft;
+        }
+
+        public Vector2 UpperRightCorner(Rectangle rectangle, Vector2 origin, float rotation)
+        {
+            Vector2 aUpperRight = new Vector2(rectangle.Right, rectangle.Top);
+            aUpperRight = RotatePoint(aUpperRight, aUpperRight + new Vector2(-origin.X, origin.Y), rotation);
+            return aUpperRight;
+        }
+
+        public Vector2 LowerLeftCorner(Rectangle rectangle, Vector2 origin, float rotation)
+        {
+            Vector2 aLowerLeft = new Vector2(rectangle.Left, rectangle.Bottom);
+            aLowerLeft = RotatePoint(aLowerLeft, aLowerLeft + new Vector2(origin.X, -origin.Y), rotation);
+            return aLowerLeft;
+        }
+
+        public Vector2 LowerRightCorner(Rectangle rectangle, Vector2 origin, float rotation)
+        {
+            Vector2 aLowerRight = new Vector2(rectangle.Right, rectangle.Bottom);
+            aLowerRight = RotatePoint(aLowerRight, aLowerRight + new Vector2(-origin.X, -origin.Y), rotation);
+            return aLowerRight;
         }
 
         private bool HitBoxIntersectsCircle(Rectangle hitBox, Vector2 circleCenter, float circleRadius)
@@ -257,7 +402,7 @@ namespace Arcade_Arena.Managers
 
         private void AbilityObstacleCollision()
         {
-            for (int i = 0; i < networkManager.ServerAbilities.Count; i++)
+            for (int i = networkManager.ServerAbilities.Count - 1; i >= 0; i--)
             {
                 Rectangle tempHitbox = new Rectangle(networkManager.ServerAbilities[i].XPosition, networkManager.ServerAbilities[i].YPosition,
                     networkManager.ServerAbilities[i].Animation.Width, networkManager.ServerAbilities[i].Animation.Height);
@@ -267,9 +412,28 @@ namespace Arcade_Arena.Managers
                     {
                         if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.MeeleAttack)
                             return;
-                        networkManager.DeleteLocalAbility(networkManager.ServerAbilities[i].ID);
+                        AbilityObstacleCollisionHandling(i);
                     }
                 }
+            }
+        }
+
+        private void AbilityObstacleCollisionHandling(int index)
+        {
+            switch (networkManager.ServerAbilities[index].Type)
+            {
+                case AbilityOutline.AbilityType.Projectile:
+                    if (networkManager.Players.FirstOrDefault(p => p.Username == networkManager.ServerAbilities[index].Username).Type == Player.ClassType.TimeTraveler)
+                    {
+
+                    }
+                    else
+                    {
+                        networkManager.DeleteLocalAbility(networkManager.ServerAbilities[index].ID);
+                    }
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -294,19 +458,31 @@ namespace Arcade_Arena.Managers
                     RemoveAbilityFromHitList(i);
                     networkManager.DeleteLocalAbility(abilities[i].ID);
                     abilities.RemoveAt(i);
-                    
                 }
             }
         }
 
         private void RemoveAbilityFromHitList(int i)
         {
-            for (int j = playerManager.clientPlayer.AbilitesHitBy.Count; j > 0; j--)
+            for (int j = playerManager.clientPlayer.AbilitesHitBy.Count - 1; j >= 0; j--)
             {
-                if (playerManager.clientPlayer.AbilitesHitBy[j].Username == abilities[i].Username
-                    && playerManager.clientPlayer.AbilitesHitBy[j].ID == abilities[i].ID)
+                try
                 {
-                    playerManager.clientPlayer.AbilitesHitBy.RemoveAt(j);
+                    if (playerManager.clientPlayer.AbilitesHitBy[j].Username == abilities[i].Username
+                    && playerManager.clientPlayer.AbilitesHitBy[j].ID == abilities[i].ID)
+                    {
+                        try
+                        {
+                            playerManager.clientPlayer.AbilitesHitBy.RemoveAt(j);
+                        }
+                        catch (IndexOutOfRangeException e)
+                        {
+                            Debug.Print(e.Message);
+                        }
+                    }
+                } catch (ArgumentOutOfRangeException a)
+                {
+                    Debug.Print(a.Message);
                 }
             }
         }
@@ -380,7 +556,7 @@ namespace Arcade_Arena.Managers
                 case Player.ClassType.TimeTraveler:
                     if (ability.Type == AbilityOutline.AbilityType.Projectile)
                     {
-                        spriteBatch.Draw(AssetManager.TimeTravelerRayGunLaser, new Vector2(ability.XPosition, ability.YPosition), source, Color.White, (float)ability.Direction,
+                        spriteBatch.Draw(AssetManager.WizardWandProjectile, new Vector2(ability.XPosition, ability.YPosition), source, Color.White, (float)ability.Direction,
                             Vector2.Zero, Game1.SCALE, SpriteEffects.None, 1.0f);
                     }
                     if (ability.Type == AbilityOutline.AbilityType.AbilityOne)

@@ -142,8 +142,6 @@ namespace Arcade_Arena
 
         public void MoveObstacle(Vector2 newPosition)
         {
-            //position = newPosition;
-            //UpdateHitbox();
         }
 
         private void UpdateHitbox()

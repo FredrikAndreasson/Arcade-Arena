@@ -42,7 +42,7 @@ namespace Arcade_Arena.Managers
             client = new NetClient(new NetPeerConfiguration("networkGame"));
             client.Start();
 
-            Username = "name_" + random.Next(0, 100);
+            Username = "Name_"+ random.Next(0, 100);
 
             var outmsg = client.CreateMessage();
             outmsg.Write((byte)PacketType.Login);
@@ -56,8 +56,8 @@ namespace Arcade_Arena.Managers
             };
             Players.Add(player);
 
-            client.Connect("85.228.136.154", 14241, outmsg);
-            //client.Connect("localhost", 14241, outmsg);
+            //client.Connect("85.228.136.154", 14241, outmsg);
+            client.Connect("localhost", 14241, outmsg);
             return EstablishInfo();
 
         }
@@ -161,9 +161,9 @@ namespace Arcade_Arena.Managers
                     ReceiveAllPlayers(inc);
                     break;
 
-                //case PacketType.Kick:
-                //    ReceiveKick(inc);
-                //    break;
+                case PacketType.Kick:
+                    ReceiveKick(inc);
+                    break;
 
                 case PacketType.ShrinkLava:
                     UpdateLava(inc);
@@ -180,18 +180,23 @@ namespace Arcade_Arena.Managers
                 case PacketType.AbilityUpdate:
                     ReceiveAbilityUpdate(inc);
                     break;
+
                 case PacketType.Score:
                     ReceiveScore(inc);
                     break;
+
                 case PacketType.Login:
                     ReceiveLogin(inc);
                     break;
+
                 case PacketType.ReadyCheck:
                     ReceiveReadyCheck(inc);
                     break;
+
                 case PacketType.Seed:
                     ReceiveSeed(inc);
                     break;
+
                 case PacketType.ClassChange:
                     ReceiveClassChange(inc);
                     break;
@@ -257,6 +262,8 @@ namespace Arcade_Arena.Managers
             outmsg.Write(Username);
             outmsg.Write(ready);
             client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
+
+            client.FlushSendQueue();
         }
 
         public void SendClassChange(Player.ClassType type)
@@ -288,6 +295,8 @@ namespace Arcade_Arena.Managers
             outmsg.Write(ability.Damage);
 
             client.SendMessage(outmsg, NetDeliveryMethod.ReliableOrdered);
+
+            client.FlushSendQueue();
         }
         public void SendAbilityUpdate(Ability ability)
         {

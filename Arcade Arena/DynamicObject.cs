@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Arcade_Arena
 {
@@ -11,7 +12,7 @@ namespace Arcade_Arena
         protected double direction;
         protected Vector2 velocity;
         
-        public double speedAlteration { get; set; } //för time zone
+        public double speedAlteration { get; set; }
         protected List<Effect> EffectList = new List<Effect>();
 
         public DynamicObject(Vector2 position, float speed, double direction) : base(position)
@@ -34,7 +35,7 @@ namespace Arcade_Arena
             {
                 foreach (Effect effect in EffectList)
                 {
-                    if (effect.GetType() == effect.GetType())
+                    if (effect.GetType() == newEffect.GetType())
                     {
                         alreadyHasEffect = true;
                         effect.timer = newEffect.timer;
@@ -44,6 +45,7 @@ namespace Arcade_Arena
             if (!alreadyHasEffect)
             {
                 EffectList.Add(newEffect);
+                Debug.Print("added effect");
                 return true;
             }
             else
@@ -54,10 +56,9 @@ namespace Arcade_Arena
 
         protected void UpdateEffects()
         {
-            List<Effect> tempEffectList = new List<Effect>(EffectList);
-            foreach (Effect effect in tempEffectList)
+            for (int i = EffectList.Count - 1; i >= 0; i--)
             {
-                effect.Update();
+                EffectList[i].Update();
             }
         }
 
@@ -77,7 +78,10 @@ namespace Arcade_Arena
         
         public void RemoveAllEffects()
         {
-            EffectList.Clear();
+            for (int i = EffectList.Count - 1; i >= 0; i--)
+            {
+                EffectList[i].OnLossEffect();
+            }
         }
     }
 }

@@ -23,10 +23,10 @@ namespace Arcade_Arena
         protected float shootingCooldown = 1;
         float cooldownTimer;
 
-        double shootingDelayTimer = 0;
+        protected double shootingDelayTimer = 0;
         protected double shootingDelayMaxTimer = 0;
 
-        bool shooting = false;
+        protected bool shooting = false;
 
         protected int weaponOffsetX = 0;
         protected int weaponOffsetY = 0;
@@ -57,23 +57,11 @@ namespace Arcade_Arena
             MouseState mousePosition = Mouse.GetState();
             orbiterRotation = UpdateOrbiterRotation();
 
-           // Console.WriteLine(orbiterRotation);
-            //if (Keyboard.GetState().IsKeyDown(Keys.O))
-            //{
-            //    orbiterRotation += 0.1f;
-            //}
-            //if (Keyboard.GetState().IsKeyDown(Keys.P))
-            //{
-            //    orbiterRotation -= 0.1f;
-            //}
-
             cooldownTimer += (float)Game1.elapsedGameTimeSeconds;
-            if (cooldownTimer >= shootingCooldown && !Stunned && ((MouseKeyboardManager.LeftHold) || MouseKeyboardManager.Pressed(Buttons.RightTrigger)))
+            if (!shooting && cooldownTimer >= shootingCooldown && !Stunned && ((MouseKeyboardManager.LeftHold) || MouseKeyboardManager.Pressed(Buttons.RightTrigger)))
             {
-                shooting = true;
                 PrepareShooting();
-                cooldownTimer = 0;
-                shootingDelayTimer = shootingDelayMaxTimer;
+                cooldownTimer = 0.0f;
             }
             if (shooting)
             {
@@ -101,6 +89,8 @@ namespace Arcade_Arena
 
         public virtual void PrepareShooting()
         {
+            shootingDelayTimer = shootingDelayMaxTimer;
+            shooting = true;
             ChangeAnimation(ref currentAnimation, weaponShootAnim);
         }
 
@@ -128,8 +118,6 @@ namespace Arcade_Arena
         public virtual void Draw (SpriteBatch spriteBatch)
         {
             currentAnimation.Draw(spriteBatch, new Vector2(weaponPosition.X, weaponPosition.Y), (float)orbiterRotation, weaponOrigin, Game1.SCALE);
-            /*spriteBatch.Draw(AssetManager.WizardWand, new Vector2(weaponPosition.X, weaponPosition.Y), null, Color.White, orbiterRotation,
-                weaponOrigin, 6, SpriteEffects.None, 0);*/
 
         }
     }

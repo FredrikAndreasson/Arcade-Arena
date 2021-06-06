@@ -31,8 +31,6 @@ namespace Arcade_Arena.Server
                     return new ClassChangeCommand();
                 case PacketType.ReadyCheck:
                     return new ReadyCheckCommand();
-                    //case PacketType.Kick:
-                    //    return new KickPlayerCommand();
             }
             throw new ArgumentOutOfRangeException("packetType");
         }

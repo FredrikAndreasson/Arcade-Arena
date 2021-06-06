@@ -93,7 +93,7 @@ namespace Arcade_Arena
 
         public static bool Pressed(Buttons button)
         {
-            if(gamePadState.IsButtonDown(button)) // Fixa so it will also consider IsButtonUp. Funkade inte sista jag gjorde det lol
+            if(gamePadState.IsButtonDown(button))
             {
                 return true;
     

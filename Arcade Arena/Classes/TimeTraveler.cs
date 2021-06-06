@@ -24,21 +24,21 @@ namespace Arcade_Arena.Classes
 
         SpriteAnimation projectileAnim;
 
-        private double timeZoneCooldown = 0;
+        private int timeTravelPositionsSkipped = 0;
+        private int timeTravelPosSkip = 3;
         private bool doingTimeZone = false;
-        private double timeZoneMaxCooldown = 10;
 
-        private double timeTravelCooldown = 0;
         private bool doingTimeTravel = false;
-        private double timeTravelMaxCooldown = 10;
 
         private double timeZoneTimer = 10;
 
-        List<TimeZone> timeZones = new List<TimeZone>();
+        bool shootingFrenzy = false;
+        float shootingDelayInFrenzy = 0.1f;
+
         List<TimeTravelPosition> previousPositions = new List<TimeTravelPosition>(); //för time travel
 
-        sbyte weaponDmg = 15;
-        float shootingSpeed = 0.2f;
+        sbyte weaponDmg = 2;
+        float shootingSpeed = 5f;
 
         Vector2 frameSize = new Vector2(14, 20);
 
@@ -56,8 +56,8 @@ namespace Arcade_Arena.Classes
             handKnockBackAnimation = new SpriteAnimation(AssetManager.TimeTravelerHandSpriteSheet, new Vector2(1, 0), new Vector2(1, 0), frameSize, new Vector2(5, 0), 5000);
             deadAnimation = new SpriteAnimation(AssetManager.TimeTravelerSpriteSheet, new Vector2(5, 0), new Vector2(5, 0), frameSize, new Vector2(5, 0), 5000);
 
-            projectileAnim = new SpriteAnimation(AssetManager.TimeTravelerRayGunLaser, Vector2.Zero, Vector2.Zero,
-                new Vector2(100, 1), new Vector2(1, 1), 5000);
+            projectileAnim = new SpriteAnimation(AssetManager.TimeTravelerRayGunLaser, new Vector2(50, 0), new Vector2(50, 0),
+                new Vector2(2, 1), new Vector2(1, 1), 5000);
 
             ChangeAnimation(ref currentAnimation, idleAnimation);
             ChangeAnimation(ref currentHandAnimation, handIdleAnimation);
@@ -69,7 +69,12 @@ namespace Arcade_Arena.Classes
 
             baseSpeed = 0.9f;
             speed = baseSpeed;
+
+            abilityOneMaxCooldown = 10;
+            abilityTwoMaxCooldown = 6;
         }
+
+        
 
         protected override void PrepareWeaponAnim()
         {
@@ -77,38 +82,46 @@ namespace Arcade_Arena.Classes
             weaponOffsetY = 7;
             weaponAnim = new SpriteAnimation(AssetManager.TimeTravelerRayGun, new Vector2(0, 0), new Vector2(0, 0), new Vector2(6, 4), new Vector2(2, 1), 5000);
             weaponShootAnim = new SpriteAnimation(AssetManager.TimeTravelerRayGun, new Vector2(1, 0), new Vector2(1, 0), new Vector2(6, 4), new Vector2(2, 1), 5000);
-            shootingCooldown = 2;
-            shootingDelayMaxTimer = 0.8;
+            shootingCooldown = 0f;
+            shootingDelayMaxTimer = 1f;
             weaponOrigin = new Vector2(0.4f * Game1.SCALE, 0.45f * Game1.SCALE);
             base.PrepareWeaponAnim();
         }
 
         public override void Update()
         {
-            UpdateTimeZones();
             currentAnimation.Update();
             currentHandAnimation.Update();
             UpdateWeapon(currentAnimation.SpriteFX);
             UpdateCooldowns();
             CheckAbilityUse();
+            CheckShooting();
 
             if (!doingTimeTravel)
             {
-                TimeTravelPosition previousPosition = new TimeTravelPosition(health, position);
-                previousPositions.Add(previousPosition);
-                if (previousPositions.Count > 400)
+                timeTravelPositionsSkipped++;
+                if (timeTravelPositionsSkipped >= timeTravelPosSkip)
+                {
+                    timeTravelPositionsSkipped = 0;
+                    if (previousPositions.Count != 0)
+                    {
+                        previousPositions[previousPositions.Count - 1].Health = (sbyte)MathHelper.Max(previousPositions[previousPositions.Count - 1].Health, health);
+                    }
+                    TimeTravelPosition previousPosition = new TimeTravelPosition(health, position);
+                    previousPositions.Add(previousPosition);
+                }
+                if (previousPositions.Count > 150)
                 {
                     previousPositions.RemoveAt(0);
                 }
 
                 if (doingTimeZone)
                 {
-                    if (timeZoneCooldown <= timeZoneMaxCooldown - 0.7f)//slut på ability
+                    if (abilityTwoCooldown <= abilityTwoMaxCooldown - 0.7f)//slut på ability
                     {
                         ExitTimeZone();
                         ChangeAnimation(ref currentAnimation, idleAnimation);
                         ChangeAnimation(ref currentHandAnimation, handIdleAnimation);
-                        Debug.WriteLine("yo");
                     }
                     UpdateEffects();
                 }
@@ -128,11 +141,23 @@ namespace Arcade_Arena.Classes
             else
             {
                 UpdateTimeTravelPosition();
-                if (timeTravelCooldown <= timeTravelMaxCooldown - 1.4f)// slut på ability
+                if (abilityOneCooldown <= abilityOneMaxCooldown - 1.4f)// slut på ability
                 {
                     ExitTimeTravel();
                     ChangeAnimation(ref currentAnimation, idleAnimation);
                     ChangeAnimation(ref currentHandAnimation, handIdleAnimation);
+                }
+            }
+            shadow.Update(Position);
+        }
+
+        private void CheckShooting()
+        {
+            if (shootingFrenzy)
+            {
+                if (Stunned || !MouseKeyboardManager.LeftHold)
+                {
+                    shootingFrenzy = false;
                 }
             }
         }
@@ -141,11 +166,9 @@ namespace Arcade_Arena.Classes
         {
             if (previousPositions.Count > 2)
             {
-                position = previousPositions[previousPositions.Count - 3].Position;
-                health = (sbyte)MathHelper.Max(previousPositions[previousPositions.Count - 3].Health, health);
+                position = previousPositions[previousPositions.Count - 1].Position;
+                health = (sbyte)MathHelper.Max(previousPositions[previousPositions.Count - 1].Health, health);
 
-                previousPositions.Remove(previousPositions[previousPositions.Count - 1]);
-                previousPositions.Remove(previousPositions[previousPositions.Count - 1]);
                 previousPositions.Remove(previousPositions[previousPositions.Count - 1]);
             }
         }
@@ -156,13 +179,13 @@ namespace Arcade_Arena.Classes
             {
                 if (!doingTimeTravel)
                 {
-                    if (Keyboard.GetState().IsKeyDown(Keys.LeftShift) && timeTravelCooldown <= 0)
+                    if (Keyboard.GetState().IsKeyDown(Keys.LeftShift) && abilityOneCooldown <= 0)
                     {
                         TimeTravelAbility();
                     }
                     else if (!doingTimeZone)
                     {
-                        if (Keyboard.GetState().IsKeyDown(Keys.E) && timeZoneCooldown <= 0)
+                        if (Keyboard.GetState().IsKeyDown(Keys.E) && abilityTwoCooldown <= 0)
                         {
                             TimeZoneAbility();
                         }
@@ -181,30 +204,31 @@ namespace Arcade_Arena.Classes
         private void ExitTimeTravel()
         {
             doingTimeTravel = false;
+            LastPosition = position;
             RemoveInvincibleEffect();
             aimDirection = UpdateAimDirection();
-        }
-
-        private void UpdateTimeZones()
-        {
-            List<TimeZone> tempList = new List<TimeZone>(timeZones);
-            foreach (TimeZone timeZone in tempList)
-            {
-                timeZone.Update();
-            }
         }
 
         public override void PrepareShooting()
         {
             base.PrepareShooting();
-            AlterSpeedEffect speedEffect = new AlterSpeedEffect(-1.5f, shootingDelayMaxTimer, this);
+            if (shootingFrenzy != true)
+            {
+                AlterSpeedEffect speedEffect = new AlterSpeedEffect(-1.5f, shootingDelayMaxTimer, this);
+            }
+            else
+            {
+                shootingDelayTimer = shootingDelayInFrenzy;
+            }
         }
 
         public override void Shoot()
         {
+            shootingFrenzy = true;
             Projectile projectile = new Projectile(projectileAnim, weaponDmg, 3, Position, shootingSpeed, (double)orbiterRotation);
-            projectile.SetPosition(weaponPosition + projectile.Velocity * 100);
+            projectile.SetPosition(weaponPosition + projectile.Velocity * 15 / shootingSpeed);
             abilityBuffer.Add(projectile);
+            shootingDelayTimer = 0.08f;
         }
 
         protected override void Die()
@@ -216,23 +240,25 @@ namespace Arcade_Arena.Classes
         public override void StartKnockback()
         {
             base.StartKnockback();
+            shooting = false;
             ChangeAnimation(ref currentAnimation, knockBackAnimation);
             ChangeAnimation(ref currentHandAnimation, handKnockBackAnimation);
         }
 
         private void UpdateCooldowns()
         {
-            timeTravelCooldown -= Game1.elapsedGameTimeSeconds;
-            timeZoneCooldown -= Game1.elapsedGameTimeSeconds;
+            abilityOneCooldown -= Game1.elapsedGameTimeSeconds;
+            abilityTwoCooldown -= Game1.elapsedGameTimeSeconds;
         }
 
         void TimeTravelAbility()
         {
             CancelShooting();
+            RemoveAllEffects();
             doingTimeZone = false;
             doingTimeTravel = true;
             AddInvincibleEffect();
-            timeTravelCooldown = timeTravelMaxCooldown;
+            abilityOneCooldown = abilityOneMaxCooldown;
             ChangeAnimation(ref currentAnimation, timeTravelAnimation);
             ChangeAnimation(ref currentHandAnimation, handTimeTravelAnimation);
             UpdateSpriteEffect();
@@ -242,11 +268,11 @@ namespace Arcade_Arena.Classes
         {
             CancelShooting();
             doingTimeZone = true;
-            timeZoneCooldown = timeZoneMaxCooldown;
+            abilityTwoCooldown = abilityTwoMaxCooldown;
             int timeZonePositionX = (int)(middleOfSprite.X - (AssetManager.TimeTravelerTimeZone.Width / 2) * Game1.SCALE);
             int timeZonePositionY = (int)(middleOfSprite.Y - (AssetManager.TimeTravelerTimeZone.Height / 2) * Game1.SCALE);
             TimeZone newTimeZone = new TimeZone(timeZoneTimer, this, new Vector2(timeZonePositionX, timeZonePositionY), AssetManager.TimeTravelerTimeZone, speed, direction);
-            timeZones.Add(newTimeZone);
+            abilityBuffer.Add(newTimeZone);
             ChangeAnimation(ref currentAnimation, timeZoneAnimation);
             ChangeAnimation(ref currentHandAnimation, handTimeZoneAnimation);
             UpdateSpriteEffect();
@@ -260,17 +286,8 @@ namespace Arcade_Arena.Classes
             }
         }
 
-        public void RemoveTimeZoneFromList(TimeZone timeZone)
-        {
-            timeZones.Remove(timeZone);
-        }
-
         public override void Draw(SpriteBatch spriteBatch)
         {
-            foreach (TimeZone timeZone in timeZones)
-            {
-                timeZone.Draw(spriteBatch);
-            }
             if (isDead)
             {
                 currentAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, Game1.SCALE);
@@ -279,7 +296,6 @@ namespace Arcade_Arena.Classes
             }
 
             shadow.Draw(spriteBatch);
-            //spriteBatch.Draw(AssetManager.WizardShadow, new Vector2(Position.X + AssetManager.WizardShadow.Width / 4, Position.Y + 85), Color.Red);
             currentAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, Game1.SCALE);
             base.Draw(spriteBatch);
             currentHandAnimation.Draw(spriteBatch, Position, 0.0f, Vector2.Zero, Game1.SCALE);

@@ -42,6 +42,32 @@ namespace Arcade_Arena
             renderTarget.GetData<Color>(originalLava);
         }
 
+        public bool CheckLavaAtPos(Vector2 pos)
+        {
+
+            Color[] pixels = new Color[AssetManager.WizardShadow.Width * AssetManager.WizardShadow.Height];
+            Color[] pixels2 = new Color[AssetManager.WizardShadow.Width * AssetManager.WizardShadow.Height];
+           AssetManager.WizardShadow.GetData<Color>(pixels2);
+            try
+            {
+                renderTarget.GetData(0, new Rectangle(pos.ToPoint(), new Point(AssetManager.WizardShadow.Width, AssetManager.WizardShadow.Height)), pixels, 0, pixels.Length);
+            }
+            catch (ArgumentException e)
+            {
+                return true;
+            }
+            for (int i = 0; i < pixels.Length; ++i)
+            {
+                if (pixels[i].A > 0.0f && pixels2[i].A > 0.0f)
+                {
+                    return true;
+                }
+
+            }
+            return false;
+
+        }
+
         public void ShrinkPlatform(int radius)
         {
 

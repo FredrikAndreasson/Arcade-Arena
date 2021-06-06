@@ -22,6 +22,7 @@ namespace Arcade_Arena
         Settings,
         Lobby,
         Quit,
+        Win
     }
 
 
@@ -32,17 +33,17 @@ namespace Arcade_Arena
 
         public static Random random = new Random();
         public static int seed = 0;
+        public static bool LocalWin;
 
         public const float SCALE = 5.0f;
 
 
         private NetworkManager networkManager;
+        private PlayerManager playerManager;
 
 
         public static double elapsedGameTimeSeconds { get; private set; }
         public static double elapsedGameTimeMilliseconds { get; private set; }
-
-        private static ObstacleManager obstacleManager = new ObstacleManager(); //it be here?
         
         States state = States.Menu;
 
@@ -52,6 +53,7 @@ namespace Arcade_Arena
         MainMenuState mainMenu;
         CharacterSelectionState characterSelection;
         LobbyState lobby;
+        WinState gameOver;
 
         public Game1()
         {
@@ -67,10 +69,10 @@ namespace Arcade_Arena
    
         protected override void LoadContent()
         {
-            //initiating networkmanager in game1 so that the lobby can have access to it aswell
             Library.Player tempPlayer = new Library.Player
             {Type = Library.Player.ClassType.Wizard};
             networkManager = new NetworkManager(tempPlayer);
+            playerManager = new PlayerManager(networkManager);
 
             spriteBatch = new SpriteBatch(GraphicsDevice);
             AssetManager.LoadTextures(Content);
@@ -78,7 +80,8 @@ namespace Arcade_Arena
             
             mainMenu = new MainMenuState(Window);
             characterSelection = new CharacterSelectionState(Window, networkManager);
-            lobby = new LobbyState(Window, networkManager, ref player);
+            lobby = new LobbyState(Window, networkManager, ref player, playerManager);
+            gameOver = new WinState(Window);
 
         }
 
@@ -93,7 +96,7 @@ namespace Arcade_Arena
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape) || gameOver.Quit)
                 Exit();
 
             MouseKeyboardManager.Update();
@@ -116,7 +119,7 @@ namespace Arcade_Arena
                     characterSelection.Update(gameTime, ref state, ref player);
                     if (state == States.FFA)
                     {
-                        ffaArena = new PlayState(Window, spriteBatch, player, networkManager);
+                        ffaArena = new PlayState(Window, spriteBatch, player, networkManager, playerManager);
                     }
                     break;
                 case States.Pause:
@@ -126,8 +129,12 @@ namespace Arcade_Arena
                     lobby.Update(gameTime, ref state, ref player);
                     if (state == States.FFA)
                     {
-                        ffaArena = new PlayState(Window, spriteBatch, player, networkManager);
+                        ffaArena = new PlayState(Window, spriteBatch, player, networkManager, playerManager);
                     }
+                    break;
+                case States.Win:
+                    gameOver.Won = LocalWin;
+                    gameOver.Update(gameTime, ref state, ref player);
                     break;
 
                 default:
@@ -161,6 +168,9 @@ namespace Arcade_Arena
                     break;
                 case States.Lobby:
                     lobby.Draw(spriteBatch, state);
+                    break;
+                case States.Win:
+                    gameOver.Draw(spriteBatch, state);
                     break;
                 default:
                     break;
