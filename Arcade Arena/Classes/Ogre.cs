@@ -19,7 +19,7 @@ namespace Arcade_Arena.Classes
         SpriteAnimation groundSmashAnimation;
         SpriteAnimation bodySlamAnimation;
         SpriteAnimation idleAnimation;
-        SpriteAnimation punchAnimation;
+        SpriteAnimation meleeAttackAnimation;
 
         private bool inGroundSmash;
         private double groundSmashCooldown = 0;
@@ -33,6 +33,8 @@ namespace Arcade_Arena.Classes
         private Vector2 frameSize = new Vector2(23, 33);
         private Vector2 spriteDimensions = new Vector2(7, 3);
 
+        double dashDirection;
+
 
         public Ogre(Vector2 position, float speed, double direction) : base(position, speed, direction)
         {
@@ -41,7 +43,7 @@ namespace Arcade_Arena.Classes
             groundSmashOgreAnimation = new SpriteAnimation(AssetManager.ogreSpriteSheet, new Vector2(0, 2), new Vector2(3, 2), frameSize, spriteDimensions, 125);
             bodySlamAnimation = new SpriteAnimation(AssetManager.ogreSpriteSheet, new Vector2(0, 3), new Vector2(2, 3), frameSize, spriteDimensions, 300);
             idleAnimation = new SpriteAnimation(AssetManager.ogreSpriteSheet, new Vector2(0, 0), new Vector2(1, 0), frameSize, spriteDimensions, 1000);
-            punchAnimation = new SpriteAnimation(AssetManager.ogreSpriteSheet, new Vector2(3, 3), new Vector2(5, 3), frameSize, spriteDimensions, 125);
+            meleeAttackAnimation = new SpriteAnimation(AssetManager.ogreSpriteSheet, new Vector2(3, 3), new Vector2(5, 3), frameSize, spriteDimensions, 125);
 
             groundSmashAnimation = new SpriteAnimation(AssetManager.groundSmashCrackle, new Vector2(0, 0), new Vector2(4, 0), new Vector2(71, 71), new Vector2(4, 0), 500);
             currentAnimation = backwardsAnimation;
@@ -83,18 +85,20 @@ namespace Arcade_Arena.Classes
 
             if (inMeeleAttack)
             {
-                punchAnimation.Update();
-                if(punchAnimation.XIndex >= 3)
+                UpdateSpriteEffect();
+                base.Update();
+                meleeAttackAnimation.Update();
+                if(meleeAttackAnimation.XIndex >= 3)
                 {
                     inMeeleAttack = false;
                     UpdateMiddleOfSprite();
                     CheckRegularAnimation();
-                    aimDirection = UpdateAimDirection();
+                    aimDirection = UpdateAimDirection();                  
                 }
             }
             else if (inGroundSmash)
             {
-
+                UpdateSpriteEffect();
                 groundSmashAnimation.Update();
 
                 if (groundSmashAnimation.XIndex >= 4)
@@ -107,8 +111,11 @@ namespace Arcade_Arena.Classes
             }
             else if (inBodySlam)
             {
+                UpdateSpriteEffect();
+                UpdateVelocity(dashDirection, speed * 1.5f);
                 bodySlamAnimation.Update();
-                if ((bodySlamCooldown <= 2f))
+                UpdatePosition();
+                if ((bodySlamCooldown <= 4f))
                 {
                     inBodySlam = false;
                     UpdateMiddleOfSprite();
@@ -190,12 +197,18 @@ namespace Arcade_Arena.Classes
             currentAnimation = bodySlamAnimation;
             currentAnimation.XIndex = 0;
 
+            dashDirection = UpdateAimDirection();
+
+            Ability ability = new BodySlam(this, Position, speed, direction);
+            abilityBuffer.Add(ability);
+
+            
         }
 
         private void MeeleAttack()
         {
             inMeeleAttack = true;
-            currentAnimation = punchAnimation;
+            currentAnimation = meleeAttackAnimation;
             currentAnimation.XIndex = 0;
 
             Ability ability = new MeeleAttack(this, Position, speed, direction);

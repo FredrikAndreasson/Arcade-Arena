@@ -81,10 +81,12 @@ namespace Arcade_Arena.Managers
                                 case Player.ClassType.Ogre:
                                     if(networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.MeeleAttack)
                                     {
-                                        if (playerRect.Intersects(new Rectangle((int)networkManager.Players[j].XPosition, (int)networkManager.Players[j].YPosition, (int)networkManager.Players[j].Animation.Width, (int)networkManager.Players[j].Animation.Height)))
+                                        if (playerRect.Intersects(new Rectangle((int)networkManager.Players[j].XPosition, (int)networkManager.Players[j].YPosition, (int)networkManager.Players[j].Animation.Width * (int)Game1.SCALE, (int)networkManager.Players[j].Animation.Height*(int)Game1.SCALE)))
                                         {
+                                            playerManager.IsFirstPlayerHit = true;
                                             player.TakeDamage(networkManager.ServerAbilities[i].Damage);
                                             KnockbackEffect knockback = new KnockbackEffect(networkManager.ServerAbilities[i].Direction, 20.0f, player, 1);
+                                            networkManager.DeleteProjectile(networkManager.ServerAbilities[i].ID, networkManager.ServerAbilities[i].Username);
                                         }
 
                                     }
@@ -94,7 +96,13 @@ namespace Arcade_Arena.Managers
                                     }
                                     else if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.AbilityTwo)
                                     {
-
+                                        if (playerRect.Intersects(new Rectangle((int)networkManager.Players[j].XPosition, (int)networkManager.Players[j].YPosition, (int)networkManager.Players[j].Animation.Width * (int)Game1.SCALE, (int)networkManager.Players[j].Animation.Height * (int)Game1.SCALE)))
+                                        {
+                                            playerManager.IsFirstPlayerHit = true;
+                                            player.TakeDamage(networkManager.ServerAbilities[i].Damage);
+                                            KnockbackEffect knockback = new KnockbackEffect(networkManager.ServerAbilities[i].Direction, 20.0f, player, 1);
+                                            networkManager.DeleteProjectile(networkManager.ServerAbilities[i].ID, networkManager.ServerAbilities[i].Username);
+                                        }
                                     }
                                     break;
                                 case Player.ClassType.Huntress:
@@ -169,7 +177,18 @@ namespace Arcade_Arena.Managers
                                     }
                                     break;
                                 case Player.ClassType.Knight:
-                                    if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.AbilityOne)
+                                    if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.MeeleAttack)
+                                    {
+                                        if (playerRect.Intersects(new Rectangle((int)networkManager.Players[j].XPosition, (int)networkManager.Players[j].YPosition, (int)networkManager.Players[j].Animation.Width * (int)Game1.SCALE, (int)networkManager.Players[j].Animation.Height * (int)Game1.SCALE)))
+                                        {
+                                            playerManager.IsFirstPlayerHit = true;
+                                            player.TakeDamage(networkManager.ServerAbilities[i].Damage);
+                                            KnockbackEffect knockback = new KnockbackEffect(networkManager.ServerAbilities[i].Direction, 20.0f, player, 1);
+                                            networkManager.DeleteProjectile(networkManager.ServerAbilities[i].ID, networkManager.ServerAbilities[i].Username);
+                                        }
+
+                                    }
+                                    else if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.AbilityOne)
                                     {
 
                                     }
@@ -246,7 +265,8 @@ namespace Arcade_Arena.Managers
                 {
                     if (tempHitbox.Intersects(obstacle.HitBox()) && networkManager.ServerAbilities.Count > 0)
                     {
-
+                        if (networkManager.ServerAbilities[i].Type == AbilityOutline.AbilityType.MeeleAttack)
+                            return;
                         networkManager.DeleteLocalAbility(networkManager.ServerAbilities[i].ID);
                     }
                 }
